@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contactlead</title>
+    <link rel="stylesheet" type="text/css" href="./css/index.css">
+</head>
+<body style="width: 100%; height: 100vh; margin: 0; display: none;">
+
+    <div id="topbar" style="position: absolute; display: flex; align-items: center; width: 100%; height: 9.5%; background-color: cadetblue; border-bottom: 1px solid black; box-shadow: 0px 0px 5px; z-index: 1;">
+        <h2 id="app-name" style="position: absolute; font-size: xx-large; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; color: white; margin: 0px 0px 0px 12px;">Contactlead</h2>
+    </div>
+
+    <div id="small-sidebar" style="position: absolute; width: 6.5%; height: 100%; top: 0%; left: 0%; background-color: slategray; box-shadow: 0px 5px 5px; overflow: hidden; z-index: 1;">
+        <div style="display: flex; flex-direction: column; justify-content: space-around; align-items: center; width: 100%; height: 130px;">
+            <img id="navigate-user-page-icon" src="./images/user-4-svgrepo-com.svg" style="width: 50px;">
+            <img id="navigate-contacts-list-page-icon" src="./images/contacts-svgrepo-com.svg" style="width: 50px;">
+            <img id="sign-out-icon" src="./images/close-svgrepo-com.svg" style="width: 50px;">
+        </div>
+    </div>
+
+    <div id="large-sidebar" style="position: fixed; width: 25%; height: 100%; top: 0%; left: 6.5%; background-color: ghostwhite; box-shadow: 0px 5px 5px; overflow: hidden; z-index: 1;">
+        <div id="search-contacts-elements-container" style="display: flex; justify-content: center; align-items: center; width: 100%;  height: 9.5%; border-bottom: 1px solid black;">
+            <input type="search" name="search-contacts" id="search-contacts-element" placeholder="Search" style="width: 90%; height: 21px; margin-left: 10px;">
+            <button id="navigate-new-contact-page-button" style="height: 21px; width: 25%; margin-left: 5px; margin-right: 10px; overflow: hidden;">
+                 New</button>
+        </div>
+    </div>
+
+    <section id="login-view" style="position: absolute; width: 100%; height: 90.5%; top: 9.5%;">
+        <div id="login-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 500px; height: 90%; top: 45%; left: 50%; transform: translate(-50%, -50%);">
+            <div style="display: flex; justify-content: flex-start; width: 400px;">
+                <h2 style="font-family: sans-serif; width: 300px;">Welcome, Please login to your account.</h2>
+            </div>
+            <form id="login-user-form" style="display: flex; flex-direction: column; justify-content: space-between; width: 400px; height: 150px;">
+                <label id="email-address-input-label" style="display: block;">Email Address:</label>
+                    <input type="text" name="user-email-address" id="user-email-address-element" placeholder="example@domain.com" style="margin-bottom: 5px;">
+                <label id="password-input-label" style="display: block; margin-top: 5px;">Password:</label>
+                    <input type="text" name="user-password" id="user-password-element">
+                    <div id="login-button-container">
+                        <label id="password-length-label" style="font-size: small; color: gray; margin-top: 5px;">Don't have an account?</label>
+                    <div style="display: flex; justify-content: space-between; width: 100%;">
+                        <button id="navigate-to-register-view-button">Register</button>
+                        <button id="login-user-button">Login</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section id="register-view" style="position: absolute; width: 100%; height: 90.5%; top: 9.5%;">
+        <div id="register-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 500px; height: 100%; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+            <div style="display: flex; justify-content: flex-start; width: 400px;">
+                <h2 style="font-family: sans-serif; width: 350px; margin: 0px;">Get started, Enter details to register your account.</h2>
+            </div>
+            <form id="register-user-form" style="display: flex; flex-direction: column; justify-content: space-evenly; width: 400px; height: 350px;">
+               <div id="register-name-container" style="display: flex; justify-content: space-between;">
+                <div style="width: 175px;">
+                    <label>First Name</label>
+                    <input id="register-user-first-name" style="width: 100%;">
+                </div>
+                <div style="width: 175px;">
+                    <label>Last Name</label>
+                    <input id="register-user-last-name" style="width: 100%;">
+                </div>
+               </div>
+               <div id="register-email-container" style="width: 100%;">
+                <label>Email</label>
+                <input id="register-user-email" style="width: 100%;">
+               </div>
+               <!-- <div id="register-phonenumber-container" style="width: 100%;">
+                <label>Phone Number</label>
+                <input id="register-user-phonenumber" style="width: 100%;">
+               </div> -->
+               <div id="register-password-container" style="width: 100%;">
+                <label>Password</label>
+                <input id="register-user-password" style="width: 100%;">
+               </div>
+               <div id="register-confirm-password-container" style="width: 100%;">
+                <label>Confirm Password</label>
+                <input id="register-user-confirm-password" style="width: 100%;">
+                <div id="register-button-container" style="margin-top: 10px;">
+                 <div style="display: flex; justify-content: space-between; width: 100%;">
+                     <label id="password-length-label" style="font-size: small; color: gray;">Return to login.</label>
+                 </div>
+             <div style="display: flex; justify-content: space-between; width: 100%;">
+                 <button id="navigate-to-login-view-button">Login</button>
+                 <button id="register-user-button">Register</button>
+             </div>
+         </div>
+               </div>
+            </form>
+        </div>
+    </section>
+
+    <section id="contacts-list-view" style="position: absolute; width: 100%; height: 90.5%; top: 9.5%;"></section>
+
+    <section id="user-view" style="position: absolute; width: 68.5%; height: 90.5%; top: 9.5%; left: 31.5%">
+        <div id="user-image-container" style="position: absolute; display: flex; align-items: center; width: 100%; height: 20%; background-color: #ececec;">
+            <div id="user-image-container">
+                <img src="./images/user-4-svgrepo-com.svg" style="display: flex; justify-content: center; align-items: center; width: 105px; height: 100%; border-radius: 50%; object-fit: cover;">
+            </div>
+            <div id="user-header-container" style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%; margin-right: 105px;">
+                <h2 id="user-name" style="margin: 0"></h2>
+                <p id="user-email" style="margin: 0"></p>
+            </div>
+        </div>
+        <div id="user-infomration-container" style="position: absolute; display: flex; justify-content: space-evenly; width: 100%; height: 50%; top: 20%;">
+            <div id="user-information-column-one" style="display: flex; flex-direction: column; justify-content: space-around;">
+                <div>
+                    <label style="display: block; font-weight: bold;">Full Name</label>
+                    <input id="profile-full-name" style="border: 0.1em solid gray;">
+                </div>
+                <div>
+                    <label style="display: block; font-weight: bold;">Gender</label>
+                    <input id="profile-gender" style="border: 0.1em solid gray;">
+                </div>
+                <div>
+                    <label style="display: block; font-weight: bold;">Birthday</label>
+                    <input id="profile-birthday" style="border: 0.1em solid gray;">
+                </div>
+            </div>
+            <div id="user-information-column-two" style="display: flex; flex-direction: column; justify-content: space-around;">
+                <div>
+                    <label style="display: block; font-weight: bold;">Email</label>
+                    <input id="profile-email" style="border: 0.1em solid gray;">
+                </div>
+                <div>
+                    <label style="display: block; font-weight: bold;">Phone</label>
+                    <input id="profile-phone" style="border: 0.1em solid gray;">
+                </div>
+                <div>
+                    <label style="display: block; font-weight: bold;">Home Address</label>
+                    <input id="profile-homeaddress" style="border: 0.1em solid gray;">
+                </div>
+            </div>
+            <div id="user-information-column-three" style="display: flex; flex-direction: column; justify-content: space-around;">
+                <div>
+                    <label style="display: block; font-weight: bold;">Organization</label>
+                    <input id="profile-organization" style="border: 0.1em solid gray;">
+                </div>
+                <div>
+                    <label style="display: block; font-weight: bold;">Role</label>
+                    <input id="profile-role" style="border: 0.1em solid gray;">
+                </div>
+                <div>
+                    <label style="display: block; font-weight: bold;">Social Media</label>
+                    <input id="profile-social-media" style="border: 0.1em solid gray;">
+                </div>
+            </div>
+        </div>
+        <div id="user-notes-container" style="position: absolute; display: flex; width: 100%; top: 70%;">
+            <label>Notes</label>
+            <div style="width: 90%; height: 100px; border: 1px solid black;"></div>
+        </div>
+    </section>
+    
+    <script src="./js/main.js"></script>
+</body>
+</html>
