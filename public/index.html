@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contactlead</title>
+    <link rel="stylesheet" type="text/css" href="./css/index.css">
+</head>
+<body style="height: 100vh; width: 100%; background-color: white; display: none; margin: 0; overflow-y: scroll;"></body>
+
+    <div id="topbar" style="position: absolute; display: flex; align-items: center; width: 100%; height: 9.5%; background-color: royalblue; border-bottom: 1px solid black; box-shadow: 0px 0px 5px; z-index: 1;">
+        <h2 id="app-name" style="position: absolute; font-size: xx-large; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; color: white; margin: 0px 0px 0px 12px;">Contactlead</h2>
+    </div>
+
+    <div id="small-sidebar" style="position: fixed; width: 6.5%; height: 100%; top: 0%; left: 0%; background-color: gainsboro; border-right: 1px solid black; overflow: hidden; z-index: 2;">
+        <div style="display: flex; flex-direction: column; width: 100%; height: 100%;">
+            <div style="display: flex; flex-direction: column; justify-content: space-between; align-items: center; width: 100%; width: 84%; height: 52%; margin-left: 8%; margin-top: 5px;">
+                <div style="display: flex; flex-direction: column; align-items: center; width: 100%; height: 70px; cursor: default; padding: 2.5px;">
+                    <img id="navigate-user-page-icon" src="./images/user-5-svgrepo-com.svg" style="width: 50px; height: 50px; border: 0.5px solid grey; border-radius: 50%;">
+                    <p style="font-family: sans-serif; font-weight: bolder; margin: 0;" class="sidebar-icon-text">Account</p>
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: center; width: 100%; height: 70px; cursor: default; padding: 2.5px;">
+                    <img id="navigate-contacts-list-page-icon" src="./images/contacts-svgrepo-com.svg" style="width: 50px; height: 50px;">
+                    <p style="font-family: sans-serif; font-weight: bolder; margin: 0;" class="sidebar-icon-text">Contacts</p>
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: center; width: 100%; height: 70px; cursor: default; padding: 2.5px;">
+                    <img id="navigate-favorites-list-page-icon" src="./images/star-svgrepo-com.svg" style="width: 50px; height: 50px;">
+                    <p style="font-family: sans-serif; font-weight: bolder; margin: 0;" class="sidebar-icon-text">Favorites</p>
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: center; width: 100%; height: 70px; cursor: default; padding: 2.5px;">
+                    <img id="navigate-add-contacts-page-icon" src="./images/add-circle-svgrepo-com.svg" style="width: 50px; height: 50px;">
+                    <p style="font-family: sans-serif; font-weight: bolder; margin: 0;" class="sidebar-icon-text">New</p>
+                </div>
+            </div>
+            <div style="display: flex; flex-direction: column; justify-content: flex-end; align-items: center; width: 84%; height: 45%; margin-left: 8%; margin-top: 5px;">
+                <div style="display: flex; flex-direction: column; align-items: center; width: 100%; height: 70px; cursor: default; padding: 2.5px;">
+                    <img id="logout-icon" src="./images/logout-3-svgrepo-com.svg" style="width: 50px;">
+                    <p style="font-family: sans-serif; font-weight: bolder; margin: 0;">Logout</p>
+                </div>
+            </div>  
+        </div>
+    </div>
+
+    <div id="large-sidebar" style="position: fixed; width: 25%; height: 100%; top: 0%; left: 6.5%; background-color: ghostwhite; box-shadow: 0px 5px 10px; z-index: 1; overflow-y: scroll;">
+        <div id="search-contacts-elements-container" style="display: flex; align-items: center; width: 100%;  height: 9.5%; border-bottom: 1px solid black; background-color: lightslategray;">
+            <img id="search-icon" src="./images/search-svgrepo-com.svg" style="width: 30px; margin-left: 5px;">
+            <input type="search" name="search-contacts" id="search-contacts-input" placeholder="Search for a contact" style="width: 90%; height: 21px; margin-left: 2px; margin-right: 6%;">
+        </div>
+        <div id="sidebar-contacts-list-container">
+            <ul id="sidebar-contacts-list" style="margin: 5px 0px 0px 0px; padding: 8px;"></ul>
+            <ul id="autocomplete-contacts-list" style="display: none; margin: 5px 0px 0px 0px; padding: 8px;"></ul>
+        </div>
+    </div>
+
+    <section id="login-view" style="position: absolute; width: 100%; height: 90.5%; top: 9.5%; display: none;">
+        <div id="login-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 500px; height: 90%; top: 45%; left: 50%; transform: translate(-50%, -50%);">
+            <div style="display: flex; justify-content: flex-start; width: 400px;">
+                <h2 style="font-family: sans-serif; width: 300px;">Welcome, Please login to your account.</h2>
+            </div>
+            <form id="login-user-form" style="display: flex; flex-direction: column; justify-content: space-between; width: 400px; height: 150px;">
+                <div>
+                    <label id="email-address-input-label" style="display: block; font-weight: bold;">Email Address</label>
+                    <input type="text" name="user-email-address" id="user-email-address-element" placeholder="example@domain.com" style="width: 100%; margin-bottom: 5px;">
+                </div>
+                <div>
+                    <label id="password-input-label" style="display: block; font-weight: bold; margin-top: 5px;">Password</label>
+                    <input type="text" name="user-password" id="user-password-element" style="width: 100%;">
+                </div>
+                    <div id="login-button-container">
+                        <label id="password-length-label" style="font-size: small; color: grey; margin-top: 5px;">Don't have an account?</label>
+                        <label id="forgot-password-label" style="font-size: small; color: grey; margin-top: 5px; margin-left: 182.3px;">Forgot password?</label>
+                    <div style="display: flex; justify-content: space-between; width: 100%;">
+                        <button id="navigate-to-register-view-button">Register</button>
+                        <button id="login-user-button">Login</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section id="register-view" style="position: absolute; width: 100%; height: 90.5%; top: 9.5%; display: none;">
+        <div id="register-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 500px; height: 100%; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+            <div style="display: flex; justify-content: flex-start; width: 400px;">
+                <h2 style="font-family: sans-serif; width: 350px; margin: 0px;">Get started, Enter details to register your account.</h2>
+            </div>
+            <form id="register-user-form" style="display: flex; flex-direction: column; justify-content: space-evenly; width: 400px; height: 350px;">
+               <div id="register-name-container" style="display: flex; justify-content: space-between;">
+                <div style="width: 175px;">
+                    <label style="font-weight: bold;">First Name</label>
+                    <input id="register-user-first-name" style="width: 100%;">
+                </div>
+                <div style="width: 175px;">
+                    <label style="font-weight: bold;">Last Name</label>
+                    <input id="register-user-last-name" style="width: 100%;">
+                </div>
+               </div>
+               <div id="register-email-container" style="width: 100%;">
+                <label style="font-weight: bold;">Email</label>
+                <input id="register-user-email" style="width: 100%;">
+               </div>
+               <div id="register-email-container" style="width: 100%;">
+                <label style="font-weight: bold;">Phone</label>
+                <input id="register-user-phonenumber" style="width: 100%;">
+               </div>
+               <div id="register-password-container" style="width: 100%;">
+                <label style="font-weight: bold;">Password</label>
+                <input id="register-user-password" style="width: 100%;">
+               </div>
+               <div id="register-confirm-password-container" style="width: 100%;">
+                <label style="font-weight: bold;">Confirm Password</label>
+                <input id="register-user-confirm-password" style="width: 100%;">
+                <div id="matching-passwords">
+                    <p style="margin: 1px; font-size: small; visibility: hidden;">Text</p>
+                </div>
+                <div id="register-button-container" style="width: 408px;">
+                 <div style="display: flex; justify-content: space-between; width: 100%;">
+                     <label id="password-length-label" style="font-size: small; color: gray;">Return to login.</label>
+                 </div>
+             <div style="display: flex; justify-content: space-between; width: 100%;">
+                 <button id="navigate-to-login-view-button">Login</button>
+                 <button id="register-user-button">Register</button>
+             </div>
+         </div>
+               </div>
+            </form>
+        </div>
+    </section>
+
+    <section id="recover-password-view" style="position: absolute; width: 100%; height: 90.5%; top: 9.5%; display: none;">
+        <div id="recover-password-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 500px; height: 90%; top: 40%; left: 50%; transform: translate(-50%, -50%);">
+            <div style="display: flex; justify-content: flex-start; width: 400px;">
+                <p style="font-family: sans-serif; width: 350px;">Please enter your details and a temporary password will be given to you. You can use it to recover your account.</p>
+            </div>
+            <form id="recover-password-form" style="display: flex; flex-direction: column; justify-content: space-between; width: 400px; height: 80px;">
+                <div id="register-name-container" style="display: flex; justify-content: space-between; width: 392px; margin-bottom: 10px;">
+                    <div style="width: 175px;">
+                        <label style="font-weight: bold;">First Name</label>
+                        <input id="register-user-first-name" style="width: 100%;">
+                    </div>
+                    <div style="width: 175px;">
+                        <label style="font-weight: bold;">Last Name</label>
+                        <input id="register-user-last-name" style="width: 100%;">
+                    </div>
+                   </div>
+                <label id="recover-password-email-address-input-label" style="display: block; font-weight: bold;">Email Address</label>
+                    <input type="text" name="user-email-address" id="recover-password-email-address-element" placeholder="example@domain.com" style="margin-bottom: 10px;">
+                    <label id="recover-password-email-address-input-label" style="display: block; font-weight: bold;">Phone Number</label>
+                    <input type="text" name="user-email-address" id="recover-password-email-address-element" placeholder="example@domain.com" style="margin-bottom: 10px;">
+                    <label id="recover-password-email-address-input-label" style="display: block; font-weight: bold;">New Password</label>
+                    <input type="text" name="new-user-password" id="new-user-password" placeholder="example@domain.com" style="margin-bottom: 5px; visibility: hidden;">
+                    <div style="display: flex; justify-content: space-between; width: 100%;">
+                        <label id="return-to-login-from-recover-password-label" style="font-size: small; color: gray;">Return to login.</label>
+                    </div>
+                <div style="display: flex; justify-content: space-between; width: 100%;">
+                    <button id="navigate-to-login-view-from-recover-password-button">Login</button>
+                    <button id="recover-password-send-button">Submit</button>
+                </div>
+            </form>
+        </div>
+        
+        
+    </section>
+
+    <section id="user-view" style="position: absolute; width: 68.5%; height: 90.5%; top: 9.5%; left: 31.5%; display: none;">
+        <div id="user-header-container" style="position: absolute; display: flex; align-items: center; width: 100%; height: 20%; background-color: #f9f9f9; box-shadow: 2px 2px 2px;">
+            <div id="user-image-container" style="position: absolute; display: flex; align-items: center; height: 100%; padding: 10px;">
+                <img id="user-image" src="./images/user-5-svgrepo-com.svg" style="position: relative; display: flex; justify-content: center; align-items: center; width: 105px; height: 85%; border: 0.5px solid grey; box-shadow: 2px 2px 2px; border-radius: 50%; background-color: gainsboro; object-fit: cover;">
+                <div id="user-header-name-container" style="display: flex; flex-direction: column; justify-content: flex-end; height: 100%; margin: 0px 0px 0px 10px;">
+                    <p id="header-user-name" style="font-weight: bold; margin: 0px;">Name</p>
+                    <p id="header-user-email" style="font-style: italic; margin: 0px 0px 16px 0px;">Email</p>
+                </div>
+            </div>
+            <div id="user-name-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%;">
+                <h2 id="user-name" style="margin: 0"></h2>
+                <p id="user-email" style="margin: 0"></p>
+            </div>
+        </div>
+        <div style="position: absolute; top: 20.4%; width: 100%;">
+            <div style="display: flex; align-items: center; height: 45px; background-color: ghostwhite;">
+                <h2 style="margin: 0px 10px 0px 5px; padding: 5px;">Account Information</h2>
+            </div>
+        </div>
+        <div id="user-infomration-container" style="position: absolute; display: flex; justify-content: center; align-items: center; width: 100%; height: 57%; top: 30%;">
+            <div style="display: flex; justify-content: center; width: 100%; height: 100%;">
+
+            <div id="user-information-column-one" style="position: relative; display: flex; flex-direction: column; justify-content: space-around;">
+                <!-- <h2>Account Information</h2> -->
+                <div>
+                    <label style="display: block; font-weight: bold;">Full Name</label>
+                    <input id="profile-full-name" readonly style="width: 100%; border: 0.1em solid gray;">
+                </div>
+                <div>
+                    <label style="display: block; font-weight: bold;">Email</label>
+                    <input id="profile-email-address" readonly style="width: 100%; border: 0.1em solid gray;">
+                </div>
+                <div>
+                    <label style="display: block; font-weight: bold;">Phone</label>
+                    <input id="profile-phone-number" style=" width: 100%; border: 0.1em solid gray;">
+                </div>
+                <div>
+                    <label style="display: block; font-weight: bold;">Contacts</label>
+                    <input id="profile-number-of-contacts" style=" width: 100%; border: 0.1em solid gray;">
+                </div>
+                <div>
+                    <label style="display: block; font-weight: bold;">Password</label>
+                    <input id="profile-password" style=" width: 100%; border: 0.1em solid gray;">
+                </div>
+            </div>
+        </div>
+    </div>         
+        <div id="edit-user-button-container" style="position: absolute; display: flex; justify-content: center; align-items: center; width: 100%; top: 96.5%;">
+            <div style="position: absolute; display: flex; justify-content: flex-end; width: 90%;">
+                <button id="navigate-edit-user-page-button" style="width: 50px;">Edit</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="edit-user-view" style="position: absolute; width: 68.5%; height: 90.5%; top: 9.5%; left: 31.5%; display: none;">
+        <div id="edit-user-image-container" style="position: absolute; display: flex; align-items: center; width: 100%; height: 20%; background-color: #f9f9f9; box-shadow: 2px 2px 2px;"> 
+            <div id="edit-user-image-container" style="position: absolute; display: flex; align-items: center; height: 100%; padding: 10px;">
+                <img id="edit-user-image" src="./images/user-5-svgrepo-com.svg" style="position: relative; display: flex; justify-content: center; align-items: center; width: 105px; height: 85%; border: 0.5px solid grey; box-shadow: 2px 2px 2px; border-radius: 50%; background-color: gainsboro; object-fit: cover; z-index: 1;">
+                <div style="display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-end; height: 100%;">
+                    <button id="edit-user-add-photo-button" style="height: 20px; margin-bottom: 15px; margin-left: 5px; z-index: 1;">Add photo</button>
+                </div>
+            </div>
+            <div id="edit-user-header-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%;">
+                <h2 style="font-family: Arial;">Edit your account.</h2>
+            </div>
+        </div>
+        <div id="edit-user-add-photo-input-container" style="position: absolute; align-items: center; top: 21%; margin-left: 10px; display: none;">
+            <div style="display: flex; justify-content: flex-end; width: 100%;">
+                <input id="edit-user-add-photo" type="file" style="margin-left: 2px;">
+                <button id="edit-user-add-photo-insert-button">Insert</button>
+                <button id="edit-user-remove-photo-button" style="height: 20px; margin-left: 5px; background-color: indianred; z-index: 1;">Remove</button>
+                <img id="close-edit-user-add-photo-icon" src="./images/close-svgrepo-com.svg" style="width: 20px;">
+            </div>
+        </div>
+        <div id="edit-user-information-container" style="position: absolute; display: flex; flex-direction: column; align-items: center; width: 100%; height: 57%; top: 23.5%;">
+            <form style="display: flex; flex-direction: column; justify-content: space-evenly; width: 96%; height: 100%;">
+                <div id="edit-contact-information-row-one" style="display: flex; justify-content: space-between; width: 100%;">
+                    <div id="edit-user-first-name-container" style="display: flex; flex-direction: column; width: 35%;">
+                        <label style="font-weight: bold;">First Name</label>
+                        <input id="edit-user-firstname" placeholder="First Name">
+                    </div>
+                    <div id="edit-user-last-name-container" style="display: flex; flex-direction: column; width: 35%;">
+                        <label style="font-weight: bold;">Last Name</label>
+                        <input id="edit-user-lastname" placeholder="Last Name">
+                    </div>
+                </div>
+                <div id="edit-user-information-row-two" style="display: flex; width: 100%;">
+                    <div id="edit-contact-address-container" style="width: 100%;">
+                        <div style="display: flex; align-items: flex-end;">
+                            <div style="display: flex; flex-direction: column; width: 100%;">
+                                <label style="font-weight: bold;">Email</label>
+                                <input id="edit-user-email" placeholder="example@domain.com">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="edit-user-information-row-three" style="display: flex; justify-content: space-between; width: 100%;">
+                    <div id="edit-user-organization-container" style="display: flex; flex-direction: column; width: 100%;">
+                        <label style="font-weight: bold;">Phone</label>
+                        <input id="edit-user-phonenumber" minlength="10" maxlength="13" placeholder="Enter at least 10 digits">
+                    </div>
+                </div>  
+                <div id="edit-user-information-row-four" style="display: flex; width: 100%;">
+                    <div id="edit-user-password-container" style="width: 100%;">
+                        <div style="display: flex; align-items: flex-end;">
+                            <div style="display: flex; width: 100%;">
+                                <label style="font-weight: bold;">Change Password</label>
+                                 <button id="edit-user-change-password-button" style="margin-left: 45px;">Change Password</button>
+                                 <button id="edit-user-hide-password-button" style="margin-left: 45px; display: none;">Hide Password</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="edit-user-information-row-five" style="display: flex; width: 100%; visibility: hidden;">
+                    <div id="edit-user-password-container" style="width: 100%;">
+                        <div style="display: flex; align-items: flex-end;">
+                            <div style="display: flex; flex-direction: column; width: 100%;">
+                                <label style="font-weight: bold;">Password</label>
+                                <input id="edit-user-password" placeholder="Password">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="edit-user-information-row-six" style="display: flex; width: 100%; visibility: hidden;">
+                    <div id="edit-user-address-container" style="width: 100%;">
+                        <div style="display: flex; align-items: flex-end;">
+                            <div style="display: flex; flex-direction: column; width: 100%;">
+                                <label style="font-weight: bold;">Confirm Password</label>
+                                <input id="edit-user-confirm-password" placeholder="Confirm Password">
+                                <div id="edit-matching-passwords">
+                                    <p style="margin: 1px; font-size: small; visibility: hidden;">Text</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display: flex; justify-content: flex-end;">
+                            <button id="update-user-password-button" class="edit-user-button">Update Password</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+    </div>
+    <div id="edit-user-button-container" style="position: absolute; display: flex; justify-content: center; align-items: center; width: 100%; top: 96.5%;">
+        <div style="position: absolute; display: flex; justify-content: space-between; width: 96%;">
+            <button id="delete-user-button" style="background-color: red;">Delete Account</button>
+            <button id="submit-edit-user-button" class="edit-user-button" style="width: 50px;">Done</button>
+        </div>
+    </div>     
+    </section>
+
+    <section id="contacts-list-view"  style="position: absolute; width: 68.5%; height: 90.5%; top: 9.5%; left: 31.5%; display: none; overflow: hidden;">
+        <div id="contacts-user-header-container" style="position: absolute; display: flex; align-items: center; width: 100%; height: 20%; background-color: #f9f9f9; box-shadow: 2px 2px 2px;">
+            <div id="contacts-user-image-container" style="display: flex; align-items: center; height: 100%; padding: 10px;">
+                <img id="contacts-user-image" src="./images/user-5-svgrepo-com.svg" style="position: relative; display: flex; justify-content: center; align-items: center; width: 105px; height: 85%; border: 0.5px solid grey; box-shadow: 2px 2px 2px; border-radius: 50%; background-color: gainsboro; object-fit: cover; z-index: 1;">
+                <div id="contacts-user-header-name-container" style="display: flex; flex-direction: column; justify-content: flex-end; height: 100%; margin: 0px 0px 0px 10px;">
+                    <p id="contact-header-user-name" style="font-weight: bold;">Name</p>
+                    <p id="contact-header-user-email" style="font-style: italic; margin: 0px 0px 16px 0px;">Email</p>
+                </div>
+            </div>
+            <div id="contacts-user-name-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%; padding: 10px;">
+                <div></div>
+                <h2 id="contacts-user-name" style="margin: 0"></h2>
+                <p id="contacts-user-email" style="margin: 0"></p>
+            </div>
+        </div>
+        <div id="contacts-list-container" style="position: absolute; display: flex; flex-direction: column; width: 100%; height: 96%; top: 20%;">
+            <!-- <h3>Contacts</h3> -->
+            <div id="contacts-list"></div>
+        </div>
+    </section>
+
+    <section id="contact-view" style="position: absolute; width: 68.5%; height: 90.5%; top: 9.5%; left: 31.5%; display: none; overflow: hidden;">
+        <div id="contact-header-container" style="position: absolute; display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 100%; height: 20%; background-color: #f9f9f9; box-shadow: 2px 2px 2px;">
+            <div id="contact-image-container" style="display: flex; align-items: center; width: 20%; height: 100%; padding: 10px;">
+                <img id="contact-image" src="./images/user-2-svgrepo-com.svg" style="position: relative; display: flex; justify-content: center; align-items: center; width: 105px; height: 85%; border: 0.5px solid grey; box-shadow: 2px 2px 2px; border-radius: 50%; background-color: gainsboro; object-fit: cover; z-index: 1;">
+            </div>
+            <div id="contact-name-container" style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 60%; height: 100%;">
+                <h2 id="contact-name" style="margin: 0"></h2>
+                <p id="contact-email" style="font-style: italic; margin: 0"></p>
+                <p id="contact-organization-and-role" style="font-weight: bolder; margin: 0"></p>
+            </div>
+            <div id="contact-favorite-icon-container" style="display: flex; justify-content: flex-end; width: 20%; height: 100%; padding: 10px;">
+                <img id="contact-favorite-icon" src="./images/star-gold-svgrepo-com.svg" style="width: 70px; display: none;">
+            </div>
+        </div>
+        <div id="contact-information-container" style="position: absolute; display: flex; justify-content: space-around; width: 98.5%; height: 60%; top: 23%;">
+            <div style="position: absolute; display: flex; align-items: center; width: 177px; top: 4%; left: 80%;">
+                <div style="position: absolute; display: flex; justify-content: flex-end; width: 100%;">
+                    <button id="add-to-favorites-button" style="background-color: green; color: white;">Add to favorites</button>
+                </div>
+            </div>
+            <div id="contact-information-column-one" style="display: flex; flex-direction: column; justify-content: space-around; width: 30%;">
+                <div style="display: flex; flex-direction: column; width: 285px;">
+                    <label style="font-weight: bold;">Name</label>
+                    <textarea id="contact-full-name" readonly style="font-size: large; border: 1px solid grey; box-shadow: 2px 2px 2px; outline: none; resize: none;"></textarea>
+                </div>
+                <div style="display: flex; flex-direction: column; width: 285px;">
+                    <label style="font-weight: bold;">Gender</label>
+                    <textarea id="contact-gender" readonly style="font-size: large; border: 1px solid grey; box-shadow: 2px 2px 2px; outline: none; resize: none;"></textarea>
+                </div>
+                <div style="display: flex; flex-direction: column; width: 285px;">
+                    <label style="font-weight: bold;">Birthday</label>
+                    <textarea id="contact-birthday" readonly style="font-size: large; border: 1px solid grey; box-shadow: 2px 2px 2px; outline: none; resize: none;"></textarea>
+                </div>
+            </div>
+            <div id="contact-information-column-two" style="display: flex; flex-direction: column; justify-content: space-around;  width: 30%;">
+                <div style="display: flex; flex-direction: column; width: 285px;">
+                    <label style="font-weight: bold;">Email</label>
+                    <textarea id="contact-emailaddress" readonly style="font-size: large; border: 1px solid grey; box-shadow: 2px 2px 2px; outline: none; resize: none;"></textarea>
+                </div>
+                <div style="display: flex; flex-direction: column; width: 285px;">
+                    <label style="font-weight: bold;">Phone</label>
+                    <textarea id="contact-phonenumber" readonly style="font-size: large; border: 1px solid grey; box-shadow: 2px 2px 2px; outline: none; resize: none;"></textarea>
+                </div>
+                <div style="display: flex; flex-direction: column; width: 285px;">
+                    <label style="font-weight: bold;">Address</label>
+                    <textarea id="contact-address" readonly style="font-size: large; border: 1px solid grey; box-shadow: 2px 2px 2px; outline: none; resize: none;"></textarea>
+                </div>
+            </div>
+            <div id="contact-information-column-three" style="display: flex; flex-direction: column; justify-content: space-around; width: 30%;">
+                <div style="display: flex; flex-direction: column; width: 285px;">
+                    <label style="font-weight: bold;">Organization</label>
+                    <textarea id="contact-organization" readonly style="font-size: large; border: 1px solid grey; box-shadow: 2px 2px 2px; outline: none; resize: none;"></textarea>
+                </div>
+                <div style="display: flex; flex-direction: column; width: 285px;">
+                    <label style="font-weight: bold;">Role</label>
+                    <textarea id="contact-organization-role" readonly style="font-size: large; border: 1px solid grey; box-shadow: 2px 2px 2px; outline: none; resize: none;"></textarea>
+                </div>
+                <div style="display: flex; flex-direction: column; width: 285px;">
+                    <label style="font-weight: bold;">Social Media</label>
+                    <textarea id="contact-social-media" readonly style="font-size: large; border: 1px solid grey; box-shadow: 2px 2px 2px; outline: none; resize: none;"></textarea>
+                </div>
+            </div>
+        </div>
+          <div id="contact-notes-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 6%; top: 84%;">
+        <div id="contact-notes-label-container" style="display: flex; justify-content: flex-start; width: 96.5%;">
+            <label style="font-weight: bold;">Notes</label>
+        </div>
+        <div style="display: flex; justify-content: flex-start; width: 96.5%;">
+             <textarea id="contact-notes" readonly style="width: 100%; height: 40px; box-shadow: 2px 2px 2px; outline: none; resize: none;"></textarea>
+        </div>
+    </div>
+        <div id="edit-contact-button-container" style="position: absolute; display: flex; align-items: center; width: 100%; top: 96.5%;">
+            <div style="position: absolute; display: flex; justify-content: flex-end; width: 100%;">
+                <button id="navigate-edit-contact-page-button" style="width: 50px; margin-right: 1.5%;">Edit</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="edit-contact-view" style="position: absolute; width: 68.5%; height: 90.5%; top: 9.5%; left: 31.5%; display: none; overflow: hidden;">
+        <div id="edit-contact-image-container" style="position: absolute; display: flex; align-items: center; width: 100%; height: 20%; background-color: #f9f9f9; box-shadow: 2px 2px 2px;">
+            <div id="edit-contact-image-container" style="position: absolute; display: flex; align-items: center; height: 100%; padding: 10px;">
+                <img id="edit-contact-image" src="./images/user-2-svgrepo-com.svg" style="position: relative; display: flex; justify-content: center; align-items: center; width: 105px; height: 85%; border: 0.5px solid grey; border-radius: 50%; box-shadow: 2px 2px 2px; background-color: gainsboro; object-fit: cover; z-index: 1;">
+                <div style="display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-end; height: 100%;">
+                    <button id="edit-contact-add-photo-button" style="height: 20px; margin-bottom: 15px; margin-left: 5px; z-index: 1;">Add photo</button>
+                </div>
+            </div>
+            <div id="edit-contact-header-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%;">
+                <h2 style="font-family: Arial;">Edit contact.</h2>
+            </div>
+        </div>
+        <div id="edit-contact-add-photo-input-container" style="position: absolute; align-items: center; top: 21%; margin-left: 10px; display: none;">
+            <div style="display: flex; justify-content: flex-end; width: 100%;">
+                <input id="edit-contact-add-photo" type="file" style="margin-left: 2px;">
+                <button id="edit-contact-add-photo-insert-button">Insert</button>
+                <button id="edit-contact-remove-photo-button" style="height: 20px; margin-left: 5px; background-color: indianred; z-index: 1;">Remove</button>
+                <img id="close-edit-contact-add-photo-icon" src="./images/close-svgrepo-com.svg" style="width: 20px;">
+            </div>
+        </div>
+        <div id="edit-contact-infomration-container" style="position: absolute; display: flex; flex-direction: column; align-items: center; width: 100%; height: 58%; top: 24%;">
+            <!-- <div style="position: absolute; display: flex; align-items: center; width: 177px; top: 1%; left: 96%;">
+                <div style="position: absolute; display: flex; justify-content: flex-end; width: 100%;">
+                    <button id="add-to-favorites-button" style="background-color: green; color: white;">Add to favorites</button>
+                </div>
+            </div> -->
+            <div style="display: flex; flex-direction: column; justify-content: space-evenly; width: 96%; height: 100%;">
+            <div id="edit-contact-information-row-one" style="display: flex; justify-content: space-between; width: 100%;">
+                <div id="edit-contact-first-name-container" style="display: flex; flex-direction: column; width: 35%;">
+                    <label style="font-weight: bold;">First Name</label>
+                    <input id="edit-contact-firstname"  autocomplete="off" placeholder="First Name">
+                </div>
+                <div id="edit-contact-last-name-container" style="display: flex; flex-direction: column; width: 35%;">
+                    <label style="font-weight: bold;">Last Name</label>
+                    <input id="edit-contact-lastname" autocomplete="off" placeholder="Last Name">
+                </div>
+            </div>
+            <div id="edit-contact-information-row-two" style="display: flex; justify-content: space-between; width: 100%;">
+                <div id="edit-contact-gender-container" style="display: flex; flex-direction: column; width: 35%;">
+                    <label style="font-weight: bold;">Gender</label>
+                    <select id="edit-contact-select-gender" style="display: none;"></select>
+                    <input id="edit-contact-gender" autocomplete="off" placeholder="Gender Identity">
+                </div>
+                <div id="edit-contact-last-name-container" style="display: flex; flex-direction: column; width: 35%; ">
+                    <label style="font-weight: bold;">Birthday</label>
+                    <input id="edit-contact-birthday" type="date" autocomplete="off" minlength="8" maxlength="8" placeholder="MMDDYYY">
+                </div>
+            </div>
+            <div id="edit-contact-information-row-five" style="display: flex; width: 100%;">
+                <div id="edit-contact-address-container" style="width: 100%;">
+                    <div style="display: flex; align-items: flex-end;">
+                        <div style="display: flex; flex-direction: column; width: 100%;">
+                            <label style="font-weight: bold;">Email</label>
+                            <input id="edit-contact-emailaddress" autocomplete="off" placeholder="example@domain.com">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="edit-contact-information-row-six" style="display: flex; justify-content: space-between; width: 100%;">
+                <div id="edit-contact-organization-container" style="display: flex; flex-direction: column; width: 100%;">
+                    <label style="font-weight: bold;">Phone</label>
+                    <input id="edit-contact-phonenumber" autocomplete="off" minlength="10" maxlength="13" placeholder="Enter at least 10 digits">
+                </div>
+            </div>  
+            <div id="edit-contact-information-row-five" style="display: flex; width: 100%;">
+                <div id="edit-contact-address-container" style="width: 100%;">
+                    <div style="display: flex; align-items: flex-end;">
+                        <div style="display: flex; flex-direction: column; width: 100%;">
+                            <label style="font-weight: bold;">Address</label>
+                            <input id="edit-contact-address" autocomplete="off" maxlength="60" placeholder="Building / Street City, State, Postal Code">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="edit-contact-information-row-one" style="display: flex; justify-content: space-between; width: 100%;">
+                <div id="edit-contact-first-name-container" style="display: flex; flex-direction: column; width: 35%;">
+                    <label style="font-weight: bold;">Organization</label>
+                    <input id="edit-contact-organization" autocomplete="off" placeholder="First Name">
+                </div>
+                <div id="edit-contact-last-name-container" style="display: flex; flex-direction: column; width: 35%;">
+                    <label style="font-weight: bold;">Role</label>
+                    <input id="edit-contact-role" autocomplete="off" placeholder="Last Name">
+                </div>
+            </div>
+            <div id="edit-contact-information-row-five" style="display: flex; width: 100%;">
+                <div id="edit-contact-address-container" style="width: 100%;">
+                    <div style="display: flex; align-items: flex-end;">
+                        <div style="display: flex; flex-direction: column; width: 100%;">
+                            <label style="font-weight: bold;">Social Media</label>
+                            <input id="edit-contact-social-media" autocomplete="off" placeholder="www.examplesite.com/username">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="edit-contact-notes-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 6%; top: 84.5%;">
+        <div id="edit-contact-notes-label-container" style="display: flex; justify-content: flex-start; width: 96%;">
+            <label style="font-weight: bold;">Notes</label>
+        </div>
+        <div style="display: flex; justify-content: flex-start; width: 96%;">
+             <textarea id="edit-contact-notes" maxlength="195" style="width: 100%; height: 40px; font-family: sans-serif; resize: none;"></textarea>
+        </div>
+    </div>
+    <div id="edit-contact-button-container" style="position: absolute; display: flex; justify-content: center; align-items: center; width: 100%; top: 96.5%;">
+        <div style="position: absolute; display: flex; justify-content: space-between; width: 96%;">
+            <button id="delete-contact-button">Remove</button>
+            <button id="edit-contact-button">Update</button>
+        </div>
+    </div>     
+    </section>
+
+    <section id="favorites-list-view" style="position: absolute; width: 68.5%; height: 90.5%; top: 9.5%; left: 31.5%; display: none; overflow: hidden;">
+        <div id="favorites-user-header-container" style="position: absolute; display: flex; align-items: center; width: 100%; height: 20%; background-color: #f9f9f9; box-shadow: 2px 2px 2px;">
+            <div id="favorites-user-image-container" style="position: absolute; display: flex; align-items: center; height: 100%; padding: 10px;">
+                <img id="favorites-user-image" src="./images/user-5-svgrepo-com.svg" style="position: relative; display: flex; justify-content: center; align-items: center; width: 105px; height: 85%; border: 0.5px solid grey; box-shadow: 2px 2px 2px; border-radius: 50%; background-color: gainsboro; object-fit: cover; z-index: 1;">
+                <div id="favorites-user-header-name-container" style="display: flex; flex-direction: column; justify-content: flex-end; height: 100%; margin: 0px 0px 00px 10px;">
+                    <p id="favorites-header-user-name" style="font-weight: bold; margin: 0px;">Name</p>
+                    <p id="favorites-header-user-email" style="font-style: italic; margin: 0px 0px 16px 0px;">Email</p>
+                </div>
+            </div>
+            <div id="favorites-user-name-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%; padding: 10px;">
+                <div></div>
+                <h2 id="favorites-user-name" style="margin: 0"></h2>
+                <p id="favorites-user-email" style="margin: 0"></p>
+            </div>
+        </div>
+        <div id="favorite-contacts-list-container" style="position: absolute; display: flex; flex-direction: column; width: 100%; height: 96%; top: 20%;">
+            <!-- <h3>Contacts</h3> -->
+            <div id="favorite-contacts-list"></div>
+        </div>
+    </section>
+
+    <section id="new-contact-view" style="position: absolute; width: 68.5%; height: 90.5%; top: 9.5%; left: 31.5%; display: none; overflow: hidden;">
+        <div id="new-contact-image-container" style="position: absolute; display: flex; align-items: center; width: 100%; height: 20%; background-color: #f9f9f9; box-shadow: 2px 2px 2px;">
+            <div id="new-contact-image-container" style="position: absolute; display: flex; align-items: center; height: 100%; padding: 10px;">
+                <img id="new-contact-image" src="./images/user-2-svgrepo-com.svg" style="position: relative; display: flex; justify-content: center; align-items: center; width: 105px; height: 85%; border: 0.5px solid grey; box-shadow: 2px 2px 2px; border-radius: 50%; background-color: gainsboro; object-fit: cover; z-index: 1;">
+                <div style="display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-end; height: 100%;">
+                    <button id="new-contact-add-photo-button" style="height: 20px; margin-bottom: 15px; margin-left: 5px; z-index: 1;">Add photo</button>
+                </div>
+            </div>
+            <div id="new-contact-header-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%;">
+                <h2 style="font-family: Arial;">Create a contact.</h2>
+            </div>
+        </div>
+        <div id="new-contact-add-photo-input-container" style="position: absolute; align-items: center; top: 21%; margin-left: 10px; display: none;">
+            <div style="display: flex; justify-content: flex-end; width: 100%;">
+                <input id="new-contact-add-photo" type="file" style="margin-left: 2px;">
+                <button id="new-contact-add-photo-insert-button">Insert</button>
+                <button id="new-contact-remove-photo-button" style="height: 20px; margin-left: 5px; background-color: indianred; z-index: 1;">Remove</button>
+                <img id="close-new-contact-add-photo-icon" src="./images/close-svgrepo-com.svg" style="width: 20px;">
+            </div>
+        </div>
+        <div id="new-contact-infomration-container" style="position: absolute; display: flex; flex-direction: column; align-items: center; width: 100%; height: 58%; top: 24%;">
+            <div style="display: flex; flex-direction: column; justify-content: space-evenly; width: 96%; height: 100%;">
+            <div id="new-contact-information-row-one" style="display: flex; justify-content: space-between; width: 100%;">
+                <div id="new-contact-first-name-container" style="display: flex; flex-direction: column; width: 35%;">
+                    <label style="font-weight: bold;">First Name</label>
+                    <input id="new-contact-firstname" autocomplete="off" placeholder="First Name">
+                </div>
+                <div id="new-contact-last-name-container" style="display: flex; flex-direction: column; width: 35%;">
+                    <label style="font-weight: bold;">Last Name</label>
+                    <input id="new-contact-lastname" autocomplete="off" placeholder="Last Name">
+                </div>
+            </div>
+            <div id="new-contact-information-row-two" style="display: flex; justify-content: space-between; width: 100%;">
+                <div id="new-contact-gender-container" style="display: flex; flex-direction: column; width: 35%;">
+                    <label style="font-weight: bold;">Gender</label>
+                    <select id="new-contact-select-gender" style="display: none;"></select>
+                    <input id="new-contact-gender" readonly autocomplete="off" placeholder="Gender Identity">
+                </div>
+                <div id="new-contact-last-name-container" style="display: flex; flex-direction: column; width: 35%; ">
+                    <label style="font-weight: bold;">Birthday</label>
+                    <input id="new-contact-birthday" type="date" autocomplete="off" minlength="8" maxlength="8" placeholder="MMDDYYY">
+                </div>
+            </div>
+            <div id="new-contact-information-row-five" style="display: flex; width: 100%;">
+                <div id="new-contact-address-container" style="width: 100%;">
+                    <div style="display: flex; align-items: flex-end;">
+                        <div style="display: flex; flex-direction: column; width: 100%;">
+                            <label style="font-weight: bold;">Email</label>
+                            <input id="new-contact-email" autocomplete="off" placeholder="example@domain.com">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="new-contact-information-row-six" style="display: flex; justify-content: space-between; width: 100%;">
+                <div id="new-contact-organization-container" style="display: flex; flex-direction: column; width: 100%;">
+                    <label style="font-weight: bold;">Phone</label>
+                    <input id="new-contact-phonenumber" autocomplete="off" minlength="10" maxlength="13" placeholder="Enter at least 10 digits">
+                </div>
+            </div>  
+            <div id="new-contact-information-row-five" style="display: flex; width: 100%;">
+                <div id="new-contact-address-container" style="width: 100%;">
+                    <div style="display: flex; align-items: flex-end;">
+                        <div style="display: flex; flex-direction: column; width: 100%;">
+                            <label style="font-weight: bold;">Address</label>
+                            <input id="new-contact-address" autocomplete="off" maxlength="60" placeholder="Building / Street City, State, Postal Code">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="new-contact-information-row-one" style="display: flex; justify-content: space-between; width: 100%;">
+                <div id="new-contact-first-name-container" style="display: flex; flex-direction: column; width: 35%;">
+                    <label style="font-weight: bold;">Organization</label>
+                    <input id="new-contact-organization" autocomplete="off" placeholder="First Name">
+                </div>
+                <div id="new-contact-last-name-container" style="display: flex; flex-direction: column; width: 35%;">
+                    <label style="font-weight: bold;">Role</label>
+                    <input id="new-contact-role" autocomplete="off" placeholder="Last Name">
+                </div>
+            </div>
+            <div id="new-contact-information-row-five" style="display: flex; width: 100%;">
+                <div id="new-contact-address-container" style="width: 100%;">
+                    <div style="display: flex; align-items: flex-end;">
+                        <div style="display: flex; flex-direction: column; width: 100%;">
+                            <label style="font-weight: bold;">Social Media</label>
+                            <input id="new-contact-social-media" autocomplete="off" placeholder="www.examplesite.com/username">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="new-contact-notes-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 6%; top: 84%;">
+        <div id="notes-label-container" style="display: flex; justify-content: flex-start; width: 96%;">
+            <label style="font-weight: bold;">Notes</label>
+        </div>
+        <div style="display: flex; justify-content: flex-start; width: 96%;">
+             <textarea id="new-contact-notes" maxlength="195" style="width: 100%; height: 100%; resize: none;"></textarea>
+        </div>
+    </div>
+    <div id="new-contact-button-container" style="position: absolute; display: flex; justify-content: center; align-items: center; width: 100%; top: 96.5%;">
+        <div style="position: absolute; display: flex; justify-content: flex-end; width: 96%;">
+            <!-- <button id="delete-contact-button" style="background-color: red;">Delete Account</button> -->
+            <button id="create-new-contact-button">Create</button>
+        </div>
+    </div>     
+    </section>
+    
+    <script src="./js/main.js"></script>
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+</body>
+</html>
