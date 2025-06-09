@@ -23,34 +23,34 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, "../public")));
 
 app.get("/contacts", (req, res) => {
-    res.sendFile((path.join(__dirname, "../public/index.html")));
+    res.sendFile(path.join(__dirname, "../index.html"));
 });
 app.get("/login", (req, res) => {
-    res.sendFile((path.join(__dirname, "../public/index.html")));
+    res.sendFile(path.join(__dirname, "../index.html"));
 });
 app.get("/register", (req, res) => {
-    res.sendFile((path.join(__dirname, "../public/index.html")));
+    res.sendFile(path.join(__dirname, "../index.html"));
 });
 app.get("/recover-password", (req, res) => {
-    res.sendFile((path.join(__dirname, "../public/index.html")))
+    res.sendFile(path.join(__dirname, "../index.html"))
 })
 app.get("/user", (req, res) => {
-    res.sendFile((path.join(__dirname, "../public/index.html")));
+    res.sendFile(path.join(__dirname, "../index.html"));
 });
 app.get("/edit_user", (req, res) => {
-    res.sendFile((path.join(__dirname, "../public/index.html")));
+    res.sendFile(path.join(__dirname, "../index.html"));
 });
 app.get("/favorite_contacts", (req, res) => {
-    res.sendFile((path.join(__dirname, "../public/index.html")));
+    res.sendFile(path.join(__dirname, "../index.html"));
 });
 app.get("/new_contact", (req, res) => {
-    res.sendFile((path.join(__dirname, "../public/index.html")));
+    res.sendFile(path.join(__dirname, "../index.html"));
 });
 app.get("/contact_:contact_id", (req, res) => {
-    res.sendFile((path.join(__dirname, "../public/index.html")));
+    res.sendFile(path.join(__dirname, "../index.html"));
 });
 app.get("/edit_contact_:contact_id", (req, res) => {
-    res.sendFile((path.join(__dirname, "../public/index.html")));
+    res.sendFile(path.join(__dirname, "../index.html"));
 });
 
 app.get("/users", async (req, res) => {
