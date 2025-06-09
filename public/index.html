@@ -100,7 +100,7 @@
                </div>
                <div id="register-email-container" style="width: 100%;">
                 <label style="font-weight: bold;">Phone</label>
-                <input id="register-user-phonenumber" style="width: 100%;">
+                <input id="register-user-phonenumber" minlength="10" maxlength="13" style="width: 100%;">
                </div>
                <div id="register-password-container" style="width: 100%;">
                 <label style="font-weight: bold;">Password</label>
@@ -143,9 +143,9 @@
                     </div>
                    </div>
                 <label id="recover-password-email-address-input-label" style="display: block; font-weight: bold;">Email Address</label>
-                    <input type="text" name="user-email-address" id="recover-password-email-address-element" placeholder="example@domain.com" style="margin-bottom: 10px;">
-                    <label id="recover-password-email-address-input-label" style="display: block; font-weight: bold;">Phone Number</label>
-                    <input type="text" name="user-email-address" id="recover-password-email-address-element" placeholder="example@domain.com" style="margin-bottom: 10px;">
+                    <input type="text" name="user-email-address" required id="recover-password-email-address-element" placeholder="example@domain.com" style="margin-bottom: 10px;">
+                    <label id="recover-password-phone-number-input-label" style="display: block; font-weight: bold;">Phone Number</label>
+                    <input type="text" name="user-phone-number" id="recover-password-phone-number-element" minlength="10" maxlength="13" placeholder="example@domain.com" style="margin-bottom: 10px;">
                     <label id="recover-password-email-address-input-label" style="display: block; font-weight: bold;">New Password</label>
                     <input type="text" name="new-user-password" id="new-user-password" placeholder="example@domain.com" style="margin-bottom: 5px; visibility: hidden;">
                     <div style="display: flex; justify-content: space-between; width: 100%;">
@@ -187,23 +187,23 @@
                 <!-- <h2>Account Information</h2> -->
                 <div>
                     <label style="display: block; font-weight: bold;">Full Name</label>
-                    <input id="profile-full-name" readonly style="width: 100%; border: 0.1em solid gray;">
+                    <input id="profile-full-name" readonly style="width: 100%; border: 0.1em solid gray; box-shadow: 2px 2px 2px;">
                 </div>
                 <div>
                     <label style="display: block; font-weight: bold;">Email</label>
-                    <input id="profile-email-address" readonly style="width: 100%; border: 0.1em solid gray;">
+                    <input id="profile-email-address" readonly style="width: 100%; border: 0.1em solid gray; box-shadow: 2px 2px 2px;">
                 </div>
                 <div>
                     <label style="display: block; font-weight: bold;">Phone</label>
-                    <input id="profile-phone-number" style=" width: 100%; border: 0.1em solid gray;">
+                    <input id="profile-phone-number" style=" width: 100%; border: 0.1em solid gray; box-shadow: 2px 2px 2px;">
                 </div>
                 <div>
                     <label style="display: block; font-weight: bold;">Contacts</label>
-                    <input id="profile-number-of-contacts" style=" width: 100%; border: 0.1em solid gray;">
+                    <input id="profile-number-of-contacts" style=" width: 100%; border: 0.1em solid gray; box-shadow: 2px 2px 2px;">
                 </div>
                 <div>
                     <label style="display: block; font-weight: bold;">Password</label>
-                    <input id="profile-password" style=" width: 100%; border: 0.1em solid gray;">
+                    <input id="profile-password" style=" width: 100%; border: 0.1em solid gray; box-shadow: 2px 2px 2px;">
                 </div>
             </div>
         </div>

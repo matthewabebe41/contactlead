@@ -153,6 +153,12 @@ async function handleRegisterInput(event) {
     const registerUserEmailInput = registerUserEmailElement.value;
 
     for (let i = 0; i < allUsers.length; i++) {
+        if (registerUserEmailInput === "") {
+            // event.preventDefault()
+            alert("Email is a required field. Please provide an email address.")
+            return
+        }
+
         if (allUsers[i].emailaddress === registerUserEmailInput) {
             // event.preventDefault()
             alert("This email address is already in use. Please try again.")
@@ -210,12 +216,20 @@ async function renderRecoverPassword() {
     smallSidebar.style.display = "none";
     largeSidebar.style.display = "none";
 
+    const recoverUserPasswordPhoneNumberElement = document.querySelector("#recover-password-phone-number-element")
+    recoverUserPasswordPhoneNumberElement.addEventListener("keydown", disableNonNumericKeys)
+    recoverUserPasswordPhoneNumberElement.addEventListener("blur", function() {
+        formatPhoneNumberForData(recoverUserPasswordPhoneNumberElement)
+    });
+    recoverUserPasswordPhoneNumberElement.addEventListener("focus", function() {
+        resetPhoneNumberFormatOnFocus(recoverUserPasswordPhoneNumberElement)
+    });
+
     const navigateToLoginFromRecoverPasswordButton = document.querySelector("#navigate-to-login-view-from-recover-password-button");
     navigateToLoginFromRecoverPasswordButton.addEventListener("click", function() {
         window.location.href = "http://localhost:3000/login";
     });
 
-    
     const recoverPasswordSendButton = document.querySelector("#recover-password-send-button");
     recoverPasswordSendButton.addEventListener("click", async function(event) {
         event.preventDefault()
@@ -388,8 +402,6 @@ async function renderSmallSidePanelContent() {
         logoutIconParentElement.style.backgroundColor = "";
         logoutIconParentElement.children[1].style.color = "black";
     });
-
-    
 } 
 
 async function renderLargeSidePanelContent() {
@@ -417,6 +429,12 @@ async function renderLargeSidePanelContent() {
         } else {
           var aLastChar = a.lastname.charAt(0);
           var bLastChar = b.lastname.charAt(0);
+          if (aLastChar === "") {
+            aLastChar = "z"
+          }
+          if (bLastChar === "") {
+            bLastChar = "z"
+          }
           if (aLastChar > bLastChar) {
             return 1;
           } else if (aLastChar < bLastChar) {
@@ -564,8 +582,7 @@ async function renderLargeSidePanelContent() {
             }
         });
     });
-
-    
+  
 const searchContactsElement = document.querySelector("#search-contacts-input");
 searchContactsElement.addEventListener("input", contactsAutocompleteSearch)
 async function contactsAutocompleteSearch() {
@@ -976,6 +993,16 @@ async function renderEditUserContent() {
 
     const deleteUserButton = document.querySelector("#delete-user-button");
     deleteUserButton.addEventListener("click", function() {
+        if (confirm("Are you sure you want to delete your account?")) {
+            // Code to execute if the user clicks OK
+            console.log("User clicked OK");
+          } else {
+            // Code to execute if the user clicks Cancel
+            console.log("User clicked Cancel");
+            return
+            // You might want to return from a function here to stop further execution
+          }
+
         deleteContacts();
         deleteUser();
     })
@@ -1134,6 +1161,12 @@ async function renderContactsListContent() {
         } else {
           var aLastChar = a.lastname.charAt(0);
           var bLastChar = b.lastname.charAt(0);
+          if (aLastChar === "") {
+            aLastChar = "z"
+          }
+          if (bLastChar === "") {
+            bLastChar = "z"
+          }
           if (aLastChar > bLastChar) {
             return 1;
           } else if (aLastChar < bLastChar) {
@@ -1787,6 +1820,12 @@ async function renderFavoriteContactsListContent() {
         } else {
           var aLastChar = a.lastname.charAt(0);
           var bLastChar = b.lastname.charAt(0);
+          if (aLastChar === "") {
+            aLastChar = "z"
+          }
+          if (bLastChar === "") {
+            bLastChar = "z"
+          }
           if (aLastChar > bLastChar) {
             return 1;
           } else if (aLastChar < bLastChar) {
