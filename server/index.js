@@ -21,7 +21,7 @@ app.use(express.json({
 app.use(cors());
 
 app.use(express.static(path.join(__dirname, "../public")));
-app.use(express.static(path.join(__dirname, "../public/css/index.css")));
+app.use('css', express.static(path.join(__dirname, "../public/css")));
 
 app.get("/contacts", (req, res) => {
     res.sendFile(path.join(__dirname, "../index.html"));
