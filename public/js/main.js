@@ -1,3 +1,6 @@
+const rootUrl = window.location.origin;
+
+console.log(rootUrl)
 async function renderLoginContent() {
     const smallSidebar = document.querySelector("#small-sidebar");
     const largeSidebar = document.querySelector("#large-sidebar");
@@ -15,15 +18,10 @@ async function renderLoginContent() {
         let matchingUser;
         let found = false;
         for (let i = 0; i < allUsers.length; i++) {
-            // console.log(allUsers[i].emailaddress)
-            // console.log(loginUserObject.emailAddress)
-
             if (allUsers[i].emailaddress === loginUserObject.emailAddress) {
                 found = true;
                 matchingUser = allUsers[i]
                 sessionStorage.setItem("user", matchingUser.user_id)
-                // window.location.href = "http://localhost:3000/contacts";
-                // break
             }
         }
 
@@ -37,7 +35,7 @@ async function renderLoginContent() {
         if (matchingUser.user_password === loginUserObject.password) {
             matchingPass = true;
             // sessionStorage.setItem("user", matchingUser.user_id)
-            window.location.href = "http://localhost:3000/contacts";
+            window.location.href = `${rootUrl}/contacts`;
             // break
         }
     
@@ -51,7 +49,7 @@ async function renderLoginContent() {
     const navigateRegisterPageButton = document.querySelector("#navigate-to-register-view-button");
     navigateRegisterPageButton.addEventListener("click", function(event) {
     event.preventDefault()
-    window.location.href = "http://localhost:3000/register";
+    window.location.href = `${rootUrl}/register`;
     });
 };
 
@@ -87,7 +85,7 @@ async function renderRegisterContent() {
     const navigateLoginPageButton = document.querySelector("#navigate-to-login-view-button");
     navigateLoginPageButton.addEventListener("click", function(event) {
         event.preventDefault();
-        window.location.href = "http://localhost:3000/login";
+        window.location.href = `${rootUrl}/login`;
     });
 
     const registerUserPasswordElement = document.querySelector("#register-user-password");
@@ -207,7 +205,7 @@ forgotPasswordLabel.addEventListener("mouseout", function() {
     forgotPasswordLabel.style.color = "grey"
 });
 forgotPasswordLabel.addEventListener("click", function() {
-    window.location.href = "http://localhost:3000/recover-password"
+    window.location.href =`${rootUrl}/recover-password`
 })
 
 async function renderRecoverPassword() {
@@ -227,7 +225,7 @@ async function renderRecoverPassword() {
 
     const navigateToLoginFromRecoverPasswordButton = document.querySelector("#navigate-to-login-view-from-recover-password-button");
     navigateToLoginFromRecoverPasswordButton.addEventListener("click", function() {
-        window.location.href = "http://localhost:3000/login";
+        window.location.href = `${rootUrl}/login`;
     });
 
     const recoverPasswordSendButton = document.querySelector("#recover-password-send-button");
@@ -309,7 +307,7 @@ async function navigateUserPageFromSidePanel() {
             urlObject.search = params.toString();
             return urlObject.toString();
         }   
-        const myURL = "http://localhost:3000/user"
+        const myURL = `${rootUrl}/user`
         const myData = {
             user_id: user.user_id,
             name: `${user.firstname} ${user.lastname}`,
@@ -326,15 +324,15 @@ async function navigateUserPageFromSidePanel() {
     };
     const navigateContactsListPageIcon = document.querySelector("#navigate-contacts-list-page-icon");
     navigateContactsListPageIcon.addEventListener("click", function() {
-        window.location.href = "http://localhost:3000/contacts"
+        window.location.href = `${rootUrl}/contacts`
     })
     const navigateFavoritesListPageIcon = document.querySelector("#navigate-favorites-list-page-icon");
     navigateFavoritesListPageIcon.addEventListener("click", function() {
-        window.location.href = "http://localhost:3000/favorite_contacts"
+        window.location.href = `${rootUrl}/favorite_contacts`
     })
     const navigateNewContactPageIcon = document.querySelector("#navigate-add-contacts-page-icon");
     navigateNewContactPageIcon.addEventListener("click", function() {
-        window.location.href = "http://localhost:3000/new_contact"
+        window.location.href = `${rootUrl}/new_contact`
     })
 
 async function renderSmallSidePanelContent() {
@@ -514,7 +512,7 @@ async function renderLargeSidePanelContent() {
         // contactListItem.style.height = "200px"
         const contactId = contact.contact_id.toString();
         contactListItem.setAttribute("id", `${contactId}`)
-        contactListItem.setAttribute("data", `http://localhost:3000/contact_${contactId}`);
+        contactListItem.setAttribute("data", `${rootUrl}/contact_${contactId}`);
         contactListItem.setAttribute("name", `${contact.firstname} ${contact.lastname}`)
 
         contactListItemNameContainer.appendChild(contactImageItem)
@@ -717,7 +715,7 @@ async function contactsAutocompleteSearch() {
             // contactsAutoCompleteListItem.style.height = "200px"
             const contactId = contact.contact_id.toString();
             contactsAutoCompleteListItem.setAttribute("id", `${contactId}`)
-            contactsAutoCompleteListItem.setAttribute("data", `http://localhost:3000/contact_${contactId}`);
+            contactsAutoCompleteListItem.setAttribute("data", `${rootUrl}/contact_${contactId}`);
             contactsAutoCompleteListItem.setAttribute("name", `${contact.firstname} ${contact.lastname}`)
 
             contactsAutoCompleteListItem.addEventListener("click", function(event) {
@@ -804,7 +802,7 @@ async function renderUserContent() {
             return urlObject.toString();
         }
             
-        const myURL = "http://localhost:3000/edit_user"
+        const myURL = `${rootUrl}/edit_user`
         const myData = {
             user_id: user.user_id,
             name: `${user.firstname} ${user.lastname}`,
@@ -1252,7 +1250,7 @@ async function renderContactsListContent() {
                     return urlObject.toString();
                 }
                 
-                const myURL = `http://localhost:3000/contact_${contact.contact_id}`;
+                const myURL = `${rootUrl}/contact_${contact.contact_id}`;
                 const myData = {
                     name: `${contact.firstname} ${contact.lastname}`,
                     // age: 30,
@@ -1509,7 +1507,7 @@ async function renderContactContent() {
             return urlObject.toString();
         }
         
-        const myURL = `http://localhost:3000/edit_contact_${contact_id}`;
+        const myURL = `${rootUrl}/edit_contact_${contact_id}`;
         const myData = {
             name: `${contact.firstname} ${contact.lastname}`,
             // age: 30,
@@ -1520,7 +1518,6 @@ async function renderContactContent() {
         console.log(newURL);
         // Expected output: "https://example.com/page?name=John+Doe&age=30&city=New+York"
         window.location.href = newURL
-        // window.location.href = `http://localhost:3000/editContact:${contact_id}`
     })
 };
 
@@ -1912,7 +1909,7 @@ async function renderFavoriteContactsListContent() {
                     return urlObject.toString();
                 }
                 
-                const myURL = `http://localhost:3000/contact_${contact.contact_id}`;
+                const myURL = `${rootUrl}/contact_${contact.contact_id}`;
                 const myData = {
                     name: `${contact.firstname} ${contact.lastname}`,
                     // age: 30,
@@ -2194,7 +2191,7 @@ async function handleNewContactInput() {
 
 async function getAllUsers() {
     try {
-    const response = await fetch("http://localhost:3000/users");
+    const response = await fetch(`${rootUrl}/users`);
     const jsonData = await response.json();
     return jsonData;   
     } catch (err) {
@@ -2204,7 +2201,7 @@ async function getAllUsers() {
 
 async function getUser(user_id) {
     try {
-    const response = await fetch(`http://localhost:3000/users/${user_id}`);
+    const response = await fetch(`${rootUrl}/users/${user_id}`);
     const jsonData = await response.json();
     return jsonData; 
     } catch (err) {
@@ -2226,7 +2223,7 @@ async function postNewUser() {
 
     const body = { user_id, firstname, lastname, emailaddress, phonenumber, user_password };
     try {
-        const response = await fetch("http://localhost:3000/users", {
+        const response = await fetch(`${rootUrl}/users`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body)
@@ -2236,7 +2233,7 @@ async function postNewUser() {
         console.error(err)
     }
 
-    window.location.href = "http://localhost:3000/login"
+    window.location.href = `${rootUrl}/login`
 };
 
 async function updateUser(event) {
@@ -2262,7 +2259,7 @@ async function updateUser(event) {
 
     const body = { firstname, lastname, emailaddress, phonenumber, password, user_image };
     try {
-        const response = await fetch(`http://localhost:3000/users/${user_id}`, {
+        const response = await fetch(`${rootUrl}/users/${user_id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body)
@@ -2288,7 +2285,7 @@ async function updateUser(event) {
             return urlObject.toString();
         }
                 
-        const myURL = "http://localhost:3000/user"
+        const myURL = `${rootUrl}/user`
         const myData = {
             name: `${user.firstname} ${user.lastname}`,
             // age: 30,
@@ -2331,7 +2328,7 @@ async function updateUserImage(event) {
 
     const body = { firstname, lastname, emailaddress, phonenumber, password, user_image };
     try {
-        const response = await fetch(`http://localhost:3000/users/${user_id}`, {
+        const response = await fetch(`${rootUrl}/users/${user_id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body)
@@ -2371,7 +2368,7 @@ async function recoverUserAccount() {
 
     const body = { firstname, lastname, emailaddress, phonenumber, password, user_image };
     try {
-        const response = await fetch(`http://localhost:3000/users/${user_id}`, {
+        const response = await fetch(`${rootUrl}/users/${user_id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body)
@@ -2410,7 +2407,7 @@ async function updateUserPassword(event) {
 
     const body = { firstname, lastname, emailaddress, phonenumber, password, user_image };
     try {
-        const response = await fetch(`http://localhost:3000/users/${user_id}`, {
+        const response = await fetch(`${rootUrl}/users/${user_id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body)
@@ -2429,7 +2426,7 @@ async function updateUserPassword(event) {
 async function deleteUser() {
     const user_id = sessionStorage.getItem("user");
     try {
-        const response = await fetch(`http://localhost:3000/users/${user_id}`, {
+        const response = await fetch(`${rootUrl}/users/${user_id}`, {
             method: "DELETE",
             headers: { "Content-Type": "application/json" },
         });
@@ -2440,12 +2437,12 @@ async function deleteUser() {
 
     sessionStorage.clear();
 
-    window.location.href = "http://localhost:3000/login"
+    window.location.href = `${rootUrl}/login`
 };
 
 async function getUserContacts(user_id) {
     try {
-    const response = await fetch(`http://localhost:3000/contacts/${user_id}`);
+    const response = await fetch(`${rootUrl}/contacts/${user_id}`);
     const jsonData = await response.json();
     return jsonData; 
     } catch (err) {
@@ -2483,7 +2480,7 @@ async function postNewContact() {
 
     const body = { user_id, contact_id, firstname, lastname, phonenumber, emailaddress, gender, birthday, homeaddress, organization, organization_role, social_media, notes, contact_image };
     try {
-        const response = await fetch("http://localhost:3000/contacts", {
+        const response = await fetch(`${rootUrl}/contacts`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body)
@@ -2493,12 +2490,12 @@ async function postNewContact() {
         console.error(err)
     }
 
-    window.location.href = "http://localhost:3000/contacts"
+    window.location.href = `${rootUrl}/contacts`
 };
 
 async function getUserContact(user_id, contact_id) {
     try {
-    const response = await fetch(`http://localhost:3000/contacts/${user_id}/${contact_id}`);
+    const response = await fetch(`${rootUrl}/contacts/${user_id}/${contact_id}`);
     const jsonData = await response.json();
     return jsonData; 
     } catch (err) {
@@ -2531,7 +2528,7 @@ async function updateContact() {
 
     const body = { firstname, lastname, emailaddress, phonenumber, birthday, gender, birthday, homeaddress, organization, organization_role, social_media, favorite, notes, contact_image };
     try {
-        const response = await fetch(`http://localhost:3000/contacts/${user_id}/${contact_id}`, {
+        const response = await fetch(`${rootUrl}/contacts/${user_id}/${contact_id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body)
@@ -2558,7 +2555,7 @@ async function updateContact() {
         return urlObject.toString();
     }
     
-    const myURL = `http://localhost:3000/contact_${contact_id}`;
+    const myURL = `${rootUrl}/contact_${contact_id}`;
     const myData = {
         name: `${firstname} ${lastname}`,
         // age: 30,
@@ -2593,7 +2590,7 @@ async function updateContactImage() {
 
     const body = { firstname, lastname, emailaddress, phonenumber, birthday, gender, birthday, homeaddress, organization, organization_role, social_media, favorite, contact_image };
     try {
-        const response = await fetch(`http://localhost:3000/contacts/${user_id}/${contact_id}`, {
+        const response = await fetch(`${rootUrl}/contacts/${user_id}/${contact_id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body)
@@ -2633,7 +2630,7 @@ async function updateContactFavorite() {
 
     const body = { firstname, lastname, emailaddress, phonenumber, birthday, gender, birthday, homeaddress, organization, organization_role, social_media, favorite, notes, contact_image };
     try {
-        const response = await fetch(`http://localhost:3000/contacts/${user_id}/${contact_id}`, {
+        const response = await fetch(`${rootUrl}/contacts/${user_id}/${contact_id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body)
@@ -2663,7 +2660,7 @@ async function deleteContact() {
     // const allUserContacts = await getUserContacts(user_id)
 
     try {
-        const response = await fetch(`http://localhost:3000/contacts/${user_id}/${contact_id}`, {
+        const response = await fetch(`${rootUrl}/contacts/${user_id}/${contact_id}`, {
             method: "DELETE",
             headers: { "Content-Type": "application/json" },
         });
@@ -2673,14 +2670,14 @@ async function deleteContact() {
     }
 
     localStorage.clear()
-    window.location.href = "http://localhost:3000/contacts"
+    window.location.href = `${rootUrl}/contacts`
 };
 
 async function deleteContacts() {
     const user_id = sessionStorage.getItem("user");
 
     try {
-        const response = await fetch(`http://localhost:3000/contacts/${user_id}`, {
+        const response = await fetch(`${rootUrl}/contacts/${user_id}`, {
             method: "DELETE",
             headers: { "Content-Type": "application/json" },
         });
@@ -2703,12 +2700,12 @@ async function setInitialURLAsLogin() {
     //     return
     // };
 
-    if (window.location.href === "http://localhost:3000/login") {
+    if (window.location.href === `${rootUrl}/login`) {
         return
     };
 
-    if (userId === null && window.location.href !== "http://localhost:3000/register" && userId === null && window.location.href !== "http://localhost:3000/recover-password") {
-        window.location.href = "http://localhost:3000/login"
+    if (userId === null && window.location.href !== `${rootUrl}/register` && userId === null && window.location.href !== `${rootUrl}/recover-password`) {
+        window.location.href = `${rootUrl}/login`
         return
     };
 };
@@ -2818,7 +2815,7 @@ domReady(async () => {
     const appName = document.querySelector("#app-name");
 
     const loginViewElement = document.querySelector("#login-view")
-    if (window.location.href === "http://localhost:3000/login") {
+    if (window.location.href === `${rootUrl}/login`) {
         loginViewElement.style.display = "block"
         await renderLoginContent()
         // document.body.style.backgroundColor = "cornflowerblue"
@@ -2828,7 +2825,7 @@ domReady(async () => {
     };
 
     const registerViewElement = document.querySelector("#register-view")
-    if (window.location.href === "http://localhost:3000/register") {
+    if (window.location.href === `${rootUrl}/register`) {
         registerViewElement.style.display = "block";
         await renderRegisterContent()
         document.body.style.display = "block"
@@ -2837,7 +2834,7 @@ domReady(async () => {
     };
 
     const recoverPasswordViewElement = document.querySelector("#recover-password-view");
-    if (window.location.href === "http://localhost:3000/recover-password") {
+    if (window.location.href === `${rootUrl}/recover-password`) {
         recoverPasswordViewElement.style.display = "block";
         await renderRecoverPassword();
         document.body.style.display = "block";
@@ -2849,7 +2846,7 @@ domReady(async () => {
     await renderLargeSidePanelContent()
 
     const contactsListViewElement = document.querySelector("#contacts-list-view");
-    if (window.location.href === "http://localhost:3000/contacts") {
+    if (window.location.href === `${rootUrl}/contacts`) {
         contactsListViewElement.style.display = "block";
         appName.style.left = "32%"
         await renderContactsListContent()
@@ -2859,7 +2856,7 @@ domReady(async () => {
     };
 
     const contactViewElement = document.querySelector("#contact-view");
-    if (window.location.href.startsWith("http://localhost:3000/contact_")) {
+    if (window.location.href.startsWith(`${rootUrl}/contact_`)) {
         contactViewElement.style.display = "block";
         appName.style.left = "32%"
         await renderContactContent()
@@ -2869,7 +2866,7 @@ domReady(async () => {
     };
 
     const userViewElement = document.querySelector("#user-view");
-    if (window.location.href.startsWith("http://localhost:3000/user")) {
+    if (window.location.href.startsWith(`${rootUrl}/user`)) {
         userViewElement.style.display = "block";
         appName.style.left = "32%"
         await renderUserContent()
@@ -2879,7 +2876,7 @@ domReady(async () => {
     };
 
     const editUserViewElement = document.querySelector("#edit-user-view");
-    if (window.location.href.startsWith("http://localhost:3000/edit_user")) {
+    if (window.location.href.startsWith(`${rootUrl}/edit_user`)) {
         editUserViewElement.style.display = "block";
         appName.style.left = "32%"
         await renderEditUserContent()
@@ -2889,7 +2886,7 @@ domReady(async () => {
     };
 
     const favoritesListViewElement = document.querySelector("#favorites-list-view");
-    if (window.location.href === ("http://localhost:3000/favorite_contacts")) {
+    if (window.location.href === (`${rootUrl}/favorite_contacts`)) {
         favoritesListViewElement.style.display = "block";
         appName.style.left = "32%"
         await renderFavoriteContactsListContent()
@@ -2899,7 +2896,7 @@ domReady(async () => {
     };
 
     const newContactViewElement = document.querySelector("#new-contact-view");
-    if (window.location.href === ("http://localhost:3000/new_contact")) {
+    if (window.location.href === (`${rootUrl}/new_contact`)) {
         newContactViewElement.style.display = "block";
         appName.style.left = "32%"
         await renderNewContactContent()
@@ -2909,7 +2906,7 @@ domReady(async () => {
     };
 
     const editContactViewElement = document.querySelector("#edit-contact-view");
-    if (window.location.href.startsWith("http://localhost:3000/edit_contact")) {
+    if (window.location.href.startsWith(`${rootUrl}/edit_contact`)) {
         editContactViewElement.style.display = "block";
         appName.style.left = "32%"
         await renderEditContactContent()
@@ -2933,5 +2930,5 @@ document.addEventListener("keydown", function(event) {
 const logoutIcon = document.querySelector("#logout-icon");
 logoutIcon.addEventListener("click", function() {
     sessionStorage.clear();
-    window.location.href = "http://localhost:3000/login"
+    window.location.href = `${rootUrl}/login`
 })
