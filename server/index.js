@@ -57,7 +57,7 @@ app.get("/edit_contact_:contact_id", (req, res) => {
     res.sendFile(path.join(__dirname, "../index.html"));
 });
 
-app.get("/users", async (req, res) => {
+app.get("/api/users", async (req, res) => {
     try {
        const allUsers = await pool.query("SELECT * FROM users");
        res.json(allUsers.rows)
