@@ -1,10 +1,10 @@
+require('dotenv/config');
 const express = require("express");
 const pg = require("pg");
 const app = express();
 const cors = require("cors");
 const path = require("path");
 const multer = require("multer");
-const port = 3000;
 
 const pool = new pg.Pool({
     user: "postgres",
@@ -185,6 +185,6 @@ app.delete("/contacts/:user_id", async (req, res) => {
     }
 });
 
-app.listen(port, () => {
-    console.log(`server has started on port ${port}`)
+app.listen(3000, () => {
+    console.log(`server has started on port 3000`)
 });
