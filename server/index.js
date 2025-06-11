@@ -188,5 +188,3 @@ app.delete("/contacts/:user_id", async (req, res) => {
 app.listen(port, () => {
     console.log(`server has started on port ${port}`)
 });
-
-module.exports = app;
