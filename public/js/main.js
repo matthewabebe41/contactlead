@@ -2191,7 +2191,7 @@ async function handleNewContactInput() {
 
 async function getAllUsers() {
     try {
-    const response = await fetch(`http://localhost:3000/users`);
+    const response = await fetch(`${rootUrl}/users`);
     const jsonData = await response.json();
     return jsonData;   
     } catch (err) {
@@ -2201,7 +2201,7 @@ async function getAllUsers() {
 
 async function getUser(user_id) {
     try {
-    const response = await fetch(`http://localhost:3000/users/${user_id}`);
+    const response = await fetch(`${rootUrl}/users/${user_id}`);
     const jsonData = await response.json();
     return jsonData; 
     } catch (err) {
@@ -2223,7 +2223,7 @@ async function postNewUser() {
 
     const body = { user_id, firstname, lastname, emailaddress, phonenumber, user_password };
     try {
-        const response = await fetch(`http://localhost:3000/users`, {
+        const response = await fetch(`${rootUrl}/users`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body)
@@ -2259,7 +2259,7 @@ async function updateUser(event) {
 
     const body = { firstname, lastname, emailaddress, phonenumber, password, user_image };
     try {
-        const response = await fetch(`http://localhost:3000/users/${user_id}`, {
+        const response = await fetch(`${rootUrl}/users/${user_id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body)
@@ -2328,7 +2328,7 @@ async function updateUserImage(event) {
 
     const body = { firstname, lastname, emailaddress, phonenumber, password, user_image };
     try {
-        const response = await fetch(`http://localhost:3000/users/${user_id}`, {
+        const response = await fetch(`${rootUrl}/users/${user_id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body)
@@ -2368,7 +2368,7 @@ async function recoverUserAccount() {
 
     const body = { firstname, lastname, emailaddress, phonenumber, password, user_image };
     try {
-        const response = await fetch(`http://localhost:3000/users/${user_id}`, {
+        const response = await fetch(`${rootUrl}/users/${user_id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body)
@@ -2407,7 +2407,7 @@ async function updateUserPassword(event) {
 
     const body = { firstname, lastname, emailaddress, phonenumber, password, user_image };
     try {
-        const response = await fetch(`http://localhost:3000/users/${user_id}`, {
+        const response = await fetch(`${rootUrl}/users/${user_id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body)
@@ -2426,7 +2426,7 @@ async function updateUserPassword(event) {
 async function deleteUser() {
     const user_id = sessionStorage.getItem("user");
     try {
-        const response = await fetch(`http://localhost:3000/users/${user_id}`, {
+        const response = await fetch(`${rootUrl}/users/${user_id}`, {
             method: "DELETE",
             headers: { "Content-Type": "application/json" },
         });
@@ -2442,7 +2442,7 @@ async function deleteUser() {
 
 async function getUserContacts(user_id) {
     try {
-    const response = await fetch(`http://localhost:3000/contacts/${user_id}`);
+    const response = await fetch(`${rootUrl}/contacts/${user_id}`);
     const jsonData = await response.json();
     return jsonData; 
     } catch (err) {
@@ -2480,7 +2480,7 @@ async function postNewContact() {
 
     const body = { user_id, contact_id, firstname, lastname, phonenumber, emailaddress, gender, birthday, homeaddress, organization, organization_role, social_media, notes, contact_image };
     try {
-        const response = await fetch(`http://localhost:3000/contacts`, {
+        const response = await fetch(`${rootUrl}/contacts`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body)
@@ -2495,7 +2495,7 @@ async function postNewContact() {
 
 async function getUserContact(user_id, contact_id) {
     try {
-    const response = await fetch(`http://localhost:3000/contacts/${user_id}/${contact_id}`);
+    const response = await fetch(`${rootUrl}/contacts/${user_id}/${contact_id}`);
     const jsonData = await response.json();
     return jsonData; 
     } catch (err) {
@@ -2528,7 +2528,7 @@ async function updateContact() {
 
     const body = { firstname, lastname, emailaddress, phonenumber, birthday, gender, birthday, homeaddress, organization, organization_role, social_media, favorite, notes, contact_image };
     try {
-        const response = await fetch(`http://localhost:3000/contacts/${user_id}/${contact_id}`, {
+        const response = await fetch(`${rootUrl}/contacts/${user_id}/${contact_id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body)
@@ -2590,7 +2590,7 @@ async function updateContactImage() {
 
     const body = { firstname, lastname, emailaddress, phonenumber, birthday, gender, birthday, homeaddress, organization, organization_role, social_media, favorite, contact_image };
     try {
-        const response = await fetch(`http://localhost:3000/contacts/${user_id}/${contact_id}`, {
+        const response = await fetch(`${rootUrl}/contacts/${user_id}/${contact_id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body)
@@ -2630,7 +2630,7 @@ async function updateContactFavorite() {
 
     const body = { firstname, lastname, emailaddress, phonenumber, birthday, gender, birthday, homeaddress, organization, organization_role, social_media, favorite, notes, contact_image };
     try {
-        const response = await fetch(`http://localhost:3000/contacts/${user_id}/${contact_id}`, {
+        const response = await fetch(`${rootUrl}/contacts/${user_id}/${contact_id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body)
@@ -2660,7 +2660,7 @@ async function deleteContact() {
     // const allUserContacts = await getUserContacts(user_id)
 
     try {
-        const response = await fetch(`http://localhost:3000/contacts/${user_id}/${contact_id}`, {
+        const response = await fetch(`${rootUrl}/contacts/${user_id}/${contact_id}`, {
             method: "DELETE",
             headers: { "Content-Type": "application/json" },
         });
@@ -2677,7 +2677,7 @@ async function deleteContacts() {
     const user_id = sessionStorage.getItem("user");
 
     try {
-        const response = await fetch(`http://localhost:3000/contacts/${user_id}`, {
+        const response = await fetch(`${rootUrl}/contacts/${user_id}`, {
             method: "DELETE",
             headers: { "Content-Type": "application/json" },
         });
