@@ -17,6 +17,7 @@ async function renderLoginContent() {
         console.log(allUsers)
         let matchingUser;
         let found = false;
+        
         for (let i = 0; i < allUsers.length; i++) {
             if (allUsers[i].emailaddress === loginUserObject.emailAddress) {
                 found = true;
@@ -24,6 +25,12 @@ async function renderLoginContent() {
                 sessionStorage.setItem("user", matchingUser.user_id)
             }
         }
+
+        // if (allUsers.emailaddress === loginUserObject.emailAddress) {
+        //     found = true;
+        //     matchingUser = allUsers
+        //     sessionStorage.setItem("user", matchingUser.user_id)
+        // }
 
         if (!found) {
             alert("user not found")
@@ -249,6 +256,8 @@ async function handleRecoverPasswordInput() {
             matchingUser = allUsers[i];
         }
     }
+
+    console.log(allUsers)
 
     const matchingUserObject = {
        userId: matchingUser.user_id,

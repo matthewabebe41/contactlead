@@ -9,7 +9,7 @@ const multer = require("multer");
 const pool = new pg.Pool({
     user: "postgres",
     password: "password",
-    host: "localhost",
+    host: "127.0.0.1",
     port: 5432,
     database: "contactlead"
 });
@@ -57,20 +57,20 @@ app.get("/edit_contact_:contact_id", (req, res) => {
     res.sendFile(path.join(__dirname, "../index.html"));
 });
 
-app.get("/api/users", async (req, res) => {
-    try {
-       const allUsers = await pool.query("SELECT * FROM users");
-       res.json(allUsers.rows)
-    } catch (err) {
-        console.error(err.message);
-    }
-});
+// app.get("/api/users", async (req, res) => {
+//     try {
+//        const allUsers = await pool.query("SELECT * FROM users");
+//        res.json(allUsers.rows)
+//     } catch (err) {
+//         console.error(err.message);
+//     }
+// });
 
 //get all users
 app.get("/users", async (req, res) => {
     try {
         const allUsers = await pool.query("SELECT * FROM users");
-        res.json(allUsers.rows[0]);
+        res.json(allUsers.rows);
     } catch (err) {
         console.error(err.message);
     }
