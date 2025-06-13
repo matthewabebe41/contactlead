@@ -1,6 +1,6 @@
 const rootUrl = window.location.origin;
-
 console.log(rootUrl)
+
 async function renderLoginContent() {
     const smallSidebar = document.querySelector("#small-sidebar");
     const largeSidebar = document.querySelector("#large-sidebar");
@@ -59,6 +59,14 @@ async function renderLoginContent() {
     window.location.href = `${rootUrl}/register`;
     });
 };
+
+async function renderMobileLoginContent() {
+    const smallSidebar = document.querySelector("#small-sidebar");
+    const largeSidebar = document.querySelector("#large-sidebar");
+    smallSidebar.style.display = "none";
+    largeSidebar.style.display = "none";
+
+}
 
 async function handleLoginInput() {
     const loginEmaiElement = document.querySelector("#user-email-address-element");
@@ -2817,20 +2825,30 @@ domReady(async () => {
     const clientwidth = window.innerWidth;
 
     // console.log(offsetwidth);
-    // console.log(clientwidth);
+    console.log(clientwidth);
 
     await setInitialURLAsLogin()
 
     const appName = document.querySelector("#app-name");
 
     const loginViewElement = document.querySelector("#login-view")
-    if (window.location.href === `${rootUrl}/login`) {
+    if (window.location.href === `${rootUrl}/login` && clientwidth > 768) {
         loginViewElement.style.display = "block"
         await renderLoginContent()
         // document.body.style.backgroundColor = "cornflowerblue"
         document.body.style.display = "block"
     } else {
         loginViewElement.style.display = "none"
+    };
+
+    const mobileLoginViewElement = document.querySelector("#mobile-login-view")
+    if (window.location.href === `${rootUrl}/login` && clientwidth < 768) {
+        mobileLoginViewElement.style.display = "block"
+        await renderMobileLoginContent()
+        // document.body.style.backgroundColor = "cornflowerblue"
+        document.body.style.display = "block"
+    } else {
+        mobileLoginViewElement.style.display = "none"
     };
 
     const registerViewElement = document.querySelector("#register-view")
