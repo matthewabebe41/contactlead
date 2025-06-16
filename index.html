@@ -234,9 +234,40 @@
                     <button id="recover-password-send-button">Submit</button>
                 </div>
             </form>
-        </div>
-        
-        
+        </div>     
+    </section>
+
+    <section id="mobile-recover-password-view" style="position: absolute; width: 100%; height: 90.5%; top: 9.5%; display: none;">
+        <div id="mobile-recover-password-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 400px; height: 90%; top: 40%; left: 50%; transform: translate(-50%, -50%);">
+            <div style="display: flex; justify-content: flex-start; width: 350px;">
+                <p style="font-family: sans-serif; width: 350px;">Please enter your details and a temporary password will be given to you. You can use it to recover your account.</p>
+            </div>
+            <form id="mobile-recover-password-form" style="display: flex; flex-direction: column; justify-content: space-between; width: 350px; height: 80px;">
+                <div id="mobile-register-name-container" style="display: flex; justify-content: space-between; width: 342px; margin-bottom: 10px;">
+                    <div style="width: 135px;">
+                        <label style="font-weight: bold;">First Name</label>
+                        <input id="mobile-recover-password-user-first-name" style="width: 100%;">
+                    </div>
+                    <div style="width: 135px;">
+                        <label style="font-weight: bold;">Last Name</label>
+                        <input id="mobile-recover-password-user-last-name" style="width: 100%;">
+                    </div>
+                   </div>
+                <label id="mobile-recover-password-email-address-input-label" style="display: block; font-weight: bold;">Email Address</label>
+                    <input type="text" name="user-email-address" required id="mobile-recover-password-email-address-element" placeholder="example@domain.com" style="margin-bottom: 10px;">
+                    <label id="mobile-recover-password-phone-number-input-label" style="display: block; font-weight: bold;">Phone Number</label>
+                    <input type="text" name="user-phone-number" id="mobile-recover-password-phone-number-element" minlength="10" maxlength="13" placeholder="example@domain.com" style="margin-bottom: 10px;">
+                    <label id="mobile-recover-password-email-address-input-label" style="display: block; font-weight: bold;">New Password</label>
+                    <input type="text" name="new-user-password" id="mobile-new-user-password" placeholder="example@domain.com" style="margin-bottom: 5px; visibility: hidden;">
+                    <div style="display: flex; justify-content: space-between; width: 100%;">
+                        <label id="mobile-return-to-login-from-recover-password-label" style="font-size: small; color: gray;">Return to login.</label>
+                    </div>
+                <div style="display: flex; justify-content: space-between; width: 100%;">
+                    <button id="mobile-navigate-to-login-view-from-recover-password-button">Login</button>
+                    <button id="mobile-recover-password-send-button">Submit</button>
+                </div>
+            </form>
+        </div>     
     </section>
 
     <section id="user-view" style="position: absolute; width: 68.5%; height: 90.5%; top: 9.5%; left: 31.5%; display: none;">

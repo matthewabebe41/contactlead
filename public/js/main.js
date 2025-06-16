@@ -420,6 +420,17 @@ forgotPasswordLabel.addEventListener("click", function() {
     window.location.href =`${rootUrl}/recover-password`
 })
 
+const mobileForgotPasswordLabel = document.querySelector("#mobile-forgot-password-label");
+mobileForgotPasswordLabel.addEventListener("mouseover", function() {
+    mobileForgotPasswordLabel.style.color = "blue"
+});
+mobileForgotPasswordLabel.addEventListener("mouseout", function() {
+    mobileForgotPasswordLabel.style.color = "grey"
+});
+mobileForgotPasswordLabel.addEventListener("click", function() {
+    window.location.href =`${rootUrl}/recover-password`
+})
+
 async function renderRecoverPassword() {
     const smallSidebar = document.querySelector("#small-sidebar");
     const largeSidebar = document.querySelector("#large-sidebar");
@@ -445,7 +456,34 @@ async function renderRecoverPassword() {
         event.preventDefault()
         recoverUserAccount()
     })
+}
 
+async function renderMobileRecoverPassword() {
+    const smallSidebar = document.querySelector("#small-sidebar");
+    const largeSidebar = document.querySelector("#large-sidebar");
+    smallSidebar.style.display = "none";
+    largeSidebar.style.display = "none";
+
+    const recoverUserPasswordPhoneNumberElement = document.querySelector("#mobile-recover-password-phone-number-element")
+    recoverUserPasswordPhoneNumberElement.addEventListener("keydown", disableNonNumericKeys)
+    recoverUserPasswordPhoneNumberElement.addEventListener("blur", function() {
+        formatPhoneNumberForData(recoverUserPasswordPhoneNumberElement)
+    });
+    recoverUserPasswordPhoneNumberElement.addEventListener("focus", function() {
+        resetPhoneNumberFormatOnFocus(recoverUserPasswordPhoneNumberElement)
+    });
+
+    const navigateToLoginFromRecoverPasswordButton = document.querySelector("#mobile-navigate-to-login-view-from-recover-password-button");
+    navigateToLoginFromRecoverPasswordButton.addEventListener("click", function(event) {
+        event.preventDefault()
+        window.location.href = `${rootUrl}/login`;
+    });
+
+    const recoverPasswordSendButton = document.querySelector("#mobile-recover-password-send-button");
+    recoverPasswordSendButton.addEventListener("click", async function(event) {
+        event.preventDefault()
+        mobileRecoverUserAccount()
+    })
 }
 
 async function handleRecoverPasswordInput() {
@@ -475,6 +513,39 @@ async function handleRecoverPasswordInput() {
     }
 
     const newUserPasswordElement = document.querySelector("#new-user-password");
+        newUserPasswordElement.style.visibility = "visible";
+        newUserPasswordElement.value = matchingUserObject.password;
+
+    return matchingUserObject
+}
+
+async function mobileHandleRecoverPasswordInput() {
+    const allUsers = await getAllUsers();
+    const emailElement = document.querySelector("#mobile-recover-password-email-address-element")
+    const email = emailElement.value;
+
+    const generatedPassword = await generateRandomPassword(12);
+
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].emailaddress === email) {
+            matchingUser = allUsers[i];
+        }
+    }
+
+    console.log(allUsers)
+
+    const matchingUserObject = {
+       userId: matchingUser.user_id,
+       firstname: matchingUser.firstname,
+       lastname: matchingUser.lastname,
+       emailaddress: matchingUser.emailaddress,
+       phonenumber: matchingUser.phonenumber,
+       password: generatedPassword,
+       userImage: matchingUser.user_image, 
+    }
+
+    const newUserPasswordElement = document.querySelector("#mobile-new-user-password");
         newUserPasswordElement.style.visibility = "visible";
         newUserPasswordElement.value = matchingUserObject.password;
 
@@ -2625,6 +2696,46 @@ async function recoverUserAccount() {
 
 }
 
+async function mobileRecoverUserAccount() {
+    // const url = window.location.href;
+    // const user_id = sessionStorage.getItem("user");
+    // const user = await getUser(user_id)
+    // const editUserPasswordObject = await handleEditUserPasswordInput();
+    const recoverUserObject = await mobileHandleRecoverPasswordInput()
+
+    const editUserChangePasswordButton = document.querySelector("#edit-user-change-password-button");
+
+    // if (user.firstname === editUserObject.firstname && user.lastname === editUserObject.lastname && user.emailaddress === editUserObject.emailaddress && user.phonenumber === editUserObject.phonenumber && user.user_image === editUserObject.userImage && editUserChangePasswordButton.style.display !== "none") {
+    //     // event.preventDefault()
+    //     window.location.reload()
+    //     return
+    // }
+    const user_id = recoverUserObject.userId;
+    const firstname = recoverUserObject.firstname;
+    const lastname = recoverUserObject.lastname;
+    const emailaddress = recoverUserObject.emailaddress;
+    const phonenumber = recoverUserObject.phonenumber;
+    const password = recoverUserObject.password;
+    const user_image = recoverUserObject.userImage;
+
+    const body = { firstname, lastname, emailaddress, phonenumber, password, user_image };
+    try {
+        const response = await fetch(`/users/${user_id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body)
+        });
+        console.log(response)
+    } catch (error) {
+        console.error(error)
+    }
+
+    
+   alert("Password changed.")
+//    window.location.reload()
+
+}
+
 async function updateUserPassword(event) {
     const url = window.location.href;
     const user_id = sessionStorage.getItem("user");
@@ -3094,12 +3205,21 @@ domReady(async () => {
     };
 
     const recoverPasswordViewElement = document.querySelector("#recover-password-view");
-    if (window.location.href === `${rootUrl}/recover-password`) {
+    if (window.location.href === `${rootUrl}/recover-password`  && clientwidth > 768) {
         recoverPasswordViewElement.style.display = "block";
         await renderRecoverPassword();
         document.body.style.display = "block";
     } else {
         recoverPasswordViewElement.style.display = "none";
+    }
+
+    const mobileRecoverPasswordViewElement = document.querySelector("#mobile-recover-password-view");
+    if (window.location.href === `${rootUrl}/recover-password`  && clientwidth < 768) {
+        mobileRecoverPasswordViewElement.style.display = "block";
+        await renderMobileRecoverPassword();
+        document.body.style.display = "block";
+    } else {
+        mobileRecoverPasswordViewElement.style.display = "none";
     }
 
     await renderSmallSidePanelContent()
