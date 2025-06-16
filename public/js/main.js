@@ -66,6 +66,57 @@ async function renderMobileLoginContent() {
     smallSidebar.style.display = "none";
     largeSidebar.style.display = "none";
 
+      const mobileLoginUserButton = document.querySelector("#mobile-login-user-button");
+      mobileLoginUserButton.addEventListener("click", async function(event) {
+        event.preventDefault();
+
+        const allUsers = await getAllUsers();
+        const loginUserObject = await handleMobileLoginInput();
+
+        console.log(allUsers)
+        let matchingUser;
+        let found = false;
+        
+        for (let i = 0; i < allUsers.length; i++) {
+            if (allUsers[i].emailaddress === loginUserObject.emailAddress) {
+                found = true;
+                matchingUser = allUsers[i]
+                sessionStorage.setItem("user", matchingUser.user_id)
+            }
+        }
+
+        // if (allUsers.emailaddress === loginUserObject.emailAddress) {
+        //     found = true;
+        //     matchingUser = allUsers
+        //     sessionStorage.setItem("user", matchingUser.user_id)
+        // }
+
+        if (!found) {
+            alert("user not found")
+            return
+        }
+
+        let matchingPass = false
+
+        if (matchingUser.user_password === loginUserObject.password) {
+            matchingPass = true;
+            // sessionStorage.setItem("user", matchingUser.user_id)
+            window.location.href = `${rootUrl}/contacts`;
+            // break
+        }
+    
+        console.log(matchingPass)
+        if (!matchingPass) {
+            alert("incorrect password")
+            return
+        } 
+    })
+
+    const mobileNavigateRegisterPageButton = document.querySelector("#mobile-navigate-to-register-view-button");
+    mobileNavigateRegisterPageButton.addEventListener("click", function(event) {
+    event.preventDefault()
+    window.location.href = `${rootUrl}/register`;
+    });
 }
 
 async function handleLoginInput() {
@@ -79,6 +130,18 @@ async function handleLoginInput() {
 
     return loginUserObject
 };
+
+async function handleMobileLoginInput() {
+    const mobileLoginEmailElement = document.querySelector("#mobile-user-email-address-element");
+    const mobileLoginPasswordElement = document.querySelector("#mobile-user-password-element");
+
+    const loginUserObject = {
+        emailAddress: mobileLoginEmailElement.value,
+        password: mobileLoginPasswordElement.value
+    };
+
+    return loginUserObject
+}
 
 async function renderRegisterContent() {
     const smallSidebar = document.querySelector("#small-sidebar");
@@ -152,6 +215,78 @@ async function renderRegisterContent() {
     });
 };
 
+async function renderMobileRegisterContent() {
+    const smallSidebar = document.querySelector("#small-sidebar");
+    const largeSidebar = document.querySelector("#large-sidebar");
+    smallSidebar.style.display = "none";
+    largeSidebar.style.display = "none";
+
+     const registerUserPhoneNumberElement = document.querySelector("#mobile-register-user-phonenumber");
+    // const phonenumber = newContactPhoneNumberElement.value
+    // console.log(phonenumber)
+    registerUserPhoneNumberElement.addEventListener("keydown", disableNonNumericKeys)
+    registerUserPhoneNumberElement.addEventListener("blur", function() {
+        formatPhoneNumberForData(registerUserPhoneNumberElement)
+    });
+    registerUserPhoneNumberElement.addEventListener("focus", function() {
+        resetPhoneNumberFormatOnFocus(registerUserPhoneNumberElement)
+    });
+
+    const navigateLoginPageButton = document.querySelector("#mobile-navigate-to-login-view-button");
+    navigateLoginPageButton.addEventListener("click", function(event) {
+        event.preventDefault();
+        window.location.href = `${rootUrl}/login`;
+    });
+
+    const registerUserPasswordElement = document.querySelector("#mobile-register-user-password");
+    const registerUserConfirmPasswordElement = document.querySelector("#mobile-register-user-confirm-password");
+    const matchingPasswordsContainer = document.querySelector("#mobile-matching-passwords")
+  
+    registerUserPasswordElement.addEventListener("input", function() {
+
+        if (registerUserPasswordElement.value.length === 0) {
+            matchingPasswordsContainer.children[0].style.visibility = "hidden"
+        } else {
+            if (registerUserPasswordElement.value !== registerUserConfirmPasswordElement.value) {
+                matchingPasswordsContainer.children[0].style.visibility = "visible"
+                matchingPasswordsContainer.children[0].innerHTML = "Passwords do not match"
+                matchingPasswordsContainer.children[0].style.color = "red"
+            }    
+            if (registerUserPasswordElement.value === registerUserConfirmPasswordElement.value) {
+                 matchingPasswordsContainer.children[0].style.visibility = "visible"
+                 matchingPasswordsContainer.children[0].innerHTML = "Passwords match"
+                 matchingPasswordsContainer.children[0].style.color = "green"
+            }
+        }
+    });
+
+    registerUserConfirmPasswordElement.addEventListener("input", function() {
+
+        if (registerUserPasswordElement.value.length === 0) {
+            matchingPasswordsContainer.children[0].style.visibility = "hidden"
+        } else {
+
+            if (registerUserPasswordElement.value !== registerUserConfirmPasswordElement.value) {
+                matchingPasswordsContainer.children[0].style.visibility = "visible"
+                matchingPasswordsContainer.children[0].innerHTML = "Passwords do not match"
+                matchingPasswordsContainer.children[0].style.color = "red"
+            }
+            
+            if (registerUserPasswordElement.value === registerUserConfirmPasswordElement.value) {
+                 matchingPasswordsContainer.children[0].style.visibility = "visible"
+                 matchingPasswordsContainer.children[0].innerHTML = "Passwords match"
+                 matchingPasswordsContainer.children[0].style.color = "green"
+            }
+        }
+    });
+
+    const registerUserButton = document.querySelector("#mobile-register-user-button");
+    registerUserButton.addEventListener("click", function (event) {
+        event.preventDefault();
+        mobilePostNewUser()
+    });
+}
+
 async function handleRegisterInput(event) {
     const registerUserFirstNameElement = document.querySelector("#register-user-first-name");
     const registerUserLastNameElement = document.querySelector("#register-user-last-name");
@@ -207,6 +342,68 @@ async function handleRegisterInput(event) {
 
     if (registerUserObject.password !== confirmationPassword) {
         alert("Passwords do not match.")
+        return
+    }
+
+    return registerUserObject
+};
+
+async function handleMobileRegisterInput(event) {
+    const registerUserFirstNameElement = document.querySelector("#mobile-register-user-first-name");
+    const registerUserLastNameElement = document.querySelector("#mobile-register-user-last-name");
+    const registerUserEmailElement = document.querySelector("#mobile-register-user-email");
+    const registerUserPhonenumberElement = document.querySelector("#mobile-register-user-phonenumber")
+    const registerUserPasswordElement = document.querySelector("#mobile-register-user-password");
+    const registerUserConfirmPasswordElement = document.querySelector("#mobile-register-user-confirm-password");
+
+    const confirmationPassword = registerUserConfirmPasswordElement.value;
+
+    const allUsers = await getAllUsers()
+    const registerUserEmailInput = registerUserEmailElement.value;
+
+    for (let i = 0; i < allUsers.length; i++) {
+        if (registerUserEmailInput === "") {
+            // event.preventDefault()
+            alert("Email is a required field. Please provide an email address.")
+            return
+        }
+
+        if (allUsers[i].emailaddress === registerUserEmailInput) {
+            // event.preventDefault()
+            alert("This email address is already in use. Please try again.")
+            return
+        }
+    }
+
+    let userIdArr = []
+    for (let i = 0; i < allUsers.length; i++) {
+        userIdArr.push(allUsers[i].user_id)
+    }
+
+    let maxId = -Infinity;
+    for (let i = 0; i < userIdArr.length; i++) {
+        if (userIdArr[i] > maxId) {
+            maxId = userIdArr[i];
+        }
+    }
+
+    console.log(maxId)
+    if (maxId === -Infinity) {
+        maxId = 0
+    }
+
+    const registerUserObject = {
+        userId: maxId + 1,
+        firstName: registerUserFirstNameElement.value,
+        lastName: registerUserLastNameElement.value,
+        emailAddress: registerUserEmailElement.value,
+        phonenumber: registerUserPhonenumberElement.value,
+        password: registerUserPasswordElement.value,
+    };
+
+    if (registerUserObject.password !== confirmationPassword) {
+        alert("Passwords do not match.")
+        return
     }
 
     return registerUserObject
@@ -2253,6 +2450,33 @@ async function postNewUser() {
     window.location.href = `${rootUrl}/login`
 };
 
+async function mobilePostNewUser() {
+    const registerUserObject = await handleMobileRegisterInput();
+
+    const user_id = registerUserObject.userId;
+    const firstname = registerUserObject.firstName;
+    const lastname = registerUserObject.lastName;
+    const emailaddress = registerUserObject.emailAddress;
+    const phonenumber = registerUserObject.phonenumber;
+    const user_password = registerUserObject.password;
+
+    console.log(registerUserObject)
+
+    const body = { user_id, firstname, lastname, emailaddress, phonenumber, user_password };
+    try {
+        const response = await fetch(`/users`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body)
+        });
+        console.log(response)
+    } catch (err) {
+        console.error(err)
+    }
+
+    window.location.href = `${rootUrl}/login`
+};
+
 async function updateUser(event) {
     const url = window.location.href;
     const user_id = sessionStorage.getItem("user");
@@ -2852,12 +3076,21 @@ domReady(async () => {
     };
 
     const registerViewElement = document.querySelector("#register-view")
-    if (window.location.href === `${rootUrl}/register`) {
+    if (window.location.href === `${rootUrl}/register` && clientwidth > 768) {
         registerViewElement.style.display = "block";
         await renderRegisterContent()
         document.body.style.display = "block"
     } else {
         registerViewElement.style.display = "none"
+    };
+
+    const mobileRegisterViewElement = document.querySelector("#mobile-register-view");
+    if (window.location.href === `${rootUrl}/register` && clientwidth < 768) {
+        mobileRegisterViewElement.style.display = "block";
+        await renderMobileRegisterContent()
+        document.body.style.display = "block"
+    } else {
+        mobileRegisterViewElement.style.display = "none"
     };
 
     const recoverPasswordViewElement = document.querySelector("#recover-password-view");
