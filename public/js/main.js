@@ -3043,7 +3043,7 @@ async function deleteContacts() {
 
 async function setInitialURLAsLogin() {
     const userId = sessionStorage.getItem("user");
-    console.log(userId);
+    // console.log(userId);
 
     const appName = document.querySelector("#app-name");
 
