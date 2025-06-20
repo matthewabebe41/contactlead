@@ -7,15 +7,15 @@ const path = require("path");
 const multer = require("multer");
 
 const pool = new pg.Pool({
-    // connectionString: process.env.DATABASE_URL,
-    // ssl: {
-    //     rejectUnauthorized: false,
-    // },
-    user: "postgres",
-    password: "password",
-    host: "127.0.0.1",
-    port: 5432,
-    database: "contactlead"
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false,
+    },
+    // user: "postgres",
+    // password: "password",
+    // host: "127.0.0.1",
+    // port: 5432,
+    // database: "contactlead"
 });
 
 app.use(express.json({
