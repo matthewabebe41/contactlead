@@ -3222,7 +3222,7 @@ domReady(async () => {
         mobileRecoverPasswordViewElement.style.display = "none";
     }
 
-    if (window.location.href !== `${rootUrl}/login` || window.location.href !== `${rootUrl}/register`) {
+    if (window.location.href !== `${rootUrl}/login` && window.location.href !== `${rootUrl}/register`) {
         await renderSmallSidePanelContent()
         await renderLargeSidePanelContent()
     }
