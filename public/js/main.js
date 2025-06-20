@@ -3222,8 +3222,10 @@ domReady(async () => {
         mobileRecoverPasswordViewElement.style.display = "none";
     }
 
-    await renderSmallSidePanelContent()
-    await renderLargeSidePanelContent()
+    if (window.location.href !== `${rootUrl}/login`) {
+        await renderSmallSidePanelContent()
+        await renderLargeSidePanelContent()
+    }
 
     const contactsListViewElement = document.querySelector("#contacts-list-view");
     if (window.location.href === `${rootUrl}/contacts`) {
