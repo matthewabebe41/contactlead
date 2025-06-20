@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server/index.js",
-    "server": "nodemon index.js"
+    "server": "nodemon index.js",
+    "db:import": "bash scripts/db-import.bash"
   },
   "author": "Matthew Abebe",
   "license": "ISC",
