@@ -6,7 +6,7 @@ const cors = require("cors");
 const path = require("path");
 
 const pool = new pg.Pool({
-   connectionString: process.env.DATABASE_URL || 'postgresql://postgres:password@localhost:5432/contactlead',
+   connectionString: process.env.DATABASE_URL,
     ssl: process.env.DATABASE_URL ? true : false
 });
 
