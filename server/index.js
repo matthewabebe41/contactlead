@@ -6,10 +6,8 @@ const cors = require("cors");
 const path = require("path");
 
 const pool = new pg.Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
+   connectionString: process.env.DATABASE_URL || 'postgresql://postgres:password@localhost:5432/contactlead',
+    ssl: process.env.DATABASE_URL ? true : false
 });
 
 app.use(express.json({
