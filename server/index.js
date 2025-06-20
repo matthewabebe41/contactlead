@@ -6,8 +6,11 @@ const cors = require("cors");
 const path = require("path");
 
 const pool = new pg.Pool({
-    connectionString: process.env.DATABASE_URL || 'postgresql://postgres:password@localhost:5432/contactlead',
-    ssl: process.env.DATABASE_URL ? true : false
+  user: 'postgres',
+  password: 'password',
+  host: 'localhost',
+  port: 5432,
+  database: 'contactlead',
 });
 
 app.use(express.json({
@@ -175,6 +178,6 @@ app.delete("/contacts/:user_id", async (req, res) => {
     }
 });
 
-app.listen(process.env.PORT || 3000, () => {
-    console.log(`server has started on port 3000`)
+app.listen(3000, () => {
+    console.log(`server has started on 3000`)
 });
