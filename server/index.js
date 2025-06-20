@@ -178,6 +178,6 @@ app.delete("/contacts/:user_id", async (req, res) => {
     }
 });
 
-app.listen(3000, () => {
-    console.log(`server has started on 3000`)
+app.listen(process.env.PORT || 3000, () => {
+    console.log(`server has started on 3000}`)
 });
