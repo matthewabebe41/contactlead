@@ -4,16 +4,10 @@ const pg = require("pg");
 const app = express();
 const cors = require("cors");
 const path = require("path");
-const multer = require("multer");
 
 const pool = new pg.Pool({
     connectionString: process.env.DATABASE_URL || 'postgresql://postgres:password@localhost:5432/contactlead',
     ssl: process.env.DATABASE_URL ? true : false
-    // user: "postgres",
-    // password: "password",
-    // host: "127.0.0.1",
-    // port: 5432,
-    // database: "contactlead"
 });
 
 app.use(express.json({
@@ -58,15 +52,6 @@ app.get("/contact_:contact_id", (req, res) => {
 app.get("/edit_contact_:contact_id", (req, res) => {
     res.sendFile(path.join(__dirname, "../index.html"));
 });
-
-// app.get("/api/users", async (req, res) => {
-//     try {
-//        const allUsers = await pool.query("SELECT * FROM users");
-//        res.json(allUsers.rows)
-//     } catch (err) {
-//         console.error(err.message);
-//     }
-// });
 
 //get all users
 app.get("/users", async (req, res) => {

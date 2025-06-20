@@ -1,2 +1,2 @@
-INSERT INTO users (user_id, firstname, lastname, emailaddress, phonenumber, user_password, user_image)
-VALUES ('2', 'Bob', 'Smith', 'bobsmith@mail.com', '+111 (111) 111-1111', 'Flower', null);
+INSERT INTO "users" ("user_id", "firstname", "lastname", "emailaddress", "phonenumber", "user_password", "user_image")
+VALUES (2, 'Bob', 'Smith', 'bobsmith@mail.com', '+111 (111) 111-1111', 'Flower', null);
