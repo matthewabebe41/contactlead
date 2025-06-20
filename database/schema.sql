@@ -30,7 +30,7 @@ organization VARCHAR(25),
 organization_role VARCHAR(25),
 social_media VARCHAR(60),
 favorite BOOLEAN,
-notes VARCHAR(300)
+notes VARCHAR(300),
 contact_image VARCHAR,
 CONSTRAINT fk_user
       FOREIGN KEY(user_id)
