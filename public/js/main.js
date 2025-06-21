@@ -2518,7 +2518,7 @@ async function postNewUser() {
         console.error(err)
     }
 
-    window.location.href = `${rootUrl}/login`
+    // window.location.href = `${rootUrl}/login`
 };
 
 async function mobilePostNewUser() {

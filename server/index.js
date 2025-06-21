@@ -10,6 +10,11 @@ const pool = new pg.Pool({
   ssl: {
     rejectUnauthorized: false
   }
+//   user: 'postgres',
+//   password: 'password',
+//   host: 'localhost',
+//   port: 5432,
+//   database: 'contactlead',
 });
 
 app.use(express.json({
@@ -81,7 +86,7 @@ app.post("/users", async (req, res) => {
     try {
        const {user_id, firstname, lastname, emailaddress, phonenumber, user_password} = req.body;
        const newUser = await pool.query("INSERT INTO users (user_id, firstname, lastname, emailaddress, phonenumber, user_password) VALUES($1, $2, $3, $4, $5, $6) RETURNING *", [user_id, firstname, lastname, emailaddress, phonenumber, user_password])
-       res.json(newUser.rows);
+       res.json(newUser.rows[0]);
     } catch (error) {
         console.error(error.message)
     }
