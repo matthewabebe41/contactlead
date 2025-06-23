@@ -620,6 +620,51 @@ async function navigateUserPageFromSidePanel() {
         window.location.href = `${rootUrl}/new_contact`
     })
 
+const mobileNavigateUserPageIcon = document.querySelector("#mobile-navigate-user-page-icon");
+mobileNavigateUserPageIcon.addEventListener("click", navigateUserPageFromFooterPanel)
+async function navigateUserPageFromFooterPanel() {
+    const userId = sessionStorage.getItem("user");
+    const user = await getUser(userId)
+        function saveDataToURL(url, data) {
+            const urlObject = new URL(url);
+            const params = new URLSearchParams(urlObject.search);
+        
+            for (const key in data) {
+                if (data.hasOwnProperty(key)) {
+                    params.set(key, data[key]);
+                }
+            }
+            urlObject.search = params.toString();
+            return urlObject.toString();
+        }   
+        const myURL = `${rootUrl}/user`
+        const myData = {
+            user_id: user.user_id,
+            name: `${user.firstname} ${user.lastname}`,
+        };
+            
+        let newURL = saveDataToURL(myURL, myData);
+
+        if (newURL.charAt(newURL.length - 1) === '+') {
+            console.log(newURL)
+            let editedurl = newURL.slice(0, -1)
+            newURL = editedurl
+        }
+        window.location.href = newURL
+    };
+    const mobileNavigateContactsListPageIcon = document.querySelector("#mobile-navigate-contacts-list-page-icon");
+    mobileNavigateContactsListPageIcon.addEventListener("click", function() {
+        window.location.href = `${rootUrl}/contacts`
+    })
+    const mobileNavigateFavoritesListPageIcon = document.querySelector("#mobile-navigate-favorites-list-page-icon");
+    mobileNavigateFavoritesListPageIcon.addEventListener("click", function() {
+        window.location.href = `${rootUrl}/favorite_contacts`
+    })
+    const mobileNavigateNewContactPageIcon = document.querySelector("#mobile-navigate-add-contacts-page-icon");
+    mobileNavigateNewContactPageIcon.addEventListener("click", function() {
+        window.location.href = `${rootUrl}/new_contact`
+    })
+
 async function renderSmallSidePanelContent() {
     const userId = sessionStorage.getItem("user");
     const user = await getUser(userId);
@@ -692,9 +737,10 @@ async function renderMobileFooterNavigationPanel() {
     const user = await getUser(userId);
 
     const navigateUserPageIcon = document.querySelector("#mobile-navigate-user-page-icon");
-    if (user.user_image !== null && user.user_image !== './images/user-5-svgrepo-com.svg') {
-        navigateUserPageIcon.setAttribute("src", user.user_image)
-    }
+    // if (user.user_image !== null && user.user_image !== './images/user-5-svgrepo-com.svg') {
+    //     navigateUserPageIcon.setAttribute("src", user.user_image)
+    //     navigateUserPageIcon.style.borderRadius = "50%"
+    // }
 
     console.log(navigateUserPageIcon.parentElement)
     const navigateUserPageIconParentElement = navigateUserPageIcon.parentElement;
@@ -1961,15 +2007,32 @@ async function renderMobileContactsListContent() {
         const contactOrgnanizationRoleTextShortened = contactOrganizationRoleText.slice(0, 8) + ellipsis;
         // console.log(contactOrganizationTextSlice)
 
-        if (contactOrganizationText.length > 8) {
-            contactListOrganizationAndRoleElement.innerHTML = `${contactOrganizationTextShortened} || ${contact.organization_role}`
-        }
-        if (contactOrganizationRoleText > 8) {
-            contactListOrganizationAndRoleElement.innerHTML = `${contact.organization} || ${contactOrgnanizationRoleTextShortened}`
-        }
-        if (contactOrganizationText.length > 8 && contactOrganizationRoleText.length > 8) {
-            contactListOrganizationAndRoleElement.innerHTML = `${contactOrganizationTextShortened} || ${contactOrgnanizationRoleTextShortened}`
-        }
+        requestAnimationFrame(() => {
+  const elOrg = contactListOrganizationAndRoleElement; // why such a long variable name?
+  console.log("h " + elOrg.style.height); // empty since you did not used i.e: elItem.style.height = "100px";
+  console.log("ch " + elOrg.clientHeight); // 22
+  console.log("oh " + elOrg.offsetHeight); // 22
+  console.log("gcsh " + getComputedStyle(elOrg).getPropertyValue("height")); // "22.3906px"
+  console.log("gcshInt " + parseInt(getComputedStyle(elOrg).getPropertyValue("height"), 10)); // 22
+
+  const elOrgHeight = elOrg.clientHeight;
+  const elOrgText = elOrg.innerText;
+  const ellipsis = "..."
+  const elOrgTextSlice = elOrgText.slice(0, 22) + ellipsis
+  if (elOrgHeight > 22) {
+    elOrg.innerHTML = elOrgTextSlice
+  }
+});
+
+        // if (contactOrganizationText.length > 8) {
+        //     contactListOrganizationAndRoleElement.innerHTML = `${contactOrganizationTextShortened} || ${contact.organization_role}`
+        // }
+        // if (contactOrganizationRoleText > 8) {
+        //     contactListOrganizationAndRoleElement.innerHTML = `${contact.organization} || ${contactOrgnanizationRoleTextShortened}`
+        // }
+        // if (contactOrganizationText.length > 8 && contactOrganizationRoleText.length > 8) {
+        //     contactListOrganizationAndRoleElement.innerHTML = `${contactOrganizationTextShortened} || ${contactOrgnanizationRoleTextShortened}`
+        // }
 
         const contactListFavoritesStarIconContainer = document.createElement("div");
         contactListFavoritesStarIconContainer.style.display = "flex";
@@ -3607,16 +3670,17 @@ domReady(async () => {
         mobileSmallSidebar.style.display = "none";
     }
 
-    if (window.location.href !== `${rootUrl}/login` && window.location.href !== `${rootUrl}/register` && clientwidth > 1070) {
+    if (window.location.href !== `${rootUrl}/login` && window.location.href !== `${rootUrl}/register` && window.location.href !== `${rootUrl}/recover-password` && clientwidth > 1070) {
         await renderSmallSidePanelContent()
         await renderLargeSidePanelContent()
         // smallSidebar.style.width = "10%"
-        // mobileSmallSidebar.style.display = "none";
     }
-
-    if (window.location.href !== `${rootUrl}/login` && window.location.href !== `${rootUrl}/register` && clientwidth <= 1070) {
+    
+    if (window.location.href !== `${rootUrl}/login` && window.location.href !== `${rootUrl}/register` && window.location.href !== `${rootUrl}/recover-password` && clientwidth <= 1070) {
         await renderMobileFooterNavigationPanel()
         // await renderLargeSidePanelContent()
+    } else {
+        mobileSmallSidebar.style.display = "none";
     }
 
     const contactsListViewElement = document.querySelector("#contacts-list-view");
