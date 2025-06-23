@@ -41,7 +41,36 @@
         </div>
     </div>
 
-    <div id="large-sidebar" style="position: fixed; width: 25%; height: 100%; top: 0%; left: 6.5%; background-color: ghostwhite; box-shadow: 0px 5px 10px; z-index: 1; overflow-y: scroll;">
+     <div id="mobile-small-sidebar" style="position: fixed; width: 100%; height: 70px; bottom: 0%; left: 0%; background-color: gainsboro; overflow: hidden; z-index: 2;">
+        <div style="display: flex; flex-direction: column; width: 100%; height: 100%;">
+            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; width: 100%; height: 100%;">
+                <div style="display: flex; flex-direction: column; align-items: center; width: 100%; height: 70px; cursor: default; padding: 2.5px;">
+                    <img id="mobile-navigate-user-page-icon" src="./images/user-5-svgrepo-com.svg" style="width: 50px; height: 50px; border: 0.5px solid grey; border-radius: 50%;">
+                    <p style="font-family: sans-serif; font-weight: bolder; margin: 0;" class="sidebar-icon-text">Account</p>
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: center; width: 100%; height: 70px; cursor: default; padding: 2.5px;">
+                    <img id="navigate-contacts-list-page-icon" src="./images/contacts-svgrepo-com.svg" style="width: 50px; height: 50px;">
+                    <p style="font-family: sans-serif; font-weight: bolder; margin: 0;" class="sidebar-icon-text">Contacts</p>
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: center; width: 100%; height: 70px; cursor: default; padding: 2.5px;">
+                    <img id="navigate-favorites-list-page-icon" src="./images/star-svgrepo-com.svg" style="width: 50px; height: 50px;">
+                    <p style="font-family: sans-serif; font-weight: bolder; margin: 0;" class="sidebar-icon-text">Favorites</p>
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: center; width: 100%; height: 70px; cursor: default; padding: 2.5px;">
+                    <img id="navigate-add-contacts-page-icon" src="./images/add-circle-svgrepo-com.svg" style="width: 50px; height: 50px;">
+                    <p style="font-family: sans-serif; font-weight: bolder; margin: 0;" class="sidebar-icon-text">New</p>
+                </div>
+            </div>
+            <!-- <div style="display: flex; flex-direction: column; justify-content: flex-end; align-items: center; width: 84%; height: 45%; margin-left: 8%; margin-top: 5px;">
+                <div style="display: flex; flex-direction: column; align-items: center; width: 100%; height: 70px; cursor: default; padding: 2.5px;">
+                    <img id="logout-icon" src="./images/logout-3-svgrepo-com.svg" style="width: 50px;">
+                    <p style="font-family: sans-serif; font-weight: bolder; margin: 0;">Logout</p>
+                </div>
+            </div>   -->
+        </div>
+    </div>
+
+    <div id="large-sidebar" style="position: fixed; width: 25%; height: 100%; top: 0%; left: 6.5%; background-color: ghostwhite; box-shadow: 0px 5px 10px; z-index: 1; overflow-y: scroll; overflow-x: hidden;">
         <div id="search-contacts-elements-container" style="display: flex; align-items: center; width: 100%;  height: 9.5%; border-bottom: 1px solid black; background-color: lightslategray;">
             <img id="search-icon" src="./images/search-svgrepo-com.svg" style="width: 30px; margin-left: 5px;">
             <input type="search" name="search-contacts" id="search-contacts-input" placeholder="Search for a contact" style="width: 90%; height: 21px; margin-left: 2px; margin-right: 6%;">
@@ -304,7 +333,7 @@
         <div id="user-infomration-container" style="position: absolute; display: flex; justify-content: center; align-items: center; width: 100%; height: 57%; top: 30%;">
             <div style="display: flex; justify-content: center; width: 100%; height: 100%;">
 
-            <div id="user-information-column-one" style="position: relative; display: flex; flex-direction: column; justify-content: space-around;">
+            <div id="user-information-column-one" style="position: relative; display: flex; flex-direction: column; justify-content: space-around; width: 40%;">
                 <!-- <h2>Account Information</h2> -->
                 <div>
                     <label style="display: block; font-weight: bold;">Full Name</label>
@@ -444,6 +473,27 @@
                 <div></div>
                 <h2 id="contacts-user-name" style="margin: 0"></h2>
                 <p id="contacts-user-email" style="margin: 0"></p>
+            </div>
+        </div>
+        <div id="contacts-list-container" style="position: absolute; display: flex; flex-direction: column; width: 100%; height: 96%; top: 20%;">
+            <!-- <h3>Contacts</h3> -->
+            <div id="contacts-list"></div>
+        </div>
+    </section>
+
+    <section id="mobile-contacts-list-view"  style="position: absolute; width: 100%; height: 90.5%; top: 9.5%; display: none; overflow: hidden;">
+         <div id="contacts-user-header-container" style="position: absolute; display: flex; align-items: center; width: 100%; height: 20%; background-color: #f9f9f9; box-shadow: 2px 2px 2px;">
+            <div id="mobile-contacts-user-image-container" style="display: flex; flex-direction: column; height: 100%; padding: 10px; display: none;">
+                <img id="mobile-contacts-user-image" src="./images/user-5-svgrepo-com.svg" style="position: relative; display: flex; justify-content: center; align-items: center; width: 80px; height: 80px; border: 0.5px solid grey; box-shadow: 2px 2px 2px; border-radius: 50%; background-color: gainsboro; object-fit: cover; z-index: 1;">
+                <div id="contacts-user-header-name-container" style="display: flex; flex-direction: column; justify-content: flex-end; height: 100%; margin: 0px 0px 0px 10px;">
+                    <p id="mobile-contact-header-user-name" style="font-weight: bold;">Name</p>
+                    <p id="mobile-contact-header-user-email" style="font-style: italic; margin: 0px 0px 16px 0px;">Email</p>
+                </div>
+            </div>
+            <div id="contacts-user-name-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%;">
+                <div></div>
+                <h2 id="mobile-contacts-user-name" style="margin: 0"></h2>
+                <p id="mobile-contacts-user-email" style="margin: 0"></p>
             </div>
         </div>
         <div id="contacts-list-container" style="position: absolute; display: flex; flex-direction: column; width: 100%; height: 96%; top: 20%;">
