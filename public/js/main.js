@@ -1216,6 +1216,85 @@ async function renderUserContent() {
     });
 };
 
+async function renderMobileUserContent() {
+    const userId = sessionStorage.getItem("user");
+    const user = await getUser(userId);
+    const userContacts = await getUserContacts(userId);
+    console.log(user)
+
+    const userImageContainer = document.querySelector("#mobile-user-image-container");
+    // const userImage = new Image();
+
+    const userImage = document.querySelector("#mobile-user-image");
+    if (user.user_image !== null && user.user_image !== './images/user-5-svgrepo-com.svg') {
+        userImage.setAttribute("src", user.user_image)
+        userImage.style.borderRadius = "50%"
+    }
+    
+    // const userHeaderNameElement = document.querySelector("#mobile-header-user-name");
+    // userHeaderNameElement.innerHTML = `${user.firstname} ${user.lastname}`;
+    // const userHeaderEmailElement = document.querySelector("#mobile-header-user-email");
+    // userHeaderEmailElement.innerHTML = user.emailaddress;
+
+    const userHeaderElement = document.querySelector("#mobile-user-name");
+    userHeaderElement.innerHTML = `${user.firstname} ${user.lastname}`;
+    // userHeaderElement.style.fontSize = "xx-large";
+    userHeaderElement.style.fontFamily = "Arial";
+    // userHeaderEmailElement.innerHTML = `${user.emailaddress}`;
+
+    const userInfoFullNameElement = document.querySelector("#mobile-profile-full-name");
+    userInfoFullNameElement.value = `${user.firstname} ${user.lastname}`;
+    const userInfoEmailElement = document.querySelector("#mobile-profile-email-address");
+    userInfoEmailElement.value = user.emailaddress;
+    const userInfoPhoneElement = document.querySelector("#mobile-profile-phone-number");
+    userInfoPhoneElement.value = user.phonenumber;
+    const userNumberOfContactsElement = document.querySelector("#mobile-profile-number-of-contacts");
+    userNumberOfContactsElement.value = userContacts.length;
+    const userPasswordElement = document.querySelector("#mobile-profile-password");
+
+    function replaceWithAsterisks(str) {
+        if (!str) {
+          return '';
+        }
+        return str.charAt(0) + '●'.repeat(str.length - 1);
+      }
+
+    userPasswordElement.value = replaceWithAsterisks(user.user_password)
+
+
+    console.log(user)
+
+    const navigateEditUserPageButton = document.querySelector("#mobile-navigate-edit-user-page-button");
+    navigateEditUserPageButton.addEventListener("click", function(event) {
+        function saveDataToURL(url, data) {
+            const urlObject = new URL(url);
+            const params = new URLSearchParams(urlObject.search);
+        
+            for (const key in data) {
+                if (data.hasOwnProperty(key)) {
+                    params.set(key, data[key]);
+                }
+            }
+            urlObject.search = params.toString();
+            return urlObject.toString();
+        }
+            
+        const myURL = `${rootUrl}/edit_user`
+        const myData = {
+            user_id: user.user_id,
+            name: `${user.firstname} ${user.lastname}`,
+        };   
+            let newURL = saveDataToURL(myURL, myData);
+
+            if (newURL.charAt(newURL.length - 1) === '+') {
+                console.log(newURL)
+                let editedurl = newURL.slice(0, -1)
+                newURL = editedurl
+            }  
+            window.location.href = newURL
+    });
+}
+
 async function renderEditUserContent() {
     const userId = sessionStorage.getItem("user");
     const user = await getUser(userId);
@@ -4182,13 +4261,22 @@ domReady(async () => {
     };
 
     const userViewElement = document.querySelector("#user-view");
-    if (window.location.href.startsWith(`${rootUrl}/user`)) {
+    if (window.location.href.startsWith(`${rootUrl}/user`) && clientwidth > 1070) {
         userViewElement.style.display = "block";
         appName.style.left = "32%"
         await renderUserContent()
         document.body.style.display = "block"
     } else {
         userViewElement.style.display = "none"
+    };
+
+    const mobileUserViewElement = document.querySelector("#mobile-user-view");
+    if (window.location.href.startsWith(`${rootUrl}/user`) && clientwidth < 1070) {
+        mobileUserViewElement.style.display = "block";
+        await renderMobileUserContent()
+        document.body.style.display = "block"
+    } else {
+        mobileUserViewElement.style.display = "none"
     };
 
     const editUserViewElement = document.querySelector("#edit-user-view");

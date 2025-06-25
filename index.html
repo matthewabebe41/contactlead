@@ -365,6 +365,60 @@
         </div>
     </section>
 
+    <section id="mobile-user-view" style="position: absolute; width: 100%; height: 90.5%; top: 9.5%; display: none;">
+        <div id="mobile-user-header-container" style="position: absolute; display: flex; align-items: center; width: 100%; height: 16%; background-color: #f9f9f9; box-shadow: 2px 2px 2px;">
+            <div id="mobile-user-image-container" style="position: absolute; display: flex; align-items: center; height: 100%; padding: 10px;">
+                <img id="mobile-user-image" src="./images/user-5-svgrepo-com.svg" style="position: relative; display: flex; justify-content: center; align-items: center; width: 80px; height: 80px; border: 0.5px solid grey; box-shadow: 2px 2px 2px; border-radius: 50%; background-color: gainsboro; object-fit: cover;">
+                <div id="mobile-user-header-name-container" style="display: flex; flex-direction: column; justify-content: flex-end; height: 100%; margin: 0px 0px 0px 10px;">
+                    <!-- <p id="mobile-header-user-name" style="font-weight: bold; margin: 0px;">Name</p> -->
+                    <!-- <p id="mobile-header-user-email" style="font-style: italic; margin: 0px 0px 16px 0px;">Email</p> -->
+                </div>
+            </div>
+            <div id="mobile-user-name-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%;">
+                <h2 id="mobile-user-name" style="margin: 0;"></h2>
+                <p id="mobile-user-email" style="margin: 0"></p>
+            </div>
+        </div>
+        <div style="position: absolute; top: 16.4%; width: 100%;">
+            <div style="display: flex; align-items: center; height: 45px; background-color: ghostwhite;">
+                <h2 style="margin: 0px 10px 0px 5px; padding: 5px;">Account Information</h2>
+            </div>
+        </div>
+        <div id="mobile-user-infomration-container" style="position: absolute; display: flex; justify-content: center; align-items: center; width: 100%; height: 57%; top: 26%;">
+            <div style="display: flex; justify-content: center; width: 100%; height: 100%;">
+
+            <div id="mobile-user-information-column-one" style="position: relative; display: flex; flex-direction: column; justify-content: space-around; width: 50%;">
+                <!-- <h2>Account Information</h2> -->
+                <div>
+                    <label style="display: block; font-weight: bold;">Full Name</label>
+                    <input id="mobile-profile-full-name" readonly style="width: 100%; border: 0.1em solid gray; box-shadow: 2px 2px 2px;">
+                </div>
+                <div>
+                    <label style="display: block; font-weight: bold;">Email</label>
+                    <input id="mobile-profile-email-address" readonly style="width: 100%; border: 0.1em solid gray; box-shadow: 2px 2px 2px;">
+                </div>
+                <div>
+                    <label style="display: block; font-weight: bold;">Phone</label>
+                    <input id="mobile-profile-phone-number" style=" width: 100%; border: 0.1em solid gray; box-shadow: 2px 2px 2px;">
+                </div>
+                <div>
+                    <label style="display: block; font-weight: bold;">Contacts</label>
+                    <input id="mobile-profile-number-of-contacts" style=" width: 100%; border: 0.1em solid gray; box-shadow: 2px 2px 2px;">
+                </div>
+                <div>
+                    <label style="display: block; font-weight: bold;">Password</label>
+                    <input id="mobile-profile-password" style=" width: 100%; border: 0.1em solid gray; box-shadow: 2px 2px 2px;">
+                </div>
+            </div>
+        </div>
+    </div>         
+        <div id="mobile-edit-user-button-container" style="position: absolute; display: flex; justify-content: center; align-items: center; width: 100%; top: 96.5%;">
+            <div style="position: absolute; display: flex; justify-content: flex-end; width: 90%;">
+                <button id="mobile-navigate-edit-user-page-button" style="width: 50px;">Edit</button>
+            </div>
+        </div>
+    </section>
+
     <section id="edit-user-view" style="position: absolute; width: 68.5%; height: 90.5%; top: 9.5%; left: 31.5%; display: none;">
         <div id="edit-user-image-container" style="position: absolute; display: flex; align-items: center; width: 100%; height: 20%; background-color: #f9f9f9; box-shadow: 2px 2px 2px;"> 
             <div id="edit-user-image-container" style="position: absolute; display: flex; align-items: center; height: 100%; padding: 10px;">
