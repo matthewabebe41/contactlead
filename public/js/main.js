@@ -1772,24 +1772,23 @@ async function renderMobileContactsListContent() {
         contactsListUserImage.style.borderRadius = "50%";
     }
 
-    const contactsUserHeaderNameContainer = document.querySelector("#contacts-user-header-name-container");
+    // const contactsUserHeaderNameContainer = document.querySelector("#contacts-user-header-name-container");
     // contactsUserHeaderNameContainer.style.margin = "0px 0px 0px 10px"
-    const contactsHeaderUserNameElement = document.querySelector("#mobile-contact-header-user-name");
-    contactsHeaderUserNameElement.style.margin = "0px";
-    const contactsHeaderUserEmailAddressElement = document.querySelector("#mobile-contact-header-user-email")
+    // const contactsHeaderUserNameElement = document.querySelector("#mobile-contact-header-user-name");
+    // contactsHeaderUserNameElement.style.margin = "0px";
+    // const contactsHeaderUserEmailAddressElement = document.querySelector("#mobile-contact-header-user-email")
     // contactsHeaderUserEmailAddressElement.style.margin = "0px 0px 16px 0px";
 
     const contactsUserNameElement = document.querySelector("#mobile-contacts-user-name");
-    contactsUserNameElement.style.margin = "0px";
     const contactsUserEmailAddressElement = document.querySelector("#mobile-contacts-user-email");
     contactsUserEmailAddressElement.style.margin = "0px";
-    contactsUserNameElement.innerHTML = `${user.firstname}'s Contacts`;
+    contactsUserNameElement.innerHTML = `${user.firstname} ${user.lastname}`;
     // contactsUserNameElement.style.fontSize = "xx-large"
     contactsUserNameElement.style.fontFamily = "Arial"
     // contactsUserEmailAddressElement.innerHTML = `${user.emailaddress}`
 
-    contactsHeaderUserNameElement.innerHTML = `${user.firstname} ${user.lastname}`;
-    contactsHeaderUserEmailAddressElement.innerHTML = user.emailaddress;
+    // contactsHeaderUserNameElement.innerHTML = `${user.firstname} ${user.lastname}`;
+    // contactsHeaderUserEmailAddressElement.innerHTML = user.emailaddress;
 
     console.log(userContacts)
 
@@ -1854,7 +1853,7 @@ async function renderMobileContactsListContent() {
     numberOfContactsElement.style.borderRadius = "50%";
     numberOfContactsElement.style.margin = "0"
     contactsListContainer.style.position = "absolute";
-    contactsListContainer.style.top = "28.2%"
+    contactsListContainer.style.top = "24.2%"
     contactsListContainer.style.width = "100%"
     contactsListContainer.style.marginBottom = "10%"
     const contactsList = document.createElement("ul");
@@ -1870,7 +1869,7 @@ async function renderMobileContactsListContent() {
         const contactListItem = document.createElement("div");
         contactListItem.style.display = "flex";
         contactListItem.style.flexDirection = "row";
-        contactListItem.style.height = "100px"
+        contactListItem.style.height = "80px"
         contactListItem.style.borderTop = "1px solid gray";
         contactListItem.style.borderBottom = "1px solid gray";
         contactListItem.style.backgroundColor = "aliceblue"
@@ -1928,7 +1927,7 @@ async function renderMobileContactsListContent() {
         // contactListItemImageContainer.style.width = "10%"
         contactListItemImageContainer.style.padding = "10px"
         const contactListItemImage = document.createElement("img");
-        contactListItemImage.style.width = "90px";
+        contactListItemImage.style.width = "70px";
         contactListItemImage.style.height = "100%";
         contactListItemImage.style.border = "0.5px solid grey";
         contactListItemImage.style.borderRadius = "50%"
@@ -2744,6 +2743,264 @@ async function renderFavoriteContactsListContent() {
     document.body.appendChild(favoriteContactsListContainer)
 }
 
+async function renderMobileFavoriteContactsListContent() {
+    const userId = sessionStorage.getItem("user");
+    const user = await getUser(userId);
+    const userContacts = await getUserContacts(userId);
+
+    const favoritesListUserImage = document.querySelector("#mobile-favorites-user-image");
+    if (user.user_image !== null && user.user_image !== './images/user-5-svgrepo-com.svg') {
+        favoritesListUserImage.setAttribute("src", user.user_image);
+        favoritesListUserImage.style.borderRadius = "50%"
+    }
+
+    // const favoritesHeaderUserName = document.querySelector("#mobile-favorites-header-user-name");
+    // favoritesHeaderUserName.innerHTML = `${user.firstname} ${user.lastname}`;
+    // const favaoritesHeaderUserEmail = document.querySelector("#mobile-favorites-header-user-email");
+    // favaoritesHeaderUserEmail.innerHTML = user.emailaddress;
+
+    const favoriteContactsUserNameElement = document.querySelector("#mobile-favorites-user-name");
+    const favoriteContactsUserEmailAddressElement = document.querySelector("#mobile-favorits-user-email")
+    favoriteContactsUserNameElement.innerHTML = `${user.firstname} ${user.lastname}`;
+    favoriteContactsUserNameElement.style.fontFamily = "Arial";
+    // favoriteContactsUserNameElement.style.fontSize = "xx-large"
+    // favoriteContactsUserEmailAddressElement.innerHTML = `${user.emailaddress}`
+
+    console.log(userContacts)
+
+    let favoriteContacts = [];
+    for (let i = 0; i < userContacts.length; i++) {
+        if (userContacts[i].favorite === true) {
+            favoriteContacts.push(userContacts[i])
+        }
+    }
+
+    favoriteContacts.sort(function(a, b) {
+        if (a.firstname < b.firstname) {
+            return -1;
+        }
+        if (a.firstname < b.firstname) {
+            return 1;
+        }
+        
+        var aFirstChar = a.firstname.charAt(0);
+        var bFirstChar = b.firstname.charAt(0);
+        if (aFirstChar > bFirstChar) {
+          return 1;
+        } else if (aFirstChar < bFirstChar) {
+          return -1;
+        } else {
+          var aLastChar = a.lastname.charAt(0);
+          var bLastChar = b.lastname.charAt(0);
+          if (aLastChar === "") {
+            aLastChar = "z"
+          }
+          if (bLastChar === "") {
+            bLastChar = "z"
+          }
+          if (aLastChar > bLastChar) {
+            return 1;
+          } else if (aLastChar < bLastChar) {
+            return -1;
+          } else {
+            return 0;
+          }    
+        }
+      });
+
+    const favoriteContactsListContainer = document.createElement("div");
+    const favoriteContactsHeaderContainer = document.createElement("div");
+    favoriteContactsHeaderContainer.style.display = "flex";
+    // favoriteContactsHeaderContainer.style.justifyContent = "space-between"
+    favoriteContactsHeaderContainer.style.alignItems = "center"
+    // favoriteContactsHeaderContainer.style.width = "25%";
+    favoriteContactsHeaderContainer.style.backgroundColor = "ghostwhite"
+    // favoriteContactsHeaderContainer.style.marginBottom = "5px"
+    favoriteContactsHeaderContainer.style.padding = "5px"
+    const myFavoriteContactsHeaderElement = document.createElement("h2");
+    myFavoriteContactsHeaderElement.innerHTML = "My Favorites"
+    myFavoriteContactsHeaderElement.style.width = "140px"
+    myFavoriteContactsHeaderElement.style.margin = "0"
+    myFavoriteContactsHeaderElement.style.marginLeft = "5px"
+    // myFavoriteContactsHeaderElement.style.marginRight = "10px"
+    const numberOfFavoriteContactsElement = document.createElement("h2");
+    numberOfFavoriteContactsElement.innerHTML = favoriteContacts.length;
+    numberOfFavoriteContactsElement.style.display = "inline-flex";
+    numberOfFavoriteContactsElement.style.justifyContent = "center";
+    numberOfFavoriteContactsElement.style.alignItems = "center";
+    numberOfFavoriteContactsElement.style.width = "15px";
+    numberOfFavoriteContactsElement.style.height = "15px";
+    numberOfFavoriteContactsElement.style.backgroundColor = "navy";
+    numberOfFavoriteContactsElement.style.color = "white"
+    numberOfFavoriteContactsElement.style.padding = "10px";
+    numberOfFavoriteContactsElement.style.borderRadius = "50%";
+    numberOfFavoriteContactsElement.style.margin = "0"
+    favoriteContactsListContainer.style.position = "absolute";
+    favoriteContactsListContainer.style.top = "24.2%"
+    // favoriteContactsListContainer.style.left = "31.5%"
+    favoriteContactsListContainer.style.width = "100%"
+    const favoriteContactsList = document.createElement("ul");
+    favoriteContactsList.style.position = "relative";
+    favoriteContactsList.style.listStyle = "none";
+    favoriteContactsList.style.padding = "0"
+    favoriteContactsList.style.margin = "0"
+    favoriteContactsList.style.marginBottom = "72px"
+    // favoriteContactsList.style.height = "100%";
+    // favoriteContactsList.style.overflow = "auto"
+    // favoriteContactsList.style.zIndex = "5"
+    favoriteContacts.forEach(contact => {
+        const favoriteContactListItem = document.createElement("div");
+        favoriteContactListItem.style.display = "flex";
+        favoriteContactListItem.style.flexDirection = "row";
+        favoriteContactListItem.style.height = "80px"
+        favoriteContactListItem.style.borderTop = "1px solid gray";
+        favoriteContactListItem.style.borderBottom = "1px solid gray";
+        favoriteContactListItem.style.backgroundColor = "aliceblue"
+        favoriteContactListItem.style.marginTop = "1px";
+        favoriteContactListItem.style.marginBottom = "1px";
+        favoriteContactListItem.setAttribute("contactId", contact.contact_id)
+
+        favoriteContactListItem.addEventListener("mouseover", function() {
+            favoriteContactListItem.style.backgroundColor = "lightgrey";
+        });
+
+        favoriteContactListItem.addEventListener("mouseout", function() {
+            favoriteContactListItem.style.backgroundColor = "aliceblue";
+        });
+
+        favoriteContactListItem.addEventListener("click", function(event) {
+            
+            if (!event.target.classList.contains("contact-favorite-icon")) {
+                // favoriteContactListItem.style.backgroundColor = "green";
+                
+                function saveDataToURL(url, data) {
+                    const urlObject = new URL(url);
+                    const params = new URLSearchParams(urlObject.search);
+                
+                    for (const key in data) {
+                        if (data.hasOwnProperty(key)) {
+                            params.set(key, data[key]);
+                        }
+                    }
+                    urlObject.search = params.toString();
+                    return urlObject.toString();
+                }
+                
+                const myURL = `${rootUrl}/contact_${contact.contact_id}`;
+                const myData = {
+                    name: `${contact.firstname} ${contact.lastname}`,
+                    // age: 30,
+                    // city: "New York"
+                };
+                
+                const newURL = saveDataToURL(myURL, myData);
+                console.log(newURL);
+                // Expected output: "https://example.com/page?name=John+Doe&age=30&city=New+York"
+                window.location.href = newURL
+            }
+        })
+
+        const favoriteContactListItemImageContainer = document.createElement("div");
+        favoriteContactListItemImageContainer.style.display = "flex";
+        favoriteContactListItemImageContainer.style.alignItems = "center";
+        // favoriteContactListItemImageContainer.style.width = "15%"
+        favoriteContactListItemImageContainer.style.padding = "10px"
+        const favoriteContactListItemImage = document.createElement("img");
+        favoriteContactListItemImage.style.width = "70px";
+        favoriteContactListItemImage.style.height = "100%";
+        favoriteContactListItemImage.style.border = "0.5px solid grey";
+        favoriteContactListItemImage.style.borderRadius = "50%";
+        favoriteContactListItemImage.style.backgroundColor = "gainsboro"
+        favoriteContactListItemImage.style.objectFit = "cover"
+
+        if (contact.contact_image !== null) {
+            favoriteContactListItemImage.setAttribute("src", contact.contact_image);
+        } else {
+            favoriteContactListItemImage.setAttribute("src", "./images/user-2-svgrepo-com.svg");
+        }
+
+        // contactListItem.innerHTML = `${contact.firstname} ${contact.lastname}`;
+        const favoriteContactListNameContainer = document.createElement("div");
+        favoriteContactListNameContainer.style.display = "flex";
+        favoriteContactListNameContainer.style.flexDirection = "column"
+        favoriteContactListNameContainer.style.justifyContent = "center";
+        favoriteContactListNameContainer.style.alignItems = "center";
+        favoriteContactListNameContainer.style.width = "100%"
+        const favoriteContactListNameElement = document.createElement("h3");
+        favoriteContactListNameElement.style.margin = "0";
+        favoriteContactListNameElement.innerHTML = `${contact.firstname} ${contact.lastname}`;
+        const favoriteContactListEmailElement = document.createElement("p");
+        favoriteContactListEmailElement.style.fontStyle = "italic"
+        favoriteContactListEmailElement.style.margin = "0"
+
+        
+        console.log(contact)
+        
+        if (contact.emailaddress !== null && contact.emailaddress !== "") {
+            favoriteContactListEmailElement.innerHTML = contact.emailaddress;
+        } else {
+            favoriteContactListEmailElement.innerHTML = "text";
+            favoriteContactListEmailElement.style.visibility = "hidden";
+        }
+
+        const favoriteContactListOrganizationAndRoleElement = document.createElement("p");
+        favoriteContactListOrganizationAndRoleElement.style.fontWeight = "bolder";
+        favoriteContactListOrganizationAndRoleElement.style.margin = "0";
+    
+        if (contact.organization !== null && contact.organization !== "" && contact.organization_role !== null && contact.organization_role !== "") {
+            favoriteContactListOrganizationAndRoleElement.innerHTML = `${contact.organization} || ${contact.organization_role}`
+        } else if (contact.organization !== null && contact.organization !== "" || contact.organization_role === null && contact.organization_role === "") {
+            favoriteContactListOrganizationAndRoleElement.innerHTML = `${contact.organization}`
+        } else if (contact.organization === null && contact.organization === "" || contact.organization_role !== null && contact.organization_role !== "") {
+            favoriteContactListOrganizationAndRoleElement.innerHTML = `${contact.organization_role}`
+        } else {
+            favoriteContactListOrganizationAndRoleElement.innerHTML = "text"
+            favoriteContactListOrganizationAndRoleElement.style.visibility = "hidden"
+        }
+    
+
+        const favoriteContactListFavoritesStarIconContainer = document.createElement("div");
+        favoriteContactListFavoritesStarIconContainer.style.display = "flex";
+        favoriteContactListFavoritesStarIconContainer.style.justifyContent = "center";
+        favoriteContactListFavoritesStarIconContainer.style.alignItems = "center"
+        favoriteContactListFavoritesStarIconContainer.style.padding = "10px"
+        // favoriteContactListFavoritesStarIconContainer.style.width = "15%";
+        const favoriteContactListFavoriteStarImg = document.createElement("img");
+        favoriteContactListFavoriteStarImg.classList.add("contact-favorite-icon")
+        favoriteContactListFavoriteStarImg.style.width = "60px"
+
+        console.log(contact.favorite)
+
+        // contactListFavoriteStarImg.addEventListener("click", function(event) {
+        //     // event.preventDefault()
+        //     updateContactFavorite()
+        // }, false)
+        
+        favoriteContactListFavoriteStarImg.setAttribute("src", "./images/star-gold-svgrepo-com.svg");
+        if (contact.favorite === null || contact.favorite === false) {
+            favoriteContactListFavoriteStarImg.style.display = "none"
+        } else {
+            favoriteContactListFavoriteStarImg.style.display = "block"
+        }
+        
+        favoriteContactListItemImageContainer.appendChild(favoriteContactListItemImage);
+        favoriteContactListNameContainer.appendChild(favoriteContactListNameElement);
+        favoriteContactListNameContainer.appendChild(favoriteContactListEmailElement);
+        favoriteContactListNameContainer.appendChild(favoriteContactListOrganizationAndRoleElement);
+        favoriteContactListItem.appendChild(favoriteContactListItemImageContainer)
+        favoriteContactListItem.appendChild(favoriteContactListNameContainer)
+        favoriteContactListFavoritesStarIconContainer.appendChild(favoriteContactListFavoriteStarImg);
+        favoriteContactListItem.appendChild(favoriteContactListFavoritesStarIconContainer);
+        favoriteContactsList.appendChild(favoriteContactListItem)
+    });
+    favoriteContactsHeaderContainer.append(myFavoriteContactsHeaderElement)
+    favoriteContactsHeaderContainer.appendChild(numberOfFavoriteContactsElement)
+    favoriteContactsListContainer.appendChild(favoriteContactsHeaderContainer)
+    favoriteContactsListContainer.appendChild(favoriteContactsList)
+    document.body.appendChild(favoriteContactsListContainer)
+
+}
+
 async function renderNewContactContent() {
     const userId = sessionStorage.getItem("user")
     const userContacts = await getUserContacts(userId);
@@ -2829,6 +3086,91 @@ async function renderNewContactContent() {
     });
 };
 
+async function renderMobileNewContactContent() {
+    const userId = sessionStorage.getItem("user")
+    const userContacts = await getUserContacts(userId);
+    console.log(userContacts.length)
+
+    const newContactImage = document.querySelector("#mobile-new-contact-image");
+    const newContactRemovePhotoButton = document.querySelector("#mobile-new-contact-remove-photo-button");
+    newContactRemovePhotoButton.addEventListener("click", function() {
+        const newContactAddPhotoInputElement = document.querySelector("#mobile-new-contact-add-photo")
+        newContactAddPhotoInputElement.value = ""
+        newContactImage.setAttribute("src", "./images/user-2-svgrepo-com.svg")
+    })
+
+    const newContactAddPhotoButton = document.querySelector("#mobile-new-contact-add-photo-button");
+    const newContactAddPhotoInputContainerElement = document.querySelector("#mobile-new-contact-add-photo-input-container")
+    newContactAddPhotoButton.addEventListener("click", function() {
+        console.log("add new contact photo")
+        newContactAddPhotoInputContainerElement.style.display = "flex";
+    });
+    const closeNewContactAddPhotoIcon = document.querySelector("#mobile-close-new-contact-add-photo-icon");
+    closeNewContactAddPhotoIcon.addEventListener("click", function() {
+        newContactAddPhotoInputContainerElement.style.display = "none";
+    })
+    const newContactAddPhotoSaveButton = document.querySelector("#mobile-new-contact-add-photo-insert-button");
+    newContactAddPhotoSaveButton.addEventListener("click", function() {
+        // newContactAddPhotoInputContainerElement.style.display = "none";
+        handleMobileNewContactImage()
+    }, false)
+
+    const newContactGenderElement = document.querySelector("#mobile-new-contact-gender")
+    // newContactGenderElement.value = user.gender;
+    const selectGenderElement = document.querySelector("#mobile-new-contact-select-gender");
+    const genderOpitonsData = [
+        { text: "None", value: "None"},
+        { text: "Female", value: "Female" },
+        { text: "Male", value: "Male" }
+      ];
+
+      for (let i = 0; i < genderOpitonsData.length; i++) {
+        const option = document.createElement("option");
+        option.text = genderOpitonsData[i].text;
+        option.value = genderOpitonsData[i].value;
+
+        // if (option.text === user.gender) {
+        //     option.setAttribute("selected", true)
+        // }
+
+        selectGenderElement.appendChild(option);
+      }
+
+      selectGenderElement.addEventListener('click', function(event) {
+        // const selectedOptionValue = event.target.value;
+        const selectedOptionText = event.target.options[event.target.selectedIndex].text;
+        newContactGenderElement.value = selectedOptionText;
+        // console.log('Selected option value:', selectedOptionValue);
+        // console.log('Selected option text:', selectedOptionText);
+      });
+
+      newContactGenderElement.addEventListener("click", function() {
+        newContactGenderElement.style.display = "none"
+        selectGenderElement.style.display = "block";
+      });
+
+      selectGenderElement.addEventListener("blur", function() {
+        newContactGenderElement.style.display = "block";
+        selectGenderElement.style.display = "none";
+      });
+
+    const newContactPhoneNumberElement = document.querySelector("#mobile-new-contact-phonenumber");
+    // const phonenumber = newContactPhoneNumberElement.value
+    // console.log(phonenumber)
+    newContactPhoneNumberElement.addEventListener("keydown", disableNonNumericKeys)
+    newContactPhoneNumberElement.addEventListener("blur", function() {
+        formatPhoneNumberForData(newContactPhoneNumberElement)
+    });
+    newContactPhoneNumberElement.addEventListener("focus", function() {
+        resetPhoneNumberFormatOnFocus(newContactPhoneNumberElement)
+    });
+
+    const createNewContactButton = document.querySelector("#mobile-create-new-contact-button")
+    createNewContactButton.addEventListener("click", function() {
+        mobilePostNewContact()
+    });
+}
+
 async function handleNewContactImage() {
     const newContactImageElement = document.querySelector("#new-contact-image");
     let newContactImageFile;
@@ -2851,6 +3193,30 @@ async function handleNewContactImage() {
     // })
 };
 
+async function handleMobileNewContactImage() {
+     const newContactImageElement = document.querySelector("#mobile-new-contact-image");
+    let newContactImageFile;
+    let newContactImage;
+    const newContactAddPhotoInputElement = document.querySelector("#mobile-new-contact-add-photo")
+    // editUserAddPhotoInputElement.addEventListener("change", function(event) {
+        // event.preventDefault();
+
+        newContactImageFile = newContactAddPhotoInputElement.files[0];
+        let reader = new FileReader()
+
+        reader.onload = function () {
+            base64string = reader.result.split(',')[1]
+            newContactImage = reader.result;
+            newContactImageElement.setAttribute("src", reader.result);
+            newContactImageElement.style.borderRadius = "50%";
+        };
+
+        newContactImageElement.style.height = "68px"
+
+        reader.readAsDataURL(newContactImageFile)
+    // })
+}
+
 async function handleNewContactInput() {
     const userId = sessionStorage.getItem("user");
     const userContacts = await getUserContacts(userId);
@@ -2869,6 +3235,64 @@ async function handleNewContactInput() {
     const newContactSocialMediaElement = document.querySelector("#new-contact-social-media");
     const newContactNotesElement = document.querySelector("#new-contact-notes")
     const newContactImageElement = document.querySelector("#new-contact-image");
+
+    let contactIdsArr = []
+    for (let i = 0; i < userContacts.length; i++) {
+        contactIdsArr.push(userContacts[i].contact_id)
+    }
+
+    let maxId = -Infinity;
+    for (let i = 0; i < contactIdsArr.length; i++) {
+        if (contactIdsArr[i] > maxId) {
+            maxId = contactIdsArr[i];
+        }
+    }
+
+    console.log(maxId)
+    if (maxId === -Infinity) {
+        maxId = 0
+    }
+
+    const newContactObject = {
+        userId: userId,
+        contactId: maxId + 1,
+        firstname: newContactFirstNameElement.value,
+        lastname: newContactLastNameElement.value,
+        gender: newContactGenderElement.value,
+        birthday: newContactBirthdayElement.value,
+        emailaddress: newContactEmailAddressElement.value,
+        phonenumber: newContactPhoneNumberElement.value,
+        organization: newContactOrganizationElement.value,
+        role: newContactRoleElement.value,
+        address: newContactAddressElement.value,
+        socialMedia: newContactSocialMediaElement.value,
+        notes: newContactNotesElement.value,
+        contactImage: newContactImageElement.getAttribute("src")
+    };
+
+    console.log(newContactObject)
+
+    return newContactObject;
+};
+
+async function handleMobileNewContactInput() {
+     const userId = sessionStorage.getItem("user");
+    const userContacts = await getUserContacts(userId);
+    console.log(userContacts.length)
+    
+
+    const newContactFirstNameElement = document.querySelector("#mobile-new-contact-firstname");
+    const newContactLastNameElement = document.querySelector("#mobile-new-contact-lastname");
+    const newContactGenderElement = document.querySelector("#mobile-new-contact-gender");
+    const newContactBirthdayElement = document.querySelector("#mobile-new-contact-birthday")
+    const newContactEmailAddressElement = document.querySelector("#mobile-new-contact-email");
+    const newContactPhoneNumberElement = document.querySelector("#mobile-new-contact-phonenumber");
+    const newContactAddressElement = document.querySelector("#mobile-new-contact-address");
+    const newContactOrganizationElement = document.querySelector("#mobile-new-contact-organization");
+    const newContactRoleElement = document.querySelector("#mobile-new-contact-role")
+    const newContactSocialMediaElement = document.querySelector("#mobile-new-contact-social-media");
+    const newContactNotesElement = document.querySelector("#mobile-new-contact-notes")
+    const newContactImageElement = document.querySelector("#mobile-new-contact-image");
 
     let contactIdsArr = []
     for (let i = 0; i < userContacts.length; i++) {
@@ -3280,6 +3704,49 @@ async function postNewContact() {
 
     window.location.href = `${rootUrl}/contacts`
 };
+
+async function mobilePostNewContact() {
+    const newContactObject = await handleMobileNewContactInput();
+
+    const user_id = newContactObject.userId;
+    const contact_id = newContactObject.contactId;
+    const firstname = newContactObject.firstname;
+    const lastname = newContactObject.lastname;
+    const emailaddress = newContactObject.emailaddress;
+    const phonenumber = newContactObject.phonenumber;
+    const gender = newContactObject.gender;
+    const birthday = newContactObject.birthday;
+    const homeaddress = newContactObject.address;
+    const organization = newContactObject.organization;
+    const organization_role = newContactObject.role;
+    const social_media = newContactObject.socialMedia;
+    const notes = newContactObject.notes;
+    const contact_image = newContactObject.contactImage;
+
+    // if (firstname === null || firstname.toString().trim().length === 0) {
+    //     alert("First Name is a required input field. Please enter a first name.");
+    //     return
+    // }
+
+    // if (emailaddress === null || emailaddress.toString().trim().length === 0) {
+    //     alert("Email is a required input field. Please enter an email.");
+    //     return
+    // }
+
+    const body = { user_id, contact_id, firstname, lastname, phonenumber, emailaddress, gender, birthday, homeaddress, organization, organization_role, social_media, notes, contact_image };
+    try {
+        const response = await fetch(`/contacts`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body)
+        });
+        console.log(response)
+    } catch (err) {
+        console.error(err)
+    }
+
+    window.location.href = `${rootUrl}/contacts`
+}
 
 async function getUserContact(user_id, contact_id) {
     try {
@@ -3734,7 +4201,7 @@ domReady(async () => {
     };
 
     const favoritesListViewElement = document.querySelector("#favorites-list-view");
-    if (window.location.href === (`${rootUrl}/favorite_contacts`)) {
+    if (window.location.href === (`${rootUrl}/favorite_contacts`) && clientwidth > 1070) {
         favoritesListViewElement.style.display = "block";
         appName.style.left = "32%"
         await renderFavoriteContactsListContent()
@@ -3743,14 +4210,32 @@ domReady(async () => {
         favoritesListViewElement.style.display = "none"
     };
 
+    const mobileFavoritesListViewElement = document.querySelector("#mobile-favorites-list-view");
+    if (window.location.href === (`${rootUrl}/favorite_contacts`) && clientwidth < 1070) {
+        mobileFavoritesListViewElement.style.display = "block";
+        await renderMobileFavoriteContactsListContent()
+        document.body.style.display = "block"
+    } else {
+        mobileFavoritesListViewElement.style.display = "none"
+    };
+
     const newContactViewElement = document.querySelector("#new-contact-view");
-    if (window.location.href === (`${rootUrl}/new_contact`)) {
+    if (window.location.href === (`${rootUrl}/new_contact`) && clientwidth > 1070) {
         newContactViewElement.style.display = "block";
         appName.style.left = "32%"
         await renderNewContactContent()
         document.body.style.display = "block"
     } else {
         newContactViewElement.style.display = "none"
+    };
+
+     const mobileNewContactViewElement = document.querySelector("#mobile-new-contact-view");
+    if (window.location.href === (`${rootUrl}/new_contact`) && clientwidth < 1070) {
+        mobileNewContactViewElement.style.display = "block";
+        await renderMobileNewContactContent()
+        document.body.style.display = "block"
+    } else {
+        mobileNewContactViewElement.style.display = "none"
     };
 
     const editContactViewElement = document.querySelector("#edit-contact-view");
