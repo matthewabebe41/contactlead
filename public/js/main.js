@@ -3484,9 +3484,8 @@ async function renderMobileNewContactContent() {
         // const selectedOptionValue = event.target.value;
         const selectedOptionText = event.target.options[event.target.selectedIndex].text;
         newContactGenderElement.value = selectedOptionText;
-        selectGenderElement.value = selectedOptionText
         // console.log('Selected option value:', selectedOptionValue);
-        // console.log('Selected option text:', selectedOptionText);
+        console.log('Selected option text:', selectedOptionText);
       });
 
       newContactGenderElement.addEventListener("click", function() {
@@ -3495,6 +3494,9 @@ async function renderMobileNewContactContent() {
       });
 
       selectGenderElement.addEventListener("blur", function() {
+        const selectedOptionText = event.target.options[event.target.selectedIndex].text;
+        newContactGenderElement.value = selectedOptionText;
+        console.log('Selected option text:', selectedOptionText);
         newContactGenderElement.style.display = "block";
         selectGenderElement.style.display = "none";
       });
