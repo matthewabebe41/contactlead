@@ -2414,7 +2414,7 @@ async function renderMobileContactsListContent() {
         contactListItem.appendChild(contactListFavoritesStarIconContainer);
         contactsList.appendChild(contactListItem)
     });
-    // const mobileSmallSidebar = document.querySelector("#mobile-small-sidebar")
+    // const mobileSmallSidebar = document.querySelector("#mobile-footer")
     // mobileSmallSidebar.style.position = "fixed";
     // mobileSmallSidebar.style.marginTop = "10px"
     // mobileSmallSidebar.style.top = "100%";
@@ -4621,7 +4621,7 @@ domReady(async () => {
         largeSidebar.style.display = "none";
     }
 
-    const mobileSmallSidebar = document.querySelector("#mobile-small-sidebar");
+    const mobileSmallSidebar = document.querySelector("#mobile-footer");
     if (clientwidth > 1070) {
         mobileSmallSidebar.style.display = "none";
     }
