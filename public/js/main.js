@@ -3484,7 +3484,7 @@ async function renderMobileNewContactContent() {
         // const selectedOptionValue = event.target.value;
         const selectedOptionText = event.target.options[event.target.selectedIndex].text;
         newContactGenderElement.value = selectedOptionText;
-        newContactGenderElement.click()
+        selectGenderElement.value = selectedOptionText
         // console.log('Selected option value:', selectedOptionValue);
         // console.log('Selected option text:', selectedOptionText);
       });
