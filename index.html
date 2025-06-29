@@ -514,6 +514,101 @@
     </div>     
     </section>
 
+    <section id="mobile-edit-user-view" style="position: absolute; width: 100%; height: 90.5%; top: 9.5%; display: none; overflow: hidden;">
+        <div id="mobile-edit-user-image-container" style="position: absolute; display: flex; align-items: center; width: 100%; height: 16%; background-color: #f9f9f9; box-shadow: 2px 2px 2px;"> 
+            <div id="mobile-edit-user-image-container" style="position: absolute; display: flex; align-items: center; height: 100%; padding: 10px;">
+                <img id="mobile-edit-user-image" src="./images/user-5-svgrepo-com.svg" style="position: relative; display: flex; justify-content: center; align-items: center; width: 80px; height: 80px; border: 0.5px solid grey; box-shadow: 2px 2px 2px; border-radius: 50%; background-color: gainsboro; object-fit: cover; z-index: 1;">
+                <div style="display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-end; height: 100%;">
+                    <button id="mobile-edit-user-add-photo-button" style="height: 20px; margin-bottom: 10px; margin-left: 5px; z-index: 1;">Add photo</button>
+                </div>
+            </div>
+            <div id="mobile-edit-user-header-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%;">
+                <h2 style="font-family: Arial; margin-left: 45px;">Edit your account.</h2>
+            </div>
+        </div>
+        <div id="mobile-edit-user-add-photo-input-container" style="position: absolute; align-items: center; width: 100%; height: 25px; top: 17%; z-index: 2; background-color: grey; display: none;">
+            <div style="display: flex; justify-content: flex-end; width: 100%;">
+                <input id="mobile-edit-user-add-photo" type="file" style="width: 225px;">
+                <button id="mobile-edit-user-add-photo-insert-button">Insert</button>
+                <button id="mobile-edit-user-remove-photo-button" style="height: 20px; margin-left: 5px; background-color: indianred; z-index: 1;">Remove</button>
+                <img id="mobile-close-edit-user-add-photo-icon" src="./images/close-svgrepo-com.svg" style="width: 20px;">
+            </div>
+        </div>
+        <div id="mobile-edit-user-information-container" style="position: absolute; display: flex; flex-direction: column; align-items: center; width: 100%; height: 57%; top: 16%;">
+            <form style="display: flex; flex-direction: column; justify-content: space-evenly; width: 96%; height: 100%;">
+                <div id="mobile-edit-contact-information-row-one" style="display: flex; justify-content: space-between; width: 100%;">
+                    <div id="mobile-edit-user-first-name-container" style="display: flex; flex-direction: column; width: 35%;">
+                        <label style="font-weight: bold;">First Name</label>
+                        <input id="mobile-edit-user-firstname" placeholder="First Name">
+                    </div>
+                    <div id="mobile-edit-user-last-name-container" style="display: flex; flex-direction: column; width: 35%;">
+                        <label style="font-weight: bold;">Last Name</label>
+                        <input id="mobile-edit-user-lastname" placeholder="Last Name">
+                    </div>
+                </div>
+                <div id="mobile-edit-user-information-row-two" style="display: flex; width: 100%;">
+                    <div id="mobile-edit-contact-address-container" style="width: 100%;">
+                        <div style="display: flex; align-items: flex-end;">
+                            <div style="display: flex; flex-direction: column; width: 100%;">
+                                <label style="font-weight: bold;">Email</label>
+                                <input id="mobile-edit-user-email" placeholder="example@domain.com">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="mobile-edit-user-information-row-three" style="display: flex; justify-content: space-between; width: 100%;">
+                    <div id="mobile-edit-user-organization-container" style="display: flex; flex-direction: column; width: 100%;">
+                        <label style="font-weight: bold;">Phone</label>
+                        <input id="mobile-edit-user-phonenumber" minlength="10" maxlength="13" placeholder="Enter at least 10 digits">
+                    </div>
+                </div>  
+                <div id="mobile-edit-user-information-row-four" style="display: flex; width: 100%;">
+                    <div id="mobile-edit-user-password-container" style="width: 100%;">
+                        <div style="display: flex; align-items: flex-end;">
+                            <div style="display: flex; width: 100%;">
+                                <label style="font-weight: bold;">Change Password</label>
+                                 <button id="mobile-edit-user-change-password-button" style="margin-left: 45px;">Change Password</button>
+                                 <button id="mobile-edit-user-hide-password-button" style="margin-left: 45px; display: none;">Hide Password</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="mobile-edit-user-information-row-five" style="display: flex; width: 100%; visibility: hidden;">
+                    <div id="mobile-edit-user-password-container" style="width: 100%;">
+                        <div style="display: flex; align-items: flex-end;">
+                            <div style="display: flex; flex-direction: column; width: 100%;">
+                                <label style="font-weight: bold;">Password</label>
+                                <input id="mobile-edit-user-password" placeholder="Password">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="mobile-edit-user-information-row-six" style="display: flex; width: 100%; visibility: hidden;">
+                    <div id="mobile-edit-user-address-container" style="width: 100%;">
+                        <div style="display: flex; align-items: flex-end;">
+                            <div style="display: flex; flex-direction: column; width: 100%;">
+                                <label style="font-weight: bold;">Confirm Password</label>
+                                <input id="mobile-edit-user-confirm-password" placeholder="Confirm Password">
+                                <div id="mobile-edit-matching-passwords">
+                                    <p style="margin: 1px; font-size: small; visibility: hidden;">Text</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display: flex; justify-content: flex-end;">
+                            <button id="mobile-update-user-password-button" class="edit-user-button">Update Password</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+    </div>
+    <div id="mobile-edit-user-button-container" style="position: absolute; display: flex; justify-content: center; align-items: center; width: 100%; top: 86.5%;">
+        <div style="position: absolute; display: flex; justify-content: space-between; width: 96%;">
+            <button id="mobile-delete-user-button" style="background-color: red;">Delete Account</button>
+            <button id="mobile-submit-edit-user-button" class="edit-user-button" style="width: 50px;">Done</button>
+        </div>
+    </div>     
+    </section>
+
     <section id="contacts-list-view"  style="position: absolute; width: 68.5%; height: 90.5%; top: 9.5%; left: 31.5%; display: none; overflow: hidden;">
         <div id="contacts-user-header-container" style="position: absolute; display: flex; align-items: center; width: 100%; height: 20%; background-color: #f9f9f9; box-shadow: 2px 2px 2px;">
             <div id="contacts-user-image-container" style="display: flex; align-items: center; height: 100%; padding: 10px;">

@@ -1483,6 +1483,194 @@ async function renderEditUserContent() {
     })
 };
 
+async function renderMobileEditUserContent() {
+     const userId = sessionStorage.getItem("user");
+    const user = await getUser(userId);
+
+    const editUserImage = document.querySelector("#mobile-edit-user-image");
+    if (user.user_image !== null && user.user_image !== './images/user-5-svgrepo-com.svg') {
+        editUserImage.setAttribute("src", user.user_image);
+        editUserImage.style.borderRadius = "50%"
+    };
+
+    const editUserRemovePhotoButton = document.querySelector("#mobile-edit-user-remove-photo-button");
+    editUserRemovePhotoButton.addEventListener("click", function() {
+        const editUserAddPhotoInputElement = document.querySelector("#mobile-edit-user-add-photo")
+        editUserAddPhotoInputElement.value = ""
+        editUserImage.setAttribute("src", "./images/user-5-svgrepo-com.svg")
+    })
+    const editUserAddPhotoButton = document.querySelector("#mobile-edit-user-add-photo-button");
+    if (user.user_image !== null && user.user_image !== './images/user-5-svgrepo-com.svg') {
+        editUserAddPhotoButton.innerHTML = "Change Photo"
+    }
+
+    editUserAddPhotoButton.addEventListener("click", function() {
+        const editUserAddPhotoInputContainerElement = document.querySelector("#mobile-edit-user-add-photo-input-container")
+        editUserAddPhotoInputContainerElement.style.display = "none";
+        if (editUserAddPhotoButton.innerHTML === "Save Photo") {
+            mobileUpdateUserImage()
+        }
+    })
+
+    const editUserAddPhotoInputContainerElement = document.querySelector("#mobile-edit-user-add-photo-input-container")
+    editUserAddPhotoButton.addEventListener("click", function() {
+        console.log("edit photo")
+        if (editUserAddPhotoButton.innerHTML !== "Save Photo") {
+            editUserAddPhotoInputContainerElement.style.display = "flex";
+        }
+    });
+    const closeEditUserAddPhotoIcon = document.querySelector("#mobile-close-edit-user-add-photo-icon");
+    closeEditUserAddPhotoIcon.addEventListener("click", function(event) {
+        window.location.reload()
+      
+    })
+    const editUserAddPhotoSaveButton = document.querySelector("#mobile-edit-user-add-photo-insert-button");
+    editUserAddPhotoSaveButton.addEventListener("click", function() {
+        // editUserAddPhotoInputContainerElement.style.display = "none";
+        const editUserAddPhotoInputElement = document.querySelector("#mobile-edit-user-add-photo")
+        console.log(editUserAddPhotoInputElement.files[0])
+
+        if (editUserAddPhotoInputElement.files[0] !== undefined) {
+            editUserAddPhotoButton.innerHTML = "Save Photo"
+            handleMobileEditUserImage()
+        }
+    }, false)
+
+    const editUserFirstNameElement = document.querySelector("#mobile-edit-user-firstname");
+    const editUserLastNameElement = document.querySelector("#mobile-edit-user-lastname");
+    const editUserEmailElement = document.querySelector("#mobile-edit-user-email");
+    const editUserPhoneElement = document.querySelector("#mobile-edit-user-phonenumber");
+    const editUserPasswordElement = document.querySelector("#mobile-edit-user-password");
+    const editUserConfirmPasswordElement = document.querySelector("#mobile-edit-user-confirm-password");
+    const editUserMatchingPasswordsContainer = document.querySelector("#mobile-edit-matching-passwords")
+
+    editUserFirstNameElement.value = user.firstname;
+    editUserLastNameElement.value = user.lastname;
+    editUserEmailElement.value = user.emailaddress;
+    editUserPhoneElement.value = user.phonenumber;
+    editUserPasswordElement.value = user.user_password;
+
+    // const newContactPhoneNumberElement = document.querySelector("#new-contact-phonenumber");
+    // const phonenumber = newContactPhoneNumberElement.value
+    // console.log(phonenumber)
+    editUserPhoneElement.addEventListener("keydown", disableNonNumericKeys)
+    editUserPhoneElement.addEventListener("blur", function() {
+        formatPhoneNumberForData(editUserPhoneElement)
+    });
+    editUserPhoneElement.addEventListener("focus", function() {
+        resetPhoneNumberFormatOnFocus(editUserPhoneElement)
+    });
+
+    const editUserInformationRowFive = document.querySelector("#mobile-edit-user-information-row-five");
+    const editUserInformationRowSix = document.querySelector("#mobile-edit-user-information-row-six");
+    const editUserChangePasswordButton = document.querySelector("#mobile-edit-user-change-password-button");
+    const editUserHidePasswordButton = document.querySelector("#mobile-edit-user-hide-password-button");
+    editUserChangePasswordButton.addEventListener("click", function(event) {
+        event.preventDefault()
+        editUserInformationRowFive.style.visibility = "visible";
+        editUserInformationRowSix.style.visibility = "visible";
+        editUserChangePasswordButton.style.display = "none";
+        editUserHidePasswordButton.style.display = "block";
+
+        if (editUserPasswordElement.value !== editUserConfirmPasswordElement.value && editUserInformationRowFive.style.visibility !== "hidden") {
+            editUserMatchingPasswordsContainer.children[0].style.visibility = "visible"
+            editUserMatchingPasswordsContainer.children[0].innerHTML = "Passwords do not match"
+            editUserMatchingPasswordsContainer.children[0].style.color = "red"
+        }
+    });
+
+    editUserHidePasswordButton.addEventListener("click", function(event) {
+        event.preventDefault()
+        editUserInformationRowFive.style.visibility = "hidden";
+        editUserInformationRowSix.style.visibility = "hidden";
+        editUserPasswordElement.value = user.user_password;
+        editUserConfirmPasswordElement.value = ""
+        editUserHidePasswordButton.style.display = "none";
+        editUserChangePasswordButton.style.display = "block";
+        editUserMatchingPasswordsContainer.children[0].style.visibility = "hidden"
+    });
+
+    if (editUserPasswordElement.value !== editUserConfirmPasswordElement.value && editUserInformationRowFive.style.visibility !== "hidden") {
+        editUserMatchingPasswordsContainer.children[0].style.visibility = "visible"
+        editUserMatchingPasswordsContainer.children[0].innerHTML = "Passwords do not match"
+        editUserMatchingPasswordsContainer.children[0].style.color = "red"
+    }
+
+    editUserPasswordElement.addEventListener("input", function() {
+        if (editUserPasswordElement.value.length === 0) {
+            editUserMatchingPasswordsContainer.children[0].style.visibility = "hidden"
+        } else {
+            if (editUserPasswordElement.value !== editUserConfirmPasswordElement.value) {
+                editUserMatchingPasswordsContainer.children[0].style.visibility = "visible"
+                editUserMatchingPasswordsContainer.children[0].innerHTML = "Passwords do not match"
+                editUserMatchingPasswordsContainer.children[0].style.color = "red"
+            };   
+            if (editUserPasswordElement.value === editUserConfirmPasswordElement.value) {
+                 editUserMatchingPasswordsContainer.children[0].style.visibility = "visible"
+                 editUserMatchingPasswordsContainer.children[0].innerHTML = "Passwords match"
+                 editUserMatchingPasswordsContainer.children[0].style.color = "green"
+            };
+        };
+
+    })
+
+    editUserConfirmPasswordElement.addEventListener("input", function() {
+        if (editUserPasswordElement.value.length === 0) {
+            editUserMatchingPasswordsContainer.children[0].style.visibility = "hidden"
+        } else {
+            if (editUserPasswordElement.value !== editUserConfirmPasswordElement.value) {
+                editUserMatchingPasswordsContainer.children[0].style.visibility = "visible"
+                editUserMatchingPasswordsContainer.children[0].innerHTML = "Passwords do not match"
+                editUserMatchingPasswordsContainer.children[0].style.color = "red"
+            };     
+            if (editUserPasswordElement.value === editUserConfirmPasswordElement.value) {
+                 editUserMatchingPasswordsContainer.children[0].style.visibility = "visible"
+                 editUserMatchingPasswordsContainer.children[0].innerHTML = "Passwords match"
+                 editUserMatchingPasswordsContainer.children[0].style.color = "green"
+            };
+        };
+    });
+
+    // const editUserButtons = document.querySelectorAll(".edit-user-button")
+    // // const editUserButtonsHTMLArr = Array.from(editUserButtons)
+    // editUserButtons.forEach(button => {
+    //     button.addEventListener("click", function(event) {
+    //         event.preventDefault()
+    //         updateUser()
+    //     }, false)
+    // })
+
+    const submitEditUserButton = document.querySelector("#mobile-submit-edit-user-button");
+    submitEditUserButton.addEventListener("click", function(event) {
+        event.preventDefault()
+        mobileUpdateUser()
+    }, false)
+
+    const updateUserPasswordButton = document.querySelector("#mobile-update-user-password-button");
+    updateUserPasswordButton.addEventListener("click", function(event) {
+        event.preventDefault()
+        const editUserMatchingPasswordsContainer = document.querySelector("#mobile-edit-matching-passwords")
+        editUserMatchingPasswordsContainer.style.visibility = "hidden"
+        mobileUpdateUserPassword()
+    }, false)
+
+    const deleteUserButton = document.querySelector("#mobile-delete-user-button");
+    deleteUserButton.addEventListener("click", function() {
+        if (confirm("Are you sure you want to delete your account?")) {
+            // Code to execute if the user clicks OK
+            console.log("User clicked OK");
+          } else {
+            // Code to execute if the user clicks Cancel
+            console.log("User clicked Cancel");
+            return
+            // You might want to return from a function here to stop further execution
+          }
+
+        deleteContacts();
+        deleteUser();
+    })
+}
+
 async function handleEditUserImage() {
     const userId = sessionStorage.getItem("user");
     const user = await getUser(userId);
@@ -1523,6 +1711,46 @@ async function handleEditUserImage() {
         return editUserImageObject
 };
 
+async function handleMobileEditUserImage() {
+     const userId = sessionStorage.getItem("user");
+    const user = await getUser(userId);
+    const newUserImageElement = document.querySelector("#mobile-edit-user-image");
+    let newUserImageFile;
+    let newUserImage;
+    const editUserAddPhotoInputElement = document.querySelector("#mobile-edit-user-add-photo")
+
+        newUserImageFile = editUserAddPhotoInputElement.files[0];
+        let reader = new FileReader()
+
+        console.log(newUserImageFile)
+
+        reader.onload = function () {
+            base64string = reader.result.split(',')[1]
+            newUserImage = reader.result;
+            newUserImageElement.setAttribute("src", reader.result);
+            newUserImageElement.style.borderRadius = "50%"
+        };
+
+        if (newUserImageFile !== undefined) {
+            reader.readAsDataURL(newUserImageFile)
+        } else {
+            newUserImageElement.setAttribute("src", './images/user-5-svgrepo-com.svg')
+        }
+    
+        const editUserImageObject = {
+            firstname: user.firstname,
+            lastname: user.lastname,
+            emailaddress: user.emailaddress,
+            phonenumber: user.phonenumber,
+            password: user.user_password,
+            userImage: newUserImageElement.getAttribute("src")
+        };
+
+        console.log(editUserImageObject)
+
+        return editUserImageObject
+}
+
 async function handleEditUserInput(event) {
     const userId = sessionStorage.getItem("user");
     const user = await getUser(userId);
@@ -1559,6 +1787,43 @@ async function handleEditUserInput(event) {
 
     return editUserObject;
 };
+
+async function handleMobileEditUserInput() {
+     const userId = sessionStorage.getItem("user");
+    const user = await getUser(userId);
+
+    const editUserImageElement = document.querySelector("#mobile-edit-user-image")
+    const editUserFirstNameElement = document.querySelector("#mobile-edit-user-firstname");
+    const editUserLastNameElement = document.querySelector("#mobile-edit-user-lastname");
+    const editUserEmailAddressElement = document.querySelector("#mobile-edit-user-email");
+    const editUserPhoneNumberElement = document.querySelector("#mobile-edit-user-phonenumber");
+    const editUserPasswordElement = document.querySelector("#mobile-edit-user-password");
+    const editUserConfirmPasswordElement = document.querySelector("#mobile-edit-user-confirm-password");
+    const editUserChangePasswordButton = document.querySelector("#mobile-edit-user-change-password-button");
+
+    // if (editUserPasswordElement.value !== editUserConfirmPasswordElement.value && editUserChangePasswordButton.style.display === "none") {
+    //     alert("Your passwords do not match. Please try again.");
+    //     return
+    // };
+
+    const editUserMatchingPasswordsContainer = document.querySelector("#mobile-edit-matching-passwords")
+    editUserMatchingPasswordsContainer.style.visibility = "hidden"
+
+    const editUserObject = {
+        firstname: editUserFirstNameElement.value,
+        lastname: editUserLastNameElement.value,
+        emailaddress: editUserEmailAddressElement.value,
+        phonenumber: editUserPhoneNumberElement.value,
+        password: editUserPasswordElement.value,
+        userImage: editUserImageElement.getAttribute("src")
+    };
+
+    // if (editUserObject.userImage === "./images/user-5-svgrepo-com.svg") {
+    //     editUserObject.setAttribute("src", null)
+    // }
+
+    return editUserObject;
+}
 
 async function handleEditUserPasswordInput() {
     const userId = sessionStorage.getItem("user");
@@ -3554,8 +3819,75 @@ async function updateUser(event) {
     
         window.location.href = newURL;
     }
-
 };
+
+async function mobileUpdateUser() {
+    const url = window.location.href;
+    const user_id = sessionStorage.getItem("user");
+    const user = await getUser(user_id)
+    const editUserObject = await handleMobileEditUserInput();
+
+    const editUserChangePasswordButton = document.querySelector("#mobile-edit-user-change-password-button");
+    console.log(editUserObject)
+    if (user.firstname === editUserObject.firstname && user.lastname === editUserObject.lastname && user.emailaddress === editUserObject.emailaddress && user.phonenumber === editUserObject.phonenumber && user.user_image === editUserObject.userImage && editUserChangePasswordButton.style.display !== "none") {
+        // event.preventDefault()
+        window.location.reload()
+        return
+    }
+
+    const firstname = editUserObject.firstname;
+    const lastname = editUserObject.lastname;
+    const emailaddress = editUserObject.emailaddress;
+    const phonenumber = editUserObject.phonenumber;
+    const password = user.user_password;
+    const user_image = editUserObject.userImage;
+
+    const body = { firstname, lastname, emailaddress, phonenumber, password, user_image };
+    try {
+        const response = await fetch(`/users/${user_id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body)
+        });
+        console.log(response)
+    } catch (error) {
+        console.error(error)
+    }
+    
+    if (user.firstname === editUserObject.firstname && user.lastname === editUserObject.lastname && user.emailaddress === editUserObject.emailaddress && user.phonenumber === editUserObject.phonenumber && user.user_image === editUserObject.userImage) {
+        window.location.href = url
+    } else {
+        function saveDataToURL(url, data) {
+            const urlObject = new URL(url);
+            const params = new URLSearchParams(urlObject.search);
+        
+            for (const key in data) {
+                if (data.hasOwnProperty(key)) {
+                    params.set(key, data[key]);
+                }
+            }
+            urlObject.search = params.toString();
+            return urlObject.toString();
+        }
+                
+        const myURL = `${rootUrl}/user`
+        const myData = {
+            name: `${user.firstname} ${user.lastname}`,
+            // age: 30,
+            // city: "New York"
+        };
+        
+        let newURL = saveDataToURL(myURL, myData);
+    
+        if (newURL.charAt(newURL.length - 1) === '+') {
+            console.log(newURL)
+            let editedurl = newURL.slice(0, -1)
+            newURL = editedurl
+        }
+    
+        window.location.href = newURL;
+    }
+}
 
 async function updateUserImage(event) {
     const url = window.location.href;
@@ -3594,6 +3926,44 @@ async function updateUserImage(event) {
 //    alert("Updated your profile picture.")
    window.location.reload()
 
+};
+
+async function mobileUpdateUserImage() {
+     const url = window.location.href;
+    const user_id = sessionStorage.getItem("user");
+    const user = await getUser(user_id)
+    const editUserImageObject = await handleMobileEditUserImage();
+
+    const editUserChangePasswordButton = document.querySelector("#edit-user-change-password-button");
+
+    // if (user.firstname === editUserObject.firstname && user.lastname === editUserObject.lastname && user.emailaddress === editUserObject.emailaddress && user.phonenumber === editUserObject.phonenumber && user.user_image === editUserObject.userImage && editUserChangePasswordButton.style.display !== "none") {
+    //     // event.preventDefault()
+    //     window.location.reload()
+    //     return
+    // }
+
+    const firstname = editUserImageObject.firstname;
+    const lastname = editUserImageObject.lastname;
+    const emailaddress = editUserImageObject.emailaddress;
+    const phonenumber = editUserImageObject.phonenumber;
+    const password = editUserImageObject.password;
+    const user_image = editUserImageObject.userImage;
+
+    const body = { firstname, lastname, emailaddress, phonenumber, password, user_image };
+    try {
+        const response = await fetch(`/users/${user_id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body)
+        });
+        console.log(response)
+    } catch (error) {
+        console.error(error)
+    }
+
+    
+//    alert("Updated your profile picture.")
+   window.location.reload()
 };
 
 async function recoverUserAccount() {
@@ -3714,6 +4084,45 @@ async function updateUserPassword(event) {
    window.location.reload()
 
 };
+
+async function mobileUpdateUserPassword() {
+    const url = window.location.href;
+    const user_id = sessionStorage.getItem("user");
+    const user = await getUser(user_id)
+    const editUserPasswordObject = await handleMobileEditUserInput();
+
+    const editUserChangePasswordButton = document.querySelector("#mobile-edit-user-change-password-button");
+
+    // if (user.firstname === editUserObject.firstname && user.lastname === editUserObject.lastname && user.emailaddress === editUserObject.emailaddress && user.phonenumber === editUserObject.phonenumber && user.user_image === editUserObject.userImage && editUserChangePasswordButton.style.display !== "none") {
+    //     // event.preventDefault()
+    //     window.location.reload()
+    //     return
+    // }
+
+    const firstname = user.firstname;
+    const lastname = user.lastname;
+    const emailaddress = user.emailaddress;
+    const phonenumber = user.phonenumber;
+    const password = editUserPasswordObject.password;
+    const user_image = user.user_image;
+
+    const body = { firstname, lastname, emailaddress, phonenumber, password, user_image };
+    try {
+        const response = await fetch(`/users/${user_id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body)
+        });
+        console.log(response)
+    } catch (error) {
+        console.error(error)
+    }
+
+    
+   alert("Updated your password.")
+   window.location.reload()
+
+}
 
 async function deleteUser() {
     const user_id = sessionStorage.getItem("user");
@@ -4280,13 +4689,22 @@ domReady(async () => {
     };
 
     const editUserViewElement = document.querySelector("#edit-user-view");
-    if (window.location.href.startsWith(`${rootUrl}/edit_user`)) {
+    if (window.location.href.startsWith(`${rootUrl}/edit_user`) && clientwidth > 1070) {
         editUserViewElement.style.display = "block";
         appName.style.left = "32%"
         await renderEditUserContent()
         document.body.style.display = "block"
     } else {
         editUserViewElement.style.display = "none"
+    };
+
+    const mobileEditUserViewElement = document.querySelector("#mobile-edit-user-view");
+    if (window.location.href.startsWith(`${rootUrl}/edit_user`) && clientwidth < 1070) {
+        mobileEditUserViewElement.style.display = "block";
+        await renderMobileEditUserContent()
+        document.body.style.display = "block"
+    } else {
+        mobileEditUserViewElement.style.display = "none"
     };
 
     const favoritesListViewElement = document.querySelector("#favorites-list-view");
