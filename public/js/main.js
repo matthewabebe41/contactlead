@@ -2585,6 +2585,384 @@ async function renderContactContent() {
     })
 };
 
+async function renderMobileContactContent() {
+    const user_id = sessionStorage.getItem("user");
+    const url = window.location.href.toString()
+    const urlBeforeQuery = url.split('?')[0];
+    const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
+    const contact = await getUserContact(user_id, contact_id);
+
+    const userImageContainer = document.querySelector("#mobile-user-image-container");
+    // const userImage = new Image();
+
+    
+    const contactFavoriteIcon = document.querySelector("#mobile-contact-favorite-icon");
+    if (contact.favorite === true) {
+        contactFavoriteIcon.style.display = "block";
+    } else {
+        contactFavoriteIcon.style.display = "none";
+    }
+
+    const contactHeaderFullNameElement = document.querySelector("#mobile-contact-name");
+    const contactHeaderEmailElement = document.querySelector("#mobile-contact-email");
+    const contactOrganizationAndRoleElement = document.querySelector("#mobile-contact-organization-and-role")
+    contactHeaderFullNameElement.innerHTML = `${contact.firstname} ${contact.lastname}`;
+    // contactHeaderFullNameElement.style.fontFamily = "sans-serif";
+    // contactHeaderEmailElement.style.fontFamily = "sans-serif";
+    // contactOrganizationAndRoleElement.style.fontFamily = "sans-serif"
+    
+    if (contact.emailaddress !== null && contact.emailaddress !== "") {
+        contactHeaderEmailElement.innerHTML = `${contact.emailaddress}`;
+    } else {
+        contactHeaderEmailElement.innerHTML = "text";
+        contactHeaderEmailElement.style.visibility = "hidden";
+    }
+
+    if (contact.organization !== null && contact.organization !== "" && contact.organization_role !== null && contact.organization_role !== "") {
+        contactOrganizationAndRoleElement.innerHTML = `${contact.organization} || ${contact.organization_role}`
+    } else if (contact.organization !== null && contact.organization !== "" || contact.organization_role === null && contact.organization_role === "") {
+        contactOrganizationAndRoleElement.innerHTML = `${contact.organization}`
+    } else if (contact.organization === null && contact.organization === "" || contact.organization_role !== null && contact.organization_role !== "") {
+        contactOrganizationAndRoleElement.innerHTML = `${contact.organization_role}`
+    } else {
+        contactOrganizationAndRoleElement.innerHTML = "text"
+        contactOrganizationAndRoleElement.style.visibility = "hidden"
+    }
+    
+    const mobileContactImageElement = document.querySelector("#mobile-contact-image")
+    const mobileContactInformationContainer = document.createElement("div");
+    mobileContactInformationContainer.setAttribute("id", "mobile-contact-information-container")
+    mobileContactInformationContainer.style.position = "absolute";
+    mobileContactInformationContainer.style.display = "flex";
+    mobileContactInformationContainer.style.top = "24.3%";
+    mobileContactInformationContainer.style.width = "100%";
+    const mobileContactInformationColumn = document.createElement("div");
+    mobileContactInformationColumn.style.display = "flex";
+    mobileContactInformationColumn.style.flexDirection = "column";
+    // mobileContactInformationColumn.style.justifyContent = "space-around"
+    mobileContactInformationColumn.style.alignItems = "center";
+    mobileContactInformationColumn.style.width = "100%";
+    mobileContactInformationColumn.style.marginTop = "1%"
+    mobileContactInformationColumn.style.marginBottom = "55px"
+    // mobileContactInformationColumn.style.height = "600px";
+
+    const mobileContactFullNameContainer = document.createElement("div");
+    mobileContactFullNameContainer.style.display = "flex";
+    mobileContactFullNameContainer.style.flexDirection = "column";
+    mobileContactFullNameContainer.style.width = "355px";
+    mobileContactFullNameContainer.style.marginBottom = "10px"
+    const moblieContactFullNameLabelElement = document.createElement("label");
+    moblieContactFullNameLabelElement.style.fontWeight = "bold";
+    moblieContactFullNameLabelElement.innerHTML = "Name";
+    const mobileContactFullNameTextElement = document.createElement("textarea");
+    mobileContactFullNameTextElement.readOnly = "true";
+    mobileContactFullNameTextElement.style.fontSize = "16px";
+    mobileContactFullNameTextElement.style.fontFamily = "sans serif"
+    mobileContactFullNameTextElement.style.border = "1px solid grey";
+    mobileContactFullNameTextElement.style.boxShadow = "2px 2px 2px";
+    mobileContactFullNameTextElement.style.height = "36px"
+    mobileContactFullNameTextElement.style.outline = "none";
+    mobileContactFullNameTextElement.style.resize = "none";
+    mobileContactFullNameTextElement.innerHTML = `${contact.firstname} ${contact.lastname}`
+
+    const mobileContactGenderContainer = document.createElement("div");
+    mobileContactGenderContainer.style.display = "flex";
+    mobileContactGenderContainer.style.flexDirection = "column";
+    mobileContactGenderContainer.style.width = "355px";
+    mobileContactGenderContainer.style.marginBottom = "10px"
+    const mobileContactGenderLabelElement = document.createElement("label");
+    mobileContactGenderLabelElement.style.fontWeight = "bold";
+    mobileContactGenderLabelElement.innerHTML = "Gender";
+    const mobileContactGenderTextElement = document.createElement("textarea");
+    mobileContactGenderTextElement.readOnly = "true";
+    mobileContactGenderTextElement.style.fontSize = "16px";
+    mobileContactGenderTextElement.style.fontFamily = "sans serif"
+    mobileContactGenderTextElement.style.border = "1px solid grey";
+    mobileContactGenderTextElement.style.boxShadow = "2px 2px 2px";
+    mobileContactGenderTextElement.style.height = "36px"
+    mobileContactGenderTextElement.style.outline = "none";
+    mobileContactGenderTextElement.style.resize = "none";
+    mobileContactGenderTextElement.innerHTML = `${contact.gender}`
+
+    const mobileContactBirthdayContainer = document.createElement("div");
+    mobileContactBirthdayContainer.style.display = "flex";
+    mobileContactBirthdayContainer.style.flexDirection = "column";
+    mobileContactBirthdayContainer.style.width = "355px";
+    mobileContactBirthdayContainer.style.marginBottom = "10px";
+    const mobileContactBirthdayLabelElement = document.createElement("label");
+    mobileContactBirthdayLabelElement.style.fontWeight = "bold";
+    mobileContactBirthdayLabelElement.innerHTML = "Birthday";
+    const mobileContactBirthdayTextElement = document.createElement("textarea");
+    mobileContactBirthdayTextElement.readOnly = "true";
+    mobileContactBirthdayTextElement.style.fontSize = "16px";
+    mobileContactBirthdayTextElement.style.fontFamily = "sans serif"
+    mobileContactBirthdayTextElement.style.border = "1px solid grey";
+    mobileContactBirthdayTextElement.style.boxShadow = "2px 2px 2px";
+    mobileContactBirthdayTextElement.style.height = "36px";
+    mobileContactBirthdayTextElement.style.outline = "none";
+    mobileContactBirthdayTextElement.style.resize = "none";
+    mobileContactBirthdayTextElement.innerHTML = `${contact.birthday}`
+
+    const mobileContactEmailContainer = document.createElement("div");
+    mobileContactEmailContainer.style.display = "flex";
+    mobileContactEmailContainer.style.flexDirection = "column";
+    mobileContactEmailContainer.style.width = "355px";
+    mobileContactEmailContainer.style.marginBottom = "10px"
+    const mobileContactEmailLabelElement = document.createElement("label");
+    mobileContactEmailLabelElement.style.fontWeight = "bold";
+    mobileContactEmailLabelElement.innerHTML = "Email";
+    const mobileContactEmailTextElement = document.createElement("textarea");
+    mobileContactEmailTextElement.readOnly = "true";
+    mobileContactEmailTextElement.style.fontSize = "16px";
+    mobileContactEmailTextElement.style.fontFamily = "sans serif"
+    mobileContactEmailTextElement.style.border = "1px solid grey";
+    mobileContactEmailTextElement.style.boxShadow = "2px 2px 2px";
+    mobileContactEmailTextElement.style.height = "36px";
+    mobileContactEmailTextElement.style.outline = "none";
+    mobileContactEmailTextElement.style.resize = "none";
+    mobileContactEmailTextElement.innerHTML = `${contact.emailaddress}`
+
+    const mobileContactPhonenumberContainer = document.createElement("div");
+    mobileContactPhonenumberContainer.style.display = "flex";
+    mobileContactPhonenumberContainer.style.flexDirection = "column";
+    mobileContactPhonenumberContainer.style.width = "355px";
+    mobileContactPhonenumberContainer.style.marginBottom = "10px";
+    const mobileContactPhonenumberLabelElement = document.createElement("label");
+    mobileContactPhonenumberLabelElement.style.fontWeight = "bold";
+    mobileContactPhonenumberLabelElement.innerHTML = "Phone Number";
+    const mobileContactPhonenumberTextElement = document.createElement("textarea");
+    mobileContactPhonenumberTextElement.readOnly = "true";
+    mobileContactPhonenumberTextElement.style.fontSize = "16px";
+    mobileContactPhonenumberTextElement.style.fontFamily = "sans serif"
+    mobileContactPhonenumberTextElement.style.border = "1px solid grey";
+    mobileContactPhonenumberTextElement.style.boxShadow = "2px 2px 2px";
+    mobileContactPhonenumberTextElement.style.height = "36px";
+    mobileContactPhonenumberTextElement.style.outline = "none";
+    mobileContactPhonenumberTextElement.style.resize = "none";
+    mobileContactPhonenumberTextElement.innerHTML = `${contact.phonenumber}`
+
+    const mobileContactAddressContainer = document.createElement("div");
+    mobileContactAddressContainer.style.display = "flex";
+    mobileContactAddressContainer.style.flexDirection = "column";
+    mobileContactAddressContainer.style.width = "355px";
+    mobileContactAddressContainer.style.marginBottom = "10px";
+    const mobileContactAddressLabelElement = document.createElement("label");
+    mobileContactAddressLabelElement.style.fontWeight = "bold";
+    mobileContactAddressLabelElement.innerHTML = "Address";
+    const mobileContactAddressTextElement = document.createElement("textarea");
+    mobileContactAddressTextElement.readOnly = "true";
+    mobileContactAddressTextElement.style.fontSize = "16px";
+    mobileContactAddressTextElement.style.fontFamily = "sans serif"
+    mobileContactAddressTextElement.style.border = "1px solid grey";
+    mobileContactAddressTextElement.style.boxShadow = "2px 2px 2px";
+    mobileContactAddressTextElement.style.height = "36px";
+    mobileContactAddressTextElement.style.outline = "none";
+    mobileContactAddressTextElement.style.resize = "none";
+    mobileContactAddressTextElement.innerHTML = `${contact.homeaddress}`
+
+    const mobileContactOrganizationContainer = document.createElement("div");
+    mobileContactOrganizationContainer.style.display = "flex";
+    mobileContactOrganizationContainer.style.flexDirection = "column";
+    mobileContactOrganizationContainer.style.width = "355px";
+    mobileContactOrganizationContainer.style.marginBottom = "10px";
+    const mobileContactOrganizationLabelElement = document.createElement("label");
+    mobileContactOrganizationLabelElement.style.fontWeight = "bold";
+    mobileContactOrganizationLabelElement.innerHTML = "Organization";
+    const mobileContactOrganizationTextElement = document.createElement("textarea");
+    mobileContactOrganizationTextElement.readOnly = "true";
+    mobileContactOrganizationTextElement.style.fontSize = "16px";
+    mobileContactOrganizationTextElement.style.fontFamily = "sans serif"
+    mobileContactOrganizationTextElement.style.border = "1px solid grey";
+    mobileContactOrganizationTextElement.style.boxShadow = "2px 2px 2px";
+    mobileContactOrganizationTextElement.style.height = "36px";
+    mobileContactOrganizationTextElement.style.outline = "none";
+    mobileContactOrganizationTextElement.style.resize = "none";
+    mobileContactOrganizationTextElement.innerHTML = `${contact.organization}`;
+
+    const mobileContactOrganizationRoleContainer = document.createElement("div");
+    mobileContactOrganizationRoleContainer.style.display = "flex";
+    mobileContactOrganizationRoleContainer.style.flexDirection = "column";
+    mobileContactOrganizationRoleContainer.style.width = "355px";
+    mobileContactOrganizationRoleContainer.style.marginBottom = "10px";
+    const mobileContactOrganizationRoleLabelElement = document.createElement("label");
+    mobileContactOrganizationRoleLabelElement.style.fontWeight = "bold";
+    mobileContactOrganizationRoleLabelElement.innerHTML = "Role";
+    const mobileContactOrganizationRoleTextElement = document.createElement("textarea");
+    mobileContactOrganizationRoleTextElement.readOnly = "true";
+    mobileContactOrganizationRoleTextElement.style.fontSize = "16px";
+    mobileContactOrganizationRoleTextElement.style.fontFamily = "sans serif"
+    mobileContactOrganizationRoleTextElement.style.border = "1px solid grey";
+    mobileContactOrganizationRoleTextElement.style.boxShadow = "2px 2px 2px";
+    mobileContactOrganizationRoleTextElement.style.height = "36px";
+    mobileContactOrganizationRoleTextElement.style.outline = "none";
+    mobileContactOrganizationRoleTextElement.style.resize = "none";
+    mobileContactOrganizationRoleTextElement.innerHTML = `${contact.organization_role}`
+
+    const mobileContactSocialMediaContainer = document.createElement("div");
+    mobileContactSocialMediaContainer.style.display = "flex";
+    mobileContactSocialMediaContainer.style.flexDirection = "column";
+    mobileContactSocialMediaContainer.style.width = "355px";
+    mobileContactSocialMediaContainer.style.marginBottom = "10px";
+    const mobileContactSocialMediaLabelElement = document.createElement("label");
+    mobileContactSocialMediaLabelElement.style.fontWeight = "bold";
+    mobileContactSocialMediaLabelElement.innerHTML = "Social Media";
+    const mobileContactSocialMediaTextElement = document.createElement("textarea");
+    mobileContactSocialMediaTextElement.readOnly = "true";
+    mobileContactSocialMediaTextElement.style.fontSize = "16px";
+    mobileContactSocialMediaTextElement.style.fontFamily = "sans serif";
+    mobileContactSocialMediaTextElement.style.border = "1px solid grey";
+    mobileContactSocialMediaTextElement.style.boxShadow = "2px 2px 2px";
+    mobileContactSocialMediaTextElement.style.height = "36px";
+    mobileContactSocialMediaTextElement.style.outline = "none";
+    mobileContactSocialMediaTextElement.style.resize = "none";
+    mobileContactSocialMediaTextElement.innerHTML = `${contact.social_media}`
+
+    const mobileContactNotesContainer = document.createElement("div");
+    // mobileContactNotesContainer.style.position = "absolute";
+    mobileContactNotesContainer.style.display = "flex";
+    mobileContactNotesContainer.style.flexDirection = "column";
+    mobileContactNotesContainer.style.justifyContent = "center";
+    mobileContactNotesContainer.style.alignItems = "center";
+    mobileContactNotesContainer.style.width = "355px";
+    mobileContactNotesContainer.style.height = "6%";
+    mobileContactNotesContainer.style.marginTop = "15px"
+    // mobileContactNotesContainer.style.top = "84%";
+    const mobileContactNotesLabelContainer = document.createElement("div");
+    mobileContactNotesLabelContainer.style.display = "flex";
+    mobileContactNotesLabelContainer.style.justifyContent = "flex-start";
+    mobileContactNotesLabelContainer.style.width = "100%";
+    const mobileContactNotesLabelElement = document.createElement("label");
+    mobileContactNotesLabelElement.style.fontWeight = "bold";
+    mobileContactNotesLabelElement.innerHTML = "Notes";
+    const mobileContactNotesTextContainer = document.createElement("div");
+    mobileContactNotesTextContainer.style.display = "flex";
+    mobileContactNotesTextContainer.style.justifyContent = "flex-start";
+    mobileContactNotesTextContainer.style.width = "100%"
+    const mobileContactNotesTextElement = document.createElement("textarea");
+    mobileContactNotesTextElement.readOnly = "true";
+    mobileContactNotesTextElement.style.width = "100%";
+    mobileContactNotesTextElement.style.height = "40px";
+    mobileContactNotesTextElement.style.boxShadow = "2px 2px 2px";
+    mobileContactNotesTextElement.style.outline = "none";
+    mobileContactNotesTextElement.style.resize = "none";
+    mobileContactNotesTextElement.innerHTML = contact.notes;
+
+    const mobileEditContactButtonContainer = document.createElement("div");
+    // mobileEditContactButtonContainer.style.position = "absolute";
+    mobileEditContactButtonContainer.style.display = "flex";
+    mobileEditContactButtonContainer.style.alignItems = "center";
+    mobileEditContactButtonContainer.style.width = "355px";
+    // mobileEditContactButtonContainer.style.top = "86.5%"
+    mobileEditContactButtonContainer.style.marginTop = "25px"
+    const mobileEditContactButtonDiv = document.createElement("div");
+    // mobileEditContactButtonDiv.style.position = "absolute";
+    mobileEditContactButtonDiv.style.display = "flex";
+    mobileEditContactButtonDiv.style.justifyContent = "space-between";
+    mobileEditContactButtonDiv.style.width = "100%";
+    const mobileAddContactFavoritesButton = document.createElement("button");
+    mobileAddContactFavoritesButton.setAttribute("id", "mobile-add-to-favorites-button");
+    mobileAddContactFavoritesButton.innerHTML = "Add to favorites";
+    mobileAddContactFavoritesButton.style.backgroundColor = "green";
+    mobileAddContactFavoritesButton.style.color = "white";
+    const mobileEditContactButtonElement = document.createElement("button");
+    mobileEditContactButtonElement.setAttribute("id", "mobile-navigate-edit-contact-page-button");
+    mobileEditContactButtonElement.style.width = "50px";
+    // mobileEditContactButtonElement.style.marginRight = "1.5%";
+    mobileEditContactButtonElement.innerHTML = "Edit";
+
+    if (contact.favorite === true) {
+        mobileAddContactFavoritesButton.innerHTML = "Remove favorite";
+        mobileAddContactFavoritesButton.style.backgroundColor = "indianred";
+    };
+
+    mobileAddContactFavoritesButton.addEventListener("click", function() {
+        updateContactFavorite()
+    }, false)
+
+    mobileContactFullNameContainer.appendChild(moblieContactFullNameLabelElement);
+    mobileContactFullNameContainer.appendChild(mobileContactFullNameTextElement);
+    mobileContactInformationColumn.appendChild(mobileContactFullNameContainer);
+
+    mobileContactGenderContainer.appendChild(mobileContactGenderLabelElement);
+    mobileContactGenderContainer.appendChild(mobileContactGenderTextElement);
+    mobileContactInformationColumn.appendChild(mobileContactGenderContainer);
+
+    mobileContactBirthdayContainer.appendChild(mobileContactBirthdayLabelElement);
+    mobileContactBirthdayContainer.appendChild(mobileContactBirthdayTextElement);
+    mobileContactInformationColumn.appendChild(mobileContactBirthdayContainer);
+
+    mobileContactEmailContainer.appendChild(mobileContactEmailLabelElement);
+    mobileContactEmailContainer.appendChild(mobileContactEmailTextElement);
+    mobileContactInformationColumn.appendChild(mobileContactEmailContainer);
+
+    mobileContactPhonenumberContainer.appendChild(mobileContactPhonenumberLabelElement);
+    mobileContactPhonenumberContainer.appendChild(mobileContactPhonenumberTextElement);
+    mobileContactInformationColumn.appendChild(mobileContactPhonenumberContainer);
+
+    mobileContactAddressContainer.appendChild(mobileContactAddressLabelElement);
+    mobileContactAddressContainer.appendChild(mobileContactAddressTextElement);
+    mobileContactInformationColumn.appendChild(mobileContactAddressContainer);
+
+    mobileContactOrganizationContainer.appendChild(mobileContactOrganizationLabelElement);
+    mobileContactOrganizationContainer.appendChild(mobileContactOrganizationTextElement);
+    mobileContactInformationColumn.appendChild(mobileContactOrganizationContainer);
+
+    mobileContactOrganizationRoleContainer.appendChild(mobileContactOrganizationRoleLabelElement);
+    mobileContactOrganizationRoleContainer.appendChild(mobileContactOrganizationRoleTextElement);
+    mobileContactInformationColumn.appendChild(mobileContactOrganizationRoleContainer);
+
+    mobileContactSocialMediaContainer.appendChild(mobileContactSocialMediaLabelElement);
+    mobileContactSocialMediaContainer.appendChild(mobileContactSocialMediaTextElement);
+    mobileContactInformationColumn.appendChild(mobileContactSocialMediaContainer);
+
+    mobileContactNotesLabelContainer.appendChild(mobileContactNotesLabelElement);
+    mobileContactNotesContainer.appendChild(mobileContactNotesLabelContainer);
+    mobileContactNotesTextContainer.appendChild(mobileContactNotesTextElement);
+    mobileContactNotesContainer.appendChild(mobileContactNotesTextContainer);
+
+    mobileEditContactButtonDiv.appendChild(mobileAddContactFavoritesButton);
+    mobileEditContactButtonDiv.appendChild(mobileEditContactButtonElement);
+    mobileEditContactButtonContainer.appendChild(mobileEditContactButtonDiv);
+
+    mobileContactInformationContainer.appendChild(mobileContactInformationColumn);
+    mobileContactInformationColumn.appendChild(mobileContactNotesContainer);
+    mobileContactInformationColumn.appendChild(mobileEditContactButtonContainer)
+    document.body.appendChild(mobileContactInformationContainer)
+
+     if (contact.contact_image !== null) {
+    mobileContactImageElement.style.borderRadius = "50%"
+    mobileContactImageElement.setAttribute("src", contact.contact_image)
+   }
+
+    const navigateEditContactPageButton = document.querySelector("#mobile-navigate-edit-contact-page-button");
+    navigateEditContactPageButton.addEventListener("click", function() {
+        function saveDataToURL(url, data) {
+            const urlObject = new URL(url);
+            const params = new URLSearchParams(urlObject.search);
+        
+            for (const key in data) {
+                if (data.hasOwnProperty(key)) {
+                    params.set(key, data[key]);
+                }
+            }
+            urlObject.search = params.toString();
+            return urlObject.toString();
+        }
+        
+        const myURL = `${rootUrl}/edit_contact_${contact_id}`;
+        const myData = {
+            name: `${contact.firstname} ${contact.lastname}`,
+            // age: 30,
+            // city: "New York"
+        };
+        
+        const newURL = saveDataToURL(myURL, myData);
+        console.log(newURL);
+        // Expected output: "https://example.com/page?name=John+Doe&age=30&city=New+York"
+        window.location.href = newURL
+    })
+};
+
 async function renderEditContactContent() {
     const user_id = sessionStorage.getItem("user");
     const url = window.location.href.toString()
@@ -4662,13 +5040,22 @@ domReady(async () => {
     };
 
     const contactViewElement = document.querySelector("#contact-view");
-    if (window.location.href.startsWith(`${rootUrl}/contact_`)) {
+    if (window.location.href.startsWith(`${rootUrl}/contact_`) && clientwidth > 1070) {
         contactViewElement.style.display = "block";
         appName.style.left = "32%"
         await renderContactContent()
         document.body.style.display = "block"
     } else {
         contactViewElement.style.display = "none"
+    };
+
+    const mobileContactViewElement = document.querySelector("#mobile-contact-view");
+    if (window.location.href.startsWith(`${rootUrl}/contact_`) && clientwidth < 1070) {
+        mobileContactViewElement.style.display = "block";
+        await renderMobileContactContent()
+        document.body.style.display = "block"
+    } else {
+        mobileContactViewElement.style.display = "none"
     };
 
     const userViewElement = document.querySelector("#user-view");

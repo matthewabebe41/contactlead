@@ -14,7 +14,7 @@ const pool = new pg.Pool({
 //   password: 'password',
 //   host: 'localhost',
 //   port: 5432,
-//   database: 'contactlead',
+//   database: 'contactlead'
 });
 
 app.use(express.json({
