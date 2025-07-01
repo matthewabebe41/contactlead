@@ -3894,6 +3894,8 @@ async function renderMobileNewContactContent() {
     createNewContactButton.addEventListener("click", function() {
         mobilePostNewContact()
     });
+
+    document.body.style.overflow = "hidden"
 }
 
 async function handleNewContactImage() {
