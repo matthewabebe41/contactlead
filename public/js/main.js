@@ -1293,7 +1293,9 @@ async function renderMobileUserContent() {
             }  
             window.location.href = newURL
     });
-}
+
+    document.body.style.overflow = "hidden"
+};
 
 async function renderEditUserContent() {
     const userId = sessionStorage.getItem("user");
@@ -1668,8 +1670,10 @@ async function renderMobileEditUserContent() {
 
         deleteContacts();
         deleteUser();
-    })
-}
+    });
+
+    document.body.style.overflow = "hidden"
+};
 
 async function handleEditUserImage() {
     const userId = sessionStorage.getItem("user");
