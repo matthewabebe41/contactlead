@@ -2371,16 +2371,6 @@ async function renderMobileContactsListContent() {
   }
 });
 
-        // if (contactOrganizationText.length > 8) {
-        //     contactListOrganizationAndRoleElement.innerHTML = `${contactOrganizationTextShortened} || ${contact.organization_role}`
-        // }
-        // if (contactOrganizationRoleText > 8) {
-        //     contactListOrganizationAndRoleElement.innerHTML = `${contact.organization} || ${contactOrgnanizationRoleTextShortened}`
-        // }
-        // if (contactOrganizationText.length > 8 && contactOrganizationRoleText.length > 8) {
-        //     contactListOrganizationAndRoleElement.innerHTML = `${contactOrganizationTextShortened} || ${contactOrgnanizationRoleTextShortened}`
-        // }
-
         const contactListFavoritesStarIconContainer = document.createElement("div");
         contactListFavoritesStarIconContainer.style.display = "flex";
         contactListFavoritesStarIconContainer.style.justifyContent = "center";
@@ -2632,6 +2622,23 @@ async function renderMobileContactContent() {
         contactOrganizationAndRoleElement.innerHTML = "text"
         contactOrganizationAndRoleElement.style.visibility = "hidden"
     }
+
+            requestAnimationFrame(() => {
+  const elOrg = contactOrganizationAndRoleElement; // why such a long variable name?
+  console.log("h " + elOrg.style.height); // empty since you did not used i.e: elItem.style.height = "100px";
+  console.log("ch " + elOrg.clientHeight); // 22
+  console.log("oh " + elOrg.offsetHeight); // 22
+  console.log("gcsh " + getComputedStyle(elOrg).getPropertyValue("height")); // "22.3906px"
+  console.log("gcshInt " + parseInt(getComputedStyle(elOrg).getPropertyValue("height"), 10)); // 22
+
+  const elOrgHeight = elOrg.clientHeight;
+  const elOrgText = elOrg.innerText;
+  const ellipsis = "..."
+  const elOrgTextSlice = elOrgText.slice(0, 22) + ellipsis
+  if (elOrgHeight > 22) {
+    elOrg.innerHTML = elOrgTextSlice
+  }
+});
     
     const mobileContactImageElement = document.querySelector("#mobile-contact-image")
     const mobileContactInformationContainer = document.createElement("div");
@@ -2844,6 +2851,8 @@ async function renderMobileContactContent() {
     mobileContactNotesTextContainer.style.width = "100%"
     const mobileContactNotesTextElement = document.createElement("textarea");
     mobileContactNotesTextElement.readOnly = "true";
+    mobileContactNotesTextElement.style.fontFamily = "sans serif";
+    mobileContactNotesTextElement.style.fontSize = "16px";
     mobileContactNotesTextElement.style.width = "100%";
     mobileContactNotesTextElement.style.height = "40px";
     mobileContactNotesTextElement.style.boxShadow = "2px 2px 2px";
@@ -3123,6 +3132,161 @@ async function renderEditContactContent() {
     deleteContactButton.addEventListener("click", deleteContact, false);
 };
 
+async function renderMobileEditContactContent() {
+     const user_id = sessionStorage.getItem("user");
+    const url = window.location.href.toString()
+    const urlBeforeQuery = url.split('?')[0];
+    const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
+    const contact = await getUserContact(user_id, contact_id);
+
+    const addToFavoritesButton = document.querySelector("#add-to-favorites-button");
+
+    if (contact.favorite === true) {
+        addToFavoritesButton.innerHTML = "Remove favorite";
+        addToFavoritesButton.style.backgroundColor = "indianred";
+    };
+
+    // addToFavoritesButton.addEventListener("click", function() {
+    //     updateContactFavorite()
+    // }, false)
+
+    const editContactImage = document.querySelector("#mobile-edit-contact-image");
+    if (contact.contact_image !== null && contact.contact_image !== './images/user-2-svgrepo-com.svg') {
+        editContactImage.setAttribute("src", contact.contact_image);
+        editContactImage.style.borderRadius = "50%"
+    };
+
+    const editContactRemovePhotoButton = document.querySelector("#mobile-edit-contact-remove-photo-button");
+    editContactRemovePhotoButton.addEventListener("click", function() {
+        const editContactAddPhotoInputElement = document.querySelector("#mobile-edit-contact-add-photo")
+        editContactAddPhotoInputElement.value = ""
+        editContactImage.setAttribute("src", "./images/user-2-svgrepo-com.svg")
+    })
+
+    const editContactAddPhotoButton = document.querySelector("#mobile-edit-contact-add-photo-button");
+    if (contact.contact_image !== null && contact.contact_image !== './images/user-2-svgrepo-com.svg') {
+        editContactAddPhotoButton.innerHTML = "Change Photo"
+    }
+
+    editContactAddPhotoButton.addEventListener("click", function() {
+        const editContactAddPhotoInputContainerElement = document.querySelector("#mobile-edit-contact-add-photo-input-container");
+        editContactAddPhotoInputContainerElement.style.display = "none";
+        if (editContactAddPhotoButton.innerHTML === "Save Photo") {
+            mobileUpdateContactImage()
+        }
+    })
+
+    const editContactAddPhotoInputContainerElement = document.querySelector("#mobile-edit-contact-add-photo-input-container")
+    editContactAddPhotoButton.addEventListener("click", function() {
+        console.log("edit photo")
+        if (editContactAddPhotoButton.innerHTML !== "Save Photo") {
+            editContactAddPhotoInputContainerElement.style.display = "flex";
+        }
+    });
+    const closeEditContactAddPhotoIcon = document.querySelector("#mobile-close-edit-contact-add-photo-icon");
+    closeEditContactAddPhotoIcon.addEventListener("click", function(event) {
+        window.location.reload()
+    })
+    const editContactAddPhotoSaveButton = document.querySelector("#mobile-edit-contact-add-photo-insert-button");
+    editContactAddPhotoSaveButton.addEventListener("click", function() {
+        // editContactAddPhotoInputContainerElement.style.display = "none";
+        const editContactAddPhotoInputElement = document.querySelector("#mobile-edit-contact-add-photo");
+        console.log(editContactAddPhotoInputElement.files[0])
+        if (editContactAddPhotoInputElement.files[0] !== undefined) {
+            editContactAddPhotoButton.innerHTML = "Save Photo"
+            handleMobileEditContactImage()
+        }
+    }, false)
+
+    const editContactFirstNameElement = document.querySelector("#mobile-edit-contact-firstname");
+    const editContactLastNameElement = document.querySelector("#mobile-edit-contact-lastname");
+    const editContactGenderElement = document.querySelector("#mobile-edit-contact-gender")
+    const editContactBirthdayElement = document.querySelector("#mobile-edit-contact-birthday");
+    const editContactEmailAddressElement = document.querySelector("#mobile-edit-contact-emailaddress");
+    const editContactPhoneNumberElement = document.querySelector("#mobile-edit-contact-phonenumber");
+    const editContactAddressElement = document.querySelector("#mobile-edit-contact-address");
+    const editContactOrganizationElement = document.querySelector("#mobile-edit-contact-organization");
+    const editContactRoleElement = document.querySelector("#mobile-edit-contact-role");
+    const editContactSocialMediaElement = document.querySelector("#mobile-edit-contact-social-media");
+    const editContactNotesElement = document.querySelector("#mobile-edit-contact-notes");
+    editContactNotesElement.style.fontFamily = "sans-serif"
+
+    // const newContactPhoneNumberElement = document.querySelector("#new-contact-phonenumber");
+    // const phonenumber = newContactPhoneNumberElement.value
+    // console.log(phonenumber)
+    editContactPhoneNumberElement.addEventListener("keydown", disableNonNumericKeys)
+    editContactPhoneNumberElement.addEventListener("blur", function() {
+        formatPhoneNumberForData(editContactPhoneNumberElement)
+    });
+    editContactPhoneNumberElement.addEventListener("focus", function() {
+        resetPhoneNumberFormatOnFocus(editContactPhoneNumberElement)
+    });
+    
+    editContactFirstNameElement.value = contact.firstname;
+    editContactLastNameElement.value = contact.lastname;
+    editContactGenderElement.value = contact.gender;
+    editContactBirthdayElement.value = contact.birthday;
+    editContactEmailAddressElement.value = contact.emailaddress;
+    editContactPhoneNumberElement.value = contact.phonenumber;
+    editContactAddressElement.value = contact.homeaddress;
+    editContactOrganizationElement.value = contact.organization;
+    editContactRoleElement.value = contact.organization_role;
+    editContactSocialMediaElement.value = contact.social_media;
+    editContactNotesElement.value = contact.notes;
+    editContactNotesElement.style.fontFamily = "sans-serif";
+
+    const selectGenderElement = document.querySelector("#mobile-edit-contact-select-gender");
+    const genderOpitonsData = [
+        { text: "None", value: "None"},
+        { text: "Female", value: "Female" },
+        { text: "Male", value: "Male" }
+      ];
+
+      const newContactGenderElement = document.querySelector("#mobile-edit-contact-gender")
+      for (let i = 0; i < genderOpitonsData.length; i++) {
+        const option = document.createElement("option");
+        // genderOpitonsData[0].style.borderBottom = "1px solid gray"
+        option.text = genderOpitonsData[i].text;
+        option.value = genderOpitonsData[i].value;
+
+        if (option.text === contact.gender) {
+            option.setAttribute("selected", true)
+        }
+
+        selectGenderElement.appendChild(option);
+      }
+
+      const editContactGenderInputElement = document.querySelector("#mobile-edit-contact-gender");
+      selectGenderElement.addEventListener('click', function(event) {
+        const selectedOptionValue = event.target.value;
+        const selectedOptionText = event.target.options[event.target.selectedIndex].text;
+        editContactGenderInputElement.value = selectedOptionText;
+        // editContactGenderInputElement.style.display = "block"
+        // selectGenderElement.style.display = "none"
+      
+        // Perform actions based on the selected option
+        console.log('Selected option value:', selectedOptionValue);
+        console.log('Selected option text:', selectedOptionText);
+        const enterCustomGenderInputElement = document.querySelector("#mobile-enter-custom-gender")
+      });
+
+      editContactGenderInputElement.addEventListener("click", function() {
+        editContactGenderInputElement.style.display = "none"
+        selectGenderElement.style.display = "block";
+      });
+
+    //   selectGenderElement.addEventListener("blur", function() {
+    //     editContactGenderInputElement.style.display = "block";
+    //     selectGenderElement.style.display = "none";
+    //   })
+
+    const editContactButton = document.querySelector("#mobile-edit-contact-button");
+    editContactButton.addEventListener("click", mobileUpdateContact, false);
+
+    const deleteContactButton = document.querySelector("#mobile-delete-contact-button");
+    deleteContactButton.addEventListener("click", deleteContact, false);
+}
+
 async function handleEditContactImage() {
     const user_id = sessionStorage.getItem("user");
     const url = window.location.href.toString()
@@ -3161,10 +3325,62 @@ async function handleEditContactImage() {
             birthday: contact.birthday,
             emailaddress: contact.emailaddress,
             phonenumber: contact.phonenumber,
-            address: contact.address,
+            address: contact.homeaddress,
             organization: contact.organization,
             role: contact.organization_role,
             socialMedia: contact.social_media,
+            notes: contact.notes,
+            favorite: contact.favorite,
+            contactImage: editContactImageElement.getAttribute("src")
+        };
+
+        return editContactImageObject
+    // })
+};
+
+async function handleMobileEditContactImage() {
+    const user_id = sessionStorage.getItem("user");
+    const url = window.location.href.toString()
+    const urlBeforeQuery = url.split('?')[0];
+    const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
+    const contact = await getUserContact(user_id, contact_id)
+    const editContactImageElement = document.querySelector("#mobile-edit-contact-image");
+    let editContactImageFile;
+    let editContactImage;
+    const editUserAddPhotoInputElement = document.querySelector("#mobile-edit-contact-add-photo")
+    // editUserAddPhotoInputElement.addEventListener("change", function(event) {
+        // event.preventDefault();
+
+        editContactImageFile = editUserAddPhotoInputElement.files[0];
+        let reader = new FileReader()
+
+        reader.onload = function () {
+            base64string = reader.result.split(',')[1]
+            editContactImage = reader.result;
+            editContactImageElement.setAttribute("src", reader.result);
+            editContactImageElement.style.borderRadius = "50%"
+        };
+
+        if (editContactImageFile !== undefined) {
+            reader.readAsDataURL(editContactImageFile)
+        } else {
+            editContactImageElement.setAttribute("src", './images/user-2-svgrepo-com.svg')
+        }
+
+        const editContactImageObject = {
+            // userId: contact.user_id,
+            // contactId: contact.contact_id,
+            firstname: contact.firstname,
+            lastname: contact.lastname,
+            gender: contact.gender,
+            birthday: contact.birthday,
+            emailaddress: contact.emailaddress,
+            phonenumber: contact.phonenumber,
+            address: contact.homeaddress,
+            organization: contact.organization,
+            role: contact.organization_role,
+            socialMedia: contact.social_media,
+            notes: contact.notes,
             favorite: contact.favorite,
             contactImage: editContactImageElement.getAttribute("src")
         };
@@ -3192,6 +3408,47 @@ async function handleEditContactInput() {
     const editContactRoleElement = document.querySelector("#edit-contact-role");
     const editContactSocialMediaElement = document.querySelector("#edit-contact-social-media");
     const editContactNotesElement = document.querySelector("#edit-contact-notes")
+
+    const editContactObject = {
+        // userId: contact.user_id,
+        // contactId: contact.contact_id,
+        firstname: editContactFirstNameElement.value,
+        lastname: editContactLastNameElement.value,
+        gender: editContactGenderElement.value,
+        birthday: editContactBirthdayElement.value,
+        emailaddress: editContactEmailAddressElement.value,
+        phonenumber: editContactPhoneNumberElement.value,
+        address: editContactAddressElement.value,
+        organization: editContactOrganizationElement.value,
+        role: editContactRoleElement.value,
+        socialMedia: editContactSocialMediaElement.value,
+        favorite: contact.favorite,
+        notes: editContactNotesElement.value,
+        contactImage: editContactImageElement.getAttribute("src")
+    };
+
+    return editContactObject
+};
+
+async function handleMobileEditContactInput() {
+     const user_id = sessionStorage.getItem("user");
+    const url = window.location.href.toString()
+    const urlBeforeQuery = url.split('?')[0];
+    const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
+    const contact = await getUserContact(user_id, contact_id);
+
+    const editContactImageElement = document.querySelector("#mobile-edit-contact-image");
+    const editContactFirstNameElement = document.querySelector("#mobile-edit-contact-firstname");
+    const editContactLastNameElement = document.querySelector("#mobile-edit-contact-lastname");
+    const editContactGenderElement = document.querySelector("#mobile-edit-contact-gender")
+    const editContactBirthdayElement = document.querySelector("#mobile-edit-contact-birthday");
+    const editContactEmailAddressElement = document.querySelector("#mobile-edit-contact-emailaddress");
+    const editContactPhoneNumberElement = document.querySelector("#mobile-edit-contact-phonenumber");
+    const editContactAddressElement = document.querySelector("#mobile-edit-contact-address");
+    const editContactOrganizationElement = document.querySelector("#mobile-edit-contact-organization");
+    const editContactRoleElement = document.querySelector("#mobile-edit-contact-role");
+    const editContactSocialMediaElement = document.querySelector("#mobile-edit-contact-social-media");
+    const editContactNotesElement = document.querySelector("#mobile-edit-contact-notes")
 
     const editContactObject = {
         // userId: contact.user_id,
@@ -3314,9 +3571,6 @@ async function renderFavoriteContactsListContent() {
     favoriteContactsList.style.listStyle = "none";
     favoriteContactsList.style.padding = "0"
     favoriteContactsList.style.margin = "0"
-    // favoriteContactsList.style.height = "100%";
-    // favoriteContactsList.style.overflow = "auto"
-    // favoriteContactsList.style.zIndex = "5"
     favoriteContacts.forEach(contact => {
         const favoriteContactListItem = document.createElement("div");
         favoriteContactListItem.style.display = "flex";
@@ -3427,7 +3681,6 @@ async function renderFavoriteContactsListContent() {
             favoriteContactListOrganizationAndRoleElement.style.visibility = "hidden"
         }
     
-
         const favoriteContactListFavoritesStarIconContainer = document.createElement("div");
         favoriteContactListFavoritesStarIconContainer.style.display = "flex";
         favoriteContactListFavoritesStarIconContainer.style.justifyContent = "center";
@@ -3437,8 +3690,6 @@ async function renderFavoriteContactsListContent() {
         const favoriteContactListFavoriteStarImg = document.createElement("img");
         favoriteContactListFavoriteStarImg.classList.add("contact-favorite-icon")
         favoriteContactListFavoriteStarImg.style.width = "60px"
-
-        console.log(contact.favorite)
 
         // contactListFavoriteStarImg.addEventListener("click", function(event) {
         //     // event.preventDefault()
@@ -3571,9 +3822,6 @@ async function renderMobileFavoriteContactsListContent() {
     favoriteContactsList.style.padding = "0"
     favoriteContactsList.style.margin = "0"
     favoriteContactsList.style.marginBottom = "72px"
-    // favoriteContactsList.style.height = "100%";
-    // favoriteContactsList.style.overflow = "auto"
-    // favoriteContactsList.style.zIndex = "5"
     favoriteContacts.forEach(contact => {
         const favoriteContactListItem = document.createElement("div");
         favoriteContactListItem.style.display = "flex";
@@ -3658,9 +3906,6 @@ async function renderMobileFavoriteContactsListContent() {
         const favoriteContactListEmailElement = document.createElement("p");
         favoriteContactListEmailElement.style.fontStyle = "italic"
         favoriteContactListEmailElement.style.margin = "0"
-
-        
-        console.log(contact)
         
         if (contact.emailaddress !== null && contact.emailaddress !== "") {
             favoriteContactListEmailElement.innerHTML = contact.emailaddress;
@@ -3684,7 +3929,6 @@ async function renderMobileFavoriteContactsListContent() {
             favoriteContactListOrganizationAndRoleElement.style.visibility = "hidden"
         }
     
-
         const favoriteContactListFavoritesStarIconContainer = document.createElement("div");
         favoriteContactListFavoritesStarIconContainer.style.display = "flex";
         favoriteContactListFavoritesStarIconContainer.style.justifyContent = "center";
@@ -3724,8 +3968,7 @@ async function renderMobileFavoriteContactsListContent() {
     favoriteContactsListContainer.appendChild(favoriteContactsHeaderContainer)
     favoriteContactsListContainer.appendChild(favoriteContactsList)
     document.body.appendChild(favoriteContactsListContainer)
-
-}
+};
 
 async function renderNewContactContent() {
     const userId = sessionStorage.getItem("user")
@@ -3738,7 +3981,7 @@ async function renderNewContactContent() {
         const newContactAddPhotoInputElement = document.querySelector("#new-contact-add-photo")
         newContactAddPhotoInputElement.value = ""
         newContactImage.setAttribute("src", "./images/user-2-svgrepo-com.svg")
-    })
+    });
 
     const newContactAddPhotoButton = document.querySelector("#new-contact-add-photo-button");
     const newContactAddPhotoInputContainerElement = document.querySelector("#new-contact-add-photo-input-container")
@@ -4698,6 +4941,71 @@ async function updateContact() {
     window.location.href = newURL
 };
 
+async function mobileUpdateContact() {
+    const user_id = sessionStorage.getItem("user");
+    const url = window.location.href.toString()
+    const urlBeforeQuery = url.split('?')[0];
+    const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
+    const editContactObject = await handleMobileEditContactInput();
+    console.log(user_id)
+    console.log(contact_id)
+
+    const firstname = editContactObject.firstname;
+    const lastname = editContactObject.lastname;
+    const emailaddress = editContactObject.emailaddress;
+    const phonenumber = editContactObject.phonenumber;
+    const birthday = editContactObject.birthday;
+    const homeaddress = editContactObject.address;
+    const gender = editContactObject.gender;
+    const organization = editContactObject.organization;
+    const organization_role = editContactObject.role;
+    const social_media = editContactObject.socialMedia;
+    const favorite = editContactObject.favorite;
+    const notes = editContactObject.notes;
+    const contact_image = editContactObject.contactImage;
+
+    const body = { firstname, lastname, emailaddress, phonenumber, birthday, gender, birthday, homeaddress, organization, organization_role, social_media, favorite, notes, contact_image };
+    try {
+        const response = await fetch(`/contacts/${user_id}/${contact_id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body)
+        });
+        console.log(response)
+    } catch (error) {
+        console.error(error)
+    }
+
+    // if (contact.firstname === editContactObject.firstname && contact.lastname === editContactObject.lastname && contact.emailaddress === editContactObject.emailaddress && contact.phonenumber === editContactObject.phonenumber) {
+    //     window.location.href = url
+    // } 
+
+    function saveDataToURL(url, data) {
+        const urlObject = new URL(url);
+        const params = new URLSearchParams(urlObject.search);
+    
+        for (const key in data) {
+            if (data.hasOwnProperty(key)) {
+                params.set(key, data[key]);
+            }
+        }
+        urlObject.search = params.toString();
+        return urlObject.toString();
+    }
+    
+    const myURL = `${rootUrl}/contact_${contact_id}`;
+    const myData = {
+        name: `${firstname} ${lastname}`,
+        // age: 30,
+        // city: "New York"
+    };
+    
+    const newURL = saveDataToURL(myURL, myData);
+    console.log(newURL);
+    // Expected output: "https://example.com/page?name=John+Doe&age=30&city=New+York"
+    window.location.href = newURL
+}
+
 async function updateContactImage() {
     const user_id = sessionStorage.getItem("user");
     const url = window.location.href.toString()
@@ -4710,15 +5018,16 @@ async function updateContactImage() {
     const emailaddress = editContactImageObject.emailaddress;
     const phonenumber = editContactImageObject.phonenumber;
     const birthday = editContactImageObject.birthday;
-    const homeaddress = editContactImageObject.homeaddress;
+    const homeaddress = editContactImageObject.address;
     const gender = editContactImageObject.gender;
     const organization = editContactImageObject.organization;
     const organization_role = editContactImageObject.role;
     const social_media = editContactImageObject.socialMedia;
+    const notes = editContactImageObject.notes
     const favorite = editContactImageObject.favorite;
     const contact_image = editContactImageObject.contactImage;
 
-    const body = { firstname, lastname, emailaddress, phonenumber, birthday, gender, birthday, homeaddress, organization, organization_role, social_media, favorite, contact_image };
+    const body = { firstname, lastname, emailaddress, phonenumber, birthday, gender, birthday, homeaddress, organization, organization_role, social_media, notes, favorite, contact_image };
     try {
         const response = await fetch(`/contacts/${user_id}/${contact_id}`, {
             method: "PUT",
@@ -4731,8 +5040,43 @@ async function updateContactImage() {
     };
 
    window.location.reload()
-    
 };
+
+async function mobileUpdateContactImage() {
+    const user_id = sessionStorage.getItem("user");
+    const url = window.location.href.toString()
+    const urlBeforeQuery = url.split('?')[0];
+    const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
+    const editContactImageObject = await handleMobileEditContactImage()
+
+    const firstname = editContactImageObject.firstname;
+    const lastname = editContactImageObject.lastname;
+    const emailaddress = editContactImageObject.emailaddress;
+    const phonenumber = editContactImageObject.phonenumber;
+    const birthday = editContactImageObject.birthday;
+    const homeaddress = editContactImageObject.address;
+    const gender = editContactImageObject.gender;
+    const organization = editContactImageObject.organization;
+    const organization_role = editContactImageObject.role;
+    const social_media = editContactImageObject.socialMedia;
+    const notes = editContactImageObject.notes;
+    const favorite = editContactImageObject.favorite;
+    const contact_image = editContactImageObject.contactImage;
+
+    const body = { firstname, lastname, emailaddress, phonenumber, birthday, gender, birthday, homeaddress, organization, organization_role, social_media, notes, favorite, contact_image };
+    try {
+        const response = await fetch(`/contacts/${user_id}/${contact_id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body)
+        });
+        console.log(response)
+    } catch (error) {
+        console.error(error)
+    };
+
+   window.location.reload()
+}
 
 async function updateContactFavorite() {
     const user_id = sessionStorage.getItem("user");
@@ -4780,7 +5124,6 @@ window.addEventListener('pageshow', function(event) {
     }
   });
   
-
 async function deleteContact() {
     const user_id = sessionStorage.getItem("user");
     const url = window.location.href.toString()
@@ -5141,13 +5484,22 @@ domReady(async () => {
     };
 
     const editContactViewElement = document.querySelector("#edit-contact-view");
-    if (window.location.href.startsWith(`${rootUrl}/edit_contact`)) {
+    if (window.location.href.startsWith(`${rootUrl}/edit_contact`) && clientwidth > 1070) {
         editContactViewElement.style.display = "block";
         appName.style.left = "32%"
         await renderEditContactContent()
         document.body.style.display = "block"
     } else {
         editContactViewElement.style.display = "none"
+    };
+
+    const mobileEditContactViewElement = document.querySelector("#mobile-edit-contact-view");
+    if (window.location.href.startsWith(`${rootUrl}/edit_contact`) && clientwidth < 1070) {
+        mobileEditContactViewElement.style.display = "block";
+        await renderMobileEditContactContent()
+        document.body.style.display = "block"
+    } else {
+        mobileEditContactViewElement.style.display = "none"
     };
 
     // setTimeout(async function() {
