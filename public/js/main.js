@@ -846,18 +846,21 @@ async function renderLargeSidePanelContent() {
         contactListItem.style.display = "flex"
         contactListItem.style.justifyContent = "space-between"
         contactListItem.style.alignItems = "center"
-        contactListItem.style.height = "35px"
+        contactListItem.style.height = "38px"
         // contactListItem.style.width = "300px"
         contactListItem.style.marginBottom = "8px"
-        contactListItem.style.padding = "2.5px"
-        contactListItem.addEventListener("mouseover", function() {
-            contactListItem.style.backgroundColor = "grey";
-        });
+        contactListItem.style.border = "1px solid grey"
+        contactListItem.style.borderRadius = "5px"
+        contactListItem.style.padding = "5px"
+        contactListItem.style.backgroundColor = "honeydew"
         contactListItem.addEventListener("mouseover", function() {
             contactListItem.style.backgroundColor = "lightgrey";
         });
+        // contactListItem.addEventListener("mouseover", function() {
+        //     contactListItem.style.backgroundColor = "honeydew";
+        // });
         contactListItem.addEventListener("mouseout", function() {
-            contactListItem.style.backgroundColor = "ghostwhite";
+            contactListItem.style.backgroundColor = "honeydew";
         })
         const contactImageItem = document.createElement("img");
         contactImageItem.style.width = "35px";
@@ -3285,6 +3288,8 @@ async function renderMobileEditContactContent() {
 
     const deleteContactButton = document.querySelector("#mobile-delete-contact-button");
     deleteContactButton.addEventListener("click", deleteContact, false);
+
+    document.body.style.overflow = "hidden"
 }
 
 async function handleEditContactImage() {
@@ -5361,8 +5366,10 @@ domReady(async () => {
         // smallSidebar.style.width = "10%"
     }
     
+    const mobileSearchIcon = document.querySelector("#mobile-search-icon")
     if (window.location.href !== `${rootUrl}/login` && window.location.href !== `${rootUrl}/register` && window.location.href !== `${rootUrl}/recover-password` && clientwidth <= 1070) {
         await renderMobileFooterNavigationPanel()
+        mobileSearchIcon.style.display = "block";
         // await renderLargeSidePanelContent()
     } else {
         mobileSmallSidebar.style.display = "none";

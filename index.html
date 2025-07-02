@@ -8,8 +8,9 @@
 </head>
 <body style="height: 100vh; width: 100%; background-color: white; display: none; margin: 0; overflow-y: scroll;"></body>
 
-    <div id="topbar" style="position: absolute; display: flex; align-items: center; width: 100%; height: 9.3%; background-color: royalblue; border-bottom: 1px solid black; z-index: 2;">
-        <h2 id="app-name" style="position: absolute; font-size: xx-large; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; color: white; margin: 0px 0px 0px 12px;">Contactlead</h2>
+    <div id="topbar" style="position: absolute; display: flex; justify-content: space-between; align-items: center; width: 100%; height: 9.3%; background-color: royalblue; border-bottom: 1px solid black; z-index: 2;">
+        <h2 id="app-name" style="position: relative; font-size: xx-large; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; color: white; margin: 0px 0px 0px 12px;">Contactlead</h2>
+        <img id="mobile-search-icon" src="./images/search-svgrepo-com.svg" style="width: 50px; display: none;">
     </div>
 
     <div id="small-sidebar" style="position: fixed; width: 6.5%; height: 100%; top: 0%; left: 0%; background-color: gainsboro; border-right: 1px solid black; overflow: hidden; z-index: 4;">
@@ -359,7 +360,7 @@
         </div>
     </div>         
         <div id="edit-user-button-container" style="position: absolute; display: flex; justify-content: center; align-items: center; width: 100%; top: 96.5%;">
-            <div style="position: absolute; display: flex; justify-content: flex-end; width: 90%;">
+            <div style="position: absolute; display: flex; justify-content: flex-end; width: 96%;">
                 <button id="navigate-edit-user-page-button" style="width: 50px;">Edit</button>
             </div>
         </div>
@@ -424,14 +425,14 @@
             <div id="edit-user-image-container" style="position: absolute; display: flex; align-items: center; height: 100%; padding: 10px;">
                 <img id="edit-user-image" src="./images/user-5-svgrepo-com.svg" style="position: relative; display: flex; justify-content: center; align-items: center; width: 105px; height: 85%; border: 0.5px solid grey; box-shadow: 2px 2px 2px; border-radius: 50%; background-color: gainsboro; object-fit: cover; z-index: 1;">
                 <div style="display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-end; height: 100%;">
-                    <button id="edit-user-add-photo-button" style="height: 20px; margin-bottom: 15px; margin-left: 5px; z-index: 1;">Add photo</button>
+                    <button id="edit-user-add-photo-button" style="height: 20px; margin-bottom: 10px; margin-left: 5px; z-index: 1;">Add photo</button>
                 </div>
             </div>
             <div id="edit-user-header-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%;">
                 <h2 style="font-family: Arial;">Edit your account.</h2>
             </div>
         </div>
-        <div id="edit-user-add-photo-input-container" style="position: absolute; align-items: center; top: 21%; margin-left: 10px; display: none;">
+        <div id="edit-user-add-photo-input-container" style="position: absolute; align-items: center; top: 21%; margin-left: 10px; display: none; z-index: 2;">
             <div style="display: flex; justify-content: flex-end; width: 100%;">
                 <input id="edit-user-add-photo" type="file" style="margin-left: 2px;">
                 <button id="edit-user-add-photo-insert-button">Insert</button>
@@ -439,7 +440,7 @@
                 <img id="close-edit-user-add-photo-icon" src="./images/close-svgrepo-com.svg" style="width: 20px;">
             </div>
         </div>
-        <div id="edit-user-information-container" style="position: absolute; display: flex; flex-direction: column; align-items: center; width: 100%; height: 57%; top: 23.5%;">
+        <div id="edit-user-information-container" style="position: absolute; display: flex; flex-direction: column; align-items: center; width: 100%; height: 61%; top: 19.5%;">
             <form style="display: flex; flex-direction: column; justify-content: space-evenly; width: 96%; height: 100%;">
                 <div id="edit-contact-information-row-one" style="display: flex; justify-content: space-between; width: 100%;">
                     <div id="edit-user-first-name-container" style="display: flex; flex-direction: column; width: 35%;">
@@ -756,14 +757,14 @@
             <div id="edit-contact-image-container" style="position: absolute; display: flex; align-items: center; height: 100%; padding: 10px;">
                 <img id="edit-contact-image" src="./images/user-2-svgrepo-com.svg" style="position: relative; display: flex; justify-content: center; align-items: center; width: 105px; height: 85%; border: 0.5px solid grey; border-radius: 50%; box-shadow: 2px 2px 2px; background-color: gainsboro; object-fit: cover; z-index: 1;">
                 <div style="display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-end; height: 100%;">
-                    <button id="edit-contact-add-photo-button" style="height: 20px; margin-bottom: 15px; margin-left: 5px; z-index: 1;">Add photo</button>
+                    <button id="edit-contact-add-photo-button" style="height: 20px; margin-bottom: 10px; margin-left: 5px; z-index: 1;">Add photo</button>
                 </div>
             </div>
             <div id="edit-contact-header-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%;">
                 <h2 style="font-family: Arial;">Edit contact.</h2>
             </div>
         </div>
-        <div id="edit-contact-add-photo-input-container" style="position: absolute; align-items: center; top: 21%; margin-left: 10px; display: none;">
+        <div id="edit-contact-add-photo-input-container" style="position: absolute; align-items: center; top: 21%; margin-left: 10px; display: none; z-index: 2;">
             <div style="display: flex; justify-content: flex-end; width: 100%;">
                 <input id="edit-contact-add-photo" type="file" style="margin-left: 2px;">
                 <button id="edit-contact-add-photo-insert-button">Insert</button>
@@ -771,7 +772,7 @@
                 <img id="close-edit-contact-add-photo-icon" src="./images/close-svgrepo-com.svg" style="width: 20px;">
             </div>
         </div>
-        <div id="edit-contact-infomration-container" style="position: absolute; display: flex; flex-direction: column; align-items: center; width: 100%; height: 58%; top: 24%;">
+        <div id="edit-contact-infomration-container" style="position: absolute; display: flex; flex-direction: column; align-items: center; width: 100%; height: 62%; top: 20%;">
             <!-- <div style="position: absolute; display: flex; align-items: center; width: 177px; top: 1%; left: 96%;">
                 <div style="position: absolute; display: flex; justify-content: flex-end; width: 100%;">
                     <button id="add-to-favorites-button" style="background-color: green; color: white;">Add to favorites</button>
@@ -1022,14 +1023,14 @@
             <div id="new-contact-image-container" style="position: absolute; display: flex; align-items: center; height: 100%; padding: 10px;">
                 <img id="new-contact-image" src="./images/user-2-svgrepo-com.svg" style="position: relative; display: flex; justify-content: center; align-items: center; width: 105px; height: 85%; border: 0.5px solid grey; box-shadow: 2px 2px 2px; border-radius: 50%; background-color: gainsboro; object-fit: cover; z-index: 1;">
                 <div style="display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-end; height: 100%;">
-                    <button id="new-contact-add-photo-button" style="height: 20px; margin-bottom: 15px; margin-left: 5px; z-index: 1;">Add photo</button>
+                    <button id="new-contact-add-photo-button" style="height: 20px; margin-bottom: 10px; margin-left: 5px; z-index: 1;">Add photo</button>
                 </div>
             </div>
             <div id="new-contact-header-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%;">
                 <h2 style="font-family: Arial;">Create a contact.</h2>
             </div>
         </div>
-        <div id="new-contact-add-photo-input-container" style="position: absolute; align-items: center; top: 21%; margin-left: 10px; display: none;">
+        <div id="new-contact-add-photo-input-container" style="position: absolute; align-items: center; top: 21%; margin-left: 10px; display: none; z-index: 2;">
             <div style="display: flex; justify-content: flex-end; width: 100%;">
                 <input id="new-contact-add-photo" type="file" style="margin-left: 2px;">
                 <button id="new-contact-add-photo-insert-button">Insert</button>
@@ -1037,7 +1038,7 @@
                 <img id="close-new-contact-add-photo-icon" src="./images/close-svgrepo-com.svg" style="width: 20px;">
             </div>
         </div>
-        <div id="new-contact-infomration-container" style="position: absolute; display: flex; flex-direction: column; align-items: center; width: 100%; height: 58%; top: 24%;">
+        <div id="new-contact-infomration-container" style="position: absolute; display: flex; flex-direction: column; align-items: center; width: 100%; height: 62%; top: 20%;">
             <div style="display: flex; flex-direction: column; justify-content: space-evenly; width: 96%; height: 100%;">
             <div id="new-contact-information-row-one" style="display: flex; justify-content: space-between; width: 100%;">
                 <div id="new-contact-first-name-container" style="display: flex; flex-direction: column; width: 35%;">
