@@ -925,12 +925,13 @@ const allUsers = await getAllUsers();
         contactListItem.style.justifyContent = "space-between"
         contactListItem.style.alignItems = "center"
         contactListItem.style.height = "38px"
-        // contactListItem.style.width = "300px"
+        contactListItem.style.width = "295px"
         contactListItem.style.marginBottom = "2px"
         contactListItem.style.border = "1px solid grey"
         contactListItem.style.borderRadius = "5px"
         contactListItem.style.padding = "5px"
         contactListItem.style.backgroundColor = "ghostwhite"
+        contactListItem.style.overflow = "hidden"
         contactListItem.addEventListener("mouseover", function() {
             contactListItem.style.backgroundColor = "lightgreen";
         });
@@ -966,6 +967,9 @@ const allUsers = await getAllUsers();
         contactNameElement.style.margin = "0px 0px 0px 10px"
         contactNameElement.innerHTML = `${contact.firstname} ${contact.lastname}`
         const contactEmailElement = document.createElement("p");
+        // contactEmailElement.style.width = "220px";
+        contactEmailElement.setAttribute("id", `contact-email-element-${contact.contact_id}`)
+        contactEmailElement.classList.add("contact-email-element")
         // contactEmailElement.style.fontFamily = "sans-serif"
         contactEmailElement.style.fontSize = "small"
         contactEmailElement.style.margin = "0px 0px 0px 10px";
@@ -981,6 +985,8 @@ const allUsers = await getAllUsers();
         console.log(contactEmailAddressText.length)
         if (contactEmailAddressText.length > 35) {
             contactEmailElement.innerHTML = contactEmailAddressTextSlice
+        } else {
+            contactEmailElement.innerHTML = contact.emailaddress
         }
 
         if (contact.organization !== null && contact.organization !== "" && contact.organization_role !== null && contact.organization_role !== "") {
@@ -1088,25 +1094,25 @@ async function contactsAutocompleteSearch() {
             }
         }
 
-        if (contactFirstName.toLowerCase().startsWith(searchContactsInputValue)) {
-            for (let i = 0; i < userContacts.length; i++) {
-                let matchContactName = `${userContacts[i].firstname} ${userContacts[i].lastname}`
-                if (contactName.toLowerCase() === matchContactName.toLowerCase()) {
-                    filteredContacts.push(userContacts[i])
-                    // console.log(filteredContacts)
-                }
-            }
-        }
+        // if (contactFirstName.toLowerCase().startsWith(searchContactsInputValue)) {
+        //     for (let i = 0; i < userContacts.length; i++) {
+        //         let matchContactName = `${userContacts[i].firstname} ${userContacts[i].lastname}`
+        //         if (contactName.toLowerCase() === matchContactName.toLowerCase()) {
+        //             filteredContacts.push(userContacts[i])
+        //             // console.log(filteredContacts)
+        //         }
+        //     }
+        // }
 
-        if (contactLastName.toLowerCase().startsWith(searchContactsInputValue)) {
-            for (let i = 0; i < userContacts.length; i++) {
-                let matchContactName = `${userContacts[i].firstname} ${userContacts[i].lastname}`
-                if (contactName.toLowerCase() === matchContactName.toLowerCase()) {
-                    filteredContacts.push(userContacts[i])
-                    // console.log(filteredContacts)
-                }
-            }
-        }
+        // if (contactLastName.toLowerCase().startsWith(searchContactsInputValue)) {
+        //     for (let i = 0; i < userContacts.length; i++) {
+        //         let matchContactName = `${userContacts[i].firstname} ${userContacts[i].lastname}`
+        //         if (contactName.toLowerCase() === matchContactName.toLowerCase()) {
+        //             filteredContacts.push(userContacts[i])
+        //             // console.log(filteredContacts)
+        //         }
+        //     }
+        // }
 
         if (contactName.toLowerCase().startsWith(searchContactsInputValue)) {
             for (let i = 0; i < userContacts.length; i++) {
@@ -1155,14 +1161,17 @@ async function contactsAutocompleteSearch() {
             contactsAutoCompleteListItem.style.alignItems = "center";
             contactsAutoCompleteListItem.style.height = "35px";
             // contactsAutoCompleteListItem.style.width = "300px";
-            contactsAutoCompleteListItem.style.marginBottom = "8px";
-            contactsAutoCompleteListItem.style.padding = "2.5px";
+            contactsAutoCompleteListItem.style.border = "1px solid grey";
+            contactsAutoCompleteListItem.style.borderRadius = "5px"
+            contactsAutoCompleteListItem.style.marginBottom = "2px";
+            contactsAutoCompleteListItem.style.padding = "5px";
+            contactsAutoCompleteListItem.style.backgroundColor = "ghostwhite"
             contactsAutoCompleteListItem.addEventListener("mouseover", function() {
-            contactsAutoCompleteListItem.style.backgroundColor = "grey";
+            contactsAutoCompleteListItem.style.backgroundColor = "lightgreen";
             });
-            contactsAutoCompleteListItem.addEventListener("mouseover", function() {
-            contactsAutoCompleteListItem.style.backgroundColor = "lightgray";
-            });
+            // contactsAutoCompleteListItem.addEventListener("mouseover", function() {
+            // contactsAutoCompleteListItem.style.backgroundColor = "lightgray";
+            // });
             contactsAutoCompleteListItem.addEventListener("mouseout", function() {
             contactsAutoCompleteListItem.style.backgroundColor = "ghostwhite";
             })
@@ -1197,6 +1206,17 @@ async function contactsAutocompleteSearch() {
             contactAutoCompleteEmailElement.style.margin = "0px 0px 0px 10px";
             contactAutoCompleteEmailElement.innerHTML = contact.emailaddress
 
+            
+        const contactEmailAddressText = contact.emailaddress;
+        const ellipsis = "..."
+        let contactEmailAddressTextSlice = contactEmailAddressText.slice(0, 35) + ellipsis
+        console.log(contactEmailAddressText.length)
+        if (contactEmailAddressText.length > 35) {
+            contactAutoCompleteEmailElement.innerHTML = contactEmailAddressTextSlice
+        } else {
+            contactAutoCompleteEmailElement.innerHTML = contact.emailaddress
+        }
+
             contactsAutoCompleteListItem.classList.add("contact-list-item");
             contactsAutoCompleteListItem.style.cursor = "default"
             // contactsAutoCompleteListItem.style.height = "200px"
@@ -1224,8 +1244,8 @@ async function contactsAutocompleteSearch() {
             searchContactsAutocompleteList.appendChild(contactsAutoCompleteListItem);
         });
     }};
-}
-     
+};
+   
 async function renderUserContent() {
 const allUsers = await getAllUsers();
     const sessionId = sessionStorage.getItem("user");
@@ -2479,7 +2499,6 @@ const allUsers = await getAllUsers();
         const contactListEmailElement = document.createElement("p");
         contactListEmailElement.style.fontStyle = "italic"
         contactListEmailElement.style.margin = "0"
-
         
         // console.log(contact)
         
@@ -2488,6 +2507,16 @@ const allUsers = await getAllUsers();
         } else {
             contactListEmailElement.innerHTML = "text";
             contactListEmailElement.style.visibility = "hidden";
+        }
+
+        const contactEmailAddressText = contact.emailaddress;
+        const emailEllipsis = "..."
+        let contactEmailAddressTextSlice = contactEmailAddressText.slice(0, 25) + emailEllipsis
+        console.log(contactEmailAddressText.length)
+        if (contactEmailAddressText.length > 25) {
+            contactListEmailElement.innerHTML = contactEmailAddressTextSlice
+        } else {
+            contactListEmailElement.innerHTML = contact.emailaddress
         }
 
         const contactListOrganizationAndRoleElement = document.createElement("p");
@@ -2508,17 +2537,6 @@ const allUsers = await getAllUsers();
 
         const mobileViewContactsList = document.querySelector("#mobile-contacts-list-view")
         console.log(mobileViewContactsList.style.height)
-
-        //This is where my issue is.
-
-        //These work...
-        // console.log(contactListOrganizationAndRoleElement)
-        // console.log(contactListOrganizationAndRoleElement.style.fontWeight)
-        // console.log(contactListOrganizationAndRoleElement.style.margin)
-        //None of these work...
-        // console.log(contactListOrganizationAndRoleElement.style.height)
-        // console.log(contactListOrganizationAndRoleElement.clientHeight)
-        // console.log(contactListOrganizationAndRoleElement.offsetHeight)
 
         const contactListOrganizationAndRoleElementText = contactListOrganizationAndRoleElement.innerText;
         console.log(contactListOrganizationAndRoleElementText.length)
@@ -2610,7 +2628,8 @@ const allUsers = await getAllUsers();
     const user_id = matchingUser.user_id;
     const url = window.location.href.toString()
     const urlBeforeQuery = url.split('?')[0];
-    const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
+    // const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
+    const contact_id = urlBeforeQuery.split('_')[1]
     const contact = await getUserContact(user_id, contact_id)
 
     let favorite = contact.favorite;
@@ -2642,7 +2661,8 @@ const allUsers = await getAllUsers();
     const user_id = matchingUser.user_id;
     const url = window.location.href.toString()
     const urlBeforeQuery = url.split('?')[0];
-    const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
+    // const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
+    const contact_id = urlBeforeQuery.split('_')[1]
     const contact = await getUserContact(user_id, contact_id);
 
     const addToFavoritesButton = document.querySelector("#add-to-favorites-button");
@@ -2784,7 +2804,8 @@ const allUsers = await getAllUsers();
     const user_id = matchingUser.user_id;
     const url = window.location.href.toString()
     const urlBeforeQuery = url.split('?')[0];
-    const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
+    const contact_id = urlBeforeQuery.split('_')[1]
+    // const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
     const contact = await getUserContact(user_id, contact_id);
 
     const userImageContainer = document.querySelector("#mobile-user-image-container");
@@ -2792,6 +2813,7 @@ const allUsers = await getAllUsers();
 
     
     const contactFavoriteIcon = document.querySelector("#mobile-contact-favorite-icon");
+    console.log(contact_id)
     if (contact.favorite === true) {
         contactFavoriteIcon.style.display = "block";
     } else {
@@ -3189,7 +3211,8 @@ const allUsers = await getAllUsers();
     const user_id = matchingUser.user_id;
     const url = window.location.href.toString()
     const urlBeforeQuery = url.split('?')[0];
-    const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
+    // const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
+    const contact_id = urlBeforeQuery.split('contact_')[1]
     const contact = await getUserContact(user_id, contact_id);
 
     const addToFavoritesButton = document.querySelector("#add-to-favorites-button");
@@ -3353,8 +3376,11 @@ const allUsers = await getAllUsers();
     const user_id = matchingUser.user_id;
     const url = window.location.href.toString()
     const urlBeforeQuery = url.split('?')[0];
-    const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
+    // const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
+    const contact_id = urlBeforeQuery.split('contact_')[1]
     const contact = await getUserContact(user_id, contact_id);
+
+    console.log(contact_id)
 
     const addToFavoritesButton = document.querySelector("#add-to-favorites-button");
 
@@ -3518,7 +3544,8 @@ const allUsers = await getAllUsers();
     const user_id = matchingUser.user_id;
     const url = window.location.href.toString()
     const urlBeforeQuery = url.split('?')[0];
-    const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
+    const contact_id = urlBeforeQuery.split('contact_')[1]
+    // const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
     const contact = await getUserContact(user_id, contact_id)
     const editContactImageElement = document.querySelector("#edit-contact-image");
     let editContactImageFile;
@@ -3577,7 +3604,8 @@ const allUsers = await getAllUsers();
     const user_id = matchingUser.user_id;
     const url = window.location.href.toString()
     const urlBeforeQuery = url.split('?')[0];
-    const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
+    const contact_id = urlBeforeQuery.split('contact_')[1]
+    // const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
     const contact = await getUserContact(user_id, contact_id)
     const editContactImageElement = document.querySelector("#mobile-edit-contact-image");
     let editContactImageFile;
@@ -3636,7 +3664,8 @@ const allUsers = await getAllUsers();
     const user_id = matchingUser.user_id;
     const url = window.location.href.toString()
     const urlBeforeQuery = url.split('?')[0];
-    const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
+    const contact_id = urlBeforeQuery.split('contact_')[1]
+    // const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
     const contact = await getUserContact(user_id, contact_id);
 
     const editContactImageElement = document.querySelector("#edit-contact-image");
@@ -3685,7 +3714,8 @@ const allUsers = await getAllUsers();
     const user_id = matchingUser.user_id;
     const url = window.location.href.toString()
     const urlBeforeQuery = url.split('?')[0];
-    const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
+    const contact_id = urlBeforeQuery.split('contact_')[1]
+    // const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
     const contact = await getUserContact(user_id, contact_id);
 
     const editContactImageElement = document.querySelector("#mobile-edit-contact-image");
@@ -5253,7 +5283,8 @@ const allUsers = await getAllUsers();
     const user_id = matchingUser.user_id;
     const url = window.location.href.toString()
     const urlBeforeQuery = url.split('?')[0];
-    const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
+    const contact_id = urlBeforeQuery.split('contact_')[1]
+    // const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
     const editContactObject = await handleEditContactInput();
     console.log(user_id)
     console.log(contact_id)
@@ -5326,7 +5357,8 @@ const allUsers = await getAllUsers();
     const user_id = matchingUser.user_id;
     const url = window.location.href.toString()
     const urlBeforeQuery = url.split('?')[0];
-    const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
+    const contact_id = urlBeforeQuery.split('contact_')[1]
+    // const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
     const editContactObject = await handleMobileEditContactInput();
     console.log(user_id)
     console.log(contact_id)
@@ -5399,7 +5431,8 @@ const allUsers = await getAllUsers();
     const user_id = matchingUser.user_id;
     const url = window.location.href.toString()
     const urlBeforeQuery = url.split('?')[0];
-    const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
+    const contact_id = urlBeforeQuery.split('contact_')[1]
+    // const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
     const editContactImageObject = await handleEditContactImage()
 
     const firstname = editContactImageObject.firstname;
@@ -5443,7 +5476,8 @@ const allUsers = await getAllUsers();
     const user_id = matchingUser.user_id;
     const url = window.location.href.toString()
     const urlBeforeQuery = url.split('?')[0];
-    const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
+    const contact_id = urlBeforeQuery.split('contact_')[1]
+    // const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
     const editContactImageObject = await handleMobileEditContactImage()
 
     const firstname = editContactImageObject.firstname;
@@ -5541,7 +5575,8 @@ const allUsers = await getAllUsers();
     const user_id = matchingUser.user_id;
     const url = window.location.href.toString()
     const urlBeforeQuery = url.split('?')[0];
-    const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
+    const contact_id = urlBeforeQuery.split('contact_')[1]
+    // const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
     // const contact = await getUserContact(user_id, contact_id);
     // const allUserContacts = await getUserContacts(user_id)
 
