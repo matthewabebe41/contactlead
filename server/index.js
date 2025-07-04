@@ -84,8 +84,8 @@ app.get("/users/:user_id", async (req, res) => {
 //post a user
 app.post("/users", async (req, res) => {
     try {
-       const {user_id, firstname, lastname, emailaddress, phonenumber, user_password} = req.body;
-       const newUser = await pool.query("INSERT INTO users (user_id, firstname, lastname, emailaddress, phonenumber, user_password) VALUES($1, $2, $3, $4, $5, $6) RETURNING *", [user_id, firstname, lastname, emailaddress, phonenumber, user_password])
+       const {user_id, session_id, firstname, lastname, emailaddress, phonenumber, user_password} = req.body;
+       const newUser = await pool.query("INSERT INTO users (user_id, session_id, firstname, lastname, emailaddress, phonenumber, user_password) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *", [user_id, session_id, firstname, lastname, emailaddress, phonenumber, user_password])
        res.json(newUser.rows[0]);
     } catch (error) {
         console.error(error.message)
@@ -96,8 +96,8 @@ app.post("/users", async (req, res) => {
 app.put("/users/:user_id", async (req, res) => {
     try {
         const { user_id } = req.params;
-        const { firstname, lastname, emailaddress, phonenumber, password, user_image } = req.body;
-        const updateUser = await pool.query("UPDATE users SET firstname = $1, lastname = $2, emailaddress = $3, phonenumber = $4, user_image = $5, user_password = $6 WHERE user_id = $7", [firstname, lastname, emailaddress, phonenumber, user_image, password, user_id]);
+        const {firstname, lastname, emailaddress, phonenumber, password, user_image, session_id } = req.body;
+        const updateUser = await pool.query("UPDATE users SET firstname = $1, lastname = $2, emailaddress = $3, phonenumber = $4, user_password = $5, user_image = $6, session_id = $7 WHERE user_id = $8", [firstname, lastname, emailaddress, phonenumber, password, user_image, session_id, user_id]);
         res.json(updateUser.rows[0]);
     } catch (err) {
         console.error(err.message);

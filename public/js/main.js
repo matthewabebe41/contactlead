@@ -22,7 +22,7 @@ async function renderLoginContent() {
             if (allUsers[i].emailaddress === loginUserObject.emailAddress) {
                 found = true;
                 matchingUser = allUsers[i]
-                sessionStorage.setItem("user", matchingUser.user_id)
+                sessionStorage.setItem("user", matchingUser.session_id)
             }
         }
 
@@ -81,7 +81,7 @@ async function renderMobileLoginContent() {
             if (allUsers[i].emailaddress === loginUserObject.emailAddress) {
                 found = true;
                 matchingUser = allUsers[i]
-                sessionStorage.setItem("user", matchingUser.user_id)
+                sessionStorage.setItem("user", matchingUser.session_id)
             }
         }
 
@@ -285,7 +285,32 @@ async function renderMobileRegisterContent() {
         event.preventDefault();
         mobilePostNewUser()
     });
-}
+};
+
+async function generateSessionId(length) {
+    const allUsers = await getAllUsers()
+    let allUserSessionIds = [];
+
+    for (let i = 0; i < allUsers.length; i++) {
+        allUserSessionIds.push(allUsers[i].session_id)
+    }
+
+    console.log(allUserSessionIds)
+    const lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
+    const uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const numberChars = "0123456789";
+    const symbolChars = "!@#$%^&*()_+=-`~[]\{}|;':\",./<>?";
+    const allChars = lowercaseChars + uppercaseChars + numberChars + symbolChars;
+    let sessionId = "";
+    do {
+        for (let i = 0; i < length; i++) {
+          const randomIndex = Math.floor(Math.random() * allChars.length);
+          sessionId += allChars.charAt(randomIndex);
+        }
+    } while (allUserSessionIds.includes(sessionId))
+
+    return sessionId;
+};
 
 async function handleRegisterInput(event) {
     const registerUserFirstNameElement = document.querySelector("#register-user-first-name");
@@ -333,6 +358,7 @@ async function handleRegisterInput(event) {
 
     const registerUserObject = {
         userId: maxId + 1,
+        sessionId: await generateSessionId(30),
         firstName: registerUserFirstNameElement.value,
         lastName: registerUserLastNameElement.value,
         emailAddress: registerUserEmailElement.value,
@@ -344,6 +370,8 @@ async function handleRegisterInput(event) {
         alert("Passwords do not match.")
         return
     }
+
+    console.log(registerUserObject)
 
     return registerUserObject
 };
@@ -394,6 +422,7 @@ async function handleMobileRegisterInput(event) {
 
     const registerUserObject = {
         userId: maxId + 1,
+        sessionId: await generateSessionId(30),
         firstName: registerUserFirstNameElement.value,
         lastName: registerUserLastNameElement.value,
         emailAddress: registerUserEmailElement.value,
@@ -536,6 +565,7 @@ async function mobileHandleRecoverPasswordInput() {
     console.log(allUsers)
 
     const matchingUserObject = {
+       sessionId: matchingUser.session_id,
        userId: matchingUser.user_id,
        firstname: matchingUser.firstname,
        lastname: matchingUser.lastname,
@@ -565,10 +595,18 @@ async function generateRandomPassword(length) {
     }
 
     return password;
-  };
+};
 
 async function sendPasswordRecoveryEmail() {
-    const userId = sessionStorage.getItem("user");
+    const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const userId = matchingUser.user_id;
     const user = await getUser(userId);
     const recipient = user.emailaddress;
 
@@ -578,7 +616,15 @@ async function sendPasswordRecoveryEmail() {
 const navigateUserPageIcon = document.querySelector("#navigate-user-page-icon");
 navigateUserPageIcon.addEventListener("click", navigateUserPageFromSidePanel)
 async function navigateUserPageFromSidePanel() {
-    const userId = sessionStorage.getItem("user");
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const userId = matchingUser.user_id;
     const user = await getUser(userId)
         function saveDataToURL(url, data) {
             const urlObject = new URL(url);
@@ -623,7 +669,15 @@ async function navigateUserPageFromSidePanel() {
 const mobileNavigateUserPageIcon = document.querySelector("#mobile-navigate-user-page-icon");
 mobileNavigateUserPageIcon.addEventListener("click", navigateUserPageFromFooterPanel)
 async function navigateUserPageFromFooterPanel() {
-    const userId = sessionStorage.getItem("user");
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const userId = matchingUser.user_id;
     const user = await getUser(userId)
         function saveDataToURL(url, data) {
             const urlObject = new URL(url);
@@ -666,7 +720,15 @@ async function navigateUserPageFromFooterPanel() {
     })
 
 async function renderSmallSidePanelContent() {
-    const userId = sessionStorage.getItem("user");
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const userId = matchingUser.user_id;
     const user = await getUser(userId);
 
     const navigateUserPageIcon = document.querySelector("#navigate-user-page-icon");
@@ -733,7 +795,15 @@ async function renderSmallSidePanelContent() {
 };
 
 async function renderMobileFooterNavigationPanel() {
-     const userId = sessionStorage.getItem("user");
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const userId = matchingUser.user_id;
     const user = await getUser(userId);
 
     const navigateUserPageIcon = document.querySelector("#mobile-navigate-user-page-icon");
@@ -801,7 +871,15 @@ async function renderMobileFooterNavigationPanel() {
 }
 
 async function renderLargeSidePanelContent() {
-    const userId = sessionStorage.getItem("user");
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const userId = matchingUser.user_id;
     const userContacts = await getUserContacts(userId);
 
     console.log(userContacts)
@@ -848,23 +926,23 @@ async function renderLargeSidePanelContent() {
         contactListItem.style.alignItems = "center"
         contactListItem.style.height = "38px"
         // contactListItem.style.width = "300px"
-        contactListItem.style.marginBottom = "8px"
+        contactListItem.style.marginBottom = "2px"
         contactListItem.style.border = "1px solid grey"
         contactListItem.style.borderRadius = "5px"
         contactListItem.style.padding = "5px"
-        contactListItem.style.backgroundColor = "honeydew"
+        contactListItem.style.backgroundColor = "ghostwhite"
         contactListItem.addEventListener("mouseover", function() {
-            contactListItem.style.backgroundColor = "lightgrey";
+            contactListItem.style.backgroundColor = "lightgreen";
         });
         // contactListItem.addEventListener("mouseover", function() {
-        //     contactListItem.style.backgroundColor = "honeydew";
+        //     contactListItem.style.backgroundColor = "powderblue";
         // });
         contactListItem.addEventListener("mouseout", function() {
-            contactListItem.style.backgroundColor = "honeydew";
+            contactListItem.style.backgroundColor = "ghostwhite";
         })
         const contactImageItem = document.createElement("img");
         contactImageItem.style.width = "35px";
-        contactImageItem.style.height = "100%";
+        // contactImageItem.style.height = "100%";
         contactImageItem.style.border = "0.5px solid grey";
         contactImageItem.style.borderRadius = "50%";
         contactImageItem.style.backgroundColor = "gainsboro"
@@ -896,6 +974,14 @@ async function renderLargeSidePanelContent() {
         contactOrganizationAndRoleElement.style.fontSize = "0px"
         contactOrganizationAndRoleElement.style.margin = "0px"
         contactOrganizationAndRoleElement.innerHTML = `${contact.organization} || ${contact.organization_role}`
+
+        const contactEmailAddressText = contact.emailaddress;
+        const ellipsis = "..."
+        let contactEmailAddressTextSlice = contactEmailAddressText.slice(0, 35) + ellipsis
+        console.log(contactEmailAddressText.length)
+        if (contactEmailAddressText.length > 35) {
+            contactEmailElement.innerHTML = contactEmailAddressTextSlice
+        }
 
         if (contact.organization !== null && contact.organization !== "" && contact.organization_role !== null && contact.organization_role !== "") {
             contactOrganizationAndRoleElement.innerHTML = `${contact.organization} || ${contact.organization_role}`
@@ -1141,7 +1227,15 @@ async function contactsAutocompleteSearch() {
 }
      
 async function renderUserContent() {
-    const userId = sessionStorage.getItem("user");
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const userId = matchingUser.user_id;
     const user = await getUser(userId);
     const userContacts = await getUserContacts(userId);
     console.log(user)
@@ -1220,7 +1314,15 @@ async function renderUserContent() {
 };
 
 async function renderMobileUserContent() {
-    const userId = sessionStorage.getItem("user");
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const userId = matchingUser.user_id;
     const user = await getUser(userId);
     const userContacts = await getUserContacts(userId);
     console.log(user)
@@ -1301,7 +1403,15 @@ async function renderMobileUserContent() {
 };
 
 async function renderEditUserContent() {
-    const userId = sessionStorage.getItem("user");
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const userId = matchingUser.user_id;
     const user = await getUser(userId);
 
     const editUserImage = document.querySelector("#edit-user-image");
@@ -1489,7 +1599,15 @@ async function renderEditUserContent() {
 };
 
 async function renderMobileEditUserContent() {
-     const userId = sessionStorage.getItem("user");
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const userId = matchingUser.user_id;
     const user = await getUser(userId);
 
     const editUserImage = document.querySelector("#mobile-edit-user-image");
@@ -1679,7 +1797,15 @@ async function renderMobileEditUserContent() {
 };
 
 async function handleEditUserImage() {
-    const userId = sessionStorage.getItem("user");
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const userId = matchingUser.user_id;
     const user = await getUser(userId);
     const newUserImageElement = document.querySelector("#edit-user-image");
     let newUserImageFile;
@@ -1719,7 +1845,15 @@ async function handleEditUserImage() {
 };
 
 async function handleMobileEditUserImage() {
-     const userId = sessionStorage.getItem("user");
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const userId = matchingUser.user_id;
     const user = await getUser(userId);
     const newUserImageElement = document.querySelector("#mobile-edit-user-image");
     let newUserImageFile;
@@ -1759,7 +1893,15 @@ async function handleMobileEditUserImage() {
 }
 
 async function handleEditUserInput(event) {
-    const userId = sessionStorage.getItem("user");
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const userId = matchingUser.user_id;
     const user = await getUser(userId);
 
     const editUserImageElement = document.querySelector("#edit-user-image")
@@ -1796,7 +1938,15 @@ async function handleEditUserInput(event) {
 };
 
 async function handleMobileEditUserInput() {
-     const userId = sessionStorage.getItem("user");
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const userId = matchingUser.user_id;
     const user = await getUser(userId);
 
     const editUserImageElement = document.querySelector("#mobile-edit-user-image")
@@ -1833,7 +1983,15 @@ async function handleMobileEditUserInput() {
 }
 
 async function handleEditUserPasswordInput() {
-    const userId = sessionStorage.getItem("user");
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const userId = matchingUser.user_id;
     const user = await getUser(userId);
 
     const editUserPasswordElement = document.querySelector("#edit-user-password");
@@ -1860,7 +2018,15 @@ async function handleEditUserPasswordInput() {
 }
 
 async function renderContactsListContent() {
-    const userId = sessionStorage.getItem("user");
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const userId = matchingUser.user_id;
     const user = await getUser(userId);
     const userContacts = await getUserContacts(userId)
 
@@ -1966,10 +2132,10 @@ async function renderContactsListContent() {
         const contactListItem = document.createElement("div");
         contactListItem.style.display = "flex";
         contactListItem.style.flexDirection = "row";
-        contactListItem.style.height = "100px"
+        contactListItem.style.height = "80px"
         contactListItem.style.borderTop = "1px solid gray";
         contactListItem.style.borderBottom = "1px solid gray";
-        contactListItem.style.backgroundColor = "aliceblue"
+        contactListItem.style.backgroundColor = "ghostwhite"
         contactListItem.style.marginTop = "1px";
         contactListItem.style.marginBottom = "1px";
         contactListItem.setAttribute("contactId", contact.contact_id)
@@ -1979,7 +2145,7 @@ async function renderContactsListContent() {
         });
 
         contactListItem.addEventListener("mouseout", function() {
-            contactListItem.style.backgroundColor = "aliceblue";
+            contactListItem.style.backgroundColor = "ghostwhite";
         });
 
         contactListItem.addEventListener("click", function(event) {
@@ -2018,8 +2184,8 @@ async function renderContactsListContent() {
         // contactListItemImageContainer.style.width = "10%"
         contactListItemImageContainer.style.padding = "10px"
         const contactListItemImage = document.createElement("img");
-        contactListItemImage.style.width = "90px";
-        contactListItemImage.style.height = "100%";
+        contactListItemImage.style.width = "65px";
+        contactListItemImage.style.height = "65px";
         contactListItemImage.style.border = "0.5px solid grey";
         contactListItemImage.style.borderRadius = "50%"
         contactListItemImage.style.backgroundColor = "gainsboro";
@@ -2113,7 +2279,15 @@ async function renderContactsListContent() {
 };
 
 async function renderMobileContactsListContent() {
-     const userId = sessionStorage.getItem("user");
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const userId = matchingUser.user_id;
     const user = await getUser(userId);
     const userContacts = await getUserContacts(userId)
 
@@ -2223,7 +2397,7 @@ async function renderMobileContactsListContent() {
         contactListItem.style.height = "80px"
         contactListItem.style.borderTop = "1px solid gray";
         contactListItem.style.borderBottom = "1px solid gray";
-        contactListItem.style.backgroundColor = "aliceblue"
+        contactListItem.style.backgroundColor = "ghostwhite"
         contactListItem.style.marginTop = "1px";
         contactListItem.style.marginBottom = "1px";
         contactListItem.setAttribute("contactId", contact.contact_id)
@@ -2233,7 +2407,7 @@ async function renderMobileContactsListContent() {
         });
 
         contactListItem.addEventListener("mouseout", function() {
-            contactListItem.style.backgroundColor = "aliceblue";
+            contactListItem.style.backgroundColor = "ghostwhite";
         });
 
         contactListItem.addEventListener("click", function(event) {
@@ -2278,8 +2452,8 @@ async function renderMobileContactsListContent() {
         // contactListItemImageContainer.style.width = "10%"
         contactListItemImageContainer.style.padding = "10px"
         const contactListItemImage = document.createElement("img");
-        contactListItemImage.style.width = "70px";
-        contactListItemImage.style.height = "100%";
+        contactListItemImage.style.width = "65px";
+        contactListItemImage.style.height = "65px";
         contactListItemImage.style.border = "0.5px solid grey";
         contactListItemImage.style.borderRadius = "50%"
         contactListItemImage.style.backgroundColor = "gainsboro";
@@ -2425,7 +2599,15 @@ async function renderMobileContactsListContent() {
 }
 
 async function handleContactFavorite() {
-    const user_id = sessionStorage.getItem("user")
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const user_id = matchingUser.user_id;
     const url = window.location.href.toString()
     const urlBeforeQuery = url.split('?')[0];
     const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
@@ -2449,7 +2631,15 @@ async function handleContactFavorite() {
 };
 
 async function renderContactContent() {
-    const user_id = sessionStorage.getItem("user");
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const user_id = matchingUser.user_id;
     const url = window.location.href.toString()
     const urlBeforeQuery = url.split('?')[0];
     const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
@@ -2583,7 +2773,15 @@ async function renderContactContent() {
 };
 
 async function renderMobileContactContent() {
-    const user_id = sessionStorage.getItem("user");
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const user_id = matchingUser.user_id;
     const url = window.location.href.toString()
     const urlBeforeQuery = url.split('?')[0];
     const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
@@ -2980,7 +3178,15 @@ async function renderMobileContactContent() {
 };
 
 async function renderEditContactContent() {
-    const user_id = sessionStorage.getItem("user");
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const user_id = matchingUser.user_id;
     const url = window.location.href.toString()
     const urlBeforeQuery = url.split('?')[0];
     const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
@@ -3136,7 +3342,15 @@ async function renderEditContactContent() {
 };
 
 async function renderMobileEditContactContent() {
-     const user_id = sessionStorage.getItem("user");
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const user_id = matchingUser.user_id;
     const url = window.location.href.toString()
     const urlBeforeQuery = url.split('?')[0];
     const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
@@ -3293,7 +3507,15 @@ async function renderMobileEditContactContent() {
 }
 
 async function handleEditContactImage() {
-    const user_id = sessionStorage.getItem("user");
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const user_id = matchingUser.user_id;
     const url = window.location.href.toString()
     const urlBeforeQuery = url.split('?')[0];
     const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
@@ -3344,7 +3566,15 @@ async function handleEditContactImage() {
 };
 
 async function handleMobileEditContactImage() {
-    const user_id = sessionStorage.getItem("user");
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const user_id = matchingUser.user_id;
     const url = window.location.href.toString()
     const urlBeforeQuery = url.split('?')[0];
     const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
@@ -3395,7 +3625,15 @@ async function handleMobileEditContactImage() {
 }
 
 async function handleEditContactInput() {
-    const user_id = sessionStorage.getItem("user");
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const user_id = matchingUser.user_id;
     const url = window.location.href.toString()
     const urlBeforeQuery = url.split('?')[0];
     const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
@@ -3436,7 +3674,15 @@ async function handleEditContactInput() {
 };
 
 async function handleMobileEditContactInput() {
-     const user_id = sessionStorage.getItem("user");
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const user_id = matchingUser.user_id;
     const url = window.location.href.toString()
     const urlBeforeQuery = url.split('?')[0];
     const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
@@ -3477,7 +3723,15 @@ async function handleMobileEditContactInput() {
 }
 
 async function renderFavoriteContactsListContent() {
-    const userId = sessionStorage.getItem("user");
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const userId = matchingUser.user_id;
     const user = await getUser(userId);
     const userContacts = await getUserContacts(userId);
 
@@ -3580,10 +3834,10 @@ async function renderFavoriteContactsListContent() {
         const favoriteContactListItem = document.createElement("div");
         favoriteContactListItem.style.display = "flex";
         favoriteContactListItem.style.flexDirection = "row";
-        favoriteContactListItem.style.height = "100px"
+        favoriteContactListItem.style.height = "80px"
         favoriteContactListItem.style.borderTop = "1px solid gray";
         favoriteContactListItem.style.borderBottom = "1px solid gray";
-        favoriteContactListItem.style.backgroundColor = "aliceblue"
+        favoriteContactListItem.style.backgroundColor = "ghostwhite"
         favoriteContactListItem.style.marginTop = "1px";
         favoriteContactListItem.style.marginBottom = "1px";
         favoriteContactListItem.setAttribute("contactId", contact.contact_id)
@@ -3593,7 +3847,7 @@ async function renderFavoriteContactsListContent() {
         });
 
         favoriteContactListItem.addEventListener("mouseout", function() {
-            favoriteContactListItem.style.backgroundColor = "aliceblue";
+            favoriteContactListItem.style.backgroundColor = "ghostwhite";
         });
 
         favoriteContactListItem.addEventListener("click", function(event) {
@@ -3634,8 +3888,8 @@ async function renderFavoriteContactsListContent() {
         // favoriteContactListItemImageContainer.style.width = "15%"
         favoriteContactListItemImageContainer.style.padding = "10px"
         const favoriteContactListItemImage = document.createElement("img");
-        favoriteContactListItemImage.style.width = "90px";
-        favoriteContactListItemImage.style.height = "100%";
+        favoriteContactListItemImage.style.width = "65px";
+        favoriteContactListItemImage.style.height = "65px";
         favoriteContactListItemImage.style.border = "0.5px solid grey";
         favoriteContactListItemImage.style.borderRadius = "50%";
         favoriteContactListItemImage.style.backgroundColor = "gainsboro"
@@ -3726,7 +3980,15 @@ async function renderFavoriteContactsListContent() {
 }
 
 async function renderMobileFavoriteContactsListContent() {
-    const userId = sessionStorage.getItem("user");
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const userId = matchingUser.user_id;
     const user = await getUser(userId);
     const userContacts = await getUserContacts(userId);
 
@@ -3834,7 +4096,7 @@ async function renderMobileFavoriteContactsListContent() {
         favoriteContactListItem.style.height = "80px"
         favoriteContactListItem.style.borderTop = "1px solid gray";
         favoriteContactListItem.style.borderBottom = "1px solid gray";
-        favoriteContactListItem.style.backgroundColor = "aliceblue"
+        favoriteContactListItem.style.backgroundColor = "ghostwhite"
         favoriteContactListItem.style.marginTop = "1px";
         favoriteContactListItem.style.marginBottom = "1px";
         favoriteContactListItem.setAttribute("contactId", contact.contact_id)
@@ -3844,7 +4106,7 @@ async function renderMobileFavoriteContactsListContent() {
         });
 
         favoriteContactListItem.addEventListener("mouseout", function() {
-            favoriteContactListItem.style.backgroundColor = "aliceblue";
+            favoriteContactListItem.style.backgroundColor = "ghostwhite";
         });
 
         favoriteContactListItem.addEventListener("click", function(event) {
@@ -3976,7 +4238,15 @@ async function renderMobileFavoriteContactsListContent() {
 };
 
 async function renderNewContactContent() {
-    const userId = sessionStorage.getItem("user")
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const userId = matchingUser.user_id;
     const userContacts = await getUserContacts(userId);
     console.log(userContacts.length)
 
@@ -4061,7 +4331,15 @@ async function renderNewContactContent() {
 };
 
 async function renderMobileNewContactContent() {
-    const userId = sessionStorage.getItem("user")
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const userId = matchingUser.user_id;
     const userContacts = await getUserContacts(userId);
     console.log(userContacts.length)
 
@@ -4197,7 +4475,15 @@ async function handleMobileNewContactImage() {
 }
 
 async function handleNewContactInput() {
-    const userId = sessionStorage.getItem("user");
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const userId = matchingUser.user_id;
     const userContacts = await getUserContacts(userId);
     console.log(userContacts.length)
     
@@ -4255,7 +4541,15 @@ async function handleNewContactInput() {
 };
 
 async function handleMobileNewContactInput() {
-     const userId = sessionStorage.getItem("user");
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const userId = matchingUser.user_id;
     const userContacts = await getUserContacts(userId);
     console.log(userContacts.length)
     
@@ -4337,6 +4631,7 @@ async function postNewUser() {
     const registerUserObject = await handleRegisterInput();
 
     const user_id = registerUserObject.userId;
+    const session_id = registerUserObject.sessionId;
     const firstname = registerUserObject.firstName;
     const lastname = registerUserObject.lastName;
     const emailaddress = registerUserObject.emailAddress;
@@ -4345,7 +4640,7 @@ async function postNewUser() {
 
     console.log(registerUserObject)
 
-    const body = { user_id, firstname, lastname, emailaddress, phonenumber, user_password };
+    const body = { user_id, session_id, firstname, lastname, emailaddress, phonenumber, user_password };
     try {
         const response = await fetch(`/users`, {
             method: "POST",
@@ -4357,13 +4652,14 @@ async function postNewUser() {
         console.error(err)
     }
 
-    // window.location.href = `${rootUrl}/login`
+    window.location.href = `${rootUrl}/login`
 };
 
 async function mobilePostNewUser() {
     const registerUserObject = await handleMobileRegisterInput();
 
     const user_id = registerUserObject.userId;
+    const session_id = registerUserObject.sessionId;
     const firstname = registerUserObject.firstName;
     const lastname = registerUserObject.lastName;
     const emailaddress = registerUserObject.emailAddress;
@@ -4372,7 +4668,7 @@ async function mobilePostNewUser() {
 
     console.log(registerUserObject)
 
-    const body = { user_id, firstname, lastname, emailaddress, phonenumber, user_password };
+    const body = { user_id, session_id, firstname, lastname, emailaddress, phonenumber, user_password };
     try {
         const response = await fetch(`/users`, {
             method: "POST",
@@ -4389,7 +4685,15 @@ async function mobilePostNewUser() {
 
 async function updateUser(event) {
     const url = window.location.href;
-    const user_id = sessionStorage.getItem("user");
+    const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const user_id = matchingUser.user_id;
     const user = await getUser(user_id)
     const editUserObject = await handleEditUserInput();
 
@@ -4401,6 +4705,7 @@ async function updateUser(event) {
         return
     }
 
+    const session_id = sessionId;
     const firstname = editUserObject.firstname;
     const lastname = editUserObject.lastname;
     const emailaddress = editUserObject.emailaddress;
@@ -4408,7 +4713,7 @@ async function updateUser(event) {
     const password = user.user_password;
     const user_image = editUserObject.userImage;
 
-    const body = { firstname, lastname, emailaddress, phonenumber, password, user_image };
+    const body = { firstname, lastname, emailaddress, phonenumber, password, user_image, session_id };
     try {
         const response = await fetch(`/users/${user_id}`, {
             method: "PUT",
@@ -4457,7 +4762,15 @@ async function updateUser(event) {
 
 async function mobileUpdateUser() {
     const url = window.location.href;
-    const user_id = sessionStorage.getItem("user");
+    const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const user_id = matchingUser.user_id;
     const user = await getUser(user_id)
     const editUserObject = await handleMobileEditUserInput();
 
@@ -4469,6 +4782,7 @@ async function mobileUpdateUser() {
         return
     }
 
+    const session_id = sessionId;
     const firstname = editUserObject.firstname;
     const lastname = editUserObject.lastname;
     const emailaddress = editUserObject.emailaddress;
@@ -4476,7 +4790,7 @@ async function mobileUpdateUser() {
     const password = user.user_password;
     const user_image = editUserObject.userImage;
 
-    const body = { firstname, lastname, emailaddress, phonenumber, password, user_image };
+    const body = { firstname, lastname, emailaddress, phonenumber, password, user_image, session_id };
     try {
         const response = await fetch(`/users/${user_id}`, {
             method: "PUT",
@@ -4525,7 +4839,15 @@ async function mobileUpdateUser() {
 
 async function updateUserImage(event) {
     const url = window.location.href;
-    const user_id = sessionStorage.getItem("user");
+    const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const user_id = matchingUser.user_id;
     const user = await getUser(user_id)
     const editUserImageObject = await handleEditUserImage();
 
@@ -4537,6 +4859,7 @@ async function updateUserImage(event) {
     //     return
     // }
 
+    const session_id = sessionId;
     const firstname = editUserImageObject.firstname;
     const lastname = editUserImageObject.lastname;
     const emailaddress = editUserImageObject.emailaddress;
@@ -4544,7 +4867,7 @@ async function updateUserImage(event) {
     const password = editUserImageObject.password;
     const user_image = editUserImageObject.userImage;
 
-    const body = { firstname, lastname, emailaddress, phonenumber, password, user_image };
+    const body = { firstname, lastname, emailaddress, phonenumber, password, user_image, session_id };
     try {
         const response = await fetch(`/users/${user_id}`, {
             method: "PUT",
@@ -4564,7 +4887,15 @@ async function updateUserImage(event) {
 
 async function mobileUpdateUserImage() {
      const url = window.location.href;
-    const user_id = sessionStorage.getItem("user");
+     const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const user_id = matchingUser.user_id;
     const user = await getUser(user_id)
     const editUserImageObject = await handleMobileEditUserImage();
 
@@ -4576,6 +4907,7 @@ async function mobileUpdateUserImage() {
     //     return
     // }
 
+    const session_id = sessionId;
     const firstname = editUserImageObject.firstname;
     const lastname = editUserImageObject.lastname;
     const emailaddress = editUserImageObject.emailaddress;
@@ -4583,7 +4915,7 @@ async function mobileUpdateUserImage() {
     const password = editUserImageObject.password;
     const user_image = editUserImageObject.userImage;
 
-    const body = { firstname, lastname, emailaddress, phonenumber, password, user_image };
+    const body = { firstname, lastname, emailaddress, phonenumber, password, user_image, session_id };
     try {
         const response = await fetch(`/users/${user_id}`, {
             method: "PUT",
@@ -4614,6 +4946,7 @@ async function recoverUserAccount() {
     //     window.location.reload()
     //     return
     // }
+    const session_id = recoverUserObject.sessionId;
     const user_id = recoverUserObject.userId;
     const firstname = recoverUserObject.firstname;
     const lastname = recoverUserObject.lastname;
@@ -4622,7 +4955,7 @@ async function recoverUserAccount() {
     const password = recoverUserObject.password;
     const user_image = recoverUserObject.userImage;
 
-    const body = { firstname, lastname, emailaddress, phonenumber, password, user_image };
+    const body = { firstname, lastname, emailaddress, phonenumber, password, user_image, session_id };
     try {
         const response = await fetch(`/users/${user_id}`, {
             method: "PUT",
@@ -4654,6 +4987,7 @@ async function mobileRecoverUserAccount() {
     //     window.location.reload()
     //     return
     // }
+    const session_id = recoverUserObject.sessionId;
     const user_id = recoverUserObject.userId;
     const firstname = recoverUserObject.firstname;
     const lastname = recoverUserObject.lastname;
@@ -4682,7 +5016,15 @@ async function mobileRecoverUserAccount() {
 
 async function updateUserPassword(event) {
     const url = window.location.href;
-    const user_id = sessionStorage.getItem("user");
+    const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const user_id = matchingUser.user_id;
     const user = await getUser(user_id)
     const editUserPasswordObject = await handleEditUserPasswordInput();
 
@@ -4694,6 +5036,7 @@ async function updateUserPassword(event) {
     //     return
     // }
 
+    const session_id = sessionId;
     const firstname = user.firstname;
     const lastname = user.lastname;
     const emailaddress = user.emailaddress;
@@ -4701,7 +5044,7 @@ async function updateUserPassword(event) {
     const password = editUserPasswordObject.password;
     const user_image = user.user_image;
 
-    const body = { firstname, lastname, emailaddress, phonenumber, password, user_image };
+    const body = { firstname, lastname, emailaddress, phonenumber, password, user_image, session_id };
     try {
         const response = await fetch(`/users/${user_id}`, {
             method: "PUT",
@@ -4721,7 +5064,15 @@ async function updateUserPassword(event) {
 
 async function mobileUpdateUserPassword() {
     const url = window.location.href;
-    const user_id = sessionStorage.getItem("user");
+    const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const user_id = matchingUser.user_id;
     const user = await getUser(user_id)
     const editUserPasswordObject = await handleMobileEditUserInput();
 
@@ -4733,6 +5084,7 @@ async function mobileUpdateUserPassword() {
     //     return
     // }
 
+    const session_id = sessionId;
     const firstname = user.firstname;
     const lastname = user.lastname;
     const emailaddress = user.emailaddress;
@@ -4740,7 +5092,7 @@ async function mobileUpdateUserPassword() {
     const password = editUserPasswordObject.password;
     const user_image = user.user_image;
 
-    const body = { firstname, lastname, emailaddress, phonenumber, password, user_image };
+    const body = { firstname, lastname, emailaddress, phonenumber, password, user_image, session_id };
     try {
         const response = await fetch(`/users/${user_id}`, {
             method: "PUT",
@@ -4759,7 +5111,15 @@ async function mobileUpdateUserPassword() {
 }
 
 async function deleteUser() {
-    const user_id = sessionStorage.getItem("user");
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const user_id = matchingUser.user_id;
     try {
         const response = await fetch(`/users/${user_id}`, {
             method: "DELETE",
@@ -4882,7 +5242,15 @@ async function getUserContact(user_id, contact_id) {
 };
 
 async function updateContact() {
-    const user_id = sessionStorage.getItem("user");
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const user_id = matchingUser.user_id;
     const url = window.location.href.toString()
     const urlBeforeQuery = url.split('?')[0];
     const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
@@ -4947,7 +5315,15 @@ async function updateContact() {
 };
 
 async function mobileUpdateContact() {
-    const user_id = sessionStorage.getItem("user");
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const user_id = matchingUser.user_id;
     const url = window.location.href.toString()
     const urlBeforeQuery = url.split('?')[0];
     const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
@@ -5012,7 +5388,15 @@ async function mobileUpdateContact() {
 }
 
 async function updateContactImage() {
-    const user_id = sessionStorage.getItem("user");
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const user_id = matchingUser.user_id;
     const url = window.location.href.toString()
     const urlBeforeQuery = url.split('?')[0];
     const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
@@ -5048,7 +5432,15 @@ async function updateContactImage() {
 };
 
 async function mobileUpdateContactImage() {
-    const user_id = sessionStorage.getItem("user");
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const user_id = matchingUser.user_id;
     const url = window.location.href.toString()
     const urlBeforeQuery = url.split('?')[0];
     const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
@@ -5084,7 +5476,15 @@ async function mobileUpdateContactImage() {
 }
 
 async function updateContactFavorite() {
-    const user_id = sessionStorage.getItem("user");
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const user_id = matchingUser.user_id;
     const favoriteObject = await handleContactFavorite()
     const favoriteValue = favoriteObject.favorite;
     const contact_id = favoriteObject.contactId;
@@ -5130,7 +5530,15 @@ window.addEventListener('pageshow', function(event) {
   });
   
 async function deleteContact() {
-    const user_id = sessionStorage.getItem("user");
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const user_id = matchingUser.user_id;
     const url = window.location.href.toString()
     const urlBeforeQuery = url.split('?')[0];
     const contact_id = urlBeforeQuery.charAt(urlBeforeQuery.length - 1);
@@ -5152,8 +5560,15 @@ async function deleteContact() {
 };
 
 async function deleteContacts() {
-    const user_id = sessionStorage.getItem("user");
-
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const user_id = matchingUser.user_id;
     try {
         const response = await fetch(`/contacts/${user_id}`, {
             method: "DELETE",
@@ -5168,7 +5583,15 @@ async function deleteContacts() {
 };
 
 async function setInitialURLAsLogin() {
-    const userId = sessionStorage.getItem("user");
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    // let matchingUser;
+    // for (let i = 0; i < allUsers.length; i++) {
+    //     if (allUsers[i].session_id === sessionId) {
+    //         matchingUser = allUsers[i]
+    //     }
+    // }
+    // const userId = matchingUser.user_id;
     // console.log(userId);
 
     const appName = document.querySelector("#app-name");
@@ -5182,7 +5605,7 @@ async function setInitialURLAsLogin() {
         return
     };
 
-    if (userId === null && window.location.href !== `${rootUrl}/register` && userId === null && window.location.href !== `${rootUrl}/recover-password`) {
+    if (sessionId === null && window.location.href !== `${rootUrl}/register` && sessionId === null && window.location.href !== `${rootUrl}/recover-password`) {
         window.location.href = `${rootUrl}/login`
         return
     };
