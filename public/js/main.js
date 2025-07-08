@@ -732,6 +732,8 @@ const allUsers = await getAllUsers();
             matchingUser = allUsers[i]
         }
     }
+
+    console.log(matchingUser)
     const userId = matchingUser.user_id;
     const user = await getUser(userId);
 
@@ -4120,7 +4122,7 @@ const allUsers = await getAllUsers();
     const editContactImageElement = document.querySelector("#mobile-edit-contact-image");
     const editContactFirstNameElement = document.querySelector("#mobile-edit-contact-firstname");
     const editContactLastNameElement = document.querySelector("#mobile-edit-contact-lastname");
-    const editContactGenderElement = document.querySelector("#mobile-edit-contact-gender")
+    const editContactGenderElement = document.querySelector("#mobile-edit-contact-select-gender")
     const editContactBirthdayElement = document.querySelector("#mobile-edit-contact-birthday");
     const editContactEmailAddressElement = document.querySelector("#mobile-edit-contact-emailaddress");
     const editContactPhoneNumberElement = document.querySelector("#mobile-edit-contact-phonenumber");
@@ -4998,7 +5000,7 @@ const allUsers = await getAllUsers();
 
     const newContactFirstNameElement = document.querySelector("#mobile-new-contact-firstname");
     const newContactLastNameElement = document.querySelector("#mobile-new-contact-lastname");
-    const newContactGenderElement = document.querySelector("#mobile-new-contact-gender");
+    const newContactGenderElement = document.querySelector("#mobile-new-contact-select-gender");
     const newContactBirthdayElement = document.querySelector("#mobile-new-contact-birthday")
     const newContactEmailAddressElement = document.querySelector("#mobile-new-contact-email");
     const newContactPhoneNumberElement = document.querySelector("#mobile-new-contact-phonenumber");
