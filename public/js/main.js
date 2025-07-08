@@ -4872,52 +4872,6 @@ const allUsers = await getAllUsers();
         mobilePostNewContact()
     });
 
-    const newContactFirstNameElement = document.querySelector("#mobile-new-contact-firstname");
-    newContactFirstNameElement.addEventListener("focus", function() {
-        document.body.style.overflow = "hidden"
-    });
-    const newContactLastNameElement = document.querySelector("#mobile-new-contact-lastname");
-    newContactLastNameElement.addEventListener("focus", function() {
-        document.body.style.overflow = "hidden"
-    });
-    // const newContactGenderElement = document.querySelector("#mobile-new-contact-select-gender");
-     newContactGenderElement.addEventListener("focus", function() {
-        document.body.style.overflow = "hidden"
-    });
-    const newContactBirthdayElement = document.querySelector("#mobile-new-contact-birthday")
-     newContactBirthdayElement.addEventListener("focus", function() {
-        document.body.style.overflow = "hidden"
-    });
-    const newContactEmailAddressElement = document.querySelector("#mobile-new-contact-email");
-     newContactEmailAddressElement.addEventListener("focus", function() {
-        document.body.style.overflow = "hidden"
-    });
-    // const newContactPhoneNumberElement = document.querySelector("#mobile-new-contact-phonenumber");
-     newContactPhoneNumberElement.addEventListener("focus", function() {
-        document.body.style.overflow = "hidden"
-    });
-    const newContactAddressElement = document.querySelector("#mobile-new-contact-address");
-     newContactAddressElement.addEventListener("focus", function() {
-        document.body.style.overflow = "hidden"
-    });
-    const newContactOrganizationElement = document.querySelector("#mobile-new-contact-organization");
-     newContactOrganizationElement.addEventListener("focus", function() {
-        document.body.style.overflow = "hidden"
-    });
-    const newContactRoleElement = document.querySelector("#mobile-new-contact-role")
-     newContactRoleElement.addEventListener("focus", function() {
-        document.body.style.overflow = "hidden"
-    });
-    const newContactSocialMediaElement = document.querySelector("#mobile-new-contact-social-media");
-     newContactSocialMediaElement.addEventListener("focus", function() {
-        document.body.style.overflow = "hidden"
-    });
-    const newContactNotesElement = document.querySelector("#mobile-new-contact-notes")
-     newContactNotesElement.addEventListener("focus", function() {
-        document.body.style.overflow = "hidden"
-    });
-    // const newContactImageElement = document.querySelector("#mobile-new-contact-image");
-
     document.body.style.overflow = "hidden"
 }
 
