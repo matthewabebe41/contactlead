@@ -6418,4 +6418,8 @@ const mobileLogoutIcon = document.querySelector("#mobile-logout-icon");
 mobileLogoutIcon.addEventListener("click", function() {
     sessionStorage.clear();
     window.location.href = `${rootUrl}/login`
-})
+});
+
+if ("virtualKeyboard" in navigator) {
+  navigator.virtualKeyboard.overlaysContent = true;
+}
