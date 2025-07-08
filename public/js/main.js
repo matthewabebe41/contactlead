@@ -4950,7 +4950,6 @@ const allUsers = await getAllUsers();
         document.body.style.overflowY = "hidden"
     })
     const newContactImageElement = document.querySelector("#mobile-new-contact-image");
-    
 
     document.body.style.overflow = "hidden"
 }
@@ -6448,10 +6447,12 @@ domReady(async () => {
         newContactViewElement.style.display = "none"
     };
 
-     const mobileNewContactViewElement = document.querySelector("#mobile-new-contact-view");
+    const mobileNewContactViewElement = document.querySelector("#mobile-new-contact-view");
+    const mobileFooterElement = document.querySelector("#mobile-footer");
     if (window.location.href === (`${rootUrl}/new_contact`) && clientwidth < 1070) {
         mobileNewContactViewElement.style.display = "block";
         await renderMobileNewContactContent()
+        mobileFooterElement.style.position = "absolute";
         document.body.style.display = "block"
     } else {
         mobileNewContactViewElement.style.display = "none"
