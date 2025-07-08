@@ -4872,7 +4872,7 @@ const allUsers = await getAllUsers();
         mobilePostNewContact()
     });
 
-    document.body.style.overflow = "hidden"
+    // document.body.style.overflow = "hidden"
 }
 
 async function handleNewContactImage() {
