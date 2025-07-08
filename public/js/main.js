@@ -4888,6 +4888,7 @@ const allUsers = await getAllUsers();
     // newContactFirstNameElement.addEventListener("focus", function () {
     //     document.body.style.overflowY = "hidden"
     // })
+    newContactFirstNameElement.focus({ preventScroll: true });
     newContactFirstNameElement.addEventListener("blur", function () {
         window.scrollTo(0, 0)
     })
@@ -4895,6 +4896,7 @@ const allUsers = await getAllUsers();
      newContactLastNameElement.addEventListener("blur", function () {
         window.scrollTo(0, 0)
     })
+    newContactLastNameElement.focus({ preventScroll: true });
     // newContactLastNameElement.addEventListener("focus", function () {
     //     document.body.style.overflowY = "hidden"
     // })
@@ -4905,6 +4907,7 @@ const allUsers = await getAllUsers();
     // newContactGenderElement.addEventListener("focus", function () {
     //     document.body.style.overflowY = "hidden"
     // })
+    newContactGenderElement.focus({ preventScroll: true });
     const newContactBirthdayElement = document.querySelector("#mobile-new-contact-birthday")
      newContactBirthdayElement.addEventListener("blur", function () {
         window.scrollTo(0, 0)
@@ -4912,6 +4915,7 @@ const allUsers = await getAllUsers();
     // newContactBirthdayElement.addEventListener("focus", function () {
     //     document.body.style.overflowY = "hidden"
     // })
+    newContactBirthdayElement.focus({ preventScroll: true });
     const newContactEmailAddressElement = document.querySelector("#mobile-new-contact-email");
      newContactEmailAddressElement.addEventListener("blur", function () {
         window.scrollTo(0, 0)
@@ -4919,6 +4923,7 @@ const allUsers = await getAllUsers();
     // newContactEmailAddressElement.addEventListener("focus", function () {
     //     document.body.style.overflowY = "hidden"
     // })
+    newContactEmailAddressElement.focus({ preventScroll: true });
     // const newContactPhoneNumberElement = document.querySelector("#mobile-new-contact-phonenumber");
      newContactPhoneNumberElement.addEventListener("blur", function () {
         window.scrollTo(0, 0)
@@ -4926,6 +4931,7 @@ const allUsers = await getAllUsers();
     // newContactPhoneNumberElement.addEventListener("focus", function () {
     //     document.body.style.overflowY = "hidden"
     // })
+    newContactPhoneNumberElement.focus({ preventScroll: true });
     const newContactAddressElement = document.querySelector("#mobile-new-contact-address");
      newContactAddressElement.addEventListener("blur", function () {
         window.scrollTo(0, 0)
@@ -4933,6 +4939,7 @@ const allUsers = await getAllUsers();
     // newContactAddressElement.addEventListener("focus", function () {
     //     document.body.style.overflowY = "hidden"
     // })
+    newContactAddressElement.focus({ preventScroll: true });
     const newContactOrganizationElement = document.querySelector("#mobile-new-contact-organization");
      newContactOrganizationElement.addEventListener("blur", function () {
         window.scrollTo(0, 0)
@@ -4940,6 +4947,7 @@ const allUsers = await getAllUsers();
     // newContactOrganizationElement.addEventListener("focus", function () {
     //     document.body.style.overflowY = "hidden"
     // })
+    newContactOrganizationElement.focus({ preventScroll: true });
     const newContactRoleElement = document.querySelector("#mobile-new-contact-role")
      newContactRoleElement.addEventListener("blur", function () {
         window.scrollTo(0, 0)
@@ -4947,6 +4955,7 @@ const allUsers = await getAllUsers();
     // newContactRoleElement.addEventListener("focus", function () {
     //     document.body.style.overflowY = "hidden"
     // })
+    newContactRoleElement.focus({ preventScroll: true });
     const newContactSocialMediaElement = document.querySelector("#mobile-new-contact-social-media");
      newContactSocialMediaElement.addEventListener("blur", function () {
         window.scrollTo(0, 0)
@@ -4954,6 +4963,7 @@ const allUsers = await getAllUsers();
     // newContactSocialMediaElement.addEventListener("focus", function () {
     //     document.body.style.overflowY = "hidden"
     // })
+    newContactSocialMediaElement.focus({ preventScroll: true });
     const newContactNotesElement = document.querySelector("#mobile-new-contact-notes")
      newContactNotesElement.addEventListener("blur", function () {
         window.scrollTo(0, 0)
@@ -4961,52 +4971,7 @@ const allUsers = await getAllUsers();
     // newContactNotesElement.addEventListener("focus", function () {
     //     document.body.style.overflowY = "hidden"
     // })
-
-     requestAnimationFrame(() => {
-        let body = document.body; // why such a long variable name?
-        console.log("h " + body.style.height); // empty since you did not used i.e: elItem.style.height = "100px";
-        console.log("ch " + body.clientHeight); // 22
-        console.log("oh " + body.offsetHeight); // 22
-        console.log("gcsh " + getComputedStyle(body).getPropertyValue("height")); // "22.3906px"
-        console.log("gcshInt " + parseInt(getComputedStyle(body).getPropertyValue("height"), 10)); // 22
-
-        const bodyHeight = body.clientHeight;
-        console.log(bodyHeight)
-
-        newContactFirstNameElement.addEventListener("focus", function () {
-            document.body.style.height = bodyHeight
-        })
-        newContactLastNameElement.addEventListener("focus", function () {
-            document.body.style.height = bodyHeight
-        })
-        newContactGenderElement.addEventListener("focus", function () {
-            document.body.style.height = bodyHeight
-        })
-        newContactBirthdayElement.addEventListener("focus", function () {
-            document.body.style.height = bodyHeight
-        })
-        newContactEmailAddressElement.addEventListener("focus", function () {
-            document.body.style.height = bodyHeight
-        })
-        newContactPhoneNumberElement.addEventListener("focus", function () {
-            document.body.style.height = bodyHeight
-        })
-        newContactAddressElement.addEventListener("focus", function () {
-            document.body.style.height = bodyHeight
-        })
-        newContactOrganizationElement.addEventListener("focus", function () {
-            document.body.style.height = bodyHeight
-        })
-        newContactRoleElement.addEventListener("focus", function () {
-            document.body.style.height = bodyHeight
-        })
-        newContactSocialMediaElement.addEventListener("focus", function () {
-            document.body.style.height = bodyHeight
-        })
-        newContactNotesElement.addEventListener("focus", function () {
-            document.body.style.height = bodyHeight
-        })
-    });
+    newContactNotesElement.focus({ preventScroll: true });
     const newContactImageElement = document.querySelector("#mobile-new-contact-image");
 
     document.body.style.overflow = "hidden"
