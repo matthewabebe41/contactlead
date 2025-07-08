@@ -4872,30 +4872,6 @@ const allUsers = await getAllUsers();
         mobilePostNewContact()
     });
 
-    const newContactFirstNameElement = document.querySelector("#mobile-new-contact-firstname");
-    newContactFirstNameElement.setAttribute("style","-ms-touch-action: none;");
-    const newContactLastNameElement = document.querySelector("#mobile-new-contact-lastname");
-    newContactLastNameElement.setAttribute("style","-ms-touch-action: none;");
-    // const newContactGenderElement = document.querySelector("#mobile-new-contact-select-gender");
-    newContactGenderElement.setAttribute("style","-ms-touch-action: none;");
-    const newContactBirthdayElement = document.querySelector("#mobile-new-contact-birthday")
-    newContactBirthdayElement.setAttribute("style","-ms-touch-action: none;");
-    const newContactEmailAddressElement = document.querySelector("#mobile-new-contact-email");
-    newContactEmailAddressElement.setAttribute("style","-ms-touch-action: none;");
-    // const newContactPhoneNumberElement = document.querySelector("#mobile-new-contact-phonenumber");
-    newContactPhoneNumberElement.setAttribute("style","-ms-touch-action: none;");
-    const newContactAddressElement = document.querySelector("#mobile-new-contact-address");
-    newContactAddressElement.setAttribute("style","-ms-touch-action: none;");
-    const newContactOrganizationElement = document.querySelector("#mobile-new-contact-organization");
-    newContactOrganizationElement.setAttribute("style","-ms-touch-action: none;");
-    const newContactRoleElement = document.querySelector("#mobile-new-contact-role")
-    newContactRoleElement.setAttribute("style","-ms-touch-action: none;");
-    const newContactSocialMediaElement = document.querySelector("#mobile-new-contact-social-media");
-    newContactSocialMediaElement.setAttribute("style","-ms-touch-action: none;");
-    const newContactNotesElement = document.querySelector("#mobile-new-contact-notes")
-    newContactNotesElement.setAttribute("style","-ms-touch-action: none;");
-    // const newContactImageElement = document.querySelector("#mobile-new-contact-image");
-
     document.body.style.overflow = "hidden"
 }
 
