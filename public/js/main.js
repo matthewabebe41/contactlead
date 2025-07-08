@@ -4872,6 +4872,53 @@ const allUsers = await getAllUsers();
         mobilePostNewContact()
     });
 
+    const newContactFirstNameElement = document.querySelector("#mobile-new-contact-firstname");
+    newContactFirstNameElement.addEventListener("blur", function () {
+        window.scrollTo(0, 0)
+    })
+    const newContactLastNameElement = document.querySelector("#mobile-new-contact-lastname");
+     newContactLastNameElement.addEventListener("blur", function () {
+        window.scrollTo(0, 0)
+    })
+    // const newContactGenderElement = document.querySelector("#mobile-new-contact-select-gender");
+     newContactGenderElement.addEventListener("blur", function () {
+        window.scrollTo(0, 0)
+    })
+    const newContactBirthdayElement = document.querySelector("#mobile-new-contact-birthday")
+     newContactBirthdayElement.addEventListener("blur", function () {
+        window.scrollTo(0, 0)
+    })
+    const newContactEmailAddressElement = document.querySelector("#mobile-new-contact-email");
+     newContactEmailAddressElement.addEventListener("blur", function () {
+        window.scrollTo(0, 0)
+    })
+    // const newContactPhoneNumberElement = document.querySelector("#mobile-new-contact-phonenumber");
+     newContactPhoneNumberElement.addEventListener("blur", function () {
+        window.scrollTo(0, 0)
+    })
+    const newContactAddressElement = document.querySelector("#mobile-new-contact-address");
+     newContactAddressElement.addEventListener("blur", function () {
+        window.scrollTo(0, 0)
+    })
+    const newContactOrganizationElement = document.querySelector("#mobile-new-contact-organization");
+     newContactOrganizationElement.addEventListener("blur", function () {
+        window.scrollTo(0, 0)
+    })
+    const newContactRoleElement = document.querySelector("#mobile-new-contact-role")
+     newContactRoleElement.addEventListener("blur", function () {
+        window.scrollTo(0, 0)
+    })
+    const newContactSocialMediaElement = document.querySelector("#mobile-new-contact-social-media");
+     newContactSocialMediaElement.addEventListener("blur", function () {
+        window.scrollTo(0, 0)
+    })
+    const newContactNotesElement = document.querySelector("#mobile-new-contact-notes")
+     newContactNotesElement.addEventListener("blur", function () {
+        window.scrollTo(0, 0)
+    })
+    const newContactImageElement = document.querySelector("#mobile-new-contact-image");
+    
+
     document.body.style.overflow = "hidden"
 }
 
