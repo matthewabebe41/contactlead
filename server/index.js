@@ -59,6 +59,10 @@ app.get("/contact_:contact_id", (req, res) => {
 app.get("/edit_contact_:contact_id", (req, res) => {
     res.sendFile(path.join(__dirname, "../index.html"));
 });
+app.get("/search-contacts", (req, res) => {
+    res.sendFile(path.join(__dirname, "../index.html"));
+});
+
 
 //get all users
 app.get("/users", async (req, res) => {
