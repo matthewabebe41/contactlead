@@ -8,9 +8,23 @@
 </head>
 <body style="height: 100vh; width: 100%; background-color: white; display: none; margin: 0; overflow-y: scroll; overscroll-behavior: none;"></body>
 
-    <div id="topbar" style="position: absolute; display: flex; justify-content: space-between; align-items: center; width: 100%; height: 9.3%; background-color: darkblue; border-bottom: 1px solid black; z-index: 2;">
-        <h2 id="app-name" style="position: relative; font-size: xx-large; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; color: white; margin: 0px 0px 0px 12px;">Contactlead</h2>
-        <img id="mobile-search-icon" src="./images/search-svgrepo-com.svg" style="width: 40px; border-radius: 50%; background-color: white; margin-right: 10px; padding: 2px; box-shadow: 2px 2px 2px; display: none;">
+    <div id="topbar" style="position: absolute; display: flex; justify-content: space-between; align-items: center; width: 100%; height: 9.3%; background-color: cadetblue; border-bottom: 1px solid black; z-index: 2;">
+            <h2 id="app-name" style="position: relative; font-size: xx-large; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; color: white; margin: 0px 0px 0px 12px;">Contactlead</h2>
+            <!-- <img id="mobile-search-icon" src="./images/search-svgrepo-com.svg" style="width: 40px; border-radius: 50%; background-color: white; margin-right: 10px; padding: 2px; box-shadow: 2px 2px 2px; display: none;"> -->
+        <div id="mobile-list-menu-icon-container" style="display: flex; height: 100%; align-items: center;">
+            <img id="mobile-list-menu-icon" src="./images/menu-svgrepo-com.svg" style="width: 40px; padding: 5px; display: none;">
+            <img id="mobile-close-list-menu-icon" src="./images/close-svgrepo-com.svg" style="width: 40px; display: none;">
+        </div>
+    </div>
+
+    <div id="mobile-menu" style="display: none; position: absolute; flex-direction: column; width: 100%; height: 30%; top: 9.4%; background-color: ghostwhite; z-index: 2;">
+        <ul style="display: flex; flex-direction: column; justify-content: space-between; width: 100%; height: 100%; padding: 0px; margin: 0px;">
+            <li id="mobile-account-menu-item" style="display: flex; justify-content: center; align-items: center; height: 20%; font-size: large; font-weight: bold; border-bottom: 1px solid black; padding: 2px; list-style-type: none;">Account</li>
+            <li id="mobile-contacts-list-menu-item" style="display: flex; justify-content: center; align-items: center; height: 20%; font-size: large; font-weight: bold; border-bottom: 1px solid black; padding: 2px; list-style-type: none;">Contacts</li>
+            <li id="mobile-favorites-list-menu-item" style="display: flex; justify-content: center; align-items: center; height: 20%; font-size: large; font-weight: bold; border-bottom: 1px solid black; padding: 2px; list-style-type: none;">Favorites</li>
+            <li id="mobile-search-contacts-menu-item" style="display: flex; justify-content: center; align-items: center; height: 20%; font-size: large; font-weight: bold; border-bottom: 1px solid black; padding: 2px; list-style-type: none;">Search</li>
+            <li id="mobile-new-contact-menu-item" style="display: flex; justify-content: center; align-items: center; height: 20%; font-size: large; font-weight: bold; border-bottom: 1px solid black; padding: 2px; list-style-type: none;">New</li>
+        </ul>
     </div>
 
     <div id="small-sidebar" style="position: fixed; width: 6.5%; height: 100%; top: 0%; left: 0%; background-color: ghostwhite; border-right: 1px solid black; box-shadow: 2px 2px 2px; overflow: hidden; z-index: 4;">
@@ -71,12 +85,12 @@
         </div>
     </div>
 
-    <div id="large-sidebar" style="position: fixed; width: 25%; height: 100%; top: 0%; left: 6.5%; background-color: #ededed; box-shadow: 0px 5px 10px; overflow-y: scroll; scrollbar-width: thin; overflow-x: hidden; z-index: 3;">
-        <div id="search-contacts-elements-container" style="position: relative; display: flex; align-items: center; width: 100%;  height: 9.3%; border-bottom: 1px solid black; box-shadow: 2px 2px 2px; background-color: lightslategrey;">
+    <div id="large-sidebar" style="position: fixed; width: 25%; height: 100%; top: 0%; left: 6.5%; background-color: #ededed; box-shadow: 0px 5px 10px; overflow-y: scroll; scrollbar-width: thin; overflow-x: hidden; overscroll-behavior: contain; z-index: 3;">
+        <div id="search-contacts-elements-container" style="position: fixed; display: flex; align-items: center; width: 24.26%;  height: 9.3%; border-bottom: 1px solid black; background-color: lightslategrey;">
             <img id="search-icon" src="./images/search-svgrepo-com.svg" style="width: 18px; margin-left: 6px; border-radius: 50%; background-color: white; padding: 2px;">
             <input type="search" name="search-contacts" id="search-contacts-input" placeholder="Search for a contact" style="width: 87%; height: 21px; margin-left: 3px;">
         </div>
-        <div id="sidebar-contacts-list-container" style="margin-left: 4px 0px 1px 0px;">
+        <div id="sidebar-contacts-list-container" style="margin: 60px 0px 1px 0px;">
             <ul id="sidebar-contacts-list" style="margin: 0px; padding: 8px 8px 0px 10px;"></ul>
             <ul id="autocomplete-contacts-list" style="display: none; margin: 0px; padding: 8px 8px 0px 10px;"></ul>
         </div>
@@ -1142,15 +1156,15 @@
     </section>
 
     <section id="mobile-new-contact-view" style="position: absolute; width: 100%; height: 90.5%; top: 9.5%; display: none; overflow: hidden;">
-        <div id="mobile-new-contact-image-container" style="position: absolute; display: flex; align-items: center; width: 100%; height: 14%; background-color: #f9f9f9; box-shadow: 2px 2px 2px;">
+        <div id="mobile-new-contact-header-container" style="position: absolute; display: flex; align-items: center; width: 100%; height: 15%; background-color: #f9f9f9; box-shadow: 2px 2px 2px;">
             <div id="mobile-new-contact-image-container" style="position: absolute; display: flex; align-items: center; height: 100%; padding: 10px;">
-                <img id="mobile-new-contact-image" src="./images/user-2-svgrepo-com.svg" style="position: relative; display: flex; justify-content: center; align-items: center; width: 70px; height: 70px; border: 0.5px solid grey; box-shadow: 2px 2px 2px; border-radius: 50%; margin-top: 2px; background-color: gainsboro; object-fit: cover; z-index: 1;">
+                <img id="mobile-new-contact-image" src="./images/user-2-svgrepo-com.svg" style="position: relative; display: flex; justify-content: center; align-items: center; width: 71.25px; height: 71.25px; border: 0.5px solid grey; box-shadow: 2px 2px 2px; border-radius: 50%; margin-top: 2px; background-color: gainsboro; object-fit: cover; z-index: 1;">
                 <div style="display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-end; height: 100%;">
-                    <button id="mobile-new-contact-add-photo-button" style="height: 20px; margin-bottom: 5px; margin-left: 5px; z-index: 1;">Add photo</button>
+                    <button id="mobile-new-contact-add-photo-button" style="height: 20px; margin: 0px 0px 6px 5px; z-index: 1;">Add photo</button>
                 </div>
             </div>
             <div id="mobile-new-contact-header-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%;">
-                <h2 style="font-family: Arial; margin-left: 35px;">Create contact.</h2>
+                <h2 style="font-family: Arial; margin: 0px 0px 0px 35px;">Create contact.</h2>
             </div>
         </div>
         <div id="mobile-new-contact-add-photo-input-container" style="position: absolute; align-items: center; width: 100%; height: 25px; top: 17%; z-index: 2; background-color: grey; display: none;">
@@ -1161,7 +1175,7 @@
                 <img id="mobile-close-new-contact-add-photo-icon" src="./images/close-svgrepo-com.svg" style="width: 20px;">
             </div>
         </div>
-        <div id="mobile-new-contact-infomration-container" style="position: absolute; display: flex; flex-direction: column; align-items: center; width: 100%; height: 69%; top: 14.5%;">
+        <div id="mobile-new-contact-infomration-container" style="position: absolute; display: flex; flex-direction: column; align-items: center; width: 100%; height: 66.5%; top: 15%;">
             <div style="display: flex; flex-direction: column; justify-content: space-evenly; width: 96%; height: 100%;">
             <div id="mobile-new-contact-information-row-one" style="display: flex; justify-content: space-between; width: 100%;">
                 <div id="mobile-new-contact-first-name-container" style="display: flex; flex-direction: column; width: 45%;">
@@ -1232,7 +1246,7 @@
             </div>
         </div>
     </div>
-    <div id="mobile-new-contact-notes-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 6%; top: 85%;">
+    <div id="mobile-new-contact-notes-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 6.5%; top: 83.55%;">
         <div id="mobile-notes-label-container" style="display: flex; justify-content: flex-start; width: 96%;">
             <label style="font-weight: bold;">Notes</label>
         </div>
@@ -1240,7 +1254,7 @@
              <textarea id="mobile-new-contact-notes" maxlength="195" style="width: 100%; height: 100%; font-family: sans-serif; font-size: 16px; border: 1px solid grey; resize: none;"></textarea>
         </div>
     </div>
-    <div id="mobile-new-contact-button-container" style="position: absolute; display: flex; justify-content: center; align-items: center; width: 100%; top: 97%;">
+    <div id="mobile-new-contact-button-container" style="position: absolute; display: flex; justify-content: center; align-items: center; width: 100%; top: 96.25%;">
         <div style="position: absolute; display: flex; justify-content: flex-end; width: 96%;">
             <!-- <button id="delete-contact-button" style="background-color: red;">Delete Account</button> -->
             <button id="mobile-create-new-contact-button">Create</button>

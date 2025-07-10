@@ -611,7 +611,96 @@ async function sendPasswordRecoveryEmail() {
     const recipient = user.emailaddress;
 
     console.log(recipient)
-}
+};
+
+const mobileListMenuIcon = document.querySelector("#mobile-list-menu-icon");
+const mobileCloseMenuIcon = document.querySelector("#mobile-close-list-menu-icon")
+const mobileListMenuElement = document.querySelector("#mobile-menu");
+mobileListMenuIcon.addEventListener("click", function() {
+    mobileListMenuIcon.style.display = "none";
+    mobileCloseMenuIcon.style.display = "block"
+    mobileListMenuElement.style.display = "flex";
+});
+
+async function navigateUserFromMobileMenuList() {
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const userId = matchingUser.user_id;
+    const user = await getUser(userId)
+        function saveDataToURL(url, data) {
+            const urlObject = new URL(url);
+            const params = new URLSearchParams(urlObject.search);
+        
+            for (const key in data) {
+                if (data.hasOwnProperty(key)) {
+                    params.set(key, data[key]);
+                }
+            }
+            urlObject.search = params.toString();
+            return urlObject.toString();
+        }   
+        const myURL = `${rootUrl}/user`
+        const myData = {
+            user_id: user.user_id,
+            name: `${user.firstname} ${user.lastname}`,
+        };
+            
+        let newURL = saveDataToURL(myURL, myData);
+
+        if (newURL.charAt(newURL.length - 1) === '+') {
+            console.log(newURL)
+            let editedurl = newURL.slice(0, -1)
+            newURL = editedurl
+        }
+        window.location.href = newURL
+    };
+
+mobileCloseMenuIcon.addEventListener("click", function() {
+    mobileListMenuIcon.style.display = "block";
+    mobileCloseMenuIcon.style.display = "none";
+    mobileListMenuElement.style.display = "none";
+})
+
+const mobileAccountMenuItem = document.querySelector("#mobile-account-menu-item");
+mobileAccountMenuItem.addEventListener("click", function() {
+    mobileAccountMenuItem.style.backgroundColor = "lightgrey";
+    mobileAccountMenuItem.style.color = "white";
+    navigateUserFromMobileMenuList()
+});
+// mobileAccountMenuItem.addEventListener("mouseout", function() {
+//     mobileAccountMenuItem.style.backgroundColor = "none";
+//     mobileAccountMenuItem.style.color = "black";
+// })
+const mobileContactsListMenuItem = document.querySelector("#mobile-contacts-list-menu-item");
+mobileContactsListMenuItem.addEventListener("click", function() {
+    mobileContactsListMenuItem.style.backgroundColor = "lightgrey";
+    mobileContactsListMenuItem.style.color = "white";
+    window.location.href = `${rootUrl}/contacts`;
+});
+const mobileFavoritesListMenuItem = document.querySelector("#mobile-favorites-list-menu-item");
+mobileFavoritesListMenuItem.addEventListener("click", function() {
+    mobileFavoritesListMenuItem.style.backgroundColor = "lightgrey";
+    mobileFavoritesListMenuItem.style.color = "white";
+    window.location.href = `${rootUrl}/favorite_contacts`;
+});
+const mobileSearchContactsMenuItem = document.querySelector("#mobile-search-contacts-menu-item");
+mobileSearchContactsMenuItem.addEventListener("click", function() {
+    mobileSearchContactsMenuItem.style.backgroundColor = "lightgrey";
+    mobileSearchContactsMenuItem.style.color = "white";
+    window.location.href = `${rootUrl}/search-contacts`
+});
+const mobileNewContactMenuItem = document.querySelector("#mobile-new-contact-menu-item");
+mobileNewContactMenuItem.addEventListener("click", function() {
+    mobileNewContactMenuItem.style.backgroundColor = "lightgrey";
+    mobileNewContactMenuItem.style.color = "white";
+    window.location.href = `${rootUrl}/new_contact`
+});
 
 const navigateUserPageIcon = document.querySelector("#navigate-user-page-icon");
 navigateUserPageIcon.addEventListener("click", navigateUserPageFromSidePanel)
@@ -666,10 +755,10 @@ const allUsers = await getAllUsers();
         window.location.href = `${rootUrl}/new_contact`
     })
 
-const mobileNavigateSearchContactsIcon = document.querySelector("#mobile-search-icon");
-mobileNavigateSearchContactsIcon.addEventListener("click", function() {
-    window.location.href = `${rootUrl}/search-contacts`
-})
+// const mobileNavigateSearchContactsIcon = document.querySelector("#mobile-search-icon");
+// mobileNavigateSearchContactsIcon.addEventListener("click", function() {
+//     window.location.href = `${rootUrl}/search-contacts`
+// })
 const mobileNavigateUserPageIcon = document.querySelector("#mobile-navigate-user-page-icon");
 mobileNavigateUserPageIcon.addEventListener("click", navigateUserPageFromFooterPanel)
 async function navigateUserPageFromFooterPanel() {
@@ -799,82 +888,6 @@ const allUsers = await getAllUsers();
         logoutIconParentElement.children[1].style.color = "black";
     });
 };
-
-async function renderMobileFooterNavigationPanel() {
-const allUsers = await getAllUsers();
-    const sessionId = sessionStorage.getItem("user");
-    let matchingUser;
-    for (let i = 0; i < allUsers.length; i++) {
-        if (allUsers[i].session_id === sessionId) {
-            matchingUser = allUsers[i]
-        }
-    }
-    const userId = matchingUser.user_id;
-    const user = await getUser(userId);
-
-    const navigateUserPageIcon = document.querySelector("#mobile-navigate-user-page-icon");
-    // if (user.user_image !== null && user.user_image !== './images/user-5-svgrepo-com.svg') {
-    //     navigateUserPageIcon.setAttribute("src", user.user_image)
-    //     navigateUserPageIcon.style.borderRadius = "50%"
-    // }
-
-    // console.log(navigateUserPageIcon.parentElement)
-    const navigateUserPageIconParentElement = navigateUserPageIcon.parentElement;
-    navigateUserPageIconParentElement.style.borderRadius = "5px";
-    navigateUserPageIconParentElement.addEventListener("mouseover", function() {
-        navigateUserPageIconParentElement.style.backgroundColor = "#7393B3";
-        navigateUserPageIconParentElement.children[1].style.color = "white"
-    })
-    navigateUserPageIconParentElement.addEventListener("mouseout", function() {
-        navigateUserPageIconParentElement.style.backgroundColor = "";
-        navigateUserPageIconParentElement.children[1].style.color = "black";
-    })
-
-    const navigateContactsListPageIconParentElement = navigateContactsListPageIcon.parentElement;
-    navigateContactsListPageIconParentElement.style.borderRadius = "5px";
-    navigateContactsListPageIconParentElement.addEventListener("mouseover", function() {
-        navigateContactsListPageIconParentElement.style.backgroundColor = "#7393B3";
-        navigateContactsListPageIconParentElement.children[1].style.color = "white";
-    })
-    navigateContactsListPageIconParentElement.addEventListener("mouseout", function() {
-        navigateContactsListPageIconParentElement.style.backgroundColor = "";
-        navigateContactsListPageIconParentElement.children[1].style.color = "black";
-    })
-
-    const navigateFavoritesListIconParentElement = navigateFavoritesListPageIcon.parentElement;
-    navigateFavoritesListIconParentElement.style.borderRadius = "5px";
-    navigateFavoritesListIconParentElement.addEventListener("mouseover", function() {
-        navigateFavoritesListIconParentElement.style.backgroundColor = "#7393B3";
-        navigateFavoritesListIconParentElement.children[1].style.color = "white"
-    })
-    navigateFavoritesListIconParentElement.addEventListener("mouseout", function() {
-        navigateFavoritesListIconParentElement.style.backgroundColor = "";
-        navigateFavoritesListIconParentElement.children[1].style.color = "black"
-    })
-
-    const navigateNewContactPageIconParentElement = navigateNewContactPageIcon.parentElement;
-    navigateNewContactPageIconParentElement.style.borderRadius = "5px";
-    navigateNewContactPageIconParentElement.addEventListener("mouseover", function() {
-        navigateNewContactPageIconParentElement.style.backgroundColor = "#7393B3";
-        navigateNewContactPageIconParentElement.children[1].style.color = "white";
-    })
-    navigateNewContactPageIconParentElement.addEventListener("mouseout", function() {
-        navigateNewContactPageIconParentElement.style.backgroundColor = "";
-        navigateNewContactPageIconParentElement.children[1].style.color = "black";
-    });
-
-    const logoutIcon = document.querySelector("#logout-icon");
-    const logoutIconParentElement = logoutIcon.parentElement;
-    logoutIconParentElement.style.borderRadius = "5px";
-    logoutIconParentElement.addEventListener("mouseover", function() {
-        logoutIconParentElement.style.backgroundColor = "#7393B3";
-        logoutIconParentElement.children[1].style.color = "white";
-    })
-    logoutIconParentElement.addEventListener("mouseout", function() {
-        logoutIconParentElement.style.backgroundColor = "";
-        logoutIconParentElement.children[1].style.color = "black";
-    });
-}
 
 async function renderLargeSidePanelContent() {
 const allUsers = await getAllUsers();
@@ -6335,14 +6348,16 @@ domReady(async () => {
     if (window.location.href !== `${rootUrl}/login` && window.location.href !== `${rootUrl}/register` && window.location.href !== `${rootUrl}/recover-password` && clientwidth > 1070) {
         await renderSmallSidePanelContent()
         await renderLargeSidePanelContent()
+        // appName.style.marginLeft = "32%"
         // topbar.style.boxShadow = "2px 2px 2px";
         // smallSidebar.style.width = "10%"
     }
     
-    const mobileSearchIcon = document.querySelector("#mobile-search-icon")
+    // const mobileSearchIcon = document.querySelector("#mobile-search-icon")
+    const mobileListMenuIcon = document.querySelector("#mobile-list-menu-icon")
     if (window.location.href !== `${rootUrl}/login` && window.location.href !== `${rootUrl}/register` && window.location.href !== `${rootUrl}/recover-password` && clientwidth <= 1070) {
-        await renderMobileFooterNavigationPanel()
-        mobileSearchIcon.style.display = "block";
+        mobileListMenuIcon.style.display = "block";
+        // mobileSearchIcon.style.display = "block";
         // await renderLargeSidePanelContent()
     } else {
         mobileSmallSidebar.style.display = "none";
