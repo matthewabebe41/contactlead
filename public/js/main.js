@@ -1287,12 +1287,12 @@ async function renderMobileContactsSearchContent() {
     mobileContactsSearchListContainer.style.top = "18%"
     const mobileContactsSearchListElement = document.createElement("ul");
     mobileContactsSearchListElement.style.position = "relative";
-    mobileContactsSearchListElement.style.margin = "0px 0px 72px";
+    mobileContactsSearchListElement.style.margin = "0px 0px 10px";
     mobileContactsSearchListElement.style.padding = "0px"
     const searchContactsAutocompleteList = document.createElement("ul");
     searchContactsAutocompleteList.setAttribute("id", "mobile-autocomplete-contacts-list")
     searchContactsAutocompleteList.style.position = "relative";
-    searchContactsAutocompleteList.style.margin = "0px 0px 72px";
+    searchContactsAutocompleteList.style.margin = "0px 0px 10px";
     searchContactsAutocompleteList.style.padding = "0px"
 
       userContacts.sort(function(a, b) {
@@ -2822,7 +2822,7 @@ const allUsers = await getAllUsers();
     contactsList.style.listStyle = "none";
     contactsList.style.padding = "0"
     contactsList.style.margin = "0"
-    contactsList.style.marginBottom = "72px"
+    contactsList.style.marginBottom = "10px"
     // contactsList.style.height = "100%";
     // contactsList.style.overflow = "auto"
     // contactsList.style.zIndex = "5"
@@ -3293,7 +3293,6 @@ const allUsers = await getAllUsers();
     mobileContactInformationColumn.style.alignItems = "center";
     mobileContactInformationColumn.style.width = "100%";
     mobileContactInformationColumn.style.marginTop = "1%"
-    mobileContactInformationColumn.style.marginBottom = "55px"
     // mobileContactInformationColumn.style.height = "600px";
 
     const mobileContactFullNameContainer = document.createElement("div");
@@ -3505,7 +3504,7 @@ const allUsers = await getAllUsers();
     mobileEditContactButtonContainer.style.alignItems = "center";
     mobileEditContactButtonContainer.style.width = "355px";
     // mobileEditContactButtonContainer.style.top = "86.5%"
-    mobileEditContactButtonContainer.style.marginTop = "25px"
+    mobileEditContactButtonContainer.style.marginTop = "30px"
     const mobileEditContactButtonDiv = document.createElement("div");
     // mobileEditContactButtonDiv.style.position = "absolute";
     mobileEditContactButtonDiv.style.display = "flex";
@@ -4535,7 +4534,7 @@ const allUsers = await getAllUsers();
     favoriteContactsList.style.listStyle = "none";
     favoriteContactsList.style.padding = "0"
     favoriteContactsList.style.margin = "0"
-    favoriteContactsList.style.marginBottom = "72px"
+    favoriteContactsList.style.marginBottom = "10px"
     favoriteContacts.forEach(contact => {
         const favoriteContactListItem = document.createElement("div");
         favoriteContactListItem.style.display = "flex";
@@ -6524,7 +6523,7 @@ logoutIcon.addEventListener("click", function() {
     window.location.href = `${rootUrl}/login`
 })
 
-const mobileLogoutIcon = document.querySelector("#mobile-logout-icon");
+const mobileLogoutIcon = document.querySelector("#mobile-logout-page-button");
 mobileLogoutIcon.addEventListener("click", function() {
     sessionStorage.clear();
     window.location.href = `${rootUrl}/login`

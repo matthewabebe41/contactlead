@@ -427,13 +427,14 @@
             </div>
         </div>
     </div>
-        <div id="mobile-logout-user-icon-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; top: 78.3%; left: 2.5%;">
-            <img id="mobile-logout-icon" src="./images/logout-3-svgrepo-com.svg" style="width: 42px;">
-                <p style="font-family: sans-serif; font-weight: bolder; margin: 0;">Logout</p>   
-        </div>         
-        <div id="mobile-edit-user-button-container" style="position: absolute; display: flex; justify-content: center; align-items: center; width: 100%; top: 86.5%;">
-            <div style="position: absolute; display: flex; justify-content: flex-end; width: 90%;">
-                <button id="mobile-navigate-edit-user-page-button" style="width: 50px;">Edit</button>
+        <div id="mobile-logout-user-icon-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; top: 96.75%; left: 2.5%;">
+            <!-- <img id="mobile-logout-icon" src="./images/logout-3-svgrepo-com.svg" style="width: 42px;"> -->
+                <!-- <p style="font-family: sans-serif; font-weight: bolder; margin: 0;">Logout</p>    -->
+            </div>         
+            <div id="mobile-edit-user-button-container" style="position: absolute; display: flex; justify-content: center; align-items: center; width: 100%; top: 96.75%;">
+                <div style="position: absolute; display: flex; justify-content: space-between; width: 90%;">
+                    <button id="mobile-logout-page-button" style="width: 60px; background-color: indianred;">Logout</button>
+                    <button id="mobile-navigate-edit-user-page-button" style="width: 50px;">Edit</button>
             </div>
         </div>
     </section>
@@ -620,7 +621,7 @@
                 </div>
             </form>
     </div>
-    <div id="mobile-edit-user-button-container" style="position: absolute; display: flex; justify-content: center; align-items: center; width: 100%; top: 86.5%;">
+    <div id="mobile-edit-user-button-container" style="position: absolute; display: flex; justify-content: center; align-items: center; width: 100%; top: 96.75%;">
         <div style="position: absolute; display: flex; justify-content: space-between; width: 96%;">
             <button id="mobile-delete-user-button" style="background-color: red;">Delete Account</button>
             <button id="mobile-submit-edit-user-button" class="edit-user-button" style="width: 50px;">Done</button>
@@ -685,11 +686,6 @@
             </div>
         </div>
         <div id="contact-information-container" style="position: absolute; display: flex; justify-content: space-around; width: 98.5%; height: 62%; top: 16.5%;">
-            <!-- <div style="position: absolute; display: flex; align-items: center; width: 177px; top: 4%; left: 80px;">
-                <div style="position: absolute; display: flex; justify-content: flex-end; width: 100%;">
-                    <button id="add-to-favorites-button" style="background-color: green; color: white;">Add to favorites</button>
-                </div>
-            </div> -->
             <div id="contact-information-column-one" style="display: flex; flex-direction: column; justify-content: space-around; width: 30%;">
                 <div style="display: flex; flex-direction: column; width: 285px;">
                     <label style="font-weight: bold;">Name</label>
@@ -875,7 +871,7 @@
              <textarea id="edit-contact-notes" maxlength="195" style="width: 100%; height: 60px; font-family: sans-serif; resize: none;"></textarea>
         </div>
     </div>
-    <div id="edit-contact-button-container" style="position: absolute; display: flex; justify-content: center; align-items: center; width: 100%; top: 96.5%;">
+    <div id="edit-contact-button-container" style="position: absolute; display: flex; justify-content: center; align-items: center; width: 100%; top: 96.75%;">
         <div style="position: absolute; display: flex; justify-content: space-between; width: 96%;">
             <button id="delete-contact-button">Remove</button>
             <button id="edit-contact-button">Update</button>
@@ -886,7 +882,9 @@
     <section id="mobile-edit-contact-view" style="position: absolute; width: 100%; height: 90.5%; top: 9.5%; display: none; overflow: hidden;">
          <div id="mobile-edit-contact-image-container" style="position: absolute; display: flex; align-items: center; width: 100%; height: 15%; background-color: #f9f9f9; box-shadow: 2px 2px 2px;">
             <div id="mobile-edit-contact-image-container" style="position: absolute; display: flex; align-items: center; height: 100%; padding: 10px;">
-                <img id="mobile-edit-contact-image" src="./images/user-2-svgrepo-com.svg" style="position: relative; display: flex; justify-content: center; align-items: center; width: 80px; height: 80px; aspect-ratio: 1; border: 0.5px solid grey; border-radius: 50%; box-shadow: 2px 2px 2px; background-color: gainsboro; object-fit: cover; z-index: 1;">
+            <div style="position: relative; display: flex; justify-content: center; align-items: center; width: 80%; height: 80%; aspect-ratio: 1; border: 0.5px solid grey; border-radius: 50%; box-shadow: 2px 2px 2px; background-color: gainsboro; object-fit: cover; z-index: 1;">
+                <img id="mobile-edit-contact-image" src="./images/user-2-svgrepo-com.svg" style="width: 100%; height: 100%;">
+            </div>
                 <div style="display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-end; height: 100%;">
                     <button id="mobile-edit-contact-add-photo-button" style="width: 105px; height: 20px; margin-bottom: 6%; z-index: 1;">Add photo</button>
                 </div>
@@ -1158,7 +1156,9 @@
     <section id="mobile-new-contact-view" style="position: absolute; width: 100%; height: 90.5%; top: 9.5%; display: none; overflow: hidden;">
         <div id="mobile-new-contact-header-container" style="position: absolute; display: flex; align-items: center; width: 100%; height: 15%; background-color: #f9f9f9; box-shadow: 2px 2px 2px;">
             <div id="mobile-new-contact-image-container" style="position: absolute; display: flex; align-items: center; height: 100%; padding: 10px;">
-                <img id="mobile-new-contact-image" src="./images/user-2-svgrepo-com.svg" style="position: relative; display: flex; justify-content: center; align-items: center; width: 80px; height: 80px; aspect-ratio: 1; border: 0.5px solid grey; border-radius: 50%; box-shadow: 2px 2px 2px; background-color: gainsboro; object-fit: cover; z-index: 1;">
+                <div style="position: relative; display: flex; justify-content: center; align-items: center; width: 80%; height: 80%; aspect-ratio: 1; border: 0.5px solid grey; border-radius: 50%; box-shadow: 2px 2px 2px; background-color: gainsboro; object-fit: cover; z-index: 1;">
+                    <img id="mobile-new-contact-image" src="./images/user-2-svgrepo-com.svg" style="width: 100%; height: 100%;">
+                </div>
                 <div style="display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-end; height: 100%;">
                     <button id="mobile-new-contact-add-photo-button" style="width: 105px; height: 20px; margin-bottom: 6%; z-index: 1;">Add photo</button>
                 </div>
