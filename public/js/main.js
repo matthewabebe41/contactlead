@@ -5023,8 +5023,6 @@ async function handleMobileNewContactImage() {
             newContactImageElement.style.borderRadius = "50%";
         };
 
-        newContactImageElement.style.height = "68px"
-
         reader.readAsDataURL(newContactImageFile)
     // })
 }
