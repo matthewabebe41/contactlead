@@ -36,3 +36,12 @@ CONSTRAINT fk_user
       FOREIGN KEY(user_id)
         REFERENCES users(user_id)
 );
+
+CREATE TABLE groups(
+user_id SERIAL, 
+group_id SERIAL, 
+groupname VARCHAR(30), 
+CONSTRAINT fk_user 
+	FOREIGN KEY(user_id) 
+	REFERENCES users(user_id)
+);

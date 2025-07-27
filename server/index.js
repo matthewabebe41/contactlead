@@ -6,15 +6,15 @@ const cors = require("cors");
 const path = require("path");
 
 const pool = new pg.Pool({
-   connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
-//   user: 'postgres',
-//   password: 'password',
-//   host: 'localhost',
-//   port: 5432,
-//   database: 'contactlead'
+//    connectionString: process.env.DATABASE_URL,
+//   ssl: {
+//     rejectUnauthorized: false
+//   }
+  user: 'postgres',
+  password: 'password',
+  host: 'localhost',
+  port: 5432,
+  database: 'contactlead'
 });
 
 app.use(express.json({
@@ -45,6 +45,12 @@ app.get("/user", (req, res) => {
     res.sendFile(path.join(__dirname, "../index.html"));
 });
 app.get("/edit_user", (req, res) => {
+    res.sendFile(path.join(__dirname, "../index.html"));
+});
+app.get("/groups", (req, res) => {
+    res.sendFile(path.join(__dirname, "../index.html"));
+});
+app.get("/create-group", (req, res) => {
     res.sendFile(path.join(__dirname, "../index.html"));
 });
 app.get("/favorite_contacts", (req, res) => {
