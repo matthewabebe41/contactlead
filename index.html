@@ -1087,19 +1087,19 @@
         <!-- </div> -->
     </section>
 
-    <section id="groups-list-view" style="position: absolute; width: 68.5%; height: 90.5%; top: 9.5%; left: 31.5%; display: none; overflow: hidden;">
+    <section id="groups-list-view" style="position: absolute; width: 68.5%; height: 90.5%; top: 9.5%; left: 31.5%; display: none;">
         <!-- <div>Groups list</div> -->
         <div style="display: flex; justify-content: center; width: 100%;">
-            <div id="search-groups-elements-container" style="position: fixed; display: flex; justify-content: center; align-items: center; width: 100%;  height: 9.3%; border-bottom: 1px solid black; background-color: lightslategrey;">
+            <div id="search-groups-elements-container" style="position: absolute; display: flex; justify-content: center; align-items: center; width: 100%;  height: 9.3%; border-bottom: 1px solid black; background-color: lightslategrey;">
               <!-- <img id="search-icon" src="./images/search-svgrepo-com.svg" style="width: 18px; margin-left: 6px; border-radius: 50%; background-color: white; padding: 2px;"> -->
               <input type="search" name="search-groups" id="search-groups-input" placeholder="Enter a group name" style="width: 30%; height: 21px; margin-left: 3px;">
               <button style="margin-left: 5px;" id="navigate-create-group-page-button">Create</button>
           </div>
 
         </div>
-        <div id="groups-list-container" style="margin: 60px 0px 1px 0px;">
-            <ul id="groups-list" style="margin: 0px; padding: 8px 8px 0px 10px;"></ul>
-            <ul id="autocomplete-groups-list" style="display: none; margin: 0px; padding: 8px 8px 0px 10px;"></ul>
+        <div id="groups-list-container" style="height: 100%; margin: 60px 0px 1px 0px;">
+            <div id="groups-list" style="height: 100%; margin: 0px; padding-left: 40px;"></div>
+            <div id="autocomplete-groups-list" style="display: none; height: 100%; margin: 0px; padding-left: 40px;"></div>
         </div>
     </section>
 
@@ -1108,7 +1108,7 @@
              <div style="display: flex; justify-content: flex-start; width: 100%;">
                 <h2 style="font-family: sans-serif; width: 300px;">Select a Group</h2>
             </div>
-            <div style="width: 100%; height: 50%;">
+            <div style="width: 100%; height: 60%;">
                 <ul id="groups-selection-list" style="display: flex; flex-direction: column; height: 100%; padding: 0px;">
                     <li class="inactive" style="display: flex; height: 40px; border: 1px solid grey; background-color: ghostwhite; padding: 4px;">Business</li>
                     <li class="inactive" style="display: flex; height: 40px; border: 1px solid grey; background-color: ghostwhite; padding: 4px;">Community</li>
@@ -1124,10 +1124,11 @@
                     <label>Custom Group</label>
                     <input id="custom-group-input-element" placeholder="Enter Name" style="display: flex; margin-left: 10px;">
                 </div>
-                <div id="create-group-button-container">
-                     <div style="display: flex; justify-content: flex-end; width: 100%;">
-                         <button id="create-group-button">Create</button>
-                 </div>
+            </div>
+        </div>
+        <div id="create-group-button-container" style="position: absolute; display: flex; justify-content: center; width: 100%; top: 94.5%;">
+            <div style="display: flex; justify-content: flex-end; width: 96%;">
+                <button id="create-group-button">Create</button>
             </div>
         </div>
           <!-- <div id="create-group-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 500px; height: 90%; top: 45%; left: 50%; transform: translate(-50%, -50%);">

@@ -4849,6 +4849,204 @@ const allUsers = await getAllUsers();
 };
 
 async function renderGroupsListContent() {
+     const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const userId = matchingUser.user_id;
+    const userGroups = await getUserGroups(userId)
+    console.log(userGroups)
+
+    const groupsList = document.querySelector("#groups-list");
+    groupsList.style.display = "block";
+    // groupsList.style.flexDirection = "row";
+    // groupsList.style.justifyContent = "space-around"
+    userGroups.forEach(group => {
+        const groupListItem = document.createElement("div");
+        groupListItem.style.display = "inline-block"
+        groupListItem.style.width = "30%";
+        groupListItem.style.height = "30%";
+        groupListItem.style.margin = "10px 10px 10px 10px"
+        groupListItem.style.backgroundColor = "gainsboro";
+        groupListItem.style.border = "1px solid black";
+        const groupListItemHeaderElement = document.createElement("div");
+        // groupListItemHeaderElement.style.position = "relative"
+        groupListItemHeaderElement.style.display = "flex"
+        groupListItemHeaderElement.style.justifyContent = "space-between"
+        groupListItemHeaderElement.style.width = "100%"
+        groupListItemHeaderElement.style.padding = "7px 0px"
+        groupListItemHeaderElement.style.borderBottom = "1px solid black"
+        // groupListItemHeaderElement.style.top = "2%"
+        const groupListItemEditIcon = document.createElement("img");
+        groupListItemEditIcon.setAttribute("src", "./images/edit-svgrepo-com.svg")
+        groupListItemEditIcon.style.width = "20px"
+        const groupListItemTextElement = document.createElement("h4");
+        groupListItemTextElement.style.margin = "0px"
+        groupListItemTextElement.innerHTML = group.groupname;
+        const groupListItemDeleteIcon = document.createElement("img")
+        groupListItemDeleteIcon.setAttribute("src", "./images/delete-2-svgrepo-com.svg")
+        groupListItemDeleteIcon.style.width = "20px"
+        // groupListItem.innerHTML = group.groupname;
+        groupListItemHeaderElement.appendChild(groupListItemEditIcon)
+        groupListItemHeaderElement.appendChild(groupListItemTextElement)
+        groupListItemHeaderElement.appendChild(groupListItemDeleteIcon)
+        groupListItem.appendChild(groupListItemHeaderElement)
+        groupsList.appendChild(groupListItem)
+    })
+
+    const searchGroupsElement = document.querySelector("#search-groups-input");
+searchGroupsElement.addEventListener("input", groupsAutocompleteSearch)
+async function groupsAutocompleteSearch() {
+    const groupsList = document.querySelector("#groups-list");
+    let searchGroupsInputValue = searchGroupsElement.value.toLowerCase().trimEnd();
+    let filteredGroups = [];
+
+    userGroups.filter(function(group) {
+        let groupName = group.groupname
+
+        console.log(searchGroupsInputValue.length)
+
+        if (searchGroupsInputValue === "") {
+            for (let i = 0; i < userGroups.length; i++) {
+                filteredGroups.push(userGroups[i])
+            }
+        }
+
+        // if (contactFirstName.toLowerCase().startsWith(searchContactsInputValue)) {
+        //     for (let i = 0; i < userContacts.length; i++) {
+        //         let matchContactName = `${userContacts[i].firstname} ${userContacts[i].lastname}`
+        //         if (contactName.toLowerCase() === matchContactName.toLowerCase()) {
+        //             filteredContacts.push(userContacts[i])
+        //             // console.log(filteredContacts)
+        //         }
+        //     }
+        // }
+
+        // if (contactLastName.toLowerCase().startsWith(searchContactsInputValue)) {
+        //     for (let i = 0; i < userContacts.length; i++) {
+        //         let matchContactName = `${userContacts[i].firstname} ${userContacts[i].lastname}`
+        //         if (contactName.toLowerCase() === matchContactName.toLowerCase()) {
+        //             filteredContacts.push(userContacts[i])
+        //             // console.log(filteredContacts)
+        //         }
+        //     }
+        // }
+
+        if (groupName.toLowerCase().startsWith(searchGroupsInputValue)) {
+            for (let i = 0; i < userGroups.length; i++) {
+                let matchGroupName = userGroups[i].groupname
+                if (groupName.toLowerCase() === matchGroupName.toLowerCase()) {
+                    filteredGroups.push(userGroups[i])
+                    // console.log(filteredContacts)
+                }
+            }
+        }
+    });
+
+    const searchGroupsAutocompleteList = document.querySelector("#autocomplete-groups-list");
+
+    searchGroupsAutocompleteList.innerHTML = '';
+
+    // searchContactsElement.addEventListener('input', function() {
+    //     if (this.value === '') {
+    //       // Input is cleared, perform your desired action
+    //       window.location.reload()
+    //       // Example: Reset search results
+    //       // resetSearchResults();
+    //     }
+    //   });
+
+      function removeDuplicates(arr) {
+        return arr.reduce((unique, item) => {
+          if (!unique.includes(item)) {
+            unique.push(item);
+          }
+          return unique;
+        }, []);
+      }
+      
+      const originalArray = [1, 2, 2, 3, 4, 4, 5];
+      const uniqueArray = removeDuplicates(filteredGroups);
+      console.log(uniqueArray); // Output: [1, 2, 3, 4, 5]
+
+    if (filteredGroups.length > 0) {
+        searchGroupsAutocompleteList.style.display = 'block';
+        groupsList.style.display = "none"
+        uniqueArray.forEach(group => {
+            const groupsAutoCompleteListItem = document.createElement('div');
+            groupsAutoCompleteListItem.style.display = "inline-block";
+            groupsAutoCompleteListItem.style.width = "30%";
+            groupsAutoCompleteListItem.style.height = "30%";
+            groupsAutoCompleteListItem.style.margin = "10px 10px 10px 10px";
+            groupsAutoCompleteListItem.style.backgroundColor = "lightgrey"
+            groupsAutoCompleteListItem.style.border = "1px solid black";
+
+            const groupAutoCompleteListItemHeaderElement = document.createElement("div");
+            // groupAutoCompleteListItemHeaderElement.style.position = "relative"
+            groupAutoCompleteListItemHeaderElement.style.display = "flex"
+            groupAutoCompleteListItemHeaderElement.style.justifyContent = "space-between"
+            groupAutoCompleteListItemHeaderElement.style.width = "100%"
+            groupAutoCompleteListItemHeaderElement.style.padding = "7px 0px"
+            groupAutoCompleteListItemHeaderElement.style.borderBottom = "1px solid black"
+            // groupAutoCompleteListItemHeaderElement.style.top = "2%"
+            const groupAutoCompleteListItemEditIcon = document.createElement("img");
+            groupAutoCompleteListItemEditIcon.setAttribute("src", "./images/edit-svgrepo-com.svg")
+            groupAutoCompleteListItemEditIcon.style.width = "20px"
+            const groupAutoCompleteListItemTextElement = document.createElement("h4");
+            groupAutoCompleteListItemTextElement.style.margin = "0px"
+            groupAutoCompleteListItemTextElement.innerHTML = group.groupname;
+            const groupAutoCompleteListItemDeleteIcon = document.createElement("img")
+            groupAutoCompleteListItemDeleteIcon.setAttribute("src", "./images/delete-2-svgrepo-com.svg")
+            groupAutoCompleteListItemDeleteIcon.style.width = "20px"
+            
+            // groupsAutoCompleteListItem.addEventListener("mouseover", function() {
+            // groupsAutoCompleteListItem.style.backgroundColor = "lightgreen";
+            // });
+            // groupsAutoCompleteListItem.addEventListener("mouseover", function() {
+            // groupsAutoCompleteListItem.style.backgroundColor = "lightgray";
+            // });
+            // groupsAutoCompleteListItem.addEventListener("mouseout", function() {
+            // groupsAutoCompleteListItem.style.backgroundColor = "ghostwhite";
+            // })
+
+            // contactsAutoCompleteListItem.classList.add("contact-list-item");
+            // contactsAutoCompleteListItem.style.cursor = "default"
+            // contactsAutoCompleteListItem.style.height = "200px"
+            // const contactId = contact.contact_id.toString();
+            // contactsAutoCompleteListItem.setAttribute("id", `${contactId}`)
+            // contactsAutoCompleteListItem.setAttribute("data", `${rootUrl}/contact_${contactId}`);
+            // contactsAutoCompleteListItem.setAttribute("name", `${contact.firstname} ${contact.lastname}`)
+
+            // contactsAutoCompleteListItem.addEventListener("click", function(event) {
+            //     if (window.location.href === contactsAutoCompleteListItem.getAttribute("data")) {
+            //         event.preventDefault()
+            //     } else {
+            //         window.location.href = contactsAutoCompleteListItem.getAttribute("data");
+            //     }
+            // })
+
+            // contactListItemAutocompleteNameContainer.appendChild(contactAutoCompleteImage);
+            // contactListItemAutocompleteNameElementContainer.appendChild(contactAutoCompleteNameElement);
+            // contactListItemAutocompleteNameElementContainer.appendChild(contactAutoCompleteEmailElement);
+            // contactAutocompleteFavoriteContainer.appendChild(contactAutocompleteFavoriteIcon);
+            // contactListItemAutocompleteNameContainer.appendChild(contactAutoCompleteImage);
+            // contactListItemAutocompleteNameContainer.appendChild(contactListItemAutocompleteNameElementContainer);
+            // contactsAutoCompleteListItem.appendChild(contactListItemAutocompleteNameContainer);
+            // contactsAutoCompleteListItem.appendChild(contactAutocompleteFavoriteContainer)
+            // searchContactsAutocompleteList.appendChild(contactsAutoCompleteListItem);
+
+            groupAutoCompleteListItemHeaderElement.appendChild(groupAutoCompleteListItemEditIcon)
+            groupAutoCompleteListItemHeaderElement.appendChild(groupAutoCompleteListItemTextElement)
+            groupAutoCompleteListItemHeaderElement.appendChild(groupAutoCompleteListItemDeleteIcon)
+            groupsAutoCompleteListItem.appendChild(groupAutoCompleteListItemHeaderElement)
+           
+            searchGroupsAutocompleteList.appendChild(groupsAutoCompleteListItem)
+        });
+    }};
     const navigateCreateGroupPageButton = document.querySelector("#navigate-create-group-page-button")
     navigateCreateGroupPageButton.addEventListener("click", function() {
         window.location.href = `${rootUrl}/create-group`
@@ -4859,7 +5057,7 @@ async function renderCreateGroupsContent() {
 
     const groupsSelectionList = document.querySelector("#groups-selection-list");
     const groupsSelectionListChildren = groupsSelectionList.children;
-    const groupsSelectionListArr = Array.from(groupsSelectionListChildren)
+    const groupsSelectionListArr = Array.from(groupsSelectionListChildren);
     console.log(groupsSelectionListArr)
 
     groupsSelectionListArr.forEach(item => {
@@ -4917,8 +5115,8 @@ async function renderCreateGroupsContent() {
         }
     })
 
+    const createGroupButton = document.querySelector("#create-group-button")
     document.addEventListener("click", function(event) {
-        const createGroupButton = document.querySelector("#create-group-button")
         console.log(event.target.tagName)
         if (event.target.tagName !== "LI" && event.target !== createGroupButton) {
             groupsSelectionListArr.forEach(item => {
@@ -4928,7 +5126,80 @@ async function renderCreateGroupsContent() {
                 console.log(item)
             })
         };
-    })
+    });
+
+    createGroupButton.addEventListener("click", postNewUserGroup)
+};
+
+async function handleCreateGroupInput() {
+    const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const userId = matchingUser.user_id;
+
+    const userGroups = await getUserGroups(userId)
+
+    const groupsSelectionList = document.querySelector("#groups-selection-list");
+    const groupsSelectionListChildren = groupsSelectionList.children;
+    const groupsSelectionListArr = Array.from(groupsSelectionListChildren);
+    const customGroupInputContainer = document.querySelector("#custom-group-input-container");
+    const customGroupInputElement = document.querySelector("#custom-group-input-element");
+
+    // console.log(groupsSelectionListArr)
+    let activeElement;
+    groupsSelectionListArr.forEach(item => {
+        if (item.classList.contains("active")) {
+            activeElement = item;
+        }
+    });
+
+    if (activeElement === undefined && customGroupInputContainer.classList.contains("active")) {
+        activeElement = customGroupInputElement;
+    }
+
+    console.log(activeElement)
+    console.log(userGroups)
+
+     let groupIdsArr = []
+    for (let i = 0; i < userGroups.length; i++) {
+        groupIdsArr.push(userGroups[i].group_id)
+    }
+
+    let maxId = -Infinity;
+    for (let i = 0; i < groupIdsArr.length; i++) {
+        if (groupIdsArr[i] > maxId) {
+            maxId = groupIdsArr[i];
+        }
+    }
+
+    console.log(maxId)
+    if (maxId === -Infinity) {
+        maxId = 0
+    }
+
+    let groupName;
+
+    if (activeElement === customGroupInputElement) {
+        groupName = activeElement.value
+    } else {
+        groupName = activeElement.textContent
+    }
+
+    const newGroupObject = {
+        userId: userId,
+        groupId: maxId + 1,
+        groupName: groupName
+    };
+
+    console.log(newGroupObject)
+
+    return newGroupObject;
+
 }
 
 async function renderNewContactContent() {
@@ -6380,6 +6651,39 @@ const allUsers = await getAllUsers();
     }
 
     localStorage.clear()
+};
+
+
+async function getUserGroups(user_id) {
+    try {
+    const response = await fetch(`/groups/${user_id}`);
+    const jsonData = await response.json();
+    return jsonData; 
+    } catch (err) {
+    console.error(err.message);
+    }
+};
+
+async function postNewUserGroup() {
+    const newUserGroup = await handleCreateGroupInput();
+
+    const user_id = newUserGroup.userId;
+    const group_id = newUserGroup.groupId;
+    const groupName = newUserGroup.groupName
+
+    const body = { user_id, group_id, groupName };
+    try {
+        const response = await fetch(`/groups`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body)
+        });
+        console.log(response)
+    } catch (err) {
+        console.error(err)
+    }
+
+    window.location.href = `${rootUrl}/groups`
 };
 
 async function setInitialURLAsLogin() {

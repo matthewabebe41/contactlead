@@ -192,6 +192,28 @@ app.delete("/contacts/:user_id", async (req, res) => {
     }
 });
 
+//get all user groups
+app.get("/groups/:user_id", async (req, res) => {
+    try {
+        const { user_id  } = req.params;
+        const allUserGroups = await pool.query("SELECT * FROM groups WHERE user_id = $1", [user_id]);
+        res.json(allUserGroups.rows);
+    } catch (err) {
+        console.error(err.message);
+    }
+});
+
+//post a user group
+app.post("/groups", async (req, res) => {
+    try {
+       const { user_id, group_id, groupName } = req.body;
+       const newUserGroup = await pool.query("INSERT INTO groups (user_id, group_id, groupName) VALUES($1, $2, $3) RETURNING *", [user_id, group_id, groupName])
+       res.json(newUserGroup.rows[0]);
+    } catch (error) {
+        console.error(error.message)
+    }
+});
+
 app.listen(process.env.PORT || 3000, () => {
     console.log(`server has started on 3000`)
 });
