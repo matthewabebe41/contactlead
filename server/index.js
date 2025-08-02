@@ -6,15 +6,15 @@ const cors = require("cors");
 const path = require("path");
 
 const pool = new pg.Pool({
-//    connectionString: process.env.DATABASE_URL,
-//   ssl: {
-//     rejectUnauthorized: false
-//   }
-  user: 'postgres',
-  password: 'password',
-  host: 'localhost',
-  port: 5432,
-  database: 'contactlead'
+   connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
+//   user: 'postgres',
+//   password: 'password',
+//   host: 'localhost',
+//   port: 5432,
+//   database: 'contactlead'
 });
 
 app.use(express.json({
@@ -51,6 +51,9 @@ app.get("/groups", (req, res) => {
     res.sendFile(path.join(__dirname, "../index.html"));
 });
 app.get("/create-group", (req, res) => {
+    res.sendFile(path.join(__dirname, "../index.html"));
+});
+app.get("/manage_groups_contact_:contact_id", (req, res) => {
     res.sendFile(path.join(__dirname, "../index.html"));
 });
 app.get("/favorite_contacts", (req, res) => {
@@ -209,6 +212,17 @@ app.post("/groups", async (req, res) => {
        const { user_id, group_id, groupName } = req.body;
        const newUserGroup = await pool.query("INSERT INTO groups (user_id, group_id, groupName) VALUES($1, $2, $3) RETURNING *", [user_id, group_id, groupName])
        res.json(newUserGroup.rows[0]);
+    } catch (error) {
+        console.error(error.message)
+    }
+});
+
+//post a contact to a group
+app.post("/contactGroups", async (req, res) => {
+    try {
+       const { user_id, contact_id, group_id, groupName } = req.body;
+       const newContactGrouping = await pool.query("INSERT INTO contactGroups (user_id, contact_id, group_id, groupName) VALUES($1, $2, $3, $4) RETURNING *", [user_id, contact_id, group_id, groupName])
+       res.json(newContactGrouping.rows[0]);
     } catch (error) {
         console.error(error.message)
     }

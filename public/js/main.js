@@ -831,7 +831,7 @@ const allUsers = await getAllUsers();
         }
     }
 
-    console.log(matchingUser)
+    // console.log(matchingUser)
     const userId = matchingUser.user_id;
     const user = await getUser(userId);
 
@@ -840,7 +840,7 @@ const allUsers = await getAllUsers();
         navigateUserPageIcon.setAttribute("src", user.user_image)
     }
 
-    console.log(navigateUserPageIcon.parentElement)
+    // console.log(navigateUserPageIcon.parentElement)
     const navigateUserPageIconParentElement = navigateUserPageIcon.parentElement;
     navigateUserPageIconParentElement.style.borderRadius = "5px";
     navigateUserPageIconParentElement.addEventListener("mouseover", function() {
@@ -921,7 +921,7 @@ const allUsers = await getAllUsers();
     const userId = matchingUser.user_id;
     const userContacts = await getUserContacts(userId);
 
-    console.log(userContacts)
+    // console.log(userContacts)
 
     const contactsListElement = document.querySelector("#sidebar-contacts-list");
 
@@ -1022,7 +1022,7 @@ const allUsers = await getAllUsers();
         const contactEmailAddressText = contact.emailaddress;
         const ellipsis = "..."
         let contactEmailAddressTextSlice = contactEmailAddressText.slice(0, 35) + ellipsis
-        console.log(contactEmailAddressText.length)
+        // console.log(contactEmailAddressText.length)
         if (contactEmailAddressText.length > 35) {
             contactEmailElement.innerHTML = contactEmailAddressTextSlice
         } else {
@@ -3251,6 +3251,33 @@ const allUsers = await getAllUsers();
    contactNotesElement.style.fontFamily = "sans-serif";
 //    contactNotesElement.style.fontSize = "small";
 
+   const navigateManageContactGroupsPageButton = document.querySelector("#manage-contact-groups-button");
+   navigateManageContactGroupsPageButton.addEventListener("click", function() {
+     function saveDataToURL(url, data) {
+            const urlObject = new URL(url);
+            const params = new URLSearchParams(urlObject.search);
+        
+            for (const key in data) {
+                if (data.hasOwnProperty(key)) {
+                    params.set(key, data[key]);
+                }
+            }
+            urlObject.search = params.toString();
+            return urlObject.toString();
+        }
+        
+        const myURL = `${rootUrl}/manage_groups_contact_${contact_id}`;
+        const myData = {
+            name: `${contact.firstname} ${contact.lastname}`,
+            // age: 30,
+            // city: "New York"
+        };
+        
+        const newURL = saveDataToURL(myURL, myData);
+        console.log(newURL);
+        // Expected output: "https://example.com/page?name=John+Doe&age=30&city=New+York"
+        window.location.href = newURL
+    });
 
     const navigateEditContactPageButton = document.querySelector("#navigate-edit-contact-page-button");
     navigateEditContactPageButton.addEventListener("click", function() {
@@ -3278,7 +3305,7 @@ const allUsers = await getAllUsers();
         console.log(newURL);
         // Expected output: "https://example.com/page?name=John+Doe&age=30&city=New+York"
         window.location.href = newURL
-    })
+    });
 };
 
 async function renderMobileContactContent() {
@@ -5199,8 +5226,101 @@ async function handleCreateGroupInput() {
     console.log(newGroupObject)
 
     return newGroupObject;
+};
 
-}
+async function renderManageContactGroupsContent() {
+    const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const userId = matchingUser.user_id;
+    const userContacts = await getUserContacts(userId);
+    const userGroups = await getUserGroups(userId);
+
+    const currentUrl = window.location.href;
+    const urlContactId = currentUrl.split("contact_")[1];
+    const contactId = Number(urlContactId.slice(0, 1))
+    // console.log(contactId)
+    
+    console.log(userGroups)
+
+    userGroups.forEach(group => {
+        const manageContactGroupsSelectionList = document.querySelector("#manage-contact-groups-selection-list");
+        const groupListItem = document.createElement("div");
+        groupListItem.setAttribute("groupId", group.group_id)
+        groupListItem.classList.add("inactive")
+        groupListItem.style.display = "flex";
+        groupListItem.style.justifyContent = "space-between";
+        const groupListItemTextElement = document.createElement("p")
+        groupListItemTextElement.innerHTML = group.groupname;
+        const groupListItemCheckboxElement = document.createElement("input");
+        groupListItemCheckboxElement.setAttribute("type", "checkbox");
+
+        groupListItemCheckboxElement.addEventListener("input", function() {
+            const groupListItemCheckboxElementParentElement = groupListItemCheckboxElement.parentElement;
+            if (groupListItemCheckboxElement.checked) {
+                groupListItemCheckboxElementParentElement.classList.remove("inactive");
+                groupListItemCheckboxElementParentElement.classList.add("active")
+            } else {
+                groupListItemCheckboxElementParentElement.classList.remove("active");
+                groupListItemCheckboxElementParentElement.classList.add("inactive")
+            }
+
+            console.log(groupListItemCheckboxElementParentElement)
+        })
+
+        groupListItem.appendChild(groupListItemTextElement);
+        groupListItem.appendChild(groupListItemCheckboxElement);
+        manageContactGroupsSelectionList.appendChild(groupListItem);  
+    });
+
+      const addContactToGroupsButton = document.querySelector("#add-contact-to-groups-button");
+      addContactToGroupsButton.addEventListener("click", postNewContactGrouping)
+};
+
+async function handleManageContactGroupsInput() {
+    const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const userId = matchingUser.user_id;
+    const userContacts = await getUserContacts(userId);
+    const userGroups = await getUserGroups(userId);
+
+    const currentUrl = window.location.href;
+    const urlContactId = currentUrl.split("contact_")[1];
+    const contactId = Number(urlContactId.slice(0, 1))
+    // console.log(contactId)
+    const manageContactGroupsSelectionList = document.querySelector("#manage-contact-groups-selection-list");
+    const groupsListItems = manageContactGroupsSelectionList.children;
+    const groupsListItemsArr = Array.from(groupsListItems);
+        
+    let addGroupsArr = []
+    groupsListItemsArr.forEach(group => {
+    const groupName = group.children[0].innerHTML
+    const groupId = Number(group.getAttribute("groupId"))
+        if (group.classList.contains("active")) {
+            const addGroupObj = {
+                userId: userId,
+                contactId: contactId,
+                groupId: groupId,
+                groupName: groupName
+            }
+            addGroupsArr.push(addGroupObj)
+        }
+    });
+
+    return addGroupsArr
+};
+
 
 async function renderNewContactContent() {
 const allUsers = await getAllUsers();
@@ -6686,6 +6806,32 @@ async function postNewUserGroup() {
     window.location.href = `${rootUrl}/groups`
 };
 
+async function postNewContactGrouping() {
+    const newContactGroupingsArr = await handleManageContactGroupsInput();
+    console.log(newContactGroupingsArr)
+
+    for (const grouping of newContactGroupingsArr) {
+        const user_id = grouping.userId;
+        const contact_id = grouping.contactId;
+        const group_id = grouping.groupId;
+        const groupName = grouping.groupName
+
+        const body = { user_id, contact_id, group_id, groupName };
+        try {
+            const response = await fetch(`/contactGroups`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body)
+            });
+            console.log(response)
+        } catch (err) {
+            console.error(err)
+        }
+    };
+
+    // window.location.href = `${rootUrl}/groups`
+};
+
 async function setInitialURLAsLogin() {
 const allUsers = await getAllUsers();
     const sessionId = sessionStorage.getItem("user");
@@ -7022,7 +7168,7 @@ domReady(async () => {
         groupsListViewElement.style.display = "none"
     };
 
-     const createGroupsViewElement = document.querySelector("#create-groups-view");
+    const createGroupsViewElement = document.querySelector("#create-groups-view");
         if (window.location.href === (`${rootUrl}/create-group`) && clientwidth > 1070) {
         createGroupsViewElement.style.display = "block";
         appName.style.left = "32%"
@@ -7030,6 +7176,16 @@ domReady(async () => {
         document.body.style.display = "block"
     } else {
         createGroupsViewElement.style.display = "none"
+    };
+
+    const manageGroupsViewElement = document.querySelector("#manage-groups-view");
+        if (window.location.href.startsWith(`${rootUrl}/manage_groups_contact`) && clientwidth > 1070) {
+        manageGroupsViewElement.style.display = "block";
+        appName.style.left = "32%"
+        renderManageContactGroupsContent()
+        document.body.style.display = "block"
+    } else {
+        manageGroupsViewElement.style.display = "none"
     };
 
     const newContactViewElement = document.querySelector("#new-contact-view");
