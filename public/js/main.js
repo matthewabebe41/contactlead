@@ -2753,7 +2753,7 @@ const allUsers = await getAllUsers();
         const contactListFavoriteStarImg = document.createElement("img");
         contactListFavoriteStarImg.classList.add("contact-favorite-icon")
         contactListFavoriteStarImg.style.width = "50px"
-        contactListFavoriteStarImg.style.display = "none";
+        contactListFavoriteStarImg.style.visibility = "hidden";
 
         console.log(contact.favorite)
 
@@ -2767,7 +2767,7 @@ const allUsers = await getAllUsers();
             contactListFavoriteStarImg.style.visibility = "hidden"
         } else {
             contactListFavoriteStarImg.style.display = "block"
-            contactListFavoriteStarImg.style.display = "none";
+            contactListFavoriteStarImg.style.visibility = "hidden";
         }
         
         contactListItemImageContainer.appendChild(contactListItemImage);
