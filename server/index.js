@@ -56,6 +56,9 @@ app.get("/create-group", (req, res) => {
 app.get("/manage_groups_contact_:contact_id", (req, res) => {
     res.sendFile(path.join(__dirname, "../index.html"));
 });
+app.get("/group_:group_id", (req, res) => {
+    res.sendFile(path.join(__dirname, "../index.html"));
+});
 app.get("/favorite_contacts", (req, res) => {
     res.sendFile(path.join(__dirname, "../index.html"));
 });
@@ -206,6 +209,17 @@ app.get("/groups/:user_id", async (req, res) => {
     }
 });
 
+//get a user group
+app.get("/groups/:user_id/:group_id", async (req, res) => {
+    try {
+        const { user_id, group_id  } = req.params;
+        const userGroup = await pool.query("SELECT * FROM groups WHERE user_id = $1 AND group_id = $2", [user_id, group_id]);
+        res.json(userGroup.rows[0]);
+    } catch (err) {
+        console.error(err.message);
+    }
+});
+
 //post a user group
 app.post("/groups", async (req, res) => {
     try {
@@ -214,6 +228,40 @@ app.post("/groups", async (req, res) => {
        res.json(newUserGroup.rows[0]);
     } catch (error) {
         console.error(error.message)
+    }
+});
+
+//edit a user group
+app.put("/groups/:user_id/:group_id", async (req, res) => {
+    try {
+       const { user_id, group_id } = req.params;
+       const { groupName } = req.body;
+       const editedUserGroup = await pool.query("UPDATE groups SET groupName = $1 WHERE user_id = $2 AND group_id = $3", [groupName, user_id, group_id])
+       res.json(editedUserGroup.rows[0]);
+    } catch (error) {
+        console.error(error.message)
+    }
+});
+
+//delete a user group
+app.delete("/groups/:user_id/:group_id", async (req, res) => {
+    try {
+        const { user_id, group_id } = req.params;
+        const deleteGroup = await pool.query("DELETE FROM groups WHERE user_id = $1 AND group_id = $2", [user_id, group_id])
+        res.json(deleteGroup.rows[0])
+    } catch (err) {
+            console.log(err.message)
+    }
+});
+
+//get all users contact groupings
+app.get("/contactGroups/:user_id", async (req, res) => {
+    try {
+        const { user_id  } = req.params;
+        const allUserContactGroupings = await pool.query("SELECT * FROM contactGroups WHERE user_id = $1", [user_id]);
+        res.json(allUserContactGroupings.rows);
+    } catch (err) {
+        console.error(err.message);
     }
 });
 
@@ -227,6 +275,29 @@ app.post("/contactGroups", async (req, res) => {
         console.error(error.message)
     }
 });
+
+//delete a contact grouping
+app.delete("/contactGroups/:user_id/:group_id", async (req, res) => {
+    try {
+        const { user_id, group_id } = req.params;
+        const deleteContactGrouping = await pool.query("DELETE FROM contactGroups WHERE user_id = $1 AND group_id = $2", [user_id, group_id])
+        res.json(deleteContactGrouping.rows[0])
+    } catch (err) {
+            console.log(err.message)
+    }
+});
+
+//delete a contact grouping
+app.delete("/contactGroups/:user_id/:contact_id/:group_id", async (req, res) => {
+    try {
+        const { user_id, contact_id, group_id } = req.params;
+        const deleteContactGrouping = await pool.query("DELETE FROM contactGroups WHERE user_id = $1 AND contact_id = $2 AND group_id = $3", [user_id, contact_id, group_id])
+        res.json(deleteContactGrouping.rows[0])
+    } catch (err) {
+            console.log(err.message)
+    }
+});
+
 
 app.listen(process.env.PORT || 3000, () => {
     console.log(`server has started on 3000`)
