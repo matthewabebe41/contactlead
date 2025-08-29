@@ -6,9 +6,9 @@
     <title>Contactlead</title>
     <link rel="stylesheet" type="text/css" href="./css/index.css">
 </head>
-<body style="height: 100vh; width: 100%; background-color: white; display: none; margin: 0; overflow-y: scroll; overscroll-behavior: none;"></body>
+<body style="height: 100vh; width: 100%; background-color: whitesmoke; display: none; margin: 0; overflow-y: scroll; overscroll-behavior: none;"></body>
 
-    <div id="topbar" style="position: absolute; display: flex; justify-content: space-between; align-items: center; width: 100%; height: 9.3%; background-color: cadetblue; border-bottom: 1px solid black; z-index: 2;">
+    <div id="topbar" style="position: absolute; display: flex; justify-content: space-between; align-items: center; width: 100%; height: 9.3%; background-color: cadetblue; border-bottom: 3px solid black; z-index: 2;">
             <h2 id="app-name" style="position: relative; font-size: xx-large; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; color: white; margin: 0px 0px 0px 12px;">Contactlead</h2>
         <div id="mobile-list-menu-icon-container" style="display: flex; height: 100%; align-items: center;">
             <img id="mobile-search-icon" src="./images/search-svgrepo-com.svg" style="width: 45px; padding: 5px; display: none;">
@@ -27,9 +27,9 @@
         </ul>
     </div>
 
-    <div id="small-sidebar" style="position: fixed; width: 6.5%; height: 100%; top: 0%; left: 0%; background-color: ghostwhite; border-right: 1px solid black; box-shadow: 2px 2px 2px; overflow: hidden; z-index: 4;">
+    <div id="small-sidebar" style="position: fixed; width: 6.5%; height: 100%; top: 0%; left: 0%; background-color: white; border-right: 1px solid black; box-shadow: 2px 2px 2px; overflow: hidden; z-index: 4;">
         <div style="display: flex; flex-direction: column; width: 100%; height: 100%;">
-            <div style="display: flex; flex-direction: column; justify-content: space-between; align-items: center; width: 100%; width: 84%; height: 52%; margin-left: 8%; margin-top: 5px;">
+            <div style="display: flex; flex-direction: column; justify-content: space-between; align-items: center; width: 100%; width: 84%; height: 70%; margin-left: 8%; margin-top: 5px;">
                 <div style="display: flex; flex-direction: column; align-items: center; width: 100%; height: 70px; cursor: default; padding: 2.5px;">
                     <img id="navigate-user-page-icon" src="./images/user-5-svgrepo-com.svg" style="width: 50px; height: 50px; border: 0.5px solid grey; border-radius: 50%;">
                     <p style="font-family: sans-serif; font-weight: bolder; margin: 0;" class="sidebar-icon-text">Account</p>
@@ -38,7 +38,7 @@
                     <img id="navigate-contacts-list-page-icon" src="./images/contacts-svgrepo-com.svg" style="width: 50px; height: 50px;">
                     <p style="font-family: sans-serif; font-weight: bolder; margin: 0;" class="sidebar-icon-text">Contacts</p>
                 </div>
-                <div style="display: flex; flex-direction: column; align-items: center; width: 100%; height: 70px; cursor: default; padding: 2.5px; display: none;">
+                <div style="display: flex; flex-direction: column; align-items: center; width: 100%; height: 70px; cursor: default; padding: 2.5px;">
                     <img id="navigate-favorites-list-page-icon" src="./images/star-svgrepo-com.svg" style="width: 50px; height: 50px;">
                     <p style="font-family: sans-serif; font-weight: bolder; margin: 0;" class="sidebar-icon-text">Favorites</p>
                 </div>
@@ -51,9 +51,9 @@
                     <p style="font-family: sans-serif; font-weight: bolder; margin: 0;" class="sidebar-icon-text">New</p>
                 </div>
             </div>
-            <div style="display: flex; flex-direction: column; justify-content: flex-end; align-items: center; width: 84%; height: 45%; margin-left: 8%; margin-top: 5px;">
+            <div style="display: flex; flex-direction: column; justify-content: flex-end; align-items: center; width: 84%; height: 30%; margin-left: 8%; margin-top: 5px;">
                 <div style="display: flex; flex-direction: column; align-items: center; width: 100%; height: 70px; cursor: default; padding: 2.5px;">
-                    <img id="logout-icon" src="./images/logout-3-svgrepo-com.svg" style="width: 42px;">
+                    <img id="logout-icon" src="./images/logout-3-svgrepo-com.svg" style="width: 45px;">
                     <p style="font-family: sans-serif; font-weight: bolder; margin: 0;">Logout</p>
                 </div>
             </div>  
@@ -89,14 +89,14 @@
         </div>
     </div>
 
-    <div id="large-sidebar" style="position: fixed; width: 25%; height: 100%; top: 0%; left: 6.5%; background-color: #ededed; box-shadow: 0px 5px 10px; overflow-y: scroll; scrollbar-width: thin; overflow-x: hidden; overscroll-behavior: contain; z-index: 3;">
-        <div id="search-contacts-elements-container" style="position: absolute; display: flex; align-items: center; width: 100%; height: 9.3%; border-bottom: 1px solid black; background-color: lightslategrey;">
-            <img id="search-icon" src="./images/search-svgrepo-com.svg" style="width: 18px; margin-left: 6px; border-radius: 50%; background-color: white; padding: 2px;">
-            <input type="search" name="search-contacts" id="search-contacts-input" placeholder="Search for a contact" style="width: 87%; height: 21px; margin-left: 3px;">
+    <div id="large-sidebar" style="position: fixed; width: 25%; height: 100%; top: 0%; left: 6.5%; background-color: #d4d4d4; border-right: 3px solid black; box-shadow: 0px 2.5px 5px; overflow-y: scroll; scrollbar-width: thin; overflow-x: hidden; overscroll-behavior: contain; z-index: 3;">
+        <div id="search-contacts-elements-container" style="position: absolute; display: flex; justify-content: center; align-items: center; width: 100%; height: 9.3%; border-bottom: 4px solid black; background-color: slategray">
+            <!-- <img id="search-icon" src="./images/search-svgrepo-com.svg" style="width: 20px; margin-left: 6px;"> -->
+            <input type="search" name="search-contacts" id="search-contacts-input" placeholder="Search for a contact" style="width: 91%; height: 21px; background-image: url(./images/search-svgrepo-com.svg); background-repeat: no-repeat; background-size: 15px; background-position-y: 1px; background-position-x: 98.5%;">
         </div>
         <div id="sidebar-contacts-list-container" style="margin: 60px 0px 1px 0px;">
-            <ul id="sidebar-contacts-list" style="margin: 0px; padding: 8px 8px 0px 10px;"></ul>
-            <ul id="autocomplete-contacts-list" style="display: none; margin: 0px; padding: 8px 8px 0px 10px;"></ul>
+            <ul id="sidebar-contacts-list" style="margin: 0px; padding: 12px 12px 0px 14px;"></ul>
+            <ul id="autocomplete-contacts-list" style="display: none; margin: 0px; padding: 12px 12px 0px 14px;"></ul>
         </div>
     </div>
 
@@ -699,18 +699,21 @@
     <section id="contact-view" style="position: absolute; width: 68.5%; height: 90.5%; top: 9.5%; left: 31.5%; display: none; overflow: hidden;">
         <div id="contact-header-container" style="position: absolute; display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 100%; height: 20%; background-color: #f9f9f9; box-shadow: 2px 2px 2px;">
             <div id="contact-image-container" style="display: flex; align-items: center; width: 20%; height: 100%; padding: 10px;">
-                <img id="contact-image" src="./images/user-2-svgrepo-com.svg" style="position: relative; display: flex; justify-content: center; align-items: center; width: 95px; height: 95px; border: 0.5px solid grey; box-shadow: 2px 2px 2px; border-radius: 50%; background-color: gainsboro; object-fit: cover; z-index: 1;">
+                <img id="contact-image" src="./images/user-2-svgrepo-com.svg" style="position: relative; display: flex; justify-content: center; align-items: center; width: 90px; height: 90px; border: 0.5px solid grey; box-shadow: 2px 2px 2px; border-radius: 50%; background-color: gainsboro; object-fit: cover; z-index: 1;">
             </div>
             <div id="contact-name-container" style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 60%; height: 100%;">
                 <h2 id="contact-name" style="margin: 0"></h2>
                 <p id="contact-email" style="font-style: italic; margin: 0"></p>
                 <p id="contact-organization-and-role" style="font-weight: bolder; margin: 0"></p>
             </div>
-            <div id="contact-favorite-icon-container" style="display: flex; justify-content: flex-end; width: 20%; height: 100%; padding: 10px;">
-                <img id="contact-favorite-icon" src="./images/star-gold-svgrepo-com.svg" style="width: 85px; display: none;">
+            <div id="contact-favorite-icon-container" style="display: flex; justify-content: flex-end; align-items: center; width: 20%; height: 100%; padding: 10px;">
+                <img id="contact-favorite-icon" src="./images/star-gold-svgrepo-com.svg" style="width: 90px; height: 90px; display: none;">
             </div>
         </div>
-        <div id="contact-information-container" style="position: absolute; display: flex; justify-content: space-around; width: 98.5%; height: 62%; top: 16.5%;">
+        <div style="position: absolute; display: flex; justify-content: flex-end; width: 98.5%; top: 21.75%; z-index: 2;">
+            <button id="add-to-favorites-button">Add favorite</button>
+        </div>
+        <div id="contact-information-container" style="position: absolute; display: flex; justify-content: space-around; width: 98.5%; height: 62%; top: 18%;">
             <div id="contact-information-column-one" style="display: flex; flex-direction: column; justify-content: space-around; width: 30%;">
                 <div style="display: flex; flex-direction: column; width: 285px;">
                     <label style="font-weight: bold;">Name</label>
@@ -1162,7 +1165,7 @@
         </div>
         <div id="manage-groups-button-container" style="position: absolute; display: flex; justify-content: center; width: 100%; top: 94.5%;">
             <div style="display: flex; justify-content: flex-end; width: 96%;">
-                <button id="add-contact-to-groups-button">Add</button>
+                <button id="add-contact-to-groups-button">Update</button>
             </div>
         </div>
     </section>

@@ -992,6 +992,8 @@ const allUsers = await getAllUsers();
         contactListItem.style.padding = "5px"
         contactListItem.style.backgroundColor = "ghostwhite"
         contactListItem.style.overflow = "hidden"
+        contactListItem.style.border = "2px solid black";
+        contactListItem.style.boxShadow = "1px 1px 1px";
         contactListItem.addEventListener("mouseover", function() {
             contactListItem.style.backgroundColor = "lightgreen";
         });
@@ -1006,7 +1008,8 @@ const allUsers = await getAllUsers();
         // contactImageItem.style.height = "100%";
         contactImageItem.style.border = "0.5px solid grey";
         contactImageItem.style.borderRadius = "50%";
-        contactImageItem.style.backgroundColor = "gainsboro"
+        contactImageItem.style.backgroundColor = "gainsboro";
+        contactImageItem.style.objectFit = "cover";
         contactImageItem.setAttribute("src", contact.contact_image);
         const contactListItemNameContainer = document.createElement("div");
         contactListItemNameContainer.style.display = "flex";
@@ -1015,7 +1018,7 @@ const allUsers = await getAllUsers();
         const contactFavoriteIcon = document.createElement("img");
         contactFavoriteIcon.setAttribute("src", "./images/star-gold-svgrepo-com.svg");
         contactFavoriteIcon.style.width = "20px";
-        contactFavoriteIcon.style.display = "none";
+        // contactFavoriteIcon.style.display = "none";
         if (contact.favorite !== true) {
             contactFavoriteIcon.style.visibility = "hidden"
         }
@@ -1040,8 +1043,39 @@ const allUsers = await getAllUsers();
         contactOrganizationAndRoleElement.style.margin = "0px"
         contactOrganizationAndRoleElement.innerHTML = `${contact.organization} || ${contact.organization_role}`
 
-        const contactEmailAddressText = contact.emailaddress;
+        const contactFullNameText = `${contact.firstname} ${contact.lastname}`
         const ellipsis = "..."
+        let contactFullNameTextSlice = contactFullNameText.slice(0, 23) + ellipsis
+        // console.log(contactEmailAddressText.length)
+        if (contactFullNameText.length > 23) {
+            contactNameElement.innerHTML = contactFullNameTextSlice
+        } else {
+            contactNameElement.innerHTML = `${contact.firstname} ${contact.lastname}`
+        }
+
+    // requestAnimationFrame(() => {
+    //     const screenWidth = window.innerWidth;
+    //     const screenHeight = window.innerHeight;
+    //     const contactNameElHeightPercent = (16 / screenHeight) * 100;
+    //     const contactNameElHeightPercentRounded = Number(contactNameElHeightPercent.toFixed(2))
+    //     const contactNameElementHeight = contactNameElement.clientHeight
+        
+    //     // console.log(Number(contactNameElHeightPercent.toFixed(2)))
+        
+    //     const contactFullNameText = `${contact.firstname} ${contact.lastname}`
+    //     const ellipsis = "..."
+    //     let contactFullNameTextSlice = contactFullNameText.slice(0, 33) + ellipsis
+        
+    //     console.log(contactNameElement.clientHeight)
+    //     if (contactNameElHeightPercentRounded > 2.53) {
+    //         contactNameElement.innerHTML = contactFullNameTextSlice     
+    //     } else {
+    //         contactNameElement.innerHTML = `${contact.firstname} ${contact.lastname}`     
+    //     }
+    // });
+
+        const contactEmailAddressText = contact.emailaddress;
+        // const ellipsis = "..."
         let contactEmailAddressTextSlice = contactEmailAddressText.slice(0, 35) + ellipsis
         // console.log(contactEmailAddressText.length)
         if (contactEmailAddressText.length > 35) {
@@ -1080,7 +1114,7 @@ const allUsers = await getAllUsers();
         // contactListItem.appendChild(contactListItemNameContainer);
         contactListItem.appendChild(contactListItemNameContainer)
         contactListItem.appendChild(contactFavoriteIconContainer)
-        // contactListItem.appendChild(contactFavoriteIcon)
+        contactListItem.appendChild(contactFavoriteIcon)
         contactsListElement.appendChild(contactListItem)
     });
 
@@ -1226,7 +1260,10 @@ async function contactsAutocompleteSearch() {
             contactsAutoCompleteListItem.style.borderRadius = "5px"
             contactsAutoCompleteListItem.style.marginBottom = "2px";
             contactsAutoCompleteListItem.style.padding = "5px";
-            contactsAutoCompleteListItem.style.backgroundColor = "ghostwhite"
+            contactsAutoCompleteListItem.style.backgroundColor = "ghostwhite";
+            contactsAutoCompleteListItem.style.overflow = "hidden";
+            contactsAutoCompleteListItem.style.border = "2px solid black";
+            contactsAutoCompleteListItem.style.boxShadow = "1px 1px 1px";
             contactsAutoCompleteListItem.addEventListener("mouseover", function() {
             contactsAutoCompleteListItem.style.backgroundColor = "lightgreen";
             });
@@ -1241,7 +1278,8 @@ async function contactsAutocompleteSearch() {
             contactAutoCompleteImage.style.height = "100%";
             contactAutoCompleteImage.style.border = "0.5px solid grey";
             contactAutoCompleteImage.style.borderRadius = "50%";
-            contactAutoCompleteImage.style.backgroundColor = "gainsboro"
+            contactAutoCompleteImage.style.backgroundColor = "gainsboro";
+            contactAutoCompleteImage.style.objectFit = "cover";
             contactAutoCompleteImage.setAttribute("src", contact.contact_image);
             const contactListItemAutocompleteNameContainer = document.createElement("div");
             contactListItemAutocompleteNameContainer.style.display = "flex";
@@ -1250,7 +1288,7 @@ async function contactsAutocompleteSearch() {
             const contactAutocompleteFavoriteIcon = document.createElement("img");
             contactAutocompleteFavoriteIcon.setAttribute("src", "./images/star-gold-svgrepo-com.svg");
             contactAutocompleteFavoriteIcon.style.width = "20px";
-            contactAutocompleteFavoriteIcon.style.display = "none";
+            // contactAutocompleteFavoriteIcon.style.display = "none";
             if (contact.favorite !== true) {
                 contactAutocompleteFavoriteIcon.style.visibility = "hidden"
             }
@@ -1267,10 +1305,20 @@ async function contactsAutocompleteSearch() {
             contactAutoCompleteEmailElement.style.fontSize = "small"
             contactAutoCompleteEmailElement.style.margin = "0px 0px 0px 10px";
             contactAutoCompleteEmailElement.innerHTML = contact.emailaddress
+        
+        const contactFullNameText = `${contact.firstname} ${contact.lastname}`
+        const ellipsis = "..."
+        let contactFullNameTextSlice = contactFullNameText.slice(0, 23) + ellipsis
+        // console.log(contactEmailAddressText.length)
+        if (contactFullNameText.length > 23) {
+            contactAutoCompleteNameElement.innerHTML = contactFullNameTextSlice
+        } else {
+            contactAutoCompleteNameElement.innerHTML = `${contact.firstname} ${contact.lastname}`
+        }
 
             
         const contactEmailAddressText = contact.emailaddress;
-        const ellipsis = "..."
+        // const ellipsis = "..."
         let contactEmailAddressTextSlice = contactEmailAddressText.slice(0, 35) + ellipsis
         console.log(contactEmailAddressText.length)
         if (contactEmailAddressText.length > 35) {
@@ -1408,7 +1456,7 @@ async function renderMobileContactsSearchContent() {
         const contactFavoriteIconContainer = document.createElement("div");
         const contactFavoriteIcon = document.createElement("img");
         contactFavoriteIcon.setAttribute("src", "./images/star-gold-svgrepo-com.svg");
-        contactFavoriteIcon.style.width = "20px";
+        contactFavoriteIcon.style.width = "35px";
         if (contact.favorite !== true) {
             contactFavoriteIcon.style.visibility = "hidden"
         }
@@ -1435,9 +1483,9 @@ async function renderMobileContactsSearchContent() {
 
         const contactEmailAddressText = contact.emailaddress;
         const ellipsis = "..."
-        let contactEmailAddressTextSlice = contactEmailAddressText.slice(0, 35) + ellipsis
+        let contactEmailAddressTextSlice = contactEmailAddressText.slice(0, 45) + ellipsis
         console.log(contactEmailAddressText.length)
-        if (contactEmailAddressText.length > 35) {
+        if (contactEmailAddressText.length > 45) {
             contactEmailElement.innerHTML = contactEmailAddressTextSlice
         } else {
             contactEmailElement.innerHTML = contact.emailaddress
@@ -2626,12 +2674,14 @@ const allUsers = await getAllUsers();
     // contactsHeaderContainer.style.width = "25%";
     contactsHeaderContainer.style.backgroundColor = "ghostwhite"
     // contactsHeaderContainer.style.marginBottom = "5px"
+    contactsHeaderContainer.style.borderTop = "3px solid black";
+    contactsHeaderContainer.style.borderBottom = "3px solid black";
     contactsHeaderContainer.style.padding = "5px"
     const myContactsHeaderElement = document.createElement("h2");
     myContactsHeaderElement.innerHTML = "My Contacts"
     myContactsHeaderElement.style.width = "140px"
     myContactsHeaderElement.style.margin = "0"
-    myContactsHeaderElement.style.marginLeft = "5px"
+    myContactsHeaderElement.style.marginLeft = "5px";
     // myContactsHeaderElement.style.marginRight = "10px"
     const numberOfContactsElement = document.createElement("h2");
     numberOfContactsElement.innerHTML = userContacts.length;
@@ -2644,7 +2694,7 @@ const allUsers = await getAllUsers();
     numberOfContactsElement.style.color = "white"
     numberOfContactsElement.style.padding = "10px";
     numberOfContactsElement.style.borderRadius = "50%";
-    numberOfContactsElement.style.margin = "0"
+    numberOfContactsElement.style.margin = "0";
     contactsListContainer.style.position = "absolute";
     contactsListContainer.style.top = "28.2%"
     contactsListContainer.style.left = "31.5%"
@@ -2652,7 +2702,7 @@ const allUsers = await getAllUsers();
     const contactsList = document.createElement("ul");
     contactsList.style.listStyle = "none";
     contactsList.style.padding = "0"
-    contactsList.style.margin = "0"
+    contactsList.style.margin = "0";
     // contactsList.style.height = "100%";
     // contactsList.style.overflow = "auto"
     // contactsList.style.zIndex = "5"
@@ -2661,8 +2711,8 @@ const allUsers = await getAllUsers();
         contactListItem.style.display = "flex";
         contactListItem.style.flexDirection = "row";
         contactListItem.style.height = "70px"
-        contactListItem.style.borderTop = "1px solid gray";
-        contactListItem.style.borderBottom = "1px solid gray";
+        contactListItem.style.borderTop = "2px solid black";
+        contactListItem.style.borderBottom = "2px solid black";
         contactListItem.style.backgroundColor = "ghostwhite"
         contactListItem.style.marginTop = "1px";
         contactListItem.style.marginBottom = "2px";
@@ -2776,7 +2826,7 @@ const allUsers = await getAllUsers();
         const contactListFavoriteStarImg = document.createElement("img");
         contactListFavoriteStarImg.classList.add("contact-favorite-icon")
         contactListFavoriteStarImg.style.width = "50px"
-        contactListFavoriteStarImg.style.visibility = "hidden";
+        // contactListFavoriteStarImg.style.visibility = "hidden";
 
         console.log(contact.favorite)
 
@@ -2790,8 +2840,52 @@ const allUsers = await getAllUsers();
             contactListFavoriteStarImg.style.visibility = "hidden"
         } else {
             contactListFavoriteStarImg.style.display = "block"
-            contactListFavoriteStarImg.style.visibility = "hidden";
+            // contactListFavoriteStarImg.style.visibility = "hidden";
         }
+        
+        requestAnimationFrame(() => {
+            const contactListNameElementWidth = contactListNameElement.clientWidth;
+            const contactListNameElementText = contactListNameElement.innerHTML;
+            const firstContactListNameElementSlice = contactListNameElementText.slice(0, 31);
+            const secondContactListNameElementSlice = contactListNameElementText.slice(0, 26);
+            const thirdContactListNameElementSlice = contactListNameElementText.slice(0, 21);
+            const fourthContactListNameElementSlice = contactListNameElementText.slice(0, 16);
+            const contactListEmailElementWidth = contactListEmailElement.clientWidth;
+            const contactListEmailElementText = contactListEmailElement.innerHTML;
+            const contactListEmailElementTextSlice = contactListEmailElementText.slice(0, 60);
+            const contactListEmailElementTextSecondSlice = contactListEmailElementText.slice(0, 50);
+            const contactListOrganizationAndRoleElementWidth = contactListOrganizationAndRoleElement.clientWidth;
+
+            const ellipsis = '...'
+
+            if (contactListNameElementWidth > 400) {
+                contactListNameElement.innerHTML = firstContactListNameElementSlice + ellipsis;
+            };
+            if (contactListNameElementWidth > 400) {
+                contactListNameElement.innerHTML = secondContactListNameElementSlice + ellipsis;
+            };
+            if (contactListNameElementWidth > 400) {
+                contactListNameElement.innerHTML = thirdContactListNameElementSlice + ellipsis;
+            };
+            if (contactListNameElementWidth > 400) {
+                contactListNameElement.innerHTML = fourthContactListNameElementSlice + ellipsis;
+            };
+
+            console.log(contactListEmailElementWidth)
+            if (contactListEmailElementWidth > 400) {
+                contactListEmailElement.innerHTML = contactListEmailElementTextSlice + ellipsis;
+            };
+            if (contactListEmailElementWidth > 400) {
+                contactListEmailElement.innerHTML = contactListEmailElementTextSecondSlice + ellipsis;
+            };
+
+            const contactListOrganizationAndRoleElementText = contactListOrganizationAndRoleElement.innerHTML;
+            const contactListOrganizationAndRoleElementTextSlice = contactListOrganizationAndRoleElementText.slice(0, 40);
+            console.log(contactListOrganizationAndRoleElementWidth)
+            if (contactListOrganizationAndRoleElementWidth > 400) {
+                contactListOrganizationAndRoleElement.innerHTML = contactListOrganizationAndRoleElementTextSlice + ellipsis;
+            };
+        });
         
         contactListItemImageContainer.appendChild(contactListItemImage);
         contactListNameContainer.appendChild(contactListNameElement);
@@ -3072,8 +3166,12 @@ const allUsers = await getAllUsers();
         const elOrgHeight = elOrg.clientHeight;
         const elOrgText = elOrg.innerText;
         const elOrgTextSlice = elOrgText.slice(0, 22) + ellipsis
+        const elOrgSecondTextSlice = elOrgText.slice(0, 18) + ellipsis
         if (elOrgHeight > 22) {
             elOrg.innerHTML = elOrgTextSlice
+        }
+         if (elOrgHeight > 22) {
+            elOrg.innerHTML = elOrgSecondTextSlice
         }
     });
 
@@ -3185,6 +3283,7 @@ const allUsers = await getAllUsers();
     };
 
     addToFavoritesButton.addEventListener("click", function() {
+        console.log("change favorite status")
         updateContactFavorite()
     }, false)
 
@@ -3192,7 +3291,7 @@ const allUsers = await getAllUsers();
 
     const contactFavoriteIcon = document.querySelector("#contact-favorite-icon");
     if (contact.favorite === true) {
-        contactFavoriteIcon.style.display = "none";
+        contactFavoriteIcon.style.display = "block";
     } else {
         contactFavoriteIcon.style.display = "none";
     }
@@ -3207,6 +3306,21 @@ const allUsers = await getAllUsers();
     // contactHeaderFullNameElement.style.fontFamily = "sans-serif";
     // contactHeaderEmailElement.style.fontFamily = "sans-serif";
     // contactOrganizationAndRoleElement.style.fontFamily = "sans-serif"
+
+    const contactHeaderFullNameElementText = contactHeaderFullNameElement.innerHTML;
+    const ellipsis = "..."
+    const contactHeaderFullNameShortElement = contactHeaderFullNameElementText.slice(0, 12) + ellipsis
+    
+    // if (contactHeaderFullNameElementText.length > 12) {
+    //     contactHeaderFullNameElement.innerHTML = contactHeaderFullNameShortElement;
+    // }
+    
+    if (contact.emailaddress !== null && contact.emailaddress !== "") {
+        contactHeaderEmailElement.innerHTML = `${contact.emailaddress}`;
+    } else {
+        contactHeaderEmailElement.innerHTML = "text";
+        contactHeaderEmailElement.style.visibility = "hidden";
+    }
     
     if (contact.emailaddress !== null && contact.emailaddress !== "") {
         contactHeaderEmailElement.innerHTML = `${contact.emailaddress}`;
@@ -3225,6 +3339,67 @@ const allUsers = await getAllUsers();
         contactOrganizationAndRoleElement.innerHTML = "text"
         contactOrganizationAndRoleElement.style.visibility = "hidden"
     }
+
+    requestAnimationFrame(() => {
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+        const mobileContactHeaderElement = document.querySelector("#contact-header-container");
+        const mobileContactHeaderElementHeight = mobileContactHeaderElement.clientHeight;
+        const mobileContactImageCircleElement = document.querySelector("#contact-image");
+        const mobileContactFavoriteSquareElement = document.querySelector("#contact-favorite-icon")
+        const newWidth = (80 / 100) * mobileContactHeaderElementHeight
+        const newWidthStr = newWidth.toString() + "px"
+
+        mobileContactImageCircleElement.style.width = newWidthStr
+        mobileContactFavoriteSquareElement.style.width = newWidthStr
+
+        const ellipsis = "...";
+
+        const contactHeaderNameElementWidth = contactHeaderFullNameElement.clientWidth;
+        const contactHeaderFullNameShortElement = contactHeaderFullNameElementText.slice(0, 15) + ellipsis
+        console.log(contactHeaderNameElementWidth)
+
+        if (contactHeaderNameElementWidth > 400) {
+            contactHeaderFullNameElement.innerHTML = contactHeaderFullNameShortElement;
+        }
+
+        const mobileContactHeaderNameContainer = document.querySelector("#contact-name-container");
+        const mobileContactHeaderNameContainerWidth = mobileContactHeaderNameContainer.clientWidth;
+        const contactHeaderEmailElementWidth = contactHeaderEmailElement.clientWidth
+        const contactHeaderEmailElementText = contactHeaderEmailElement.textContent;
+        const contactHeaderEmailTextSlice = contactHeaderEmailElementText.slice(0, 60) + ellipsis;
+        console.log(contactHeaderEmailElementWidth)
+        if (contactHeaderEmailElementWidth > 400) {
+            contactHeaderEmailElement.innerHTML = contactHeaderEmailTextSlice;
+        }
+
+        // console.log(mobileContactHeaderElement.clientHeight)
+
+        const elOrg = contactOrganizationAndRoleElement;
+        const elOrgHeight = elOrg.clientHeight;
+        const elOrgWidth = elOrg.clientWidth;
+        const elOrgText = elOrg.innerText;
+        const elOrgTextSlice = elOrgText.slice(0, 22) + ellipsis;
+        const elOrgSecondTextSlice = elOrgText.slice(0, 18) + ellipsis;
+        const elOrgThirdTextSlice = elOrgText.slice(0, 14) + ellipsis;
+        if (elOrgHeight > 22) {
+            elOrg.innerHTML = elOrgTextSlice
+        }
+        if (elOrgHeight > 22) {
+            elOrg.innerHTML = elOrgSecondTextSlice
+        }
+
+        if (elOrgWidth > mobileContactHeaderNameContainerWidth) {
+            elOrg.innerHTML = elOrgTextSlice
+        }
+        if (elOrgWidth > mobileContactHeaderNameContainerWidth) {
+            elOrg.innerHTML = elOrgSecondTextSlice
+        }
+        if (elOrgWidth > mobileContactHeaderNameContainerWidth) {
+            elOrg.innerHTML = elOrgThirdTextSlice
+        }
+        console.log(elOrgHeight)
+    });
 
    const contactImageElement = document.querySelector("#contact-image")
    const contactFullNameElement = document.querySelector("#contact-full-name");
@@ -3416,14 +3591,32 @@ const allUsers = await getAllUsers();
             contactHeaderEmailElement.innerHTML = contactHeaderEmailTextSlice;
         }
 
+        // console.log(mobileContactHeaderElement.clientHeight)
 
         const elOrg = contactOrganizationAndRoleElement;
         const elOrgHeight = elOrg.clientHeight;
+        const elOrgWidth = elOrg.clientWidth;
         const elOrgText = elOrg.innerText;
-        const elOrgTextSlice = elOrgText.slice(0, 22) + ellipsis
+        const elOrgTextSlice = elOrgText.slice(0, 22) + ellipsis;
+        const elOrgSecondTextSlice = elOrgText.slice(0, 18) + ellipsis;
+        const elOrgThirdTextSlice = elOrgText.slice(0, 14) + ellipsis;
         if (elOrgHeight > 22) {
             elOrg.innerHTML = elOrgTextSlice
         }
+        if (elOrgHeight > 22) {
+            elOrg.innerHTML = elOrgSecondTextSlice
+        }
+
+        if (elOrgWidth > mobileContactHeaderNameContainerWidth) {
+            elOrg.innerHTML = elOrgTextSlice
+        }
+        if (elOrgWidth > mobileContactHeaderNameContainerWidth) {
+            elOrg.innerHTML = elOrgSecondTextSlice
+        }
+        if (elOrgWidth > mobileContactHeaderNameContainerWidth) {
+            elOrg.innerHTML = elOrgThirdTextSlice
+        }
+        console.log(elOrgHeight)
     });
     
     const mobileContactImageElement = document.querySelector("#mobile-contact-image")
@@ -3922,8 +4115,26 @@ const allUsers = await getAllUsers();
     const editContactButton = document.querySelector("#edit-contact-button");
     editContactButton.addEventListener("click", updateContact, false);
 
+    const allUserContactGroupings = await getUserContactGroupings(user_id);
+    let removeContactGroupingsArr = []
+    for (let i = 0; i < allUserContactGroupings.length; i++) {
+        // console.log(allUserContactGroupings[i].contact_id)
+        if (allUserContactGroupings[i].contact_id === Number(contact_id)) {
+            const contactGroupingObj = {
+                userId: user_id,
+                contactId: Number(contact_id),
+                groupId: allUserContactGroupings[i].group_id
+            }
+            removeContactGroupingsArr.push(contactGroupingObj)
+        }
+    };
+
+    console.log(contact_id)
     const deleteContactButton = document.querySelector("#delete-contact-button");
-    deleteContactButton.addEventListener("click", deleteContact, false);
+    deleteContactButton.addEventListener("click", function() {
+        deleteContact()
+        removeContactDeleteContactGroupings(removeContactGroupingsArr)
+    }, false);
 };
 
 async function renderMobileEditContactContent() {
@@ -4415,14 +4626,16 @@ const allUsers = await getAllUsers();
     // favoriteContactsHeaderContainer.style.justifyContent = "space-between"
     favoriteContactsHeaderContainer.style.alignItems = "center"
     // favoriteContactsHeaderContainer.style.width = "25%";
-    favoriteContactsHeaderContainer.style.backgroundColor = "ghostwhite"
+    favoriteContactsHeaderContainer.style.backgroundColor = "ghostwhite";
+    favoriteContactsHeaderContainer.style.borderTop = "3px solid black";
+    favoriteContactsHeaderContainer.style.borderBottom = "3px solid black";
     // favoriteContactsHeaderContainer.style.marginBottom = "5px"
     favoriteContactsHeaderContainer.style.padding = "5px"
     const myFavoriteContactsHeaderElement = document.createElement("h2");
-    myFavoriteContactsHeaderElement.innerHTML = "My Favorites"
-    myFavoriteContactsHeaderElement.style.width = "140px"
-    myFavoriteContactsHeaderElement.style.margin = "0"
-    myFavoriteContactsHeaderElement.style.marginLeft = "5px"
+    myFavoriteContactsHeaderElement.innerHTML = "My Favorites";
+    myFavoriteContactsHeaderElement.style.width = "140px";
+    myFavoriteContactsHeaderElement.style.margin = "0";
+    myFavoriteContactsHeaderElement.style.marginLeft = "5px";
     // myFavoriteContactsHeaderElement.style.marginRight = "10px"
     const numberOfFavoriteContactsElement = document.createElement("h2");
     numberOfFavoriteContactsElement.innerHTML = favoriteContacts.length;
@@ -4449,9 +4662,9 @@ const allUsers = await getAllUsers();
         favoriteContactListItem.style.display = "flex";
         favoriteContactListItem.style.flexDirection = "row";
         favoriteContactListItem.style.height = "70px"
-        favoriteContactListItem.style.borderTop = "1px solid gray";
-        favoriteContactListItem.style.borderBottom = "1px solid gray";
-        favoriteContactListItem.style.backgroundColor = "ghostwhite"
+        favoriteContactListItem.style.borderTop = "2px solid black";
+        favoriteContactListItem.style.borderBlock = "2px solid black";
+        favoriteContactListItem.style.backgroundColor = "ghostwhite";
         favoriteContactListItem.style.marginTop = "1px";
         favoriteContactListItem.style.marginBottom = "2px";
         favoriteContactListItem.setAttribute("contactId", contact.contact_id)
@@ -4575,7 +4788,51 @@ const allUsers = await getAllUsers();
             favoriteContactListFavoriteStarImg.style.display = "none"
         } else {
             favoriteContactListFavoriteStarImg.style.display = "block"
-        }
+        };
+
+        requestAnimationFrame(() => {
+            const favoriteContactListNameElementWidth = favoriteContactListNameElement.clientWidth;
+            const favoriteContactListNameElementText = favoriteContactListNameElement.innerHTML;
+            const firstFavoriteContactListNameElementSlice = favoriteContactListNameElementText.slice(0, 31);
+            const secondFavoriteContactListNameElementSlice = favoriteContactListNameElementText.slice(0, 26);
+            const thirdFavoriteContactListNameElementSlice = favoriteContactListNameElementText.slice(0, 21);
+            const fourthFavoriteContactListNameElementSlice = favoriteContactListNameElementText.slice(0, 16);
+            const favoriteContactListEmailElementWidth = favoriteContactListEmailElement.clientWidth;
+            const favoriteContactListEmailElementText = favoriteContactListEmailElement.innerHTML;
+            const favoriteContactListEmailElementTextSlice = favoriteContactListEmailElementText.slice(0, 60);
+            const favoriteContactListEmailElementTextSecondSlice = favoriteContactListEmailElementText.slice(0, 50);
+            const favoriteContactListOrganizationAndRoleElementWidth = favoriteContactListOrganizationAndRoleElement.clientWidth;
+
+            const ellipsis = '...'
+
+            if (favoriteContactListNameElementWidth > 400) {
+                favoriteContactListNameElement.innerHTML = firstFavoriteContactListNameElementSlice + ellipsis;
+            };
+            if (favoriteContactListNameElementWidth > 400) {
+                favoriteContactListNameElement.innerHTML = secondFavoriteContactListNameElementSlice + ellipsis;
+            };
+            if (favoriteContactListNameElementWidth > 400) {
+                favoriteContactListNameElement.innerHTML = thirdFavoriteContactListNameElementSlice + ellipsis;
+            };
+            if (favoriteContactListNameElementWidth > 400) {
+                favoriteContactListNameElement.innerHTML = fourthFavoriteContactListNameElementSlice + ellipsis;
+            };
+
+            // console.log(favoriteContactListEmailElementWidth)
+            if (favoriteContactListEmailElementWidth > 400) {
+                favoriteContactListEmailElement.innerHTML = favoriteContactListEmailElementTextSlice + ellipsis;
+            };
+            if (favoriteContactListEmailElementWidth > 400) {
+                favoriteContactListEmailElement.innerHTML = favoriteContactListEmailElementTextSecondSlice + ellipsis;
+            };
+
+            const favoriteContactListOrganizationAndRoleElementText = favoriteContactListOrganizationAndRoleElement.innerHTML;
+            const favoriteContactListOrganizationAndRoleElementTextSlice = favoriteContactListOrganizationAndRoleElementText.slice(0, 40);
+            // console.log(favoriteContactListOrganizationAndRoleElementWidth)
+            if (favoriteContactListOrganizationAndRoleElementWidth > 400) {
+                favoriteContactListOrganizationAndRoleElement.innerHTML = favoriteContactListOrganizationAndRoleElementTextSlice + ellipsis;
+            };
+        });
         
         favoriteContactListItemImageContainer.appendChild(favoriteContactListItemImage);
         favoriteContactListNameContainer.appendChild(favoriteContactListNameElement);
@@ -5078,6 +5335,8 @@ async function renderGroupsListContent() {
             numberOfContactsInGroupElement.style.marginBottom = groupListItemHeaderElementHeight + "px"
         });
 
+
+
         groupListItemHeaderElement.appendChild(groupListItemEditIcon)
         groupListItemHeaderElement.appendChild(groupListItemTextElement)
         groupListItemHeaderElement.appendChild(groupListItemDeleteIcon)
@@ -5563,8 +5822,8 @@ async function renderGroupContactsListContent() {
     // groupContactsHeaderContainer.style.marginBottom = "5px"
     groupContactsHeaderContainer.style.padding = "5px"
     const myGroupContactsHeaderElement = document.createElement("h2");
-    myGroupContactsHeaderElement.innerHTML = "My Contacts"
-    myGroupContactsHeaderElement.style.width = "140px"
+    myGroupContactsHeaderElement.innerHTML = `${group.groupname} Contacts`
+    // myGroupContactsHeaderElement.style.width = "140px"
     myGroupContactsHeaderElement.style.margin = "0"
     myGroupContactsHeaderElement.style.marginLeft = "5px"
     // myContactsHeaderElement.style.marginRight = "10px"
@@ -5579,7 +5838,8 @@ async function renderGroupContactsListContent() {
     numberOfGroupContactsElement.style.color = "white"
     numberOfGroupContactsElement.style.padding = "10px";
     numberOfGroupContactsElement.style.borderRadius = "50%";
-    numberOfGroupContactsElement.style.margin = "0"
+    numberOfGroupContactsElement.style.margin = "0";
+    numberOfGroupContactsElement.style.marginLeft = "5px";
     groupContactsListContainer.style.position = "absolute";
     groupContactsListContainer.style.top = "28.2%"
     groupContactsListContainer.style.left = "31.5%"
@@ -5676,9 +5936,6 @@ async function renderGroupContactsListContent() {
         const groupContactListEmailElement = document.createElement("p");
         groupContactListEmailElement.style.fontStyle = "italic"
         groupContactListEmailElement.style.margin = "0"
-
-        
-        console.log(contact)
         
         if (contact.emailaddress !== null && contact.emailaddress !== "") {
             groupContactListEmailElement.innerHTML = contact.emailaddress;
@@ -5711,7 +5968,7 @@ async function renderGroupContactsListContent() {
         const contactListFavoriteStarImg = document.createElement("img");
         contactListFavoriteStarImg.classList.add("contact-favorite-icon")
         contactListFavoriteStarImg.style.width = "50px"
-        contactListFavoriteStarImg.style.visibility = "hidden";
+        // contactListFavoriteStarImg.style.visibility = "hidden";
 
         console.log(contact.favorite)
 
@@ -5725,8 +5982,52 @@ async function renderGroupContactsListContent() {
             contactListFavoriteStarImg.style.visibility = "hidden"
         } else {
             contactListFavoriteStarImg.style.display = "block"
-            contactListFavoriteStarImg.style.visibility = "hidden";
+            // contactListFavoriteStarImg.style.visibility = "hidden";
         }
+
+        requestAnimationFrame(() => {
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+            const mobileContactsListHeaderElement = document.querySelector("#mobile-contacts-list-user-header-container");
+            const mobileContactsListHeaderElementHeight = mobileContactsListHeaderElement.clientHeight;
+            const mobileContactsListHeaderImageCircleElement = document.querySelector("#mobile-contacts-list-header-user-image-circle");
+            const mobileContactsListFavoriteSquareElement = document.querySelector("#mobile-contacts-list-header-user-favorite-square")
+            const newWidth = (80 / 100) * mobileContactsListHeaderElementHeight
+            const newWidthStr = newWidth.toString() + "px"
+
+            const groupContactListNameElementWidth = groupContactListNameElement.clientWidth;
+            console.log(groupContactListNameElementWidth)
+
+            const ellipsis = '...'
+            const groupContactListNameElementText = groupContactListNameElement.innerHTML;
+            const groupContactListNameElementSlice = groupContactListNameElementText.slice(0, 25);
+            if (groupContactListNameElementWidth > 400) {
+                groupContactListNameElement.innerHTML = groupContactListNameElementSlice + ellipsis;
+            };
+
+            const groupContactListEmailElementWidth = groupContactListEmailElement.clientWidth;
+            const groupContactListEmailElementText = groupContactListEmailElement.innerHTML;
+            const groupContactListEmailElementTextSlice = groupContactListEmailElementText.slice(0, 60);
+            const groupContactListEmailElementTextSecondSlice = groupContactListEmailElementText.slice(0, 50);
+            if (groupContactListEmailElementWidth > 400) {
+                groupContactListEmailElement.innerHTML = groupContactListEmailElementTextSlice + ellipsis;
+            };
+            if (groupContactListEmailElementWidth > 400) {
+                groupContactListEmailElement.innerHTML = groupContactListEmailElementTextSecondSlice + ellipsis;
+            };
+
+            const groupContactListOrganizationAndRoleElementWidth = groupContactListOrganizationAndRoleElement.clientWidth;
+            const groupContactListOrganizationAndRoleElementText = groupContactListOrganizationAndRoleElement.innerHTML;
+            const groupContactListOrganizationAndRoleElementTextSlice = groupContactListOrganizationAndRoleElementText.slice(0, 40);
+            if (groupContactListOrganizationAndRoleElementWidth > 400) {
+                groupContactListOrganizationAndRoleElement.innerHTML = groupContactListOrganizationAndRoleElementTextSlice + ellipsis;
+            };
+            // if (contactListOrganizationAndRoleElementWidth > 400) {
+            //     contactListOrganizationAndRoleElement.innerHTML = contactListOrganizationAndRoleElementText + ellipsis;
+            // };
+            mobileContactsListHeaderImageCircleElement.style.width = newWidthStr
+            mobileContactsListFavoriteSquareElement.style.width = newWidthStr
+        });
         
         groupContactListItemImageContainer.appendChild(groupContactListItemImage);
         groupContactListNameContainer.appendChild(groupContactListNameElement);
@@ -7751,6 +8052,39 @@ async function deleteAContactGrouping() {
 
     const removeContactGroupings = await handleManageContactGroupsInput();
     const removeContactGroupingsArr = removeContactGroupings.uniqueRemoveGroupsArr;
+
+    for (const grouping of removeContactGroupingsArr) {
+         const user_id = grouping.userId;
+         const contact_id = grouping.contactId;
+         const group_id = grouping.groupId;
+        try {
+            const response = await fetch(`/contactGroups/${user_id}/${contact_id}/${group_id}`, {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+            });
+            console.log(response)
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    localStorage.clear()
+    // window.location.href = `${rootUrl}/groups`
+};
+
+async function removeContactDeleteContactGroupings(removeContactGroupingsArr) {
+// const allUsers = await getAllUsers();
+//     const sessionId = sessionStorage.getItem("user");
+//     let matchingUser;
+//     for (let i = 0; i < allUsers.length; i++) {
+//         if (allUsers[i].session_id === sessionId) {
+//             matchingUser = allUsers[i]
+//         }
+//     }
+//     const user_id = matchingUser.user_id;
+
+    // const removeContactGroupings = await handleManageContactGroupsInput();
+    // const removeContactGroupingsArr = removeContactGroupings.uniqueRemoveGroupsArr;
 
     for (const grouping of removeContactGroupingsArr) {
          const user_id = grouping.userId;
