@@ -158,6 +158,19 @@ async function renderRegisterContent() {
     registerUserPhoneNumberElement.addEventListener("focus", function() {
         resetPhoneNumberFormatOnFocus(registerUserPhoneNumberElement)
     });
+    registerUserPhoneNumberElement.addEventListener("paste", function(event) {
+        // event.preventDefault()
+        const clipboard = event.clipboardData;
+        const pastedText = clipboard.getData("Text")
+        // let pastedText = (event.clipboardData || window.clipboardData).getData('text');
+        pastedText.replace(/[^0-9]/g, '')
+        event.target.value = pastedText;
+        // removeNonNumericCharacters(pastedText)
+    }, false);
+    registerUserPhoneNumberElement.addEventListener("input", function() {
+        resetPhoneNumberFormatOnFocus(registerUserPhoneNumberElement)
+    });
+    
 
     const navigateLoginPageButton = document.querySelector("#navigate-to-login-view-button");
     navigateLoginPageButton.addEventListener("click", function(event) {
@@ -473,6 +486,18 @@ async function renderRecoverPassword() {
     recoverUserPasswordPhoneNumberElement.addEventListener("focus", function() {
         resetPhoneNumberFormatOnFocus(recoverUserPasswordPhoneNumberElement)
     });
+    recoverUserPasswordPhoneNumberElement.addEventListener("paste", function(event) {
+        // event.preventDefault()
+        const clipboard = event.clipboardData;
+        const pastedText = clipboard.getData("Text")
+        // let pastedText = (event.clipboardData || window.clipboardData).getData('text');
+        pastedText.replace(/[^0-9]/g, '')
+        event.target.value = pastedText;
+        // removeNonNumericCharacters(pastedText)
+    }, false);
+    recoverUserPasswordPhoneNumberElement.addEventListener("input", function() {
+        resetPhoneNumberFormatOnFocus(recoverUserPasswordPhoneNumberElement)
+    });
 
     const navigateToLoginFromRecoverPasswordButton = document.querySelector("#navigate-to-login-view-from-recover-password-button");
     navigateToLoginFromRecoverPasswordButton.addEventListener("click", function() {
@@ -532,6 +557,7 @@ async function handleRecoverPasswordInput() {
 
     const matchingUserObject = {
        userId: matchingUser.user_id,
+       sessionId: matchingUser.session_id,
        firstname: matchingUser.firstname,
        lastname: matchingUser.lastname,
        emailaddress: matchingUser.emailaddress,
@@ -825,7 +851,7 @@ const allUsers = await getAllUsers();
         }
     }
 
-    // console.log(matchingUser)
+    console.log(matchingUser)
     const userId = matchingUser.user_id;
     const user = await getUser(userId);
 
@@ -1053,26 +1079,31 @@ const allUsers = await getAllUsers();
             contactNameElement.innerHTML = `${contact.firstname} ${contact.lastname}`
         }
 
-    // requestAnimationFrame(() => {
-    //     const screenWidth = window.innerWidth;
-    //     const screenHeight = window.innerHeight;
-    //     const contactNameElHeightPercent = (16 / screenHeight) * 100;
-    //     const contactNameElHeightPercentRounded = Number(contactNameElHeightPercent.toFixed(2))
-    //     const contactNameElementHeight = contactNameElement.clientHeight
+        const contactNameElementWidth = contactNameElement.clientWidth;
+        console.log(contactNameElementWidth)
+
+    requestAnimationFrame(() => {
+        // const screenWidth = window.innerWidth;
+        // const screenHeight = window.innerHeight;
+        // const contactNameElHeightPercent = (16 / screenHeight) * 100;
+        // const contactNameElHeightPercentRounded = Number(contactNameElHeightPercent.toFixed(2))
+        // const contactNameElementHeight = contactNameElement.clientHeight
         
-    //     // console.log(Number(contactNameElHeightPercent.toFixed(2)))
+        // // console.log(Number(contactNameElHeightPercent.toFixed(2)))
         
-    //     const contactFullNameText = `${contact.firstname} ${contact.lastname}`
-    //     const ellipsis = "..."
-    //     let contactFullNameTextSlice = contactFullNameText.slice(0, 33) + ellipsis
+        // const contactFullNameText = `${contact.firstname} ${contact.lastname}`
+        // const ellipsis = "..."
+        // let contactFullNameTextSlice = contactFullNameText.slice(0, 33) + ellipsis
         
-    //     console.log(contactNameElement.clientHeight)
-    //     if (contactNameElHeightPercentRounded > 2.53) {
-    //         contactNameElement.innerHTML = contactFullNameTextSlice     
-    //     } else {
-    //         contactNameElement.innerHTML = `${contact.firstname} ${contact.lastname}`     
-    //     }
-    // });
+        // console.log(contactNameElement.clientHeight)
+        // if (contactNameElHeightPercentRounded > 2.53) {
+        //     contactNameElement.innerHTML = contactFullNameTextSlice     
+        // } else {
+        //     contactNameElement.innerHTML = `${contact.firstname} ${contact.lastname}`     
+        // }
+        const contactNameElementWidth = contactNameElement.clientWidth;
+        console.log(contactNameElementWidth)
+    });
 
         const contactEmailAddressText = contact.emailaddress;
         // const ellipsis = "..."
@@ -2858,6 +2889,8 @@ const allUsers = await getAllUsers();
 
             const ellipsis = '...'
 
+            console.log(contactListNameElementWidth)
+
             if (contactListNameElementWidth > 400) {
                 contactListNameElement.innerHTML = firstContactListNameElementSlice + ellipsis;
             };
@@ -3153,6 +3186,7 @@ const allUsers = await getAllUsers();
         }
 
         const contactListNameContainerWidth = contactListNameContainer.clientWidth;
+        console.log(contactListItemNameElement.clientWidth)
         const contactEmailAddressText = contact.emailaddress;
         const contactEmailAddressElementWidth = contactListEmailElement.clientWidth;
         let contactEmailAddressTextSlice = contactEmailAddressText.slice(0, 25) + ellipsis
@@ -3341,64 +3375,49 @@ const allUsers = await getAllUsers();
     }
 
     requestAnimationFrame(() => {
-        const screenWidth = window.innerWidth;
-        const screenHeight = window.innerHeight;
-        const mobileContactHeaderElement = document.querySelector("#contact-header-container");
-        const mobileContactHeaderElementHeight = mobileContactHeaderElement.clientHeight;
-        const mobileContactImageCircleElement = document.querySelector("#contact-image");
-        const mobileContactFavoriteSquareElement = document.querySelector("#contact-favorite-icon")
-        const newWidth = (80 / 100) * mobileContactHeaderElementHeight
-        const newWidthStr = newWidth.toString() + "px"
+        const contactHeaderFullNameElementWidth = contactHeaderFullNameElement.clientWidth;
+        const contactHeaderFullNameElementText = contactHeaderFullNameElement.innerHTML;
+        const firstContactHeaderFullNameElementSlice = contactHeaderFullNameElementText.slice(0, 31);
+        const secondContactHeaderFullNameElementSlice = contactHeaderFullNameElementText.slice(0, 26);
+        const thirdContactHeaderFullNameElementSlice = contactHeaderFullNameElementText.slice(0, 21);
+        const fourthContactHeaderFullNameElementSlice = contactHeaderFullNameElementText.slice(0, 16);
+        const contactHeaderEmailElementWidth = contactHeaderEmailElement.clientWidth;
+        const contactHeaderEmailElementText = contactHeaderEmailElement.innerHTML;
+        const contactHeaderEmailElementTextSlice = contactHeaderEmailElementText.slice(0, 60);
+        const contactHeaderEmailElementTextSecondSlice = contactHeaderEmailElementText.slice(0, 50);
+        const contactHeaderOrganizationAndRoleElementWidth = contactOrganizationAndRoleElement.clientWidth;
 
-        mobileContactImageCircleElement.style.width = newWidthStr
-        mobileContactFavoriteSquareElement.style.width = newWidthStr
+        const ellipsis = '...'
 
-        const ellipsis = "...";
+        console.log(contactHeaderFullNameElementWidth)
 
-        const contactHeaderNameElementWidth = contactHeaderFullNameElement.clientWidth;
-        const contactHeaderFullNameShortElement = contactHeaderFullNameElementText.slice(0, 15) + ellipsis
-        console.log(contactHeaderNameElementWidth)
+        if (contactHeaderFullNameElementWidth > 400) {
+            contactHeaderFullNameElement.innerHTML = firstContactHeaderFullNameElementSlice + ellipsis;
+        };
+        if (contactHeaderFullNameElementWidth > 400) {
+            contactHeaderFullNameElement.innerHTML = secondContactHeaderFullNameElementSlice + ellipsis;
+        };
+        if (contactHeaderFullNameElementWidth > 400) {
+            contactHeaderFullNameElement.innerHTML = thirdContactHeaderFullNameElementSlice + ellipsis;
+        };
+        if (contactHeaderFullNameElementWidth > 400) {
+            contactHeaderFullNameElement.innerHTML = fourthContactHeaderFullNameElementSlice + ellipsis;
+        };
 
-        if (contactHeaderNameElementWidth > 400) {
-            contactHeaderFullNameElement.innerHTML = contactHeaderFullNameShortElement;
-        }
-
-        const mobileContactHeaderNameContainer = document.querySelector("#contact-name-container");
-        const mobileContactHeaderNameContainerWidth = mobileContactHeaderNameContainer.clientWidth;
-        const contactHeaderEmailElementWidth = contactHeaderEmailElement.clientWidth
-        const contactHeaderEmailElementText = contactHeaderEmailElement.textContent;
-        const contactHeaderEmailTextSlice = contactHeaderEmailElementText.slice(0, 60) + ellipsis;
         console.log(contactHeaderEmailElementWidth)
         if (contactHeaderEmailElementWidth > 400) {
-            contactHeaderEmailElement.innerHTML = contactHeaderEmailTextSlice;
-        }
+            contactHeaderEmailElement.innerHTML = contactHeaderEmailElementTextSlice + ellipsis;
+        };
+        if (contactHeaderEmailElementWidth > 400) {
+            contactHeaderEmailElement.innerHTML = contactHeaderEmailElementTextSecondSlice + ellipsis;
+        };
 
-        // console.log(mobileContactHeaderElement.clientHeight)
-
-        const elOrg = contactOrganizationAndRoleElement;
-        const elOrgHeight = elOrg.clientHeight;
-        const elOrgWidth = elOrg.clientWidth;
-        const elOrgText = elOrg.innerText;
-        const elOrgTextSlice = elOrgText.slice(0, 22) + ellipsis;
-        const elOrgSecondTextSlice = elOrgText.slice(0, 18) + ellipsis;
-        const elOrgThirdTextSlice = elOrgText.slice(0, 14) + ellipsis;
-        if (elOrgHeight > 22) {
-            elOrg.innerHTML = elOrgTextSlice
-        }
-        if (elOrgHeight > 22) {
-            elOrg.innerHTML = elOrgSecondTextSlice
-        }
-
-        if (elOrgWidth > mobileContactHeaderNameContainerWidth) {
-            elOrg.innerHTML = elOrgTextSlice
-        }
-        if (elOrgWidth > mobileContactHeaderNameContainerWidth) {
-            elOrg.innerHTML = elOrgSecondTextSlice
-        }
-        if (elOrgWidth > mobileContactHeaderNameContainerWidth) {
-            elOrg.innerHTML = elOrgThirdTextSlice
-        }
-        console.log(elOrgHeight)
+        const contactHeaderOrganizationAndRoleElementText = contactOrganizationAndRoleElement.innerHTML;
+        const contactHeaderOrganizationAndRoleElementTextSlice = contactHeaderOrganizationAndRoleElementText.slice(0, 40);
+        console.log(contactHeaderOrganizationAndRoleElementWidth)
+        if (contactHeaderOrganizationAndRoleElementWidth > 400) {
+            contactOrganizationAndRoleElement.innerHTML = contactHeaderOrganizationAndRoleElementTextSlice + ellipsis;
+        };
     });
 
    const contactImageElement = document.querySelector("#contact-image")
@@ -4050,6 +4069,18 @@ const allUsers = await getAllUsers();
         formatPhoneNumberForData(editContactPhoneNumberElement)
     });
     editContactPhoneNumberElement.addEventListener("focus", function() {
+        resetPhoneNumberFormatOnFocus(editContactPhoneNumberElement)
+    });
+    editContactPhoneNumberElement.addEventListener("paste", function(event) {
+        // event.preventDefault()
+        const clipboard = event.clipboardData;
+        const pastedText = clipboard.getData("Text")
+        // let pastedText = (event.clipboardData || window.clipboardData).getData('text');
+        pastedText.replace(/[^0-9]/g, '')
+        event.target.value = pastedText;
+        // removeNonNumericCharacters(pastedText)
+    }, false);
+    editContactPhoneNumberElement.addEventListener("input", function() {
         resetPhoneNumberFormatOnFocus(editContactPhoneNumberElement)
     });
     
@@ -5818,7 +5849,9 @@ async function renderGroupContactsListContent() {
     // groupContactsHeaderContainer.style.justifyContent = "space-between"
     groupContactsHeaderContainer.style.alignItems = "center"
     // groupContactsHeaderContainer.style.width = "25%";
-    groupContactsHeaderContainer.style.backgroundColor = "ghostwhite"
+    groupContactsHeaderContainer.style.backgroundColor = "ghostwhite";
+    groupContactsHeaderContainer.style.borderTop = "3px solid black";
+    groupContactsHeaderContainer.style.borderBottom = "3px solid black";
     // groupContactsHeaderContainer.style.marginBottom = "5px"
     groupContactsHeaderContainer.style.padding = "5px"
     const myGroupContactsHeaderElement = document.createElement("h2");
@@ -5856,8 +5889,8 @@ async function renderGroupContactsListContent() {
         groupContactListItem.style.display = "flex";
         groupContactListItem.style.flexDirection = "row";
         groupContactListItem.style.height = "70px"
-        groupContactListItem.style.borderTop = "1px solid gray";
-        groupContactListItem.style.borderBottom = "1px solid gray";
+        groupContactListItem.style.borderTop = "2px solid black";
+        groupContactListItem.style.borderBottom = "2px solid black";
         groupContactListItem.style.backgroundColor = "ghostwhite"
         groupContactListItem.style.marginTop = "1px";
         groupContactListItem.style.marginBottom = "2px";
@@ -5986,29 +6019,34 @@ async function renderGroupContactsListContent() {
         }
 
         requestAnimationFrame(() => {
-            const screenWidth = window.innerWidth;
-            const screenHeight = window.innerHeight;
-            const mobileContactsListHeaderElement = document.querySelector("#mobile-contacts-list-user-header-container");
-            const mobileContactsListHeaderElementHeight = mobileContactsListHeaderElement.clientHeight;
-            const mobileContactsListHeaderImageCircleElement = document.querySelector("#mobile-contacts-list-header-user-image-circle");
-            const mobileContactsListFavoriteSquareElement = document.querySelector("#mobile-contacts-list-header-user-favorite-square")
-            const newWidth = (80 / 100) * mobileContactsListHeaderElementHeight
-            const newWidthStr = newWidth.toString() + "px"
-
             const groupContactListNameElementWidth = groupContactListNameElement.clientWidth;
-            console.log(groupContactListNameElementWidth)
-
-            const ellipsis = '...'
             const groupContactListNameElementText = groupContactListNameElement.innerHTML;
-            const groupContactListNameElementSlice = groupContactListNameElementText.slice(0, 25);
-            if (groupContactListNameElementWidth > 400) {
-                groupContactListNameElement.innerHTML = groupContactListNameElementSlice + ellipsis;
-            };
-
+            const firstGroupContactListNameElementSlice = groupContactListNameElementText.slice(0, 31);
+            const secondGroupContactListNameElementSlice = groupContactListNameElementText.slice(0, 26);
+            const thirdGroupContactListNameElementSlice = groupContactListNameElementText.slice(0, 21);
+            const fourthGroupContactListNameElementSlice = groupContactListNameElementText.slice(0, 16);
             const groupContactListEmailElementWidth = groupContactListEmailElement.clientWidth;
             const groupContactListEmailElementText = groupContactListEmailElement.innerHTML;
             const groupContactListEmailElementTextSlice = groupContactListEmailElementText.slice(0, 60);
             const groupContactListEmailElementTextSecondSlice = groupContactListEmailElementText.slice(0, 50);
+            const groupContactListOrganizationAndRoleElementWidth = groupContactListOrganizationAndRoleElement.clientWidth;
+
+            const ellipsis = '...'
+
+            if (groupContactListNameElementWidth > 400) {
+                groupContactListNameElement.innerHTML = firstGroupContactListNameElementSlice + ellipsis;
+            };
+            if (groupContactListNameElementWidth > 400) {
+                groupContactListNameElement.innerHTML = secondGroupContactListNameElementSlice + ellipsis;
+            };
+            if (groupContactListNameElementWidth > 400) {
+                groupContactListNameElement.innerHTML = thirdGroupContactListNameElementSlice + ellipsis;
+            };
+            if (groupContactListNameElementWidth > 400) {
+                groupContactListNameElement.innerHTML = fourthGroupContactListNameElementSlice + ellipsis;
+            };
+
+            console.log(groupContactListEmailElementWidth)
             if (groupContactListEmailElementWidth > 400) {
                 groupContactListEmailElement.innerHTML = groupContactListEmailElementTextSlice + ellipsis;
             };
@@ -6016,17 +6054,12 @@ async function renderGroupContactsListContent() {
                 groupContactListEmailElement.innerHTML = groupContactListEmailElementTextSecondSlice + ellipsis;
             };
 
-            const groupContactListOrganizationAndRoleElementWidth = groupContactListOrganizationAndRoleElement.clientWidth;
             const groupContactListOrganizationAndRoleElementText = groupContactListOrganizationAndRoleElement.innerHTML;
             const groupContactListOrganizationAndRoleElementTextSlice = groupContactListOrganizationAndRoleElementText.slice(0, 40);
+            console.log(groupContactListOrganizationAndRoleElementWidth)
             if (groupContactListOrganizationAndRoleElementWidth > 400) {
                 groupContactListOrganizationAndRoleElement.innerHTML = groupContactListOrganizationAndRoleElementTextSlice + ellipsis;
             };
-            // if (contactListOrganizationAndRoleElementWidth > 400) {
-            //     contactListOrganizationAndRoleElement.innerHTML = contactListOrganizationAndRoleElementText + ellipsis;
-            // };
-            mobileContactsListHeaderImageCircleElement.style.width = newWidthStr
-            mobileContactsListFavoriteSquareElement.style.width = newWidthStr
         });
         
         groupContactListItemImageContainer.appendChild(groupContactListItemImage);
@@ -6521,6 +6554,18 @@ const allUsers = await getAllUsers();
         formatPhoneNumberForData(newContactPhoneNumberElement)
     });
     newContactPhoneNumberElement.addEventListener("focus", function() {
+        resetPhoneNumberFormatOnFocus(newContactPhoneNumberElement)
+    });
+    newContactPhoneNumberElement.addEventListener("paste", function(event) {
+        // event.preventDefault()
+        const clipboard = event.clipboardData;
+        const pastedText = clipboard.getData("Text")
+        // let pastedText = (event.clipboardData || window.clipboardData).getData('text');
+        pastedText.replace(/[^0-9]/g, '')
+        event.target.value = pastedText;
+        // removeNonNumericCharacters(pastedText)
+    }, false);
+    newContactPhoneNumberElement.addEventListener("input", function() {
         resetPhoneNumberFormatOnFocus(newContactPhoneNumberElement)
     });
 
@@ -8141,9 +8186,16 @@ function disableNonNumericKeys(event) {
     }
 }
 
+function removeNonNumericCharacters(inputString) {
+  // The regular expression /\D/g matches any non-digit character globally.
+  // Replacing these matches with an empty string effectively removes them.
+  return inputString.replace(/\D/g, '');
+}
+
 let phoneNumberArr = []
 function formatPhoneNumberForData(element) {
     let phonenumber = element.value;
+    phonenumber = removeNonNumericCharacters(phonenumber)
     phonenumber.replace(/[\s+\-()]/g, '')
     console.log(phonenumber)
 
@@ -8215,6 +8267,7 @@ if (phonenumber.length === 13) {
 
 function resetPhoneNumberFormatOnFocus(element) {
     let phonenumber = element.value;
+    phonenumber = removeNonNumericCharacters(phonenumber)
     phonenumber = phonenumber.replace(/[\s+\-()]/g, '')
     element.value = phonenumber
     // console.log(phonenumber)
