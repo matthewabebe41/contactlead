@@ -6283,6 +6283,12 @@ async function renderManageContactGroupsContent() {
         groupListItem.classList.add("inactive")
         groupListItem.style.display = "flex";
         groupListItem.style.justifyContent = "space-between";
+        groupListItem.style.alignItems = "center";
+        groupListItem.style.height = "40px";
+        groupListItem.style.border = "1px solid black";
+        groupListItem.style.margin = "1px 0px 1px 0px"
+        groupListItem.style.backgroundColor = "ghostwhite";
+        groupListItem.style.padding = "4px";
         const groupListItemTextElement = document.createElement("p")
         groupListItemTextElement.innerHTML = group.groupname;
         const groupListItemCheckboxElement = document.createElement("input");
@@ -6322,6 +6328,68 @@ async function renderManageContactGroupsContent() {
         groupListItem.appendChild(groupListItemTextElement);
         groupListItem.appendChild(groupListItemCheckboxElement);
         manageContactGroupsSelectionList.appendChild(groupListItem);  
+    });
+
+    const contactGroupsSelectionList = document.querySelector("#manage-contact-groups-selection-list");
+    const contactGroupsSelectionListChildren = contactGroupsSelectionList.children;
+    const contactGroupsSelectionListArr = Array.from(contactGroupsSelectionListChildren);
+    console.log(contactGroupsSelectionListArr)
+
+    contactGroupsSelectionListArr.forEach(item => {
+        if (item.classList.contains("active")) {
+            item.style.backgroundColor = "lightgreen"
+        };
+
+        item.addEventListener("mouseover", function() {
+            item.style.backgroundColor = "lightgreen"
+        });
+
+        item.addEventListener("mouseout", function() {
+            if (!item.classList.contains("active"))
+            item.style.backgroundColor = "ghostwhite"
+        });
+
+        item.addEventListener("click", function(event) {
+        const clickedItem = event.target
+        console.log(clickedItem)
+
+        // const customGroupInputContainer = document.querySelector("#custom-group-input-container");
+        // customGroupInputContainer.classList.remove("active");
+        // customGroupInputContainer.classList.add("inactive");
+        // customGroupInputContainer.style.backgroundColor = "ghostwhite"
+
+        // contactGroupsSelectionListArr.forEach(item => {
+        //     if (item !== event.target) {
+        //         item.classList.remove("active");
+        //         item.classList.add("inactive")
+        //         item.style.backgroundColor = "ghostwhite"
+        //     }
+        // })
+
+        const clickedItemInput = clickedItem.children[1]
+        console.log(clickedItemInput)
+
+        if (clickedItem.classList.contains("inactive")) {
+                clickedItem.classList.remove("inactive")
+                clickedItem.classList.add("active")
+                clickedItemInput.classList.remove("inactive")
+                clickedItemInput.classList.add("active")
+                clickedItem.style.backgroundColor = "lightgreen"
+            } else if(clickedItem.classList.contains("active")) {
+                clickedItem.classList.remove("active")
+                clickedItem.classList.add("inactive")
+                clickedItemInput.classList.remove("active")
+                clickedItemInput.classList.add("inactive")
+                clickedItem.style.backgroundColor = "ghostwhite"
+            }
+            
+            if (clickedItemInput.classList.contains("active")) {
+                clickedItemInput.checked = true
+            } else {
+                clickedItemInput.checked = false
+            }
+        })
+
     });
 
       const addContactToGroupsButton = document.querySelector("#add-contact-to-groups-button");
