@@ -941,11 +941,6 @@ const allUsers = await getAllUsers();
     const userId = matchingUser.user_id;
     const userContacts = await getUserContacts(userId);
 
-    console.log(userContacts)
-    // const searchContactsElementContainer = document.querySelector("#search-contacts-elements-container")
-    // const largeSidebar = document.querySelector("#large-sidebar")
-    // console.log(document.body.clientHeight)
-
     requestAnimationFrame(() => {
         const contactsListContainer = document.querySelector("#sidebar-contacts-list-container");
         const searchContactsElementContainer = document.querySelector("#search-contacts-elements-container")
@@ -961,8 +956,6 @@ const allUsers = await getAllUsers();
          const elementHeight = screenHeight * 0.093;
          const roundedElementHeightStr = elementHeight.toString() + "px"
          console.log(elementHeight.toString())
-         
-
         
         const contactsListContainerMarginTop = searchContactsElementContainerHeight + 10;
         const contactsListContainerMarginTopStr = contactsListContainerMarginTop.toString() + "px"
@@ -1012,7 +1005,7 @@ const allUsers = await getAllUsers();
         contactListItem.style.alignItems = "center"
         contactListItem.style.height = "38px"
         // contactListItem.style.width = "295px"
-        contactListItem.style.marginBottom = "2px"
+        contactListItem.style.marginBottom = "4px"
         contactListItem.style.border = "1px solid grey"
         contactListItem.style.borderRadius = "5px"
         contactListItem.style.padding = "5px"
@@ -1032,7 +1025,7 @@ const allUsers = await getAllUsers();
         const contactImageItem = document.createElement("img");
         contactImageItem.style.width = "35px";
         // contactImageItem.style.height = "100%";
-        contactImageItem.style.border = "0.5px solid grey";
+        contactImageItem.style.border = "0.5px solid black";
         contactImageItem.style.borderRadius = "50%";
         contactImageItem.style.backgroundColor = "gainsboro";
         contactImageItem.style.objectFit = "cover";
@@ -1043,7 +1036,7 @@ const allUsers = await getAllUsers();
         const contactFavoriteIconContainer = document.createElement("div");
         const contactFavoriteIcon = document.createElement("img");
         contactFavoriteIcon.setAttribute("src", "./images/star-gold-svgrepo-com.svg");
-        contactFavoriteIcon.style.width = "20px";
+        contactFavoriteIcon.style.width = "25px";
         // contactFavoriteIcon.style.display = "none";
         if (contact.favorite !== true) {
             contactFavoriteIcon.style.visibility = "hidden"
@@ -1289,7 +1282,7 @@ async function contactsAutocompleteSearch() {
             // contactsAutoCompleteListItem.style.width = "295px";
             contactsAutoCompleteListItem.style.border = "1px solid grey";
             contactsAutoCompleteListItem.style.borderRadius = "5px"
-            contactsAutoCompleteListItem.style.marginBottom = "2px";
+            contactsAutoCompleteListItem.style.marginBottom = "4px";
             contactsAutoCompleteListItem.style.padding = "5px";
             contactsAutoCompleteListItem.style.backgroundColor = "ghostwhite";
             contactsAutoCompleteListItem.style.overflow = "hidden";
@@ -1307,7 +1300,7 @@ async function contactsAutocompleteSearch() {
             const contactAutoCompleteImage = document.createElement("img");
             contactAutoCompleteImage.style.width = "35px";
             contactAutoCompleteImage.style.height = "100%";
-            contactAutoCompleteImage.style.border = "0.5px solid grey";
+            contactAutoCompleteImage.style.border = "0.5px solid black";
             contactAutoCompleteImage.style.borderRadius = "50%";
             contactAutoCompleteImage.style.backgroundColor = "gainsboro";
             contactAutoCompleteImage.style.objectFit = "cover";
@@ -1318,7 +1311,7 @@ async function contactsAutocompleteSearch() {
             const contactAutocompleteFavoriteContainer = document.createElement("div");
             const contactAutocompleteFavoriteIcon = document.createElement("img");
             contactAutocompleteFavoriteIcon.setAttribute("src", "./images/star-gold-svgrepo-com.svg");
-            contactAutocompleteFavoriteIcon.style.width = "20px";
+            contactAutocompleteFavoriteIcon.style.width = "25px";
             // contactAutocompleteFavoriteIcon.style.display = "none";
             if (contact.favorite !== true) {
                 contactAutocompleteFavoriteIcon.style.visibility = "hidden"
@@ -2005,9 +1998,14 @@ const allUsers = await getAllUsers();
 
     const editUserRemovePhotoButton = document.querySelector("#edit-user-remove-photo-button");
     editUserRemovePhotoButton.addEventListener("click", function() {
-        const editUserAddPhotoInputElement = document.querySelector("#edit-user-add-photo")
-        editUserAddPhotoInputElement.value = ""
-        editUserImage.setAttribute("src", "./images/user-5-svgrepo-com.svg")
+        const editUserAddPhotoInputElement = document.querySelector("#edit-user-add-photo");
+        editUserAddPhotoInputElement.value = "";
+        
+        if (editUserImage.getAttribute("src") === user.user_image) {
+            editUserImage.setAttribute("src", "./images/user-5-svgrepo-com.svg")
+        } else {
+            editUserImage.setAttribute("src", user.user_image);
+        }
     })
     const editUserAddPhotoButton = document.querySelector("#edit-user-add-photo-button");
     if (user.user_image !== null && user.user_image !== './images/user-5-svgrepo-com.svg') {
@@ -2031,7 +2029,12 @@ const allUsers = await getAllUsers();
     });
     const closeEditUserAddPhotoIcon = document.querySelector("#close-edit-user-add-photo-icon");
     closeEditUserAddPhotoIcon.addEventListener("click", function(event) {
-        window.location.reload()
+        // window.location.reload()
+        editUserImage.setAttribute("src", user.user_image);
+        const editUserAddPhotoInputElement = document.querySelector("#edit-user-add-photo");
+        editUserAddPhotoInputElement.value = "";
+        const editUserAddPhotoInputContainerElement = document.querySelector("#edit-user-add-photo-input-container")
+        editUserAddPhotoInputContainerElement.style.display = "none";
       
     })
     const editUserAddPhotoSaveButton = document.querySelector("#edit-user-add-photo-insert-button");
@@ -2746,7 +2749,7 @@ const allUsers = await getAllUsers();
         contactListItem.style.borderBottom = "2px solid black";
         contactListItem.style.backgroundColor = "ghostwhite"
         contactListItem.style.marginTop = "1px";
-        contactListItem.style.marginBottom = "2px";
+        contactListItem.style.marginBottom = "1px";
         // contactListItem.style.padding = "5px"
         contactListItem.setAttribute("contactId", contact.contact_id)
 
@@ -4697,7 +4700,7 @@ const allUsers = await getAllUsers();
         favoriteContactListItem.style.borderBlock = "2px solid black";
         favoriteContactListItem.style.backgroundColor = "ghostwhite";
         favoriteContactListItem.style.marginTop = "1px";
-        favoriteContactListItem.style.marginBottom = "2px";
+        favoriteContactListItem.style.marginBottom = "1px";
         favoriteContactListItem.setAttribute("contactId", contact.contact_id)
 
         favoriteContactListItem.addEventListener("mouseover", function() {
@@ -5239,8 +5242,16 @@ async function renderGroupsListContent() {
         groupListItem.style.width = "30%";
         groupListItem.style.height = "30%";
         groupListItem.style.margin = "10px 10px 10px 10px"
-        groupListItem.style.backgroundColor = "gainsboro";
-        groupListItem.style.border = "1px solid black";
+        groupListItem.style.backgroundColor = "#ededed";
+        groupListItem.style.border = "2px solid black";
+
+        groupListItem.addEventListener("mouseover", function() {
+            groupListItem.style.backgroundColor = "lightgreen"
+        });
+        
+        groupListItem.addEventListener("mouseout", function() {
+            groupListItem.style.backgroundColor = "#ededed"
+        });
 
         groupListItem.addEventListener("click", (event) => {
             if (event.target.id === "group-list-item-edit-icon") {
@@ -5312,7 +5323,7 @@ async function renderGroupsListContent() {
         groupListItemHeaderElement.style.justifyContent = "space-between"
         groupListItemHeaderElement.style.width = "100%"
         groupListItemHeaderElement.style.padding = "7px 0px"
-        groupListItemHeaderElement.style.borderBottom = "1px solid black"
+        groupListItemHeaderElement.style.borderBottom = "2px solid black"
         // groupListItemHeaderElement.style.top = "2%"
         const groupListItemEditIcon = document.createElement("img");
         groupListItemEditIcon.setAttribute("id", "group-list-item-edit-icon")
@@ -5547,7 +5558,15 @@ async function renderGroupsListContent() {
             groupsAutoCompleteListItem.style.height = "30%";
             groupsAutoCompleteListItem.style.margin = "10px 10px 10px 10px";
             groupsAutoCompleteListItem.style.backgroundColor = "lightgrey"
-            groupsAutoCompleteListItem.style.border = "1px solid black";
+            groupsAutoCompleteListItem.style.border = "2px solid black";
+
+        groupsAutoCompleteListItem.addEventListener("mouseover", function() {
+            groupsAutoCompleteListItem.style.backgroundColor = "lightgreen"
+        });
+        
+        groupsAutoCompleteListItem.addEventListener("mouseout", function() {
+            groupsAutoCompleteListItem.style.backgroundColor = "#ededed"
+        });
 
             groupsAutoCompleteListItem.addEventListener("click", (event) => {
 
@@ -5620,7 +5639,7 @@ async function renderGroupsListContent() {
             groupAutoCompleteListItemHeaderElement.style.justifyContent = "space-between"
             groupAutoCompleteListItemHeaderElement.style.width = "100%"
             groupAutoCompleteListItemHeaderElement.style.padding = "7px 0px"
-            groupAutoCompleteListItemHeaderElement.style.borderBottom = "1px solid black"
+            groupAutoCompleteListItemHeaderElement.style.borderBottom = "2px solid black"
             // groupAutoCompleteListItemHeaderElement.style.top = "2%"
             const groupAutoCompleteListItemEditIcon = document.createElement("img");
             groupAutoCompleteListItemEditIcon.setAttribute("id", "group-autocomplete-list-item-edit-icon")
@@ -5893,7 +5912,7 @@ async function renderGroupContactsListContent() {
         groupContactListItem.style.borderBottom = "2px solid black";
         groupContactListItem.style.backgroundColor = "ghostwhite"
         groupContactListItem.style.marginTop = "1px";
-        groupContactListItem.style.marginBottom = "2px";
+        groupContactListItem.style.marginBottom = "1px";
         // groupContactListItem.style.padding = "5px"
         groupContactListItem.setAttribute("contactId", contact.contact_id)
 
