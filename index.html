@@ -344,12 +344,12 @@
                 <p id="user-email" style="margin: 0"></p>
             </div>
         </div>
-        <div style="position: absolute; top: 20.4%; width: 100%;">
+        <div style="position: absolute; top: 20.8%; width: 100%; border-top: 3px solid black; border-bottom: 3px solid black;">
             <div style="display: flex; align-items: center; height: 45px; background-color: ghostwhite;">
                 <h2 style="margin: 0px 10px 0px 5px; padding: 5px;">Account Information</h2>
             </div>
         </div>
-        <div id="user-infomration-container" style="position: absolute; display: flex; justify-content: center; align-items: center; width: 100%; height: 57%; top: 30%;">
+        <div id="user-information-container" style="position: absolute; display: flex; justify-content: center; align-items: center; width: 100%; height: 57%; top: 31.5%;">
             <div style="display: flex; justify-content: center; width: 100%; height: 100%;">
 
             <div id="user-information-column-one" style="position: relative; display: flex; flex-direction: column; justify-content: space-around; width: 40%;">
@@ -377,7 +377,7 @@
             </div>
         </div>
     </div>         
-        <div id="edit-user-button-container" style="position: absolute; display: flex; justify-content: center; align-items: center; width: 100%; top: 96.5%;">
+        <div id="edit-user-button-container" style="position: absolute; display: flex; justify-content: center; align-items: center; width: 100%; top: 96%;">
             <div style="position: absolute; display: flex; justify-content: flex-end; width: 96%;">
                 <button id="navigate-edit-user-page-button" style="width: 50px;">Edit</button>
             </div>
@@ -472,7 +472,7 @@
                 </div>
             </div>
         </div>
-        <div id="edit-user-information-container" style="position: absolute; display: flex; flex-direction: column; align-items: center; width: 100%; height: 58%; top: 19.25%;">
+        <div id="edit-user-information-container" style="position: absolute; display: flex; flex-direction: column; align-items: center; width: 100%; height: 58%; top: 19.75%;">
             <form style="display: flex; flex-direction: column; justify-content: space-evenly; width: 96%; height: 100%;">
                 <div id="edit-contact-information-row-one" style="display: flex; justify-content: space-between; width: 100%;">
                     <div id="edit-user-first-name-container" style="display: flex; flex-direction: column; width: 35%;">
@@ -701,7 +701,7 @@
     <section id="contact-view" style="position: absolute; width: 68.5%; height: 90.5%; top: 9.5%; left: 31.5%; display: none; overflow: hidden;">
         <div id="contact-header-container" style="position: absolute; display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 100%; height: 20%; background-color: #f9f9f9; box-shadow: 4px 4px 4px;">
             <div id="contact-image-container" style="display: flex; align-items: center; width: 20%; height: 100%; padding: 10px;">
-                <img id="contact-image" src="./images/user-2-svgrepo-com.svg" style="position: relative; display: flex; justify-content: center; align-items: center; width: 90px; height: 90px; border: 0.5px solid black; box-shadow: 3px 3px 3px; border-radius: 50%; background-color: gainsboro; object-fit: cover; z-index: 1;">
+                <img id="contact-image" src="./images/user-2-svgrepo-com.svg" style="position: relative; display: flex; justify-content: center; align-items: center; width: 95px; height: 95px; border: 0.5px solid black; box-shadow: 2px 2px 2px; border-radius: 50%; background-color: gainsboro; object-fit: cover; z-index: 1;">
             </div>
             <div id="contact-name-container" style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 60%; height: 100%;">
                 <h2 id="contact-name" style="margin: 0"></h2>
@@ -712,10 +712,10 @@
                 <img id="contact-favorite-icon" src="./images/star-gold-svgrepo-com.svg" style="width: 88px; height: 88px; display: none;">
             </div>
         </div>
-        <div style="position: absolute; display: flex; justify-content: flex-end; width: 98.5%; top: 21.85%; z-index: 2;">
+        <!-- <div style="position: absolute; display: flex; justify-content: flex-end; width: 98.5%; top: 21.85%; z-index: 2;">
             <button id="add-to-favorites-button">Add favorite</button>
-        </div>
-        <div id="contact-information-container" style="position: absolute; display: flex; justify-content: space-around; width: 98.5%; height: 62%; top: 18%;">
+        </div> -->
+        <div id="contact-information-container" style="position: absolute; display: flex; justify-content: space-around; width: 98.5%; height: 62%; top: 16%;">
             <div id="contact-information-column-one" style="display: flex; flex-direction: column; justify-content: space-around; width: 30%;">
                 <div style="display: flex; flex-direction: column; width: 285px;">
                     <label style="font-weight: bold;">Name</label>
@@ -769,8 +769,11 @@
     </div>
         <div id="edit-contact-button-container" style="position: absolute; display: flex; justify-content: center; align-items: center; width: 100%; top: 96.5%;">
             <div style="position: absolute; display: flex; justify-content: space-between; width: 96.5%;">
-                <button id="manage-contact-groups-button">Manage groups</button>
-                <button id="navigate-edit-contact-page-button" style="width: 50px">Edit</button>
+                <button id="add-to-favorites-button">Add favorite</button>
+                <div>
+                    <button id="manage-contact-groups-button" style="margin-right: 5px;">Manage groups</button>
+                    <button id="navigate-edit-contact-page-button" style="width: 50px; margin-left: 5px;">Edit</button>
+                </div>
             </div>
         </div>
     </section>
@@ -804,7 +807,7 @@
     <section id="edit-contact-view" style="position: absolute; width: 68.5%; height: 90.5%; top: 9.5%; left: 31.5%; display: none; overflow: hidden;">
         <div id="edit-contact-image-container" style="position: absolute; display: flex; align-items: center; width: 100%; height: 20%; background-color: #f9f9f9; box-shadow: 2px 2px 2px;">
             <div id="edit-contact-image-container" style="position: absolute; display: flex; align-items: center; height: 100%; padding: 10px;">
-                <img id="edit-contact-image" src="./images/user-2-svgrepo-com.svg" style="position: relative; display: flex; justify-content: center; align-items: center; width: 95px; height: 95px; border: 0.5px solid grey; border-radius: 50%; box-shadow: 2px 2px 2px; background-color: gainsboro; object-fit: cover; z-index: 1;">
+                <img id="edit-contact-image" src="./images/user-2-svgrepo-com.svg" style="position: relative; display: flex; justify-content: center; align-items: center; width: 95px; height: 95px; border: 0.5px solid black; border-radius: 50%; box-shadow: 2px 2px 2px; background-color: gainsboro; object-fit: cover; z-index: 1;">
                 <div style="display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-end; height: 100%;">
                     <button id="edit-contact-add-photo-button" style="height: 20px; margin-bottom: 10px; margin-left: 5px; z-index: 1;">Add photo</button>
                 </div>
@@ -823,7 +826,7 @@
                 </div>
             </div>
         </div>
-        <div id="edit-contact-infomration-container" style="position: absolute; display: flex; flex-direction: column; align-items: center; width: 100%; height: 57%; top: 20%;">
+        <div id="edit-contact-information-container" style="position: absolute; display: flex; flex-direction: column; align-items: center; width: 100%; height: 57%; top: 20.5%;">
             <!-- <div style="position: absolute; display: flex; align-items: center; width: 177px; top: 1%; left: 96%;">
                 <div style="position: absolute; display: flex; justify-content: flex-end; width: 100%;">
                     <button id="add-to-favorites-button" style="background-color: green; color: white;">Add to favorites</button>
@@ -899,7 +902,7 @@
             </div>
         </div>
     </div>
-    <div id="edit-contact-notes-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 11%; top: 79.2%;">
+    <div id="edit-contact-notes-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 11%; top: 79.45%;">
         <div id="edit-contact-notes-label-container" style="display: flex; justify-content: flex-start; width: 96%;">
             <label style="font-weight: bold;">Notes</label>
         </div>
@@ -1116,7 +1119,7 @@
                 <h2 style="font-family: sans-serif; width: 500px;">Select a group or enter a custom name</h2>
             </div>
             <div style="width: 100%; height: 60%;">
-                <ul id="groups-selection-list" style="display: flex; flex-direction: column; height: 100%; border: 1px solid black; padding: 3px 3px;">
+                <ul id="groups-selection-list" style="display: flex; flex-direction: column; height: 100%; border: 2.5px solid black; padding: 3px 3px; margin: 0px;">
                     <li class="inactive" style="display: flex; height: 40px; border: 1px solid black; margin: 1px 0px 1px 0px; background-color: ghostwhite; padding: 4px;">Business</li>
                     <li class="inactive" style="display: flex; height: 40px; border: 1px solid black; margin: 1px 0px 1px 0px; background-color: ghostwhite; padding: 4px;">Community</li>
                     <li class="inactive" style="display: flex; height: 40px; border: 1px solid black; margin: 1px 0px 1px 0px; background-color: ghostwhite; padding: 4px;">Family</li>
@@ -1127,14 +1130,16 @@
                     <!-- <li style="display: flex; height: 40px; border: 1px solid grey; background-color: ghostwhite; padding: 4px;">
                     </li>    -->
                 </ul>
-                <div id="custom-group-input-container" class="inactive" style="display: flex; flex-direction: row; align-items: center; height: 30px; border: 1px solid black; background-color: ghostwhite; padding: 4px;"">
-                    <label>Custom Group</label>
-                    <input id="custom-group-input-element" placeholder="Enter Name" style="display: flex; margin-left: 10px;">
+                <div id="custom-group-input-container" class="inactive" style="display: flex; flex-direction: row; align-items: center; height: 52px; border: 2.5px solid black; background-color: ghostwhite; padding: 3px 3px; margin-top: 30px;">
+                    <div style="display: flex; align-items: center; width: 100%; height: 40px; border: 1px solid black; padding: 4px;">
+                        <label>Custom Group</label>
+                        <input id="custom-group-input-element" placeholder="Enter Name" style="display: flex; width: 70%; margin-left: 10px;">
+                    </div>
                 </div>
             </div>
         </div>
-        <div id="create-group-button-container" style="position: absolute; display: flex; justify-content: center; width: 100%; top: 95%;">
-            <div style="display: flex; justify-content: flex-end; width: 96%;">
+        <div id="create-group-button-container" style="position: absolute; display: flex; justify-content: center; align-items: center; width: 100%; top: 96%;">
+            <div style="position: absolute; display: flex; justify-content: flex-end; width: 96%;">
                 <button id="create-group-button">Create</button>
             </div>
         </div>
@@ -1142,16 +1147,16 @@
 
     <section id="manage-groups-view" style="position: absolute; width: 68.5%; height: 90.5%; top: 9.5%; left: 31.5%; display: none; overflow: hidden;">
          <div id="manage-groups-container" style="position: absolute; display: flex; flex-direction: column; align-items: center; width: 500px; height: 90%; top: 25%; left: 50%; transform: translate(-50%, -25%);">
-             <div style="display: flex; justify-content: flex-start; width: 100%;">
+             <div style="display: flex; justify-content: flex-start; width: 510px;">
                 <h2 style="font-family: sans-serif; width: 300px;">Select group(s)</h2>
             </div>
-            <div style="width: 100%; height: 80%; border: 1px solid black; padding: 3px 3px;">
+            <div style="width: 100%; height: 77%; border: 2.5px solid black; padding: 3px 3px 3px;">
                 <div id="manage-contact-groups-selection-list" style="display: flex; flex-direction: column; height: 100%; padding: 0px; overflow-y: scroll;">
                 </div>
             </div>
         </div>
-        <div id="manage-groups-button-container" style="position: absolute; display: flex; justify-content: center; width: 100%; top: 97.35%;">
-            <div style="display: flex; justify-content: flex-end; width: 96%;">
+        <div id="manage-groups-button-container" style="position: absolute; display: flex; justify-content: center; align-items: center; width: 100%; top: 96%;">
+            <div style="position: absolute; display: flex; justify-content: flex-end; width: 96%;">
                 <button id="add-contact-to-groups-button">Update</button>
             </div>
         </div>
@@ -1196,7 +1201,7 @@
                 </div>
             </div>
         </div>
-        <div id="new-contact-infomration-container" style="position: absolute; display: flex; flex-direction: column; align-items: center; width: 100%; height: 57%; top: 20%;">
+        <div id="new-contact-infomration-container" style="position: absolute; display: flex; flex-direction: column; align-items: center; width: 100%; height: 57%; top: 20.5%;">
             <div style="display: flex; flex-direction: column; justify-content: space-evenly; width: 96%; height: 100%;">
             <div id="new-contact-information-row-one" style="display: flex; justify-content: space-between; width: 100%;">
                 <div id="new-contact-first-name-container" style="display: flex; flex-direction: column; width: 35%;">
@@ -1267,7 +1272,7 @@
             </div>
         </div>
     </div>
-    <div id="new-contact-notes-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 11%; top: 79.2%;">
+    <div id="new-contact-notes-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 11%; top: 79.45%;">
         <div id="notes-label-container" style="display: flex; justify-content: flex-start; width: 96%;">
             <label style="font-weight: bold;">Notes</label>
         </div>

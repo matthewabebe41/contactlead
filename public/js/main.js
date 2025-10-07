@@ -2035,6 +2035,7 @@ const allUsers = await getAllUsers();
         editUserAddPhotoInputElement.value = "";
         const editUserAddPhotoInputContainerElement = document.querySelector("#edit-user-add-photo-input-container")
         editUserAddPhotoInputContainerElement.style.display = "none";
+        editUserAddPhotoButton.innerHTML = "Change Photo"
       
     })
     const editUserAddPhotoSaveButton = document.querySelector("#edit-user-add-photo-insert-button");
@@ -4014,12 +4015,18 @@ const allUsers = await getAllUsers();
         const editContactAddPhotoInputElement = document.querySelector("#edit-contact-add-photo")
         editContactAddPhotoInputElement.value = ""
         editContactImage.setAttribute("src", "./images/user-2-svgrepo-com.svg")
-    })
+
+            if (editContactImage.getAttribute("src") === contact.contact_image) {
+                editContactImage.setAttribute("src", "./images/user-2-svgrepo-com.svg")
+            } else {
+                editContactImage.setAttribute("src", contact.contact_image);
+            }
+    });
 
     const editContactAddPhotoButton = document.querySelector("#edit-contact-add-photo-button");
-    if (contact.contact_image !== null && contact.contact_image !== './images/user-2-svgrepo-com.svg') {
-        editContactAddPhotoButton.innerHTML = "Change Photo"
-    }
+        if (contact.contact_image !== null && contact.contact_image !== './images/user-2-svgrepo-com.svg') {
+            editContactAddPhotoButton.innerHTML = "Change Photo";
+        };
 
     editContactAddPhotoButton.addEventListener("click", function() {
         const editContactAddPhotoInputContainerElement = document.querySelector("#edit-contact-add-photo-input-container");
@@ -4038,7 +4045,13 @@ const allUsers = await getAllUsers();
     });
     const closeEditContactAddPhotoIcon = document.querySelector("#close-edit-contact-add-photo-icon");
     closeEditContactAddPhotoIcon.addEventListener("click", function(event) {
-        window.location.reload()
+        // window.location.reload()
+        editContactImage.setAttribute("src", contact.contact_image);
+        const editContactAddPhotoInputElement = document.querySelector("#edit-contact-add-photo");
+        editContactAddPhotoInputElement.value = "";
+        const editContactAddPhotoInputContainerElement = document.querySelector("#edit-contact-add-photo-input-container")
+        editContactAddPhotoInputContainerElement.style.display = "none";
+        editContactAddPhotoButton.innerHTML = "Change Photo";
     })
     const editContactAddPhotoSaveButton = document.querySelector("#edit-contact-add-photo-insert-button");
     editContactAddPhotoSaveButton.addEventListener("click", function() {
@@ -6407,7 +6420,17 @@ async function renderManageContactGroupsContent() {
             } else {
                 clickedItemInput.checked = false
             }
-        })
+        });
+
+        // let scrollTimeout;
+        // contactGroupsSelectionList.addEventListener("scroll", function() {
+        //     document.body.style.contactsUserHeaderNameContainer = "none"
+        //     clearTimeout(scrollTimeout);
+
+        //     scrollTimeout = setTimeout(function() {
+        //         document.body.style.cursor = "default"
+        //     }, 100)
+        // })
 
     });
 
@@ -8437,7 +8460,6 @@ async function showPages() {
         mobileSmallSidebar.style.display = "none";
     }
 
-
     const topbar = document.querySelector("#topbar")
     if (window.location.href !== `${rootUrl}/login` && window.location.href !== `${rootUrl}/register` && window.location.href !== `${rootUrl}/recover-password` && clientwidth > 1070) {
         await renderSmallSidePanelContent()
@@ -8628,7 +8650,9 @@ async function showPages() {
 
 domReady(async function() {
     await showPages()
+    // setTimeout(function () {
     document.body.style.display = "block"
+    // }, 100)
 })
 
 window.addEventListener("pageshow", function() {
