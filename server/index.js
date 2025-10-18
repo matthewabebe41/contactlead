@@ -18,7 +18,7 @@ const pool = new pg.Pool({
 });
 
 app.use(express.json({
-    limit: "500MB"
+    limit: "1000MB"
 }));
 
 app.use(cors());
