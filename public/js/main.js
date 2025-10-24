@@ -4864,40 +4864,57 @@ const allUsers = await getAllUsers();
         };
 
         requestAnimationFrame(() => {
-            const favoriteContactListNameElementWidth = favoriteContactListNameElement.clientWidth;
+            
+            const ellipsis = '...'
+            
+            let favoriteContactListNameElementWidth = favoriteContactListNameElement.clientWidth;
             const favoriteContactListNameElementText = favoriteContactListNameElement.innerHTML;
             const firstFavoriteContactListNameElementSlice = favoriteContactListNameElementText.slice(0, 31);
             const secondFavoriteContactListNameElementSlice = favoriteContactListNameElementText.slice(0, 26);
             const thirdFavoriteContactListNameElementSlice = favoriteContactListNameElementText.slice(0, 21);
             const fourthFavoriteContactListNameElementSlice = favoriteContactListNameElementText.slice(0, 16);
-            const favoriteContactListEmailElementWidth = favoriteContactListEmailElement.clientWidth;
-            const favoriteContactListEmailElementText = favoriteContactListEmailElement.innerHTML;
-            const favoriteContactListEmailElementTextSlice = favoriteContactListEmailElementText.slice(0, 60);
-            const favoriteContactListEmailElementTextSecondSlice = favoriteContactListEmailElementText.slice(0, 50);
-            let favoriteContactListOrganizationAndRoleElementWidth = favoriteContactListOrganizationAndRoleElement.clientWidth;
-
-            const ellipsis = '...'
-
             if (favoriteContactListNameElementWidth > 400) {
                 favoriteContactListNameElement.innerHTML = firstFavoriteContactListNameElementSlice + ellipsis;
             };
+            favoriteContactListNameElementWidth = favoriteContactListNameElement.clientWidth;
             if (favoriteContactListNameElementWidth > 400) {
                 favoriteContactListNameElement.innerHTML = secondFavoriteContactListNameElementSlice + ellipsis;
             };
+            favoriteContactListNameElementWidth = favoriteContactListNameElement.clientWidth;
             if (favoriteContactListNameElementWidth > 400) {
                 favoriteContactListNameElement.innerHTML = thirdFavoriteContactListNameElementSlice + ellipsis;
             };
+            favoriteContactListNameElementWidth = favoriteContactListNameElement.clientWidth;
             if (favoriteContactListNameElementWidth > 400) {
                 favoriteContactListNameElement.innerHTML = fourthFavoriteContactListNameElementSlice + ellipsis;
             };
-            if (favoriteContactListEmailElementWidth > 400) {
-                favoriteContactListEmailElement.innerHTML = favoriteContactListEmailElementTextSlice + ellipsis;
-            };
-            if (favoriteContactListEmailElementWidth > 400) {
-                favoriteContactListEmailElement.innerHTML = favoriteContactListEmailElementTextSecondSlice + ellipsis;
-            };
+           
+
+        let favoriteContactListEmailElementWidth = favoriteContactListEmailElement.clientWidth;
+        const favoriteContactListEmailElementText = favoriteContactListEmailElement.innerHTML;
+        const favoriteContactListEmailElementTextFirstSlice = favoriteContactListEmailElementText.slice(0, 70);
+        const favoriteContactListEmailElementTextSecondSlice = favoriteContactListEmailElementText.slice(0, 60);
+        const favoriteContactListEmailElementTextThirdSlice = favoriteContactListEmailElementText.slice(0, 50);
+        const favoriteContactListEmailElementTextFourthSlice = favoriteContactListEmailElementText.slice(0, 40);
+
+        if (favoriteContactListEmailElementWidth > 400) {
+            favoriteContactListEmailElement.innerHTML = favoriteContactListEmailElementTextFirstSlice + ellipsis
+        }
+        favoriteContactListEmailElementWidth = favoriteContactListEmailElement.clientWidth;
+        if (favoriteContactListEmailElementWidth > 400) {
+            favoriteContactListEmailElement.innerHTML = favoriteContactListEmailElementTextSecondSlice + ellipsis
+        }
+        favoriteContactListEmailElementWidth = favoriteContactListEmailElement.clientWidth;
+        if (favoriteContactListEmailElementWidth > 400) {
+            favoriteContactListEmailElement.innerHTML = favoriteContactListEmailElementTextThirdSlice + ellipsis
+        }
+        favoriteContactListEmailElementWidth = favoriteContactListEmailElement.clientWidth;
+        if (favoriteContactListEmailElementWidth > 400) {
+            favoriteContactListEmailElement.innerHTML = favoriteContactListEmailElementTextFourthSlice + ellipsis
+        }
 
         const favoriteContactListOrganizationAndRoleElementText = favoriteContactListOrganizationAndRoleElement.innerHTML;
+        let favoriteContactListOrganizationAndRoleElementWidth = favoriteContactListOrganizationAndRoleElement.clientWidth;
         const favoriteContactListOrganizationAndRoleElementTextSlice = favoriteContactListOrganizationAndRoleElementText.slice(0, 50);
         const favoriteContactListOrganizationAndRoleElementSecondTextSlice = favoriteContactListOrganizationAndRoleElementText.slice(0, 45);
         const favoriteContactListOrganizationAndRoleElementThirdTextSlice = favoriteContactListOrganizationAndRoleElementText.slice(0, 40);
@@ -6104,55 +6121,65 @@ async function renderGroupContactsListContent() {
         }
 
         requestAnimationFrame(() => {
-            const groupContactListNameElementWidth = groupContactListNameElement.clientWidth;
+            const ellipsis = '...'
+            
+            let groupContactListNameElementWidth = groupContactListNameElement.clientWidth;
             const groupContactListNameElementText = groupContactListNameElement.innerHTML;
             const firstGroupContactListNameElementSlice = groupContactListNameElementText.slice(0, 31);
             const secondGroupContactListNameElementSlice = groupContactListNameElementText.slice(0, 26);
             const thirdGroupContactListNameElementSlice = groupContactListNameElementText.slice(0, 21);
             const fourthGroupContactListNameElementSlice = groupContactListNameElementText.slice(0, 16);
-            const groupContactListEmailElementWidth = groupContactListEmailElement.clientWidth;
-            const groupContactListEmailElementText = groupContactListEmailElement.innerHTML;
-            const groupContactListEmailElementTextSlice = groupContactListEmailElementText.slice(0, 60);
-            const groupContactListEmailElementTextSecondSlice = groupContactListEmailElementText.slice(0, 50);
-            let groupContactListOrganizationAndRoleElementWidth = groupContactListOrganizationAndRoleElement.clientWidth;
-
-            const ellipsis = '...'
 
             if (groupContactListNameElementWidth > 400) {
                 groupContactListNameElement.innerHTML = firstGroupContactListNameElementSlice + ellipsis;
             };
+            groupContactListNameElementWidth = groupContactListNameElement.clientWidth;
             if (groupContactListNameElementWidth > 400) {
                 groupContactListNameElement.innerHTML = secondGroupContactListNameElementSlice + ellipsis;
             };
+            groupContactListNameElementWidth = groupContactListNameElement.clientWidth;
             if (groupContactListNameElementWidth > 400) {
                 groupContactListNameElement.innerHTML = thirdGroupContactListNameElementSlice + ellipsis;
             };
+            groupContactListNameElementWidth = groupContactListNameElement.clientWidth;
             if (groupContactListNameElementWidth > 400) {
                 groupContactListNameElement.innerHTML = fourthGroupContactListNameElementSlice + ellipsis;
             };
 
-            console.log(groupContactListEmailElementWidth)
+            let groupContactListEmailElementWidth = groupContactListEmailElement.clientWidth;
+            const groupContactListEmailElementText = groupContactListEmailElement.innerHTML;
+            const groupContactListEmailElementFirstTextSlice = groupContactListEmailElementText.slice(0, 70);
+            const groupContactListEmailElementSecondTextSlice = groupContactListEmailElementText.slice(0, 60);
+            const groupContactListEmailElementThirdTextSlice = groupContactListEmailElementText.slice(0, 50);
+            const groupContactListEmailElementFourthTextSlice = groupContactListEmailElementText.slice(0, 40);
             if (groupContactListEmailElementWidth > 400) {
-                groupContactListEmailElement.innerHTML = groupContactListEmailElementTextSlice + ellipsis;
+                groupContactListEmailElement.innerHTML = groupContactListEmailElementFirstTextSlice + ellipsis;
             };
+            groupContactListEmailElementWidth = groupContactListEmailElement.clientWidth;
             if (groupContactListEmailElementWidth > 400) {
-                groupContactListEmailElement.innerHTML = groupContactListEmailElementTextSecondSlice + ellipsis;
+                groupContactListEmailElement.innerHTML = groupContactListEmailElementSecondTextSlice + ellipsis;
+            };
+            groupContactListEmailElementWidth = groupContactListEmailElement.clientWidth;
+            if (groupContactListEmailElementWidth > 400) {
+                groupContactListEmailElement.innerHTML = groupContactListEmailElementThirdTextSlice + ellipsis;
+            };
+            groupContactListEmailElementWidth = groupContactListEmailElement.clientWidth;
+            if (groupContactListEmailElementWidth > 400) {
+                groupContactListEmailElement.innerHTML = groupContactListEmailElementFourthTextSlice + ellipsis;
             };
 
+            let groupContactListOrganizationAndRoleElementWidth = groupContactListOrganizationAndRoleElement.clientWidth;
             const groupContactListOrganizationAndRoleElementText = groupContactListOrganizationAndRoleElement.innerHTML;
             const groupContactListOrganizationAndRoleElementTextSlice = groupContactListOrganizationAndRoleElementText.slice(0, 50);
             const groupContactListOrganizationAndRoleElementSecondTextSlice = groupContactListOrganizationAndRoleElementText.slice(0, 45);
             const groupContactListOrganizationAndRoleElementThirdTextSlice = groupContactListOrganizationAndRoleElementText.slice(0, 40);
             const groupContactListOrganizationAndRoleElementFourthTextSlice = groupContactListOrganizationAndRoleElementText.slice(0, 35);
             const groupContactListOrganizationAndRoleElementFifthTextSlice = groupContactListOrganizationAndRoleElementText.slice(0, 30);
-            // console.log(contactListOrganizationAndRoleElementWidth)
             if (groupContactListOrganizationAndRoleElementWidth > 400) {
-                // console.log("el width", groupContactListOrganizationAndRoleElementWidth)
                 groupContactListOrganizationAndRoleElement.innerHTML = groupContactListOrganizationAndRoleElementTextSlice + ellipsis;
             };
             groupContactListOrganizationAndRoleElementWidth = groupContactListOrganizationAndRoleElement.clientWidth;
             if (groupContactListOrganizationAndRoleElementWidth > 400) {
-                console.log("el width", groupContactListOrganizationAndRoleElementWidth)
                 groupContactListOrganizationAndRoleElement.innerHTML = groupContactListOrganizationAndRoleElementSecondTextSlice + ellipsis;
             };
             groupContactListOrganizationAndRoleElementWidth = groupContactListOrganizationAndRoleElement.clientWidth;
