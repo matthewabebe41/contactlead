@@ -16,6 +16,13 @@ user_password VARCHAR(20),
 user_image VARCHAR
 );
 
+CREATE TABLE user_images (
+	user_id SERIAL PRIMARY KEY,
+	name VARCHAR(255) NOT NULL,
+	mime_type VARCHAR(50) NOT NULL,
+	data BYTEA NOT NULL
+);
+
 CREATE TABLE contacts(
 user_id SERIAL,
 contact_id SERIAL,
@@ -35,6 +42,14 @@ contact_image VARCHAR,
 CONSTRAINT fk_user
       FOREIGN KEY(user_id)
         REFERENCES users(user_id)
+);
+
+CREATE TABLE contact_images (
+	user_id SERIAL NOT NULL,
+	contact_id SERIAL NOT NULL,
+	name VARCHAR(255) NOT NULL,
+	mime_type VARCHAR(50) NOT NULL,
+	data BYTEA NOT NULL
 );
 
 CREATE TABLE groups(

@@ -148,6 +148,38 @@ async function renderRegisterContent() {
     smallSidebar.style.display = "none";
     largeSidebar.style.display = "none";
 
+    const newUserImageElement = document.querySelector("#register-user-image");
+    const newUserImageInputElement = document.querySelector("#register-user-image-input")
+    const newUserImageUrl = newUserImageElement.getAttribute("src")
+    fetch(newUserImageUrl)
+        .then(response => response.blob()) // Get the image as a Blob
+        .then(blob => {
+            // Now 'blob' contains the image data as a Blob object
+            // You can then create a File object from the blob if necessary:
+            const filename = newUserImageUrl.substring(newUserImageUrl.lastIndexOf('/') + 1); // Extract filename from URL
+            const imageFile = new File([blob], filename, { type: blob.type });
+
+            console.log(imageFile); // This is your image file object
+
+            let reader = new FileReader()
+
+            reader.onload = function () {
+                base64string = reader.result.split(',')[1]
+                // imageFile = reader.result;
+                console.log(base64string)
+                newUserImageInputElement.setAttribute("src", base64string);
+                // newUserImageElement.style.borderRadius = "50%"
+            };
+
+            if (imageFile !== undefined) {
+                reader.readAsDataURL(imageFile)
+            }; 
+        })
+        .catch(error => console.error('Error fetching image:', error));
+
+    const registerUserImageInputElement = document.querySelector("#register-user-image-input");
+    // registerUserImageInputElement.value = ""
+
     const registerUserPhoneNumberElement = document.querySelector("#register-user-phonenumber");
     // const phonenumber = newContactPhoneNumberElement.value
     // console.log(phonenumber)
@@ -220,10 +252,13 @@ async function renderRegisterContent() {
         }
     });
 
+    // const registerUserImageElement = document.querySelector("#register-user-image");
+
     const registerUserButton = document.querySelector("#register-user-button");
     registerUserButton.addEventListener("click", function (event) {
         event.preventDefault();
-        postNewUser()
+        postNewUser();
+        postNewUserImage();
     });
 };
 
@@ -855,10 +890,13 @@ const allUsers = await getAllUsers();
     const userId = matchingUser.user_id;
     const user = await getUser(userId);
 
+    const userImage = await getAUserImage(userId)
+
+    const imageString = `data:${userImage.contentType};base64,${userImage.image}`
+
+
     const navigateUserPageIcon = document.querySelector("#navigate-user-page-icon");
-    if (user.user_image !== null && user.user_image !== './images/user-5-svgrepo-com.svg') {
-        navigateUserPageIcon.setAttribute("src", user.user_image)
-    }
+    navigateUserPageIcon.setAttribute("src", imageString)
 
     // console.log(navigateUserPageIcon.parentElement)
     const navigateUserPageIconParentElement = navigateUserPageIcon.parentElement;
@@ -1797,14 +1835,17 @@ const allUsers = await getAllUsers();
     const userContacts = await getUserContacts(userId);
     console.log(user)
 
+    const userImage = await getAUserImage(userId)
+
     const userImageContainer = document.querySelector("#user-image-container");
     // const userImage = new Image();
 
-    const userImage = document.querySelector("#user-image");
-    if (user.user_image !== null && user.user_image !== './images/user-5-svgrepo-com.svg') {
-        userImage.setAttribute("src", user.user_image)
-        userImage.style.borderRadius = "50%"
-    }
+    const userImageElement = document.querySelector("#user-image");
+    const imageString = `data:${userImage.contentType};base64,${userImage.image}`
+    console.log(userImage.contentType)
+
+    userImageElement.setAttribute("src", imageString)
+    userImageElement.style.borderRadius = "50%"
     
     const userHeaderNameElement = document.querySelector("#header-user-name");
     userHeaderNameElement.innerHTML = `${user.firstname} ${user.lastname}`;
@@ -1812,7 +1853,7 @@ const allUsers = await getAllUsers();
     userHeaderEmailElement.innerHTML = user.emailaddress;
 
     const userHeaderElement = document.querySelector("#user-name");
-    userHeaderElement.innerHTML = `${user.firstname}'s Account`;
+    userHeaderElement.innerHTML = "My Account";
     // userHeaderElement.style.fontSize = "xx-large";
     userHeaderElement.style.fontFamily = "Arial";
     // userHeaderEmailElement.innerHTML = `${user.emailaddress}`;
@@ -1995,47 +2036,119 @@ const allUsers = await getAllUsers();
     const userId = matchingUser.user_id;
     const user = await getUser(userId);
 
+    const userImage = await getAUserImage(userId)
+
+    const userImageContainer = document.querySelector("#user-image-container");
+    // const userImage = new Image();
+
     const editUserImage = document.querySelector("#edit-user-image");
-    if (user.user_image !== null && user.user_image !== './images/user-5-svgrepo-com.svg') {
-        editUserImage.setAttribute("src", user.user_image);
-        editUserImage.style.borderRadius = "50%"
-    };
+    const imageString = `data:${userImage.contentType};base64,${userImage.image}`
+    console.log(userImage.contentType)
+
+    editUserImage.setAttribute("src", imageString)
+    editUserImage.style.borderRadius = "50%"
+
+    // const editUserImage = document.querySelector("#edit-user-image");
+    // if (user.user_image !== null && user.user_image !== './images/user-5-svgrepo-com.svg') {
+    //     editUserImage.setAttribute("src", user.user_image);
+    //     editUserImage.style.borderRadius = "50%"
+    // };
+
+    // const id = 7;
+    // const image = await getAnImage(id);
+    // const imageString = `data:${image.contentType};base64,${image.image}`
+    // console.log(image.contentType)
+    // const imageElement = document.querySelector("#image")
+
+    // imageElement.setAttribute("src", imageString)
+    
+    const editUserSaveButton = document.querySelector("#edit-user-save-photo")
+    const editUserAddPhotoButton = document.querySelector("#edit-user-add-photo-button");
+
 
     const editUserRemovePhotoButton = document.querySelector("#edit-user-remove-photo-button");
     editUserRemovePhotoButton.addEventListener("click", function() {
         const editUserAddPhotoInputElement = document.querySelector("#edit-user-add-photo");
-        editUserAddPhotoInputElement.value = "";
+        // editUserAddPhotoInputElement.value = "";
+      
+        // if (editUserImage.getAttribute("src") !==)
+        // const editUserImage = document.querySelector("#edit-user-image");
+        // const imageString = `data:${userImage.contentType};base64,${userImage.image}`
+        // console.log(userImage.contentType)
         
-        if (editUserImage.getAttribute("src") === user.user_image) {
+        // editUserAddPhotoButton.innerHTML = "Change Photo"
+
+        // if (editUserImage.getAttribute("src") === imageString) {
+        //     editUserAddPhotoButton.innerHTML = "Change Photo"
+        // }
+
+
+        if (editUserImage.getAttribute("src") === imageString && editUserAddPhotoInputElement.value === "") {
             editUserImage.setAttribute("src", "./images/user-5-svgrepo-com.svg")
-        } else {
-            editUserImage.setAttribute("src", user.user_image);
+            // editUserAddPhotoButton.innerHTML = "Save Photo"
+        } else if (editUserImage.getAttribute("src") !== imageString && editUserAddPhotoInputElement.value === "") {
+            editUserImage.setAttribute("src", "./images/user-5-svgrepo-com.svg")
+            // editUserAddPhotoButton.innerHTML = "Save Photo"
+        } else if (editUserImage.getAttribute("src") === imageString && editUserAddPhotoInputElement.value !== "") {
+            editUserAddPhotoInputElement.value = "";
+            editUserImage.setAttribute("src", "./images/user-5-svgrepo-com.svg")
+        } else if (editUserImage.getAttribute("src") !== imageString && editUserAddPhotoInputElement.value !== "") {
+            editUserAddPhotoInputElement.value = "";
+            editUserImage.setAttribute("src", "./images/user-5-svgrepo-com.svg")
+        } else if (editUserImage.getAttribute("src") !== "./images/user-5-svgrepo-com.svg" && editUserAddPhotoInputElement.value === "") {
+            editUserImage.setAttribute("src", imageString);
+            editUserAddPhotoButton.innerHTML = "Change Photo"
         }
     })
-    const editUserAddPhotoButton = document.querySelector("#edit-user-add-photo-button");
-    if (user.user_image !== null && user.user_image !== './images/user-5-svgrepo-com.svg') {
+
+    console.log(userImage)
+    // const editUserAddPhotoButton = document.querySelector("#edit-user-add-photo-button");
+    if (userImage !== null && userImage !== undefined) {
         editUserAddPhotoButton.innerHTML = "Change Photo"
     }
-
-    editUserAddPhotoButton.addEventListener("click", function() {
-        const editUserAddPhotoInputContainerElement = document.querySelector("#edit-user-add-photo-input-container")
-        editUserAddPhotoInputContainerElement.style.display = "none";
+    
+    editUserAddPhotoButton.formAction = `${window.currentUrl}`
+    editUserAddPhotoButton.addEventListener("click", function(event) {
+        // event.preventDefault()
+      
+         const editUserAddPhotoForm = document.querySelector("#edit-user-add-photo-form");
         if (editUserAddPhotoButton.innerHTML === "Save Photo") {
             updateUserImage()
+            putNewUserImage()
+            // postImage()
+            // event.preventDefault()
+            // editUserAddPhotoForm.submit(function(event) {
+            //     event.preventDefault()
+            // }, false)
+            // postImage()
+        }
+    });
+
+    editUserSaveButton.addEventListener("click", function(event) {
+        const editUserAddPhotoInputContainerElement = document.querySelector("#edit-user-add-photo-input-container")
+        
+        if (editUserImage.getAttribute("src") !== imageString) {
+            editUserAddPhotoInputContainerElement.style.display = "none";
+            // updateUserImage();
+            putNewUserImage();
+        } else {
+            event.preventDefault()
+            alert("Please insert a new image.")
         }
     })
 
     const editUserAddPhotoInputContainerElement = document.querySelector("#edit-user-add-photo-input-container")
-    editUserAddPhotoButton.addEventListener("click", function() {
-        console.log("edit photo")
+    editUserAddPhotoButton.addEventListener("click", function(event) {
+        // event.preventDefault()
         if (editUserAddPhotoButton.innerHTML !== "Save Photo") {
             editUserAddPhotoInputContainerElement.style.display = "flex";
         }
     });
+
     const closeEditUserAddPhotoIcon = document.querySelector("#close-edit-user-add-photo-icon");
     closeEditUserAddPhotoIcon.addEventListener("click", function(event) {
         // window.location.reload()
-        editUserImage.setAttribute("src", user.user_image);
+        editUserImage.setAttribute("src", imageString);
         const editUserAddPhotoInputElement = document.querySelector("#edit-user-add-photo");
         editUserAddPhotoInputElement.value = "";
         const editUserAddPhotoInputContainerElement = document.querySelector("#edit-user-add-photo-input-container")
@@ -2047,13 +2160,58 @@ const allUsers = await getAllUsers();
     editUserAddPhotoSaveButton.addEventListener("click", function() {
         // editUserAddPhotoInputContainerElement.style.display = "none";
         const editUserAddPhotoInputElement = document.querySelector("#edit-user-add-photo")
-        console.log(editUserAddPhotoInputElement.files[0])
+        console.log(editUserAddPhotoInputElement.files[0]);
 
+        
         if (editUserAddPhotoInputElement.files[0] !== undefined) {
-            editUserAddPhotoButton.innerHTML = "Save Photo"
-            handleEditUserImage()
+            // editUserAddPhotoButton.innerHTML = "Save Photo"
+            // handleEditUserImage()
+            handleUploadImageInput()
         }
-    }, false)
+        // editUserAddPhotoInputElement.value = "";
+    })
+
+    const editUserAddPhotoForm = document.querySelector("#edit-user-add-photo-form");
+    console.log(editUserAddPhotoForm)
+    editUserAddPhotoForm.addEventListener("submit", async (event) => {
+        // event.preventDefault();
+        // postImage()
+        //    handleUploadImageInput()
+    })
+
+    async function postImage() {
+        const allUsers = await getAllUsers();
+        const sessionId = sessionStorage.getItem("user");
+        let matchingUser;
+            for (let i = 0; i < allUsers.length; i++) {
+                if (allUsers[i].session_id === sessionId) {
+                matchingUser = allUsers[i]
+                }
+            }
+        const user_id = matchingUser.user_id;
+        const editUserAddPhotoInputElement = document.querySelector("#edit-user-add-photo");
+        const imageFile = editUserAddPhotoInputElement.files[0];
+
+        // const id = 1;
+        console.log(user_id)
+
+            if (imageFile) {
+            const formData = new FormData();
+            formData.append('id', user_id)
+            formData.append('editUserAddPhoto', imageFile); // 'image' matches the input name
+
+            try {
+                const response = await fetch(`/images`, {
+                    method: 'POST',
+                    body: formData,
+                });
+                const result = await response.json();
+                console.log(result);
+            } catch (error) {
+                console.error('Error uploading image:', error);
+            }
+        }
+    }
 
     const editUserFirstNameElement = document.querySelector("#edit-user-firstname");
     const editUserLastNameElement = document.querySelector("#edit-user-lastname");
@@ -2185,7 +2343,10 @@ const allUsers = await getAllUsers();
             // You might want to return from a function here to stop further execution
           }
 
+        deleteAllUserGroups();
+        deleteAllUserContactGroupings();
         deleteContacts();
+        deleteUserImage();
         deleteUser();
     })
 };
@@ -2457,8 +2618,72 @@ const allUsers = await getAllUsers();
 
         console.log(editUserImageObject)
 
+        editUserAddPhotoInputElement.value = ""
+
         return editUserImageObject
 };
+
+async function handleUploadImageInput() {
+    // let imageFile;
+    // let image;
+    // const newUserImageElement = document.querySelector("#edit-user-image");
+
+    const newUserImageElement = document.querySelector("#edit-user-image");
+    let newUserImageFile;
+    let newUserImage;
+    const editUserAddPhotoInputElement = document.querySelector("#edit-user-add-photo")
+
+        newUserImageFile = editUserAddPhotoInputElement.files[0];
+        let reader = new FileReader()
+
+        console.log(newUserImageFile)
+
+        reader.onload = function () {
+            base64string = reader.result.split(',')[1]
+            newUserImage = reader.result;
+            newUserImageElement.setAttribute("src", reader.result);
+            newUserImageElement.style.borderRadius = "50%"
+        };
+
+        if (newUserImageFile !== undefined) {
+            reader.readAsDataURL(newUserImageFile)
+        } else {
+            newUserImageElement.setAttribute("src", './images/user-5-svgrepo-com.svg')
+        }
+
+    const editUserAddPhotoFormElement = document.querySelector("#edit-user-add-photo-form");
+    // const editUserAddPhotoInputElement = document.querySelector("#edit-user-add-photo");
+    // console.log(editUserAddPhotoFormElement)
+    let imageFile = editUserAddPhotoInputElement.files[0];
+
+    async function createIconImageFile() {
+    const editUserImageElement = document.querySelector("#edit-user-image")
+    const editUserImageUrl = editUserImageElement.getAttribute("src")
+    let editImageFile;
+        return fetch(editUserImageUrl)
+            .then(response => response.blob()) // Get the image as a Blob
+            .then(async (blob) => {
+            // Now 'blob' contains the image data as a Blob object
+            // You can then create a File object from the blob if necessary:
+            const filename = editUserImageUrl.substring(editUserImageUrl.lastIndexOf('/') + 1); // Extract filename from URL
+            editImageFile = new File([blob], filename, { type: blob.type });
+
+            console.log(editImageFile); // This is your image file object
+
+            return editImageFile
+        })
+    }
+
+    if (imageFile === undefined) {
+        imageFile = await createIconImageFile()
+    }
+        
+    console.log(imageFile)
+
+    // editUserAddPhotoInputElement.value = ""
+
+    return imageFile
+}
 
 async function handleMobileEditUserImage() {
 const allUsers = await getAllUsers();
@@ -7175,6 +7400,44 @@ const allUsers = await getAllUsers();
 
     return newContactObject;
 }
+
+async function getAnImage(id) {
+    try {
+    const response = await fetch(`/images/${id}`);
+    const jsonData = await response.json();
+    return jsonData;   
+    } catch (err) {
+    console.error(err.message)
+    }
+};
+
+async function getAUserImage(user_id) {
+    try {
+    const response = await fetch(`/user_images/${user_id}`);
+    const jsonData = await response.json();
+    return jsonData;   
+    } catch (err) {
+    console.error(err.message)
+    }
+};
+
+// async function postImage() {
+//     const imageFile = await handleUploadImageInput();
+
+//     console.log(imageFile)
+
+//     const body = { imageFile };
+//     try {
+//         const response = await fetch(`/images`, {
+//             method: "POST",
+//             headers: { "Content-Type": "application/json" },
+//             body: JSON.stringify(body)
+//         });
+//         console.log(response)
+//     } catch (err) {
+//         console.error(err)
+//     }
+// };
    
 
 async function getAllUsers() {
@@ -7251,6 +7514,42 @@ async function mobilePostNewUser() {
     }
 
     window.location.href = `${rootUrl}/login`
+};
+
+async function postNewUserImage() {
+    const registerUserObject = await handleRegisterInput();
+    const user_id = registerUserObject.userId;
+
+    const registerUserImageInputElement = document.querySelector("#register-user-image-input")
+
+    const newUserImageElement = document.querySelector("#register-user-image");
+    const newUserImageInputElement = document.querySelector("#register-user-image-input")
+    const newUserImageUrl = newUserImageElement.getAttribute("src")
+    fetch(newUserImageUrl)
+        .then(response => response.blob()) // Get the image as a Blob
+        .then(async (blob) => {
+            // Now 'blob' contains the image data as a Blob object
+            // You can then create a File object from the blob if necessary:
+            const filename = newUserImageUrl.substring(newUserImageUrl.lastIndexOf('/') + 1); // Extract filename from URL
+            const imageFile = new File([blob], filename, { type: blob.type });
+
+            console.log(imageFile); // This is your image file object
+            const formData = new FormData();
+            formData.append('id', user_id)
+            formData.append('imageFile', imageFile); // 'image' matches the input name
+        
+            try {
+                const response = await fetch(`/user_images`, {
+                    method: 'POST',
+                    body: formData,
+                });
+                const result = await response.json();
+                console.log(result);
+            } catch (error) {
+                console.error('Error uploading image:', error);
+            }
+        })
+        // .catch(error => console.error('Error fetching image:', error));
 };
 
 async function updateUser(event) {
@@ -7453,8 +7752,66 @@ async function updateUserImage(event) {
 
     
    alert("Updated your profile picture.")
-   window.location.reload()
+//    window.location.reload()
 
+};
+
+async function putNewUserImage() {
+    const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const user_id = matchingUser.user_id;
+    const imageFile = await handleUploadImageInput();
+    console.log(imageFile)
+
+        //   if (imageFile) {
+            const formData = new FormData();
+            formData.append('id', user_id)
+            formData.append('editUserAddPhoto', imageFile); // 'image' matches the input name
+
+            try {
+                const response = await fetch(`/user_images/${user_id}`, {
+                    method: 'PUT',
+                    body: formData,
+                });
+                const result = await response.json();
+                console.log(result);
+            } catch (error) {
+                console.error('Error uploading image:', error);
+            }
+        // }
+
+         const editUserAddPhotoInputElement = document.querySelector("#edit-user-add-photo");
+         editUserAddPhotoInputElement.value = ""
+
+         alert("Updated your profile picture.")
+         window.location.reload()
+};
+
+async function deleteUserImage() {
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const user_id = matchingUser.user_id;
+    try {
+        const response = await fetch(`/user_images/${user_id}`, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+        });
+        console.log(response)
+    } catch (error) {
+        console.error(error)
+    }
 };
 
 async function mobileUpdateUserImage() {
@@ -7683,6 +8040,7 @@ async function mobileUpdateUserPassword() {
 }
 
 async function deleteUser() {
+await deleteAllUserGroups()
 const allUsers = await getAllUsers();
     const sessionId = sessionStorage.getItem("user");
     let matchingUser;
@@ -8262,6 +8620,30 @@ const allUsers = await getAllUsers();
     // window.location.href = `${rootUrl}/groups`
 };
 
+async function deleteAllUserGroups() {
+    const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const user_id = matchingUser.user_id;
+
+    try {
+        const response = await fetch(`/groups/${user_id}`, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+        });
+        console.log(response)
+    } catch (error) {
+        console.error(error)
+    }
+
+    localStorage.clear()
+}
+
 async function getUserContactGroupings(user_id) {
      try {
     const response = await fetch(`/contactGroups/${user_id}`);
@@ -8355,6 +8737,28 @@ async function deleteAContactGrouping() {
 
     localStorage.clear()
     // window.location.href = `${rootUrl}/groups`
+};
+
+async function deleteAllUserContactGroupings() {
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const user_id = matchingUser.user_id;
+
+    try {
+        const response = await fetch(`/contactGroups/${user_id}`, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+        });
+        console.log(response)
+    } catch (error) {
+        console.error(error)
+    }
 };
 
 async function removeContactDeleteContactGroupings(removeContactGroupingsArr) {

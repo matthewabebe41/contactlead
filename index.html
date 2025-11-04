@@ -161,8 +161,10 @@
             <div style="display: flex; justify-content: flex-start; width: 400px;">
                 <h2 style="font-family: sans-serif; width: 350px; margin: 0px;">Get started, Enter details to register your account.</h2>
             </div>
+            <img id="register-user-image" src="./images/user-5-svgrepo-com.svg" style="width: 20px; height: 20px; display: none;">
             <form id="register-user-form" style="display: flex; flex-direction: column; justify-content: space-evenly; width: 400px; height: 350px;">
-               <div id="register-name-container" style="display: flex; justify-content: space-between;">
+               <input id="register-user-image-input" name="registerUserImageInput" type="hidden" style="display: none;">
+                <div id="register-name-container" style="display: flex; justify-content: space-between;">
                 <div style="width: 175px;">
                     <label style="font-weight: bold;">First Name</label>
                     <input id="register-user-first-name" placeholder="First Name" style="width: 100%; height: 17px; border: 1.5px solid grey; border-radius: 2.5px;">
@@ -453,22 +455,25 @@
     <section id="edit-user-view" style="position: absolute; width: 68.5%; height: 90.5%; top: 9.5%; left: 31.5%; display: none;">
         <div id="edit-user-image-container" style="position: absolute; display: flex; align-items: center; width: 100%; height: 20%; background-color: #f9f9f9; box-shadow: 2px 2px 2px;"> 
             <div id="edit-user-image-container" style="position: absolute; display: flex; align-items: center; height: 100%; padding: 10px;">
-                <img id="edit-user-image" src="./images/user-5-svgrepo-com.svg" style="position: relative; display: flex; justify-content: center; align-items: center; width: 95px; height: 95px; border: 0.5px solid grey; box-shadow: 2px 2px 2px; border-radius: 50%; background-color: gainsboro; object-fit: cover; z-index: 1;">
+                <img id="edit-user-image" style="position: relative; display: flex; justify-content: center; align-items: center; width: 95px; height: 95px; border: 0.5px solid grey; box-shadow: 2px 2px 2px; border-radius: 50%; background-color: gainsboro; object-fit: cover; z-index: 1;">
                 <div style="display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-end; height: 100%;">
-                    <button id="edit-user-add-photo-button" style="height: 20px; margin-bottom: 10px; margin-left: 5px; z-index: 1;">Add photo</button>
+                    <button id="edit-user-add-photo-button" type="button" style="height: 20px; margin-bottom: 10px; margin-left: 5px; z-index: 1;">Add photo</button>
                 </div>
             </div>
             <div id="edit-user-header-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%;">
                 <h2 style="font-family: Arial;">Edit your account.</h2>
             </div>
         </div>
-        <div id="edit-user-add-photo-input-container" style="position: absolute; align-items: center; width: 470px; height: 27px; top: 20.35%; border: 1px solid black; background-color: grey; box-shadow: 1px 1px; display: none; margin-left: 3px; z-index: 2;">
+        <div id="edit-user-add-photo-input-container" style="position: absolute; align-items: center; width: 470px; height: 27px; top: 21%; border: 1px solid black; background-color: lightgrey; border: 2px solid black; box-shadow: 1px 1px 1px; display: none; margin-left: 6px; z-index: 2;">
             <div style="display: flex; justify-content: space-between; width: 100%;">
-                <input id="edit-user-add-photo" type="file" style="margin-left: 4px;">
-                <div style="display: flex; margin-right: 4px;">
-                    <button id="edit-user-add-photo-insert-button">Insert</button>
-                    <button id="edit-user-remove-photo-button" style="height: 20px; margin-left: 5px; background-color: indianred; z-index: 1;">Remove</button>
-                    <img id="close-edit-user-add-photo-icon" src="./images/close-svgrepo-com.svg" style="width: 20px; background-color: red; margin-left: 3px;">
+                <form id="edit-user-add-photo-form" name="editUserAddPhotoForm" action="/user_images" method="PUT" enctype="multipart/form-data">
+                    <input id="edit-user-add-photo" name="editUserAddPhoto" type="file" accept="image/*" style="margin-left: 4px;">
+                </form>
+                <div style="display: flex; justify-content: space-evenly; align-items: center; width: 50%;">
+                    <button id="edit-user-add-photo-insert-button" style="height: 20px; background-color: lightgoldenrodyellow;">Insert</button>
+                    <button id="edit-user-remove-photo-button" style="height: 20px; background-color: indianred; z-index: 1;">Remove</button>
+                    <button id="edit-user-save-photo" style="height: 20px; background-color: aliceblue;">Save</button>
+                    <img id="close-edit-user-add-photo-icon" src="./images/close-svgrepo-com.svg" style="width: 20px; height: 18px; background-color: red; border: 1px solid black; margin-left: 5px;">
                 </div>
             </div>
         </div>

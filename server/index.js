@@ -3,6 +3,7 @@ const express = require("express");
 const pg = require("pg");
 const app = express();
 const cors = require("cors");
+const multer = require("multer");
 const path = require("path");
 
 const pool = new pg.Pool({
@@ -16,6 +17,9 @@ const pool = new pg.Pool({
 //   port: 5432,
 //   database: 'contactlead'
 });
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage})
 
 app.use(express.json({
     limit: "1000MB"
@@ -75,6 +79,118 @@ app.get("/search-contacts", (req, res) => {
     res.sendFile(path.join(__dirname, "../index.html"));
 });
 
+//get an image
+app.get("/images/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const result = await pool.query('SELECT * FROM images WHERE id = $1', [id]);
+    if (result.rows.length > 0) {
+                const imageData = result.rows[0].data; // bytea data as Buffer
+                const contentType = result.rows[0].mime_type; // e.g., 'image/jpeg'
+                const base64Image = imageData.toString('base64');
+                res.json({ image: base64Image, contentType: contentType });
+            } else {
+                res.status(404).send('Image not found');
+            }
+        } catch (error) {
+            console.error('Error fetching image:', error);
+            res.status(500).send('Server error');
+        }
+})
+
+//post image
+// app.post("/images", upload.single('imageFile'), async (req, res) => {
+//     if (!req.file) {
+//             return res.status(400).send('No file uploaded.');
+//         }
+
+//         const user_id = req.body.id;
+//         const { originalname, mimetype, buffer } = req.file;
+
+//         try {
+//             // Insert image data into PostgreSQL
+//             const result = await pool.query(
+//                 'INSERT INTO images (user_id, name, mime_type, data) VALUES ($1, $2, $3, $4) RETURNING*',
+//                 [user_id, originalname, mimetype, buffer]
+//             );
+//             res.status(201).json({ message: 'Image uploaded successfully!', id: result.rows[0].id });
+//         } catch (error) {
+//             console.error('Error saving image to DB:', error);
+//             res.status(500).send('Error uploading image.');
+//         }
+// });
+
+//get a user's image
+app.get("/user_images/:user_id", async (req, res) => {
+    try {
+        const { user_id } = req.params;
+        const result = await pool.query('SELECT * FROM user_images WHERE user_id = $1', [user_id]);
+    if (result.rows.length > 0) {
+                const imageData = result.rows[0].data; // bytea data as Buffer
+                const contentType = result.rows[0].mime_type; // e.g., 'image/jpeg'
+                const base64Image = imageData.toString('base64');
+                res.json({ image: base64Image, contentType: contentType });
+            } else {
+                res.status(404).send('Image not found');
+            }
+        } catch (error) {
+            console.error('Error fetching image:', error);
+            res.status(500).send('Server error');
+        }
+})
+
+//post a user image
+app.post("/user_images", upload.single('imageFile'), async (req, res) => {
+    if (!req.file) {
+            return res.status(400).send('No file uploaded.');
+        }
+
+        const user_id = req.body.id;
+        const { originalname, mimetype, buffer } = req.file;
+
+        try {
+            // Insert image data into PostgreSQL
+            const result = await pool.query(
+                'INSERT INTO user_images (user_id, name, mime_type, data) VALUES ($1, $2, $3, $4) RETURNING*',
+                [user_id, originalname, mimetype, buffer]
+            );
+            res.status(201).json({ message: 'Image uploaded successfully!', id: result.rows[0].id });
+        } catch (error) {
+            console.error('Error saving image to DB:', error);
+            res.status(500).send('Error uploading image.');
+        }
+});
+
+//update a user image
+app.put("/user_images/:user_id", upload.single('editUserAddPhoto'), async (req, res) => {
+    if (!req.file) {
+            return res.status(400).send('No file uploaded.');
+        }
+
+        const { user_id } = req.params
+        const id = req.body.id;
+        const { originalname, mimetype, buffer } = req.file;
+
+        try {
+            // Insert image data into PostgreSQL
+            const result = await pool.query('UPDATE user_images SET user_id = $1, name = $2, mime_type = $3, data = $4 WHERE user_id = $5', [id, originalname, mimetype, buffer, user_id]);
+            res.status(201).json({ message: 'Image uploaded successfully!', id: result.rows.id });
+        } catch (error) {
+            console.error('Error saving image to DB:', error);
+            res.status(500).send('Error uploading image.');
+        }
+});
+
+//delete a user image
+app.delete("/user_images/:user_id", async (req, res) => {
+    try {
+        const { user_id } = req.params;
+        const deleteUserImage = await pool.query("DELETE FROM user_images WHERE user_id = $1", [user_id])
+        res.json(deleteUserImage.rows[0])
+    } catch (err) {
+            console.log(err.message)
+    }
+});
 
 //get all users
 app.get("/users", async (req, res) => {
@@ -107,6 +223,7 @@ app.post("/users", async (req, res) => {
         console.error(error.message)
     }
 });
+
 
 //edit a user
 app.put("/users/:user_id", async (req, res) => {
@@ -254,6 +371,17 @@ app.delete("/groups/:user_id/:group_id", async (req, res) => {
     }
 });
 
+//delete all user groups
+app.delete("/groups/:user_id", async (req, res) => {
+    try {
+        const { user_id } = req.params;
+        const deleteAllGroups = await pool.query("DELETE FROM groups WHERE user_id = $1", [user_id])
+        res.json(deleteAllGroups.rows[0])
+    } catch (err) {
+            console.log(err.message)
+    }
+});
+
 //get all users contact groupings
 app.get("/contactGroups/:user_id", async (req, res) => {
     try {
@@ -293,6 +421,17 @@ app.delete("/contactGroups/:user_id/:contact_id/:group_id", async (req, res) => 
         const { user_id, contact_id, group_id } = req.params;
         const deleteContactGrouping = await pool.query("DELETE FROM contactGroups WHERE user_id = $1 AND contact_id = $2 AND group_id = $3", [user_id, contact_id, group_id])
         res.json(deleteContactGrouping.rows[0])
+    } catch (err) {
+            console.log(err.message)
+    }
+});
+
+//delete all contact groupings
+app.delete("/contactGroups/:user_id", async (req, res) => {
+    try {
+        const { user_id } = req.params;
+        const deleteAllContactGroupings = await pool.query("DELETE FROM contactGroups WHERE user_id = $1", [user_id])
+        res.json(deleteAllContactGroupings.rows[0])
     } catch (err) {
             console.log(err.message)
     }
