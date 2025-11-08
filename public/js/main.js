@@ -181,8 +181,6 @@ async function renderRegisterContent() {
     // registerUserImageInputElement.value = ""
 
     const registerUserPhoneNumberElement = document.querySelector("#register-user-phonenumber");
-    // const phonenumber = newContactPhoneNumberElement.value
-    // console.log(phonenumber)
     registerUserPhoneNumberElement.addEventListener("keydown", disableNonNumericKeys)
     registerUserPhoneNumberElement.addEventListener("blur", function() {
         formatPhoneNumberForData(registerUserPhoneNumberElement)
@@ -202,7 +200,6 @@ async function renderRegisterContent() {
     registerUserPhoneNumberElement.addEventListener("input", function() {
         resetPhoneNumberFormatOnFocus(registerUserPhoneNumberElement)
     });
-    
 
     const navigateLoginPageButton = document.querySelector("#navigate-to-login-view-button");
     navigateLoginPageButton.addEventListener("click", function(event) {
@@ -237,13 +234,11 @@ async function renderRegisterContent() {
         if (registerUserPasswordElement.value.length === 0) {
             matchingPasswordsContainer.children[0].style.visibility = "hidden"
         } else {
-
             if (registerUserPasswordElement.value !== registerUserConfirmPasswordElement.value) {
                 matchingPasswordsContainer.children[0].style.visibility = "visible"
                 matchingPasswordsContainer.children[0].innerHTML = "Passwords do not match"
                 matchingPasswordsContainer.children[0].style.color = "red"
-            }
-            
+            }     
             if (registerUserPasswordElement.value === registerUserConfirmPasswordElement.value) {
                  matchingPasswordsContainer.children[0].style.visibility = "visible"
                  matchingPasswordsContainer.children[0].innerHTML = "Passwords match"
@@ -252,13 +247,11 @@ async function renderRegisterContent() {
         }
     });
 
-    // const registerUserImageElement = document.querySelector("#register-user-image");
-
     const registerUserButton = document.querySelector("#register-user-button");
     registerUserButton.addEventListener("click", function (event) {
         event.preventDefault();
-        postNewUser();
         postNewUserImage();
+        postNewUser();
     });
 };
 
@@ -312,13 +305,11 @@ async function renderMobileRegisterContent() {
         if (registerUserPasswordElement.value.length === 0) {
             matchingPasswordsContainer.children[0].style.visibility = "hidden"
         } else {
-
             if (registerUserPasswordElement.value !== registerUserConfirmPasswordElement.value) {
                 matchingPasswordsContainer.children[0].style.visibility = "visible"
                 matchingPasswordsContainer.children[0].innerHTML = "Passwords do not match"
                 matchingPasswordsContainer.children[0].style.color = "red"
-            }
-            
+            }   
             if (registerUserPasswordElement.value === registerUserConfirmPasswordElement.value) {
                  matchingPasswordsContainer.children[0].style.visibility = "visible"
                  matchingPasswordsContainer.children[0].innerHTML = "Passwords match"
@@ -411,6 +402,7 @@ async function handleRegisterInput(event) {
         emailAddress: registerUserEmailElement.value,
         phonenumber: registerUserPhonenumberElement.value,
         password: registerUserPasswordElement.value,
+        userImage: null
     };
 
     if (registerUserObject.password !== confirmationPassword) {
@@ -1036,7 +1028,7 @@ const allUsers = await getAllUsers();
         }
       });
 
-    userContacts.forEach(contact => {
+    userContacts.forEach(async (contact) => {
         const contactListItem = document.createElement("div");
         contactListItem.style.display = "flex"
         contactListItem.style.justifyContent = "space-between"
@@ -1067,7 +1059,7 @@ const allUsers = await getAllUsers();
         contactImageItem.style.borderRadius = "50%";
         contactImageItem.style.backgroundColor = "gainsboro";
         contactImageItem.style.objectFit = "cover";
-        contactImageItem.setAttribute("src", contact.contact_image);
+
         const contactListItemNameContainer = document.createElement("div");
         contactListItemNameContainer.style.display = "flex";
         contactListItemNameContainer.style.height = "100%"
@@ -1186,8 +1178,39 @@ const allUsers = await getAllUsers();
     });
 
     const contactListItems = Array.from(contactsListElement.children);
-    contactListItems.forEach(element => {
+    console.log(contactsListElement.children)
+
+    // const contactsListElementHTMLArr = contactsListElement.children;
+    // const contactListItems = [];
+
+    // contactsListElementHTMLArr.forEach(element => {
+    //     if (element.classList.contains('contact-list-item')) {
+    //         contactListItems.push(element)
+    //     }
+    // })
+
+    // for (let i = 0; i < contactsListElementHTMLArr.length; i++) {
+    //     console.log(contactsListElementHTMLArr[i])
+    //      if (contactsListElementHTMLArr[i].classList.contains('contact-list-item')) {
+    //         contactListItems.push(contactsListElementHTMLArr[i])
+    //     }
+    // }
+
+    // console.log(contactsListElementHTMLArr.length)
+
+    contactListItems.forEach(async (element) => {
+        console.log(element.firstChild.firstChild)
+        const contactImageElement = element.firstChild.firstChild;
+        const contactId = element.getAttribute('id')
+           // const contact_id = contact.contact_id;
+        const contactImage = await getAContactImage(userId, contactId)
+        const imageString = `data:${contactImage.contentType};base64,${contactImage.image}`
+        contactImageElement.setAttribute("src", imageString);
+        contactImageElement.style.borderRadius = "50%";
+
+        contactImageElement
         element.addEventListener("click", (event) => {
+            console.log("clicked")
             if (window.location.href === element.getAttribute("data")) {
                 event.preventDefault()
             } else {
@@ -2113,7 +2136,7 @@ const allUsers = await getAllUsers();
       
          const editUserAddPhotoForm = document.querySelector("#edit-user-add-photo-form");
         if (editUserAddPhotoButton.innerHTML === "Save Photo") {
-            updateUserImage()
+            // updateUserImage()
             putNewUserImage()
             // postImage()
             // event.preventDefault()
@@ -2168,7 +2191,6 @@ const allUsers = await getAllUsers();
             // handleEditUserImage()
             handleUploadImageInput()
         }
-        // editUserAddPhotoInputElement.value = "";
     })
 
     const editUserAddPhotoForm = document.querySelector("#edit-user-add-photo-form");
@@ -2613,7 +2635,8 @@ const allUsers = await getAllUsers();
             emailaddress: user.emailaddress,
             phonenumber: user.phonenumber,
             password: user.user_password,
-            userImage: newUserImageElement.getAttribute("src")
+            userImage: null
+            // userImage: newUserImageElement.getAttribute("src")
         };
 
         console.log(editUserImageObject)
@@ -2768,7 +2791,8 @@ const allUsers = await getAllUsers();
         emailaddress: editUserEmailAddressElement.value,
         phonenumber: editUserPhoneNumberElement.value,
         password: editUserPasswordElement.value,
-        userImage: editUserImageElement.getAttribute("src")
+        // userImage: editUserImageElement.getAttribute("src")
+        userImage: null
     };
 
     // if (editUserObject.userImage === "./images/user-5-svgrepo-com.svg") {
@@ -2871,11 +2895,11 @@ const allUsers = await getAllUsers();
     const user = await getUser(userId);
     const userContacts = await getUserContacts(userId)
 
+    const userImage = await getAUserImage(userId);
+    const imageString = `data:${userImage.contentType};base64,${userImage.image}`
     const contactsListUserImage = document.querySelector("#contacts-user-image");
-    if (user.user_image !== null && user.user_image !== './images/user-5-svgrepo-com.svg') {
-        contactsListUserImage.setAttribute("src", user.user_image);
-        contactsListUserImage.style.borderRadius = "50%";
-    }
+    contactsListUserImage.setAttribute("src", imageString);
+    contactsListUserImage.style.borderRadius = "50%";
 
     const contactsUserHeaderNameContainer = document.querySelector("#contacts-user-header-name-container");
     // contactsUserHeaderNameContainer.style.margin = "0px 0px 0px 10px"
@@ -2969,7 +2993,7 @@ const allUsers = await getAllUsers();
     contactsList.style.padding = "0"
     contactsList.style.margin = "0";
 
-    userContacts.forEach(contact => {
+    userContacts.forEach(async (contact) => {
         const contactListItem = document.createElement("div");
         contactListItem.style.display = "flex";
         contactListItem.style.flexDirection = "row";
@@ -3029,12 +3053,12 @@ const allUsers = await getAllUsers();
         contactListItemImage.style.backgroundColor = "gainsboro";
         contactListItemImage.style.boxShadow = "2px 2px 2px";
         contactListItemImage.style.objectFit = "cover";
-        
-        if (contact.contact_image !== null && contact.contact_image !== "./images/user-2-svgrepo-com.svg") {
-            contactListItemImage.setAttribute("src", contact.contact_image);
-        } else {
-            contactListItemImage.setAttribute("src", "./images/user-2-svgrepo-com.svg");
-        }
+
+        const contact_id = contact.contact_id;
+        const contactImage = await getAContactImage(userId, contact_id)
+        const imageString = `data:${contactImage.contentType};base64,${contactImage.image}`
+        contactListItemImage.setAttribute("src", imageString);
+        contactListItemImage.style.borderRadius = "50%";
 
         const contactListNameContainer = document.createElement("div");
         contactListNameContainer.style.position = "relative";
@@ -3686,11 +3710,11 @@ const allUsers = await getAllUsers();
    const contactOrganizationRoleElement = document.querySelector("#contact-organization-role");
    const contactSocialMediaElement = document.querySelector("#contact-social-media");
    const contactNotesElement = document.querySelector("#contact-notes");
-
-   if (contact.contact_image !== null) {
-    contactImageElement.style.borderRadius = "50%"
-    contactImageElement.setAttribute("src", contact.contact_image)
-   }
+    
+    const contactImage = await getAContactImage(user_id, contact_id)
+    const imageString = `data:${contactImage.contentType};base64,${contactImage.image}`
+    contactImageElement.setAttribute("src", imageString);
+    contactImageElement.style.borderRadius = "50%";
    
    contactFullNameElement.innerHTML =  `${contact.firstname} ${contact.lastname}`;
    contactFullNameElement.style.fontFamily = "sans-serif";
@@ -4254,12 +4278,12 @@ const allUsers = await getAllUsers();
     // addToFavoritesButton.addEventListener("click", function() {
     //     updateContactFavorite()
     // }, false)
-
+    
     const editContactImage = document.querySelector("#edit-contact-image");
-    if (contact.contact_image !== null && contact.contact_image !== './images/user-2-svgrepo-com.svg') {
-        editContactImage.setAttribute("src", contact.contact_image);
-        editContactImage.style.borderRadius = "50%"
-    };
+    const contactImage = await getAContactImage(user_id, contact_id)
+    const imageString = `data:${contactImage.contentType};base64,${contactImage.image}`
+    editContactImage.setAttribute("src", imageString);
+    editContactImage.style.borderRadius = "50%";
 
     const editContactRemovePhotoButton = document.querySelector("#edit-contact-remove-photo-button");
     editContactRemovePhotoButton.addEventListener("click", function() {
@@ -4283,7 +4307,8 @@ const allUsers = await getAllUsers();
         const editContactAddPhotoInputContainerElement = document.querySelector("#edit-contact-add-photo-input-container");
         editContactAddPhotoInputContainerElement.style.display = "none";
         if (editContactAddPhotoButton.innerHTML === "Save Photo") {
-            updateContactImage()
+            // updateContactImage()
+            putContactImage()
         }
     })
 
@@ -4328,9 +4353,6 @@ const allUsers = await getAllUsers();
     const editContactNotesElement = document.querySelector("#edit-contact-notes");
     editContactNotesElement.style.fontFamily = "sans-serif"
 
-    // const newContactPhoneNumberElement = document.querySelector("#new-contact-phonenumber");
-    // const phonenumber = newContactPhoneNumberElement.value
-    // console.log(phonenumber)
     editContactPhoneNumberElement.addEventListener("keydown", disableNonNumericKeys)
     editContactPhoneNumberElement.addEventListener("blur", function() {
         formatPhoneNumberForData(editContactPhoneNumberElement)
@@ -4363,7 +4385,6 @@ const allUsers = await getAllUsers();
     editContactSocialMediaElement.value = contact.social_media;
     editContactNotesElement.value = contact.notes;
     editContactNotesElement.style.fontFamily = "sans-serif";
-
 
     const selectGenderElement = document.querySelector("#edit-contact-select-gender");
     const genderOpitonsData = [
@@ -4685,6 +4706,68 @@ const allUsers = await getAllUsers();
     // })
 };
 
+async function handleEditContactUploadImageInput() {
+    // let imageFile;
+    // let image;
+    // const newUserImageElement = document.querySelector("#edit-user-image");
+
+    const editContactImageElement = document.querySelector("#edit-contact-image");
+    let editContactImageFile;
+    let editContactImage;
+    const editContactAddPhotoInputElement = document.querySelector("#edit-contact-add-photo")
+
+        editContactImageFile = editContactAddPhotoInputElement.files[0];
+        let reader = new FileReader()
+
+        console.log(editContactImageFile)
+
+        reader.onload = function () {
+            base64string = reader.result.split(',')[1]
+            editContactImage = reader.result;
+            editContactImageElement.setAttribute("src", reader.result);
+            editContactImageElement.style.borderRadius = "50%"
+        };
+
+        if (editContactImageFile !== undefined) {
+            reader.readAsDataURL(editContactImageFile)
+        } else {
+            editContactImageElement.setAttribute("src", './images/user-2-svgrepo-com.svg')
+        }
+
+    // const editUserAddPhotoFormElement = document.querySelector("#edit-user-add-photo-form");
+    // const editUserAddPhotoInputElement = document.querySelector("#edit-user-add-photo");
+    // console.log(editUserAddPhotoFormElement)
+    let imageFile = editContactAddPhotoInputElement.files[0];
+
+    async function createIconImageFile() {
+    const editContactImageElement = document.querySelector("#edit-contact-image")
+    const editContactImageUrl = editContactImageElement.getAttribute("src")
+    let editContactImageFile;
+        return fetch(editContactImageUrl)
+            .then(response => response.blob()) // Get the image as a Blob
+            .then(async (blob) => {
+            // Now 'blob' contains the image data as a Blob object
+            // You can then create a File object from the blob if necessary:
+            const filename = editUserImageUrl.substring(editContactImageUrl.lastIndexOf('/') + 1); // Extract filename from URL
+            editContactImageFile = new File([blob], filename, { type: blob.type });
+
+            console.log(editContactImageFile); // This is your image file object
+
+            return editContactImageFile
+        })
+    }
+
+    if (imageFile === undefined) {
+        imageFile = await createIconImageFile()
+    }
+        
+    console.log(imageFile)
+
+    // editUserAddPhotoInputElement.value = ""
+
+    return imageFile
+}
+
 async function handleMobileEditContactImage() {
 const allUsers = await getAllUsers();
     const sessionId = sessionStorage.getItem("user");
@@ -4789,7 +4872,8 @@ const allUsers = await getAllUsers();
         socialMedia: editContactSocialMediaElement.value,
         favorite: contact.favorite,
         notes: editContactNotesElement.value,
-        contactImage: editContactImageElement.getAttribute("src")
+        // contactImage: editContactImageElement.getAttribute("src")
+        contactImage: null
     };
 
     return editContactObject
@@ -4858,11 +4942,11 @@ const allUsers = await getAllUsers();
     const user = await getUser(userId);
     const userContacts = await getUserContacts(userId);
 
+    const userImage = await getAUserImage(userId);
+    const imageString = `data:${userImage.contentType};base64,${userImage.image}`
     const favoritesListUserImage = document.querySelector("#favorites-user-image");
-    if (user.user_image !== null && user.user_image !== './images/user-5-svgrepo-com.svg') {
-        favoritesListUserImage.setAttribute("src", user.user_image);
-        favoritesListUserImage.style.borderRadius = "50%"
-    }
+    favoritesListUserImage.setAttribute("src", imageString);
+    favoritesListUserImage.style.borderRadius = "50%";
 
     const favoritesHeaderUserName = document.querySelector("#favorites-header-user-name");
     favoritesHeaderUserName.innerHTML = `${user.firstname} ${user.lastname}`;
@@ -4955,7 +5039,7 @@ const allUsers = await getAllUsers();
     favoriteContactsList.style.listStyle = "none";
     favoriteContactsList.style.padding = "0"
     favoriteContactsList.style.margin = "0"
-    favoriteContacts.forEach(contact => {
+    favoriteContacts.forEach(async (contact) => {
         const favoriteContactListItem = document.createElement("div");
         favoriteContactListItem.style.display = "flex";
         favoriteContactListItem.style.flexDirection = "row";
@@ -5027,6 +5111,12 @@ const allUsers = await getAllUsers();
             favoriteContactListItemImage.setAttribute("src", "./images/user-2-svgrepo-com.svg");
         }
 
+        const contact_id = contact.contact_id;
+        const contactImage = await getAContactImage(userId, contact_id)
+        const imageString = `data:${contactImage.contentType};base64,${contactImage.image}`
+        favoriteContactListItemImage.setAttribute("src", imageString);
+        favoriteContactListItemImage.style.borderRadius = "50%";
+
         // contactListItem.innerHTML = `${contact.firstname} ${contact.lastname}`;
         const favoriteContactListNameContainer = document.createElement("div");
         favoriteContactListNameContainer.style.display = "flex";
@@ -5040,9 +5130,6 @@ const allUsers = await getAllUsers();
         const favoriteContactListEmailElement = document.createElement("p");
         favoriteContactListEmailElement.style.fontStyle = "italic"
         favoriteContactListEmailElement.style.margin = "0"
-
-        
-        console.log(contact)
         
         if (contact.emailaddress !== null && contact.emailaddress !== "") {
             favoriteContactListEmailElement.innerHTML = contact.emailaddress;
@@ -6086,20 +6173,19 @@ async function renderGroupContactsListContent() {
     const queryCharIndex = groupIdUrl.indexOf("?")
     const groupId = Number(groupIdUrl.slice(0, queryCharIndex));
     const group = await getAUserGroup(userId, groupId)
-    console.log(group)
 
     const groupContacts = [];
     for (let i = 0; i < userGroupContacts.length; i++) {
         if (userGroupContacts[i].group_id === groupId) {
             groupContacts.push(userGroupContacts[i])
         }
-    }
+    };
 
+    const userImage = await getAUserImage(userId);
+    const imageString = `data:${userImage.contentType};base64,${userImage.image}`
     const groupsContactsListUserImage = document.querySelector("#groups-contacts-list-user-image");
-    if (matchingUser.user_image !== null && matchingUser.user_image !== './images/user-5-svgrepo-com.svg') {
-        groupsContactsListUserImage.setAttribute("src", matchingUser.user_image);
-        groupsContactsListUserImage.style.borderRadius = "50%";
-    }
+    groupsContactsListUserImage.setAttribute("src", imageString);
+    groupsContactsListUserImage.style.borderRadius = "50%";
 
     const groupsContactsListUserHeaderNameContainer = document.querySelector("#groups-contacts-list-user-header-name-container");
     // groupContactsUserHeaderNameContainer.style.margin = "0px 0px 0px 10px"
@@ -6211,7 +6297,7 @@ async function renderGroupContactsListContent() {
     // groupContactsList.style.height = "100%";
     // groupContactsList.style.overflow = "auto"
     // groupContactsList.style.zIndex = "5"
-    finalGroupContacts.forEach(contact => {
+    finalGroupContacts.forEach(async (contact) => {
         const groupContactListItem = document.createElement("div");
         groupContactListItem.style.display = "flex";
         groupContactListItem.style.flexDirection = "row";
@@ -6275,12 +6361,12 @@ async function renderGroupContactsListContent() {
         groupContactListItemImage.style.backgroundColor = "gainsboro";
         groupContactListItemImage.style.boxShadow = "2px 2px 2px";
         groupContactListItemImage.style.objectFit = "cover";
-        
-        if (contact.contact_image !== null && contact.contact_image !== "./images/user-2-svgrepo-com.svg") {
-            groupContactListItemImage.setAttribute("src", contact.contact_image);
-        } else {
-            groupContactListItemImage.setAttribute("src", "./images/user-2-svgrepo-com.svg");
-        }
+
+        const contact_id = contact.contact_id;
+        const contactImage = await getAContactImage(userId, contact_id)
+        const imageString = `data:${contactImage.contentType};base64,${contactImage.image}`
+        groupContactListItemImage.setAttribute("src", imageString);
+        groupContactListItemImage.style.borderRadius = "50%";
 
         // contactListItem.innerHTML = `${contact.firstname} ${contact.lastname}`;
         const groupContactListNameContainer = document.createElement("div");
@@ -6953,7 +7039,8 @@ const allUsers = await getAllUsers();
     const newContactAddPhotoSaveButton = document.querySelector("#new-contact-add-photo-insert-button");
     newContactAddPhotoSaveButton.addEventListener("click", function() {
         // newContactAddPhotoInputContainerElement.style.display = "none";
-        handleNewContactImage()
+        handleNewContactImage();
+        handleUploadNewContactImageInput();
     }, false)
 
     const newContactGenderElement = document.querySelector("#new-contact-gender")
@@ -7020,6 +7107,7 @@ const allUsers = await getAllUsers();
 
     const createNewContactButton = document.querySelector("#create-new-contact-button")
     createNewContactButton.addEventListener("click", function() {
+        postNewContactImage()
         postNewContact()
     });
 };
@@ -7225,6 +7313,66 @@ const allUsers = await getAllUsers();
     document.body.style.overflow = "hidden"
 }
 
+async function handleUploadNewContactImageInput() {
+    // let imageFile;
+    // let image;
+    // const newUserImageElement = document.querySelector("#edit-user-image");
+
+    const newContactImageElement = document.querySelector("#new-contact-image");
+    let newContactImageFile;
+    let newContactImage;
+    const newContactAddPhotoInputElement = document.querySelector("#new-contact-add-photo")
+
+        newContactImageFile = newContactAddPhotoInputElement.files[0];
+        let reader = new FileReader()
+
+        console.log(newContactImageFile)
+
+        reader.onload = function () {
+            base64string = reader.result.split(',')[1]
+            newContactImage = reader.result;
+            newContactImageElement.setAttribute("src", reader.result);
+            newContactImageElement.style.borderRadius = "50%"
+        };
+
+        if (newContactImageFile !== undefined) {
+            reader.readAsDataURL(newContactImageFile)
+        } else {
+            newContactImageElement.setAttribute("src", './images/user-2-svgrepo-com.svg')
+        }
+
+    // const editUserAddPhotoFormElement = document.querySelector("#edit-user-add-photo-form");
+    // const editUserAddPhotoInputElement = document.querySelector("#edit-user-add-photo");
+    // console.log(editUserAddPhotoFormElement)
+    let imageFile = newContactAddPhotoInputElement.files[0];
+
+    async function createIconImageFile() {
+    const newContactImageElement = document.querySelector("#new-contact-image")
+    const newContactImageUrl = newContactImageElement.getAttribute("src")
+    let newContactImageFile;
+        return fetch(newContactImageUrl)
+            .then(response => response.blob()) // Get the image as a Blob
+            .then(async (blob) => {
+            // Now 'blob' contains the image data as a Blob object
+            // You can then create a File object from the blob if necessary:
+            const filename = newContactImageUrl.substring(newContactImageUrl.lastIndexOf('/') + 1); // Extract filename from URL
+            newContactImageFile = new File([blob], filename, { type: blob.type });
+
+            console.log(newContactImageFile); // This is your image file object
+
+            return newContactImageFile
+        })
+    }
+
+    if (imageFile === undefined) {
+        imageFile = await createIconImageFile()
+    }
+        
+    console.log(imageFile)
+
+    return imageFile
+}
+
 async function handleNewContactImage() {
     const newContactImageElement = document.querySelector("#new-contact-image");
     let newContactImageFile;
@@ -7327,7 +7475,7 @@ const allUsers = await getAllUsers();
         address: newContactAddressElement.value,
         socialMedia: newContactSocialMediaElement.value,
         notes: newContactNotesElement.value,
-        contactImage: newContactImageElement.getAttribute("src")
+        contactImage: null
     };
 
     console.log(newContactObject)
@@ -7470,10 +7618,11 @@ async function postNewUser() {
     const emailaddress = registerUserObject.emailAddress;
     const phonenumber = registerUserObject.phonenumber;
     const user_password = registerUserObject.password;
+    const user_image = registerUserObject.userImage
 
     console.log(registerUserObject)
 
-    const body = { user_id, session_id, firstname, lastname, emailaddress, phonenumber, user_password };
+    const body = { user_id, session_id, firstname, lastname, emailaddress, phonenumber, user_password, user_image };
     try {
         const response = await fetch(`/users`, {
             method: "POST",
@@ -7485,6 +7634,7 @@ async function postNewUser() {
         console.error(err)
     }
 
+    // alert("You have registered a new account.")
     window.location.href = `${rootUrl}/login`
 };
 
@@ -8115,7 +8265,7 @@ async function postNewContact() {
         console.error(err)
     }
 
-    window.location.href = `${rootUrl}/contacts`
+    // window.location.href = `${rootUrl}/contacts`
 };
 
 async function mobilePostNewContact() {
@@ -8159,7 +8309,101 @@ async function mobilePostNewContact() {
     }
 
     window.location.href = `${rootUrl}/contacts`
-}
+};
+
+async function getAContactImage(user_id, contact_id) {
+    try {
+    const response = await fetch(`/contact_images/${user_id}/${contact_id}`);
+    const jsonData = await response.json();
+    return jsonData;   
+    } catch (err) {
+    console.error(err.message)
+    }
+};
+
+async function postNewContactImage() {
+    const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const user_id = matchingUser.user_id;
+    const imageFile = await handleUploadNewContactImageInput();
+    console.log(imageFile)
+
+    const newContactObject = await handleNewContactInput();
+    const contact_id = newContactObject.contactId;
+
+        //   if (imageFile) {
+            const formData = new FormData();
+            formData.append('id', user_id);
+            formData.append('contact_id', contact_id)
+            formData.append('newContactAddPhoto', imageFile); // 'image' matches the input name
+
+            try {
+                const response = await fetch(`/contact_images`, {
+                    method: 'POST',
+                    body: formData,
+                });
+                const result = await response.json();
+                console.log(result);
+            } catch (error) {
+                console.error('Error uploading image:', error);
+            }
+        // }
+
+         const newContactAddPhotoInputElement = document.querySelector("#new-contact-add-photo");
+         newContactAddPhotoInputElement.value = ""
+
+        //  alert("Updated your profile picture.")
+        //  window.location.reload()
+};
+
+async function putContactImage() {
+    const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const user_id = matchingUser.user_id;
+
+    const url = window.location.href.toString()
+    const urlBeforeQuery = url.split('?')[0];
+    const contact_id = urlBeforeQuery.split('contact_')[1]
+
+    console.log(contact_id)
+
+    const imageFile = await handleEditContactUploadImageInput();
+    console.log(imageFile)
+
+        //   if (imageFile) {
+            const formData = new FormData();
+            formData.append('id', contact_id)
+            formData.append('editContactAddPhoto', imageFile); // 'image' matches the input name
+
+            try {
+                const response = await fetch(`/contact_images/${user_id}/${contact_id}`, {
+                    method: 'PUT',
+                    body: formData,
+                });
+                const result = await response.json();
+                console.log(result);
+            } catch (error) {
+                console.error('Error uploading image:', error);
+            }
+        // }
+
+         const editContactAddPhotoInputElement = document.querySelector("#edit-contact-add-photo");
+         editContactAddPhotoInputElement.value = "";
+
+         window.location.reload();
+};
 
 async function getUserContact(user_id, contact_id) {
     try {
@@ -8363,7 +8607,7 @@ const allUsers = await getAllUsers();
         console.error(error)
     };
 
-   window.location.reload()
+//    window.location.reload()
 };
 
 async function mobileUpdateContactImage() {

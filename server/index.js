@@ -137,7 +137,7 @@ app.get("/user_images/:user_id", async (req, res) => {
             console.error('Error fetching image:', error);
             res.status(500).send('Server error');
         }
-})
+});
 
 //post a user image
 app.post("/user_images", upload.single('imageFile'), async (req, res) => {
@@ -216,14 +216,13 @@ app.get("/users/:user_id", async (req, res) => {
 //post a user
 app.post("/users", async (req, res) => {
     try {
-       const {user_id, session_id, firstname, lastname, emailaddress, phonenumber, user_password} = req.body;
-       const newUser = await pool.query("INSERT INTO users (user_id, session_id, firstname, lastname, emailaddress, phonenumber, user_password) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *", [user_id, session_id, firstname, lastname, emailaddress, phonenumber, user_password])
+       const {user_id, session_id, firstname, lastname, emailaddress, phonenumber, user_password, user_image} = req.body;
+       const newUser = await pool.query("INSERT INTO users (user_id, session_id, firstname, lastname, emailaddress, phonenumber, user_password, user_image) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *", [user_id, session_id, firstname, lastname, emailaddress, phonenumber, user_password, user_image])
        res.json(newUser.rows[0]);
     } catch (error) {
         console.error(error.message)
     }
 });
-
 
 //edit a user
 app.put("/users/:user_id", async (req, res) => {
@@ -279,6 +278,69 @@ app.post("/contacts", async (req, res) => {
     } catch (error) {
         console.error(error.message)
     }
+});
+
+app.get("/contact_images/:user_id/:contact_id", async (req, res) => {
+    try {
+        const { user_id, contact_id } = req.params;
+        const result = await pool.query('SELECT * FROM contact_images WHERE user_id = $1 AND contact_id = $2', [user_id, contact_id]);
+    if (result.rows.length > 0) {
+                const imageData = result.rows[0].data; // bytea data as Buffer
+                const contentType = result.rows[0].mime_type; // e.g., 'image/jpeg'
+                const base64Image = imageData.toString('base64');
+                res.json({ image: base64Image, contentType: contentType });
+            } else {
+                res.status(404).send('Image not found');
+            }
+        } catch (error) {
+            console.error('Error fetching image:', error);
+            res.status(500).send('Server error');
+        }
+});
+
+//post a contact image
+app.post("/contact_images", upload.single('newContactAddPhoto'), async (req, res) => {
+    if (!req.file) {
+            return res.status(400).send('No file uploaded.');
+        }
+
+        const user_id = req.body.id;
+        const contact_id = req.body.contact_id;
+        const { originalname, mimetype, buffer } = req.file;
+
+        try {
+            // Insert image data into PostgreSQL
+            const result = await pool.query(
+                'INSERT INTO contact_images (user_id, contact_id, name, mime_type, data) VALUES ($1, $2, $3, $4, $5) RETURNING*',
+                [user_id, contact_id, originalname, mimetype, buffer]
+            );
+            res.status(201).json({ message: 'Image uploaded successfully!', id: result.rows[0].id });
+        } catch (error) {
+            console.error('Error saving image to DB:', error);
+            res.status(500).send('Error uploading image.');
+        }
+});
+
+//edit a contact image
+app.put("/contact_images/:user_id/:contact_id", upload.single('editContactAddPhoto'), async (req, res) => {
+    if (!req.file) {
+            return res.status(400).send('No file uploaded.');
+        }
+
+        const { user_id } = req.params;
+        const id = req.body.id;
+        const { originalname, mimetype, buffer } = req.file;
+
+        try {
+            // Insert image data into PostgreSQL
+            const result = await pool.query(
+                'UPDATE contact_images SET contact_id = $1, name = $2, mime_type = $3, data = $4 WHERE user_id = $5 AND contact_id = $1', [id, originalname, mimetype, buffer, user_id]
+            );
+            res.status(201).json({ message: 'Image uploaded successfully!'});
+        } catch (error) {
+            console.error('Error saving image to DB:', error);
+            res.status(500).send('Error uploading image.');
+        }
 });
 
 //update a contact

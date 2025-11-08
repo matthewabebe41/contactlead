@@ -31,7 +31,7 @@
         <div style="display: flex; flex-direction: column; width: 100%; height: 100%;">
             <div style="display: flex; flex-direction: column; justify-content: space-between; align-items: center; width: 100%; width: 84%; height: 70%; margin-left: 8%; margin-top: 7px;">
                 <div style="display: flex; flex-direction: column; align-items: center; width: 100%; height: 70px; cursor: default; padding: 2.5px;">
-                    <img id="navigate-user-page-icon" src="./images/user-5-svgrepo-com.svg" style="width: 50px; height: 50px; border: 1px solid black; border-radius: 50%;">
+                    <img id="navigate-user-page-icon" src="./images/user-5-svgrepo-com.svg" style="width: 50px; height: 50px; border: 1px solid black; border-radius: 50%; background-color: gainsboro; box-shadow: 1.4px 1.4px 1.4px;">
                     <p style="font-family: sans-serif; font-weight: bolder; margin: 0;" class="sidebar-icon-text">Account</p>
                 </div>
                 <div style="display: flex; flex-direction: column; align-items: center; width: 100%; height: 70px; cursor: default; padding: 2.5px;">
@@ -162,8 +162,10 @@
                 <h2 style="font-family: sans-serif; width: 350px; margin: 0px;">Get started, Enter details to register your account.</h2>
             </div>
             <img id="register-user-image" src="./images/user-5-svgrepo-com.svg" style="width: 20px; height: 20px; display: none;">
+            <form action="/user_images" method="POST" enctype="multipart/form-data">
+                <input id="register-user-image-input" name="registerUserImageInput" type="hidden" style="display: none;">
+            </form>
             <form id="register-user-form" style="display: flex; flex-direction: column; justify-content: space-evenly; width: 400px; height: 350px;">
-               <input id="register-user-image-input" name="registerUserImageInput" type="hidden" style="display: none;">
                 <div id="register-name-container" style="display: flex; justify-content: space-between;">
                 <div style="width: 175px;">
                     <label style="font-weight: bold;">First Name</label>
@@ -823,7 +825,9 @@
         </div>
         <div id="edit-contact-add-photo-input-container" style="position: absolute; align-items: center; width: 470px; height: 27px; top: 20.35%; border: 1px solid black; background-color: grey; box-shadow: 1px 1px; display: none; margin-left: 3px; z-index: 2;">
             <div style="display: flex; justify-content: space-between; width: 100%;">
-                <input id="edit-contact-add-photo" type="file" style="margin-left: 4px;">
+                <form id="edit-contact-add-photo-form" name="editContactAddPhotoForm" action="/contact_images" method="PUT" enctype="multipart/form-data">
+                    <input id="edit-contact-add-photo" name="editContactAddPhoto" type="file" style="margin-left: 4px;">
+                </form>
                 <div style="display: flex; margin-right: 4px;">
                     <button id="edit-contact-add-photo-insert-button">Insert</button>
                     <button id="edit-contact-remove-photo-button" style="height: 20px; margin-left: 5px; background-color: indianred; z-index: 1;">Remove</button>
@@ -1219,7 +1223,9 @@
         </div>
         <div id="new-contact-add-photo-input-container" style="position: absolute; align-items: center; width: 470px; height: 27px; top: 20.35%; border: 1px solid black; background-color: grey; box-shadow: 1px 1px; display: none; margin-left: 3px; z-index: 2;">
             <div style="display: flex; justify-content: space-between; width: 100%;">
-                <input id="new-contact-add-photo" type="file" style="margin-left: 4px;">
+                <form name="newContactAddPhotoForm" action="/contact_images" method="POST" enctype="multipart/form-data">
+                    <input id="new-contact-add-photo" name="newContactAddPhoto" type="file" style="margin-left: 4px;">
+                </form>
                 <div style="display: flex; margin-right: 4px;">
                     <button id="new-contact-add-photo-insert-button">Insert</button>
                     <button id="new-contact-remove-photo-button" style="height: 20px; margin-left: 5px; background-color: indianred; z-index: 1;">Remove</button>
