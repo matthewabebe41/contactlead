@@ -261,6 +261,35 @@ async function renderMobileRegisterContent() {
     smallSidebar.style.display = "none";
     largeSidebar.style.display = "none";
 
+      const newUserImageElement = document.querySelector("#register-user-image");
+    const newUserImageInputElement = document.querySelector("#register-user-image-input")
+    const newUserImageUrl = newUserImageElement.getAttribute("src")
+    fetch(newUserImageUrl)
+        .then(response => response.blob()) // Get the image as a Blob
+        .then(blob => {
+            // Now 'blob' contains the image data as a Blob object
+            // You can then create a File object from the blob if necessary:
+            const filename = newUserImageUrl.substring(newUserImageUrl.lastIndexOf('/') + 1); // Extract filename from URL
+            const imageFile = new File([blob], filename, { type: blob.type });
+
+            console.log(imageFile); // This is your image file object
+
+            let reader = new FileReader()
+
+            reader.onload = function () {
+                base64string = reader.result.split(',')[1]
+                // imageFile = reader.result;
+                console.log(base64string)
+                newUserImageInputElement.setAttribute("src", base64string);
+                // newUserImageElement.style.borderRadius = "50%"
+            };
+
+            if (imageFile !== undefined) {
+                reader.readAsDataURL(imageFile)
+            }; 
+        })
+        .catch(error => console.error('Error fetching image:', error));
+
      const registerUserPhoneNumberElement = document.querySelector("#mobile-register-user-phonenumber");
     // const phonenumber = newContactPhoneNumberElement.value
     // console.log(phonenumber)
@@ -321,7 +350,8 @@ async function renderMobileRegisterContent() {
     const registerUserButton = document.querySelector("#mobile-register-user-button");
     registerUserButton.addEventListener("click", function (event) {
         event.preventDefault();
-        mobilePostNewUser()
+        mobilePostNewUserImage();
+        mobilePostNewUser();
     });
 };
 
@@ -467,6 +497,7 @@ async function handleMobileRegisterInput(event) {
         emailAddress: registerUserEmailElement.value,
         phonenumber: registerUserPhonenumberElement.value,
         password: registerUserPasswordElement.value,
+        userImage: null
     };
 
     if (registerUserObject.password !== confirmationPassword) {
@@ -740,6 +771,12 @@ mobileFavoritesListMenuItem.addEventListener("click", function() {
     mobileFavoritesListMenuItem.style.backgroundColor = "lightgrey";
     mobileFavoritesListMenuItem.style.color = "white";
     window.location.href = `${rootUrl}/favorite_contacts`;
+});
+const mobileFGroupsListMenuItem = document.querySelector("#mobile-groups-list-menu-item");
+mobileFGroupsListMenuItem.addEventListener("click", function() {
+    mobileFGroupsListMenuItem.style.backgroundColor = "lightgrey";
+    mobileFGroupsListMenuItem.style.color = "white";
+    window.location.href = `${rootUrl}/groups`;
 });
 // const mobileSearchContactsMenuItem = document.querySelector("#mobile-search-contacts-menu-item");
 // mobileSearchContactsMenuItem.addEventListener("click", function() {
@@ -1059,6 +1096,10 @@ const allUsers = await getAllUsers();
         contactImageItem.style.borderRadius = "50%";
         contactImageItem.style.backgroundColor = "gainsboro";
         contactImageItem.style.objectFit = "cover";
+        // const contact_id = contact.contact_id;
+        // const contactImage = await getAContactImage(userId, contact_id)
+        // const imageString = `data:${contactImage.contentType};base64,${contactImage.image}`
+        // contactImageItem.setAttribute("src", imageString);
 
         const contactListItemNameContainer = document.createElement("div");
         contactListItemNameContainer.style.display = "flex";
@@ -1202,7 +1243,7 @@ const allUsers = await getAllUsers();
         console.log(element.firstChild.firstChild)
         const contactImageElement = element.firstChild.firstChild;
         const contactId = element.getAttribute('id')
-           // const contact_id = contact.contact_id;
+        // const contact_id = contact.contact_id;
         const contactImage = await getAContactImage(userId, contactId)
         const imageString = `data:${contactImage.contentType};base64,${contactImage.image}`
         contactImageElement.setAttribute("src", imageString);
@@ -1713,7 +1754,7 @@ async function contactsAutocompleteSearch() {
                 let matchContactName = `${userContacts[i].firstname} ${userContacts[i].lastname}`
                 if (contactName.toLowerCase() === matchContactName.toLowerCase()) {
                     filteredContacts.push(userContacts[i])
-                    // console.log(filteredContacts)
+                    console.log(filteredContacts)
                 }
             }
         }
@@ -1747,7 +1788,6 @@ async function contactsAutocompleteSearch() {
       const uniqueArray = removeDuplicates(filteredContacts);
       console.log(uniqueArray); // Output: [1, 2, 3, 4, 5]
 
-    if (filteredContacts.length > 0) {
         searchContactsAutocompleteList.style.display = 'block';
         mobileContactsSearchListElement.style.display = "none"
         uniqueArray.forEach(contact => {
@@ -1841,7 +1881,7 @@ async function contactsAutocompleteSearch() {
             searchContactsAutocompleteList.appendChild(contactsAutoCompleteListItem);
             mobileContactsSearchListContainer.appendChild(searchContactsAutocompleteList)
         });
-    }};
+    };
 }
    
 async function renderUserContent() {
@@ -2062,56 +2102,75 @@ const allUsers = await getAllUsers();
     const userImage = await getAUserImage(userId)
 
     const userImageContainer = document.querySelector("#user-image-container");
-    // const userImage = new Image();
 
     const editUserImage = document.querySelector("#edit-user-image");
     const imageString = `data:${userImage.contentType};base64,${userImage.image}`
-    console.log(userImage.contentType)
+    // console.log(userImage.contentType)
 
     editUserImage.setAttribute("src", imageString)
     editUserImage.style.borderRadius = "50%"
-
-    // const editUserImage = document.querySelector("#edit-user-image");
-    // if (user.user_image !== null && user.user_image !== './images/user-5-svgrepo-com.svg') {
-    //     editUserImage.setAttribute("src", user.user_image);
-    //     editUserImage.style.borderRadius = "50%"
-    // };
-
-    // const id = 7;
-    // const image = await getAnImage(id);
-    // const imageString = `data:${image.contentType};base64,${image.image}`
-    // console.log(image.contentType)
-    // const imageElement = document.querySelector("#image")
-
-    // imageElement.setAttribute("src", imageString)
     
-    const editUserSaveButton = document.querySelector("#edit-user-save-photo")
     const editUserAddPhotoButton = document.querySelector("#edit-user-add-photo-button");
-
 
     const editUserRemovePhotoButton = document.querySelector("#edit-user-remove-photo-button");
     editUserRemovePhotoButton.addEventListener("click", function() {
-        const editUserAddPhotoInputElement = document.querySelector("#edit-user-add-photo");
-        // editUserAddPhotoInputElement.value = "";
-      
-        // if (editUserImage.getAttribute("src") !==)
-        // const editUserImage = document.querySelector("#edit-user-image");
-        // const imageString = `data:${userImage.contentType};base64,${userImage.image}`
-        // console.log(userImage.contentType)
-        
-        // editUserAddPhotoButton.innerHTML = "Change Photo"
+    
+    const editUserAddPhotoInputElement = document.querySelector("#edit-user-add-photo");
+    
+    let editUserImageSrcStr = editUserImage.getAttribute("src").toString();
+    let startIndex = editUserImageSrcStr.indexOf('d');
+    let endIndex = editUserImageSrcStr.indexOf(',');
+    
+    if (startIndex !== -1 && endIndex !== -1 && endIndex > startIndex) {
+        let part1 = editUserImageSrcStr.slice(0, startIndex);
+        let part2 = editUserImageSrcStr.slice(endIndex + 1);
+        editUserImageSrcStr = part1 + part2;
+    }
+     
+    const decodedEditUserImage = atob(editUserImageSrcStr)
+    
+    const checkEditUserImageElement = document.querySelector("#check-edit-user-image");
+    const checkEditUserImageUrl = checkEditUserImageElement.getAttribute("src");
 
-        // if (editUserImage.getAttribute("src") === imageString) {
-        //     editUserAddPhotoButton.innerHTML = "Change Photo"
-        // }
+    fetch(checkEditUserImageUrl)
+        .then(response => response.blob()) // Get the image as a Blob
+        .then(blob => {
+            // Now 'blob' contains the image data as a Blob object
+            // You can then create a File object from the blob if necessary:
+            const filename = checkEditUserImageUrl.substring(checkEditUserImageUrl.lastIndexOf('/') + 1); // Extract filename from URL
+            const imageFile = new File([blob], filename, { type: blob.type });
 
+            console.log(imageFile); // This is your image file object
+
+            let reader = new FileReader()
+
+            reader.onload = function () {
+                base64string = reader.result.split(',')[1]
+                // imageFile = reader.result;
+                // console.log(base64string)
+                // newUserImageInputElement.setAttribute("src", base64string);
+                // newUserImageElement.style.borderRadius = "50%"
+
+                const decodedDefaultUserImage = atob(base64string)
+
+                // console.log(decodedEditUserImage)
+
+                if (decodedDefaultUserImage !== decodedEditUserImage) {
+                      editUserAddPhotoButton.innerHTML = "Save Photo"
+                }
+
+            };
+
+            if (imageFile !== undefined) {
+                reader.readAsDataURL(imageFile)
+            }; 
+        })
+        .catch(error => console.error('Error fetching image:', error));
 
         if (editUserImage.getAttribute("src") === imageString && editUserAddPhotoInputElement.value === "") {
             editUserImage.setAttribute("src", "./images/user-5-svgrepo-com.svg")
-            // editUserAddPhotoButton.innerHTML = "Save Photo"
         } else if (editUserImage.getAttribute("src") !== imageString && editUserAddPhotoInputElement.value === "") {
             editUserImage.setAttribute("src", "./images/user-5-svgrepo-com.svg")
-            // editUserAddPhotoButton.innerHTML = "Save Photo"
         } else if (editUserImage.getAttribute("src") === imageString && editUserAddPhotoInputElement.value !== "") {
             editUserAddPhotoInputElement.value = "";
             editUserImage.setAttribute("src", "./images/user-5-svgrepo-com.svg")
@@ -2124,8 +2183,6 @@ const allUsers = await getAllUsers();
         }
     })
 
-    console.log(userImage)
-    // const editUserAddPhotoButton = document.querySelector("#edit-user-add-photo-button");
     if (userImage !== null && userImage !== undefined) {
         editUserAddPhotoButton.innerHTML = "Change Photo"
     }
@@ -2133,32 +2190,12 @@ const allUsers = await getAllUsers();
     editUserAddPhotoButton.formAction = `${window.currentUrl}`
     editUserAddPhotoButton.addEventListener("click", function(event) {
         // event.preventDefault()
-      
-         const editUserAddPhotoForm = document.querySelector("#edit-user-add-photo-form");
-        if (editUserAddPhotoButton.innerHTML === "Save Photo") {
-            // updateUserImage()
-            putNewUserImage()
-            // postImage()
-            // event.preventDefault()
-            // editUserAddPhotoForm.submit(function(event) {
-            //     event.preventDefault()
-            // }, false)
-            // postImage()
-        }
-    });
 
-    editUserSaveButton.addEventListener("click", function(event) {
-        const editUserAddPhotoInputContainerElement = document.querySelector("#edit-user-add-photo-input-container")
-        
-        if (editUserImage.getAttribute("src") !== imageString) {
-            editUserAddPhotoInputContainerElement.style.display = "none";
-            // updateUserImage();
-            putNewUserImage();
-        } else {
-            event.preventDefault()
-            alert("Please insert a new image.")
-        }
-    })
+        if (editUserAddPhotoButton.innerHTML === "Save Photo") {
+            putNewUserImage()
+        } 
+
+    });
 
     const editUserAddPhotoInputContainerElement = document.querySelector("#edit-user-add-photo-input-container")
     editUserAddPhotoButton.addEventListener("click", function(event) {
@@ -2187,53 +2224,13 @@ const allUsers = await getAllUsers();
 
         
         if (editUserAddPhotoInputElement.files[0] !== undefined) {
-            // editUserAddPhotoButton.innerHTML = "Save Photo"
+            editUserAddPhotoButton.innerHTML = "Save Photo"
             // handleEditUserImage()
             handleUploadImageInput()
+        } else {
+            alert("Please choose an image before inserting.")
         }
     })
-
-    const editUserAddPhotoForm = document.querySelector("#edit-user-add-photo-form");
-    console.log(editUserAddPhotoForm)
-    editUserAddPhotoForm.addEventListener("submit", async (event) => {
-        // event.preventDefault();
-        // postImage()
-        //    handleUploadImageInput()
-    })
-
-    async function postImage() {
-        const allUsers = await getAllUsers();
-        const sessionId = sessionStorage.getItem("user");
-        let matchingUser;
-            for (let i = 0; i < allUsers.length; i++) {
-                if (allUsers[i].session_id === sessionId) {
-                matchingUser = allUsers[i]
-                }
-            }
-        const user_id = matchingUser.user_id;
-        const editUserAddPhotoInputElement = document.querySelector("#edit-user-add-photo");
-        const imageFile = editUserAddPhotoInputElement.files[0];
-
-        // const id = 1;
-        console.log(user_id)
-
-            if (imageFile) {
-            const formData = new FormData();
-            formData.append('id', user_id)
-            formData.append('editUserAddPhoto', imageFile); // 'image' matches the input name
-
-            try {
-                const response = await fetch(`/images`, {
-                    method: 'POST',
-                    body: formData,
-                });
-                const result = await response.json();
-                console.log(result);
-            } catch (error) {
-                console.error('Error uploading image:', error);
-            }
-        }
-    }
 
     const editUserFirstNameElement = document.querySelector("#edit-user-firstname");
     const editUserLastNameElement = document.querySelector("#edit-user-lastname");
@@ -2385,59 +2382,132 @@ const allUsers = await getAllUsers();
     const userId = matchingUser.user_id;
     const user = await getUser(userId);
 
+    const userImage = await getAUserImage(userId)
+
     const editUserImage = document.querySelector("#mobile-edit-user-image");
-    if (user.user_image !== null && user.user_image !== './images/user-5-svgrepo-com.svg') {
-        editUserImage.setAttribute("src", user.user_image);
-        editUserImage.style.borderRadius = "50%"
-    };
+    const imageString = `data:${userImage.contentType};base64,${userImage.image}`
+    console.log(userImage.contentType)
+    editUserImage.setAttribute("src", imageString)
+    editUserImage.style.borderRadius = "50%"
+
+    const editUserAddPhotoButton = document.querySelector("#mobile-edit-user-add-photo-button");
 
     const editUserRemovePhotoButton = document.querySelector("#mobile-edit-user-remove-photo-button");
-    const editUserAddPhotoButton = document.querySelector("#mobile-edit-user-add-photo-button");
     editUserRemovePhotoButton.addEventListener("click", function() {
-        const editUserAddPhotoInputElement = document.querySelector("#mobile-edit-user-add-photo")
-        editUserAddPhotoInputElement.value = ""
-        // editUserImage.setAttribute("src", "./images/user-5-svgrepo-com.svg")
-        if (editUserImage.getAttribute("src") !== "./images/user-5-svgrepo-com.svg") {
-            editUserAddPhotoButton.innerHTML = "Save Photo";
+        const editUserAddPhotoInputElement = document.querySelector("#mobile-edit-user-add-photo");
+       
+        let editUserImageSrcStr = editUserImage.getAttribute("src").toString();
+        let startIndex = editUserImageSrcStr.indexOf('d');
+        let endIndex = editUserImageSrcStr.indexOf(',');
+    
+        if (startIndex !== -1 && endIndex !== -1 && endIndex > startIndex) {
+            let part1 = editUserImageSrcStr.slice(0, startIndex);
+            let part2 = editUserImageSrcStr.slice(endIndex + 1);
+            editUserImageSrcStr = part1 + part2;
+        };
+    
+        const decodedEditUserImage = atob(editUserImageSrcStr)
+        const checkEditUserImageElement = document.querySelector("#check-edit-user-image");
+        const checkEditUserImageUrl = checkEditUserImageElement.getAttribute("src");
+
+            fetch(checkEditUserImageUrl)
+        .then(response => response.blob()) // Get the image as a Blob
+        .then(blob => {
+            // Now 'blob' contains the image data as a Blob object
+            // You can then create a File object from the blob if necessary:
+            const filename = checkEditUserImageUrl.substring(checkEditUserImageUrl.lastIndexOf('/') + 1); // Extract filename from URL
+            const imageFile = new File([blob], filename, { type: blob.type });
+
+            console.log(imageFile); // This is your image file object
+
+            let reader = new FileReader()
+
+            reader.onload = function () {
+                base64string = reader.result.split(',')[1]
+                // imageFile = reader.result;
+                // console.log(base64string)
+                // newUserImageInputElement.setAttribute("src", base64string);
+                // newUserImageElement.style.borderRadius = "50%"
+
+                const decodedDefaultUserImage = atob(base64string)
+
+                // console.log(decodedEditUserImage)
+
+                if (decodedDefaultUserImage !== decodedEditUserImage) {
+                      editUserAddPhotoButton.innerHTML = "Save Photo"
+                }
+
+            };
+
+            if (imageFile !== undefined) {
+                reader.readAsDataURL(imageFile)
+            }; 
+        })
+        .catch(error => console.error('Error fetching image:', error));
+
+        if (editUserImage.getAttribute("src") === imageString && editUserAddPhotoInputElement.value === "") {
+            editUserImage.setAttribute("src", "./images/user-5-svgrepo-com.svg")
+        } else if (editUserImage.getAttribute("src") !== imageString && editUserAddPhotoInputElement.value === "") {
+            editUserImage.setAttribute("src", "./images/user-5-svgrepo-com.svg")
+        } else if (editUserImage.getAttribute("src") === imageString && editUserAddPhotoInputElement.value !== "") {
+            editUserAddPhotoInputElement.value = "";
+            editUserImage.setAttribute("src", "./images/user-5-svgrepo-com.svg")
+        } else if (editUserImage.getAttribute("src") !== imageString && editUserAddPhotoInputElement.value !== "") {
+            editUserAddPhotoInputElement.value = "";
+            editUserImage.setAttribute("src", "./images/user-5-svgrepo-com.svg")
+        } else if (editUserImage.getAttribute("src") !== "./images/user-5-svgrepo-com.svg" && editUserAddPhotoInputElement.value === "") {
+            editUserImage.setAttribute("src", imageString);
+            editUserAddPhotoButton.innerHTML = "Change Photo"
         }
-        editUserImage.setAttribute("src", "./images/user-5-svgrepo-com.svg")
     });
 
-    if (user.user_image !== null && user.user_image !== './images/user-5-svgrepo-com.svg') {
+    if (userImage !== null && userImage !== undefined) {
         editUserAddPhotoButton.innerHTML = "Change Photo"
     };
 
-    editUserAddPhotoButton.addEventListener("click", function() {
-        const editUserAddPhotoInputContainerElement = document.querySelector("#mobile-edit-user-add-photo-input-container")
-        editUserAddPhotoInputContainerElement.style.display = "none";
+    editUserAddPhotoButton.formAction = `${window.currentUrl}`
+    editUserAddPhotoButton.addEventListener("click", function(event) {
+        // event.preventDefault()
+      
         if (editUserAddPhotoButton.innerHTML === "Save Photo") {
-            mobileUpdateUserImage()
+            mobilePutNewUserImage()
         }
+
     });
 
     const editUserAddPhotoInputContainerElement = document.querySelector("#mobile-edit-user-add-photo-input-container")
-    editUserAddPhotoButton.addEventListener("click", function() {
-        console.log("edit photo")
+    editUserAddPhotoButton.addEventListener("click", function(event) {
+        // event.preventDefault()
         if (editUserAddPhotoButton.innerHTML !== "Save Photo") {
             editUserAddPhotoInputContainerElement.style.display = "flex";
         }
     });
+
     const closeEditUserAddPhotoIcon = document.querySelector("#mobile-close-edit-user-add-photo-icon");
     closeEditUserAddPhotoIcon.addEventListener("click", function(event) {
-        window.location.reload()
+        // window.location.reload()
+        editUserImage.setAttribute("src", imageString);
+        const editUserAddPhotoInputElement = document.querySelector("#mobile-edit-user-add-photo");
+        editUserAddPhotoInputElement.value = "";
+        const editUserAddPhotoInputContainerElement = document.querySelector("#mobile-edit-user-add-photo-input-container")
+        editUserAddPhotoInputContainerElement.style.display = "none";
+        editUserAddPhotoButton.innerHTML = "Change Photo"
       
     })
     const editUserAddPhotoSaveButton = document.querySelector("#mobile-edit-user-add-photo-insert-button");
     editUserAddPhotoSaveButton.addEventListener("click", function() {
         // editUserAddPhotoInputContainerElement.style.display = "none";
         const editUserAddPhotoInputElement = document.querySelector("#mobile-edit-user-add-photo")
-        console.log(editUserAddPhotoInputElement.files[0])
-
+        console.log(editUserAddPhotoInputElement.files[0]);
+        
         if (editUserAddPhotoInputElement.files[0] !== undefined) {
             editUserAddPhotoButton.innerHTML = "Save Photo"
-            handleMobileEditUserImage()
+            // handleEditUserImage()
+            mobileHandleUploadImageInput()
+        } else {
+            alert("Please choose a file before inserting")
         }
-    }, false)
+    })
 
        requestAnimationFrame(() => {
         const screenWidth = window.innerWidth;
@@ -2706,7 +2776,69 @@ async function handleUploadImageInput() {
     // editUserAddPhotoInputElement.value = ""
 
     return imageFile
-}
+};
+
+async function mobileHandleUploadImageInput() {
+    // let imageFile;
+    // let image;
+    // const newUserImageElement = document.querySelector("#edit-user-image");
+
+    const newUserImageElement = document.querySelector("#mobile-edit-user-image");
+    let newUserImageFile;
+    let newUserImage;
+    const editUserAddPhotoInputElement = document.querySelector("#mobile-edit-user-add-photo")
+
+        newUserImageFile = editUserAddPhotoInputElement.files[0];
+        let reader = new FileReader()
+
+        console.log(newUserImageFile)
+
+        reader.onload = function () {
+            base64string = reader.result.split(',')[1]
+            newUserImage = reader.result;
+            newUserImageElement.setAttribute("src", reader.result);
+            newUserImageElement.style.borderRadius = "50%"
+        };
+
+        if (newUserImageFile !== undefined) {
+            reader.readAsDataURL(newUserImageFile)
+        } else {
+            newUserImageElement.setAttribute("src", './images/user-5-svgrepo-com.svg')
+        }
+
+    const editUserAddPhotoFormElement = document.querySelector("#mobile-edit-user-add-photo-form");
+    // const editUserAddPhotoInputElement = document.querySelector("#edit-user-add-photo");
+    // console.log(editUserAddPhotoFormElement)
+    let imageFile = editUserAddPhotoInputElement.files[0];
+
+    async function createIconImageFile() {
+    const editUserImageElement = document.querySelector("#mobile-edit-user-image")
+    const editUserImageUrl = editUserImageElement.getAttribute("src")
+    let editImageFile;
+        return fetch(editUserImageUrl)
+            .then(response => response.blob()) // Get the image as a Blob
+            .then(async (blob) => {
+            // Now 'blob' contains the image data as a Blob object
+            // You can then create a File object from the blob if necessary:
+            const filename = editUserImageUrl.substring(editUserImageUrl.lastIndexOf('/') + 1); // Extract filename from URL
+            editImageFile = new File([blob], filename, { type: blob.type });
+
+            console.log(editImageFile); // This is your image file object
+
+            return editImageFile
+        })
+    }
+
+    if (imageFile === undefined) {
+        imageFile = await createIconImageFile()
+    }
+        
+    console.log(imageFile)
+
+    // editUserAddPhotoInputElement.value = ""
+
+    return imageFile
+};
 
 async function handleMobileEditUserImage() {
 const allUsers = await getAllUsers();
@@ -4143,7 +4275,10 @@ const allUsers = await getAllUsers();
     mobileEditContactButtonContainer.style.width = "95%";
     // mobileEditContactButtonContainer.style.top = "86.5%"
     mobileEditContactButtonContainer.style.marginTop = "30px"
+    const mobileManageAndEditContactButtonsContainer = document.createElement("div");
+
     const mobileEditContactButtonDiv = document.createElement("div");
+    mobileEditContactButtonDiv.setAttribute("id", "mobile-edit-contact-container")
     // mobileEditContactButtonDiv.style.position = "absolute";
     mobileEditContactButtonDiv.style.display = "flex";
     mobileEditContactButtonDiv.style.justifyContent = "space-between";
@@ -4153,10 +4288,14 @@ const allUsers = await getAllUsers();
     mobileAddContactFavoritesButton.innerHTML = "Add to favorites";
     mobileAddContactFavoritesButton.style.backgroundColor = "green";
     mobileAddContactFavoritesButton.style.color = "white";
+    const mobileManageGroupsButtonElement = document.createElement("button");
+    mobileManageGroupsButtonElement.setAttribute("id", "mobile-navigate-manage-contact-groups-button");
+    mobileManageGroupsButtonElement.innerHTML = "Manage Groups"
+    mobileManageGroupsButtonElement.style.marginRight = "2.5px"
     const mobileEditContactButtonElement = document.createElement("button");
     mobileEditContactButtonElement.setAttribute("id", "mobile-navigate-edit-contact-page-button");
     mobileEditContactButtonElement.style.width = "50px";
-    // mobileEditContactButtonElement.style.marginRight = "1.5%";
+    mobileEditContactButtonElement.style.marginLeft = "2.5px";
     mobileEditContactButtonElement.innerHTML = "Edit";
 
     if (contact.favorite === true) {
@@ -4209,8 +4348,10 @@ const allUsers = await getAllUsers();
     mobileContactNotesTextContainer.appendChild(mobileContactNotesTextElement);
     mobileContactNotesContainer.appendChild(mobileContactNotesTextContainer);
 
+    mobileManageAndEditContactButtonsContainer.appendChild(mobileManageGroupsButtonElement);
+    mobileManageAndEditContactButtonsContainer.appendChild(mobileEditContactButtonElement);
     mobileEditContactButtonDiv.appendChild(mobileAddContactFavoritesButton);
-    mobileEditContactButtonDiv.appendChild(mobileEditContactButtonElement);
+    mobileEditContactButtonDiv.appendChild(mobileManageAndEditContactButtonsContainer);
     mobileEditContactButtonContainer.appendChild(mobileEditContactButtonDiv);
 
     mobileContactInformationContainer.appendChild(mobileContactInformationColumn);
@@ -4222,6 +4363,34 @@ const allUsers = await getAllUsers();
     mobileContactImageElement.style.borderRadius = "50%"
     mobileContactImageElement.setAttribute("src", contact.contact_image)
    }
+
+    const navigateManageContactGroupsPageButton = document.querySelector("#mobile-navigate-manage-contact-groups-button");
+    navigateManageContactGroupsPageButton.addEventListener("click", function() {
+     function saveDataToURL(url, data) {
+            const urlObject = new URL(url);
+            const params = new URLSearchParams(urlObject.search);
+        
+            for (const key in data) {
+                if (data.hasOwnProperty(key)) {
+                    params.set(key, data[key]);
+                }
+            }
+            urlObject.search = params.toString();
+            return urlObject.toString();
+        }
+        
+        const myURL = `${rootUrl}/manage_groups_contact_${contact_id}`;
+        const myData = {
+            name: `${contact.firstname} ${contact.lastname}`,
+            // age: 30,
+            // city: "New York"
+        };
+        
+        const newURL = saveDataToURL(myURL, myData);
+        console.log(newURL);
+        // Expected output: "https://example.com/page?name=John+Doe&age=30&city=New+York"
+        window.location.href = newURL
+    });
 
     const navigateEditContactPageButton = document.querySelector("#mobile-navigate-edit-contact-page-button");
     navigateEditContactPageButton.addEventListener("click", function() {
@@ -5599,22 +5768,44 @@ async function renderGroupsListContent() {
     const userContactGroupings = await getUserContactGroupings(userId)
     console.log(userContactGroupings)
 
-     requestAnimationFrame(() => {
-        const groupsListContainer = document.querySelector("#groups-list-container");
-        const screenHeight = window.innerHeight;
-        const elementHeight = screenHeight * 0.093;
-        const roundedElementHeightStr = elementHeight.toString() + "px"
+    // const searchGroupsAutocompleteList = document.querySelector("#autocomplete-groups-list");
+    const searchGroupsAutocompleteList = document.createElement("ul")
+    searchGroupsAutocompleteList.setAttribute("id", "autocomplete-groups-list")
+    searchGroupsAutocompleteList.style.listStyle = "none";
+    // searchGroupsAutocompleteList.style.height = "100%";
+    searchGroupsAutocompleteList.style.margin = "0px 0px 0px 12px";
+    searchGroupsAutocompleteList.style.padding = "0px";
+    // searchGroupsAutocompleteList.innerHTML = '';
 
-         console.log(screenHeight)
+    const groupsListContainer = document.createElement("div");
+    groupsListContainer.setAttribute("id", "groups-list-container");
+    groupsListContainer.style.position = "absolute";
+    groupsListContainer.style.display = "flex";
+    groupsListContainer.style.flexDirection = "column";
+    groupsListContainer.style.width = "68.5%"
+    groupsListContainer.style.top = "18%";
+    groupsListContainer.style.left = "31.5%";
+    //  requestAnimationFrame(() => {
+    //     const screenHeight = window.innerHeight;
+    //     const elementHeight = screenHeight * 0.093;
+    //     const roundedElementHeightStr = elementHeight.toString() + "px"
 
-         console.log(elementHeight.toString())
+    //      console.log(screenHeight)
+
+    //      console.log(elementHeight.toString())
          
 
-        groupsListContainer.style.marginTop = roundedElementHeightStr
-    });
+    //     groupsListContainer.style.marginTop = roundedElementHeightStr
+    // });
 
-    const groupsList = document.querySelector("#groups-list");
-    groupsList.style.display = "block";
+    // const groupsList = document.querySelector("#groups-list");
+    const groupsList = document.createElement("ul");
+    groupsList.setAttribute("id", "groups-list")
+    groupsList.style.listStyle = "none";
+    // groupsList.style.height = "100%";
+    groupsList.style.margin = "0px 0px 0px 12px";
+    groupsList.style.padding = "0px";
+    // groupsList.style.display = "block";
     // groupsList.style.flexDirection = "row";
     // groupsList.style.justifyContent = "space-around"
     
@@ -5626,7 +5817,7 @@ async function renderGroupsListContent() {
         groupListItem.style.display = "inline-flex";
         groupListItem.style.flexDirection = "column";
         groupListItem.style.width = "30%";
-        groupListItem.style.height = "30%";
+        groupListItem.style.height = "150px";
         groupListItem.style.margin = "10px 10px 10px 10px"
         groupListItem.style.backgroundColor = "#ededed";
         groupListItem.style.border = "2px solid black";
@@ -5763,8 +5954,6 @@ async function renderGroupsListContent() {
             numberOfContactsInGroupElement.style.marginBottom = groupListItemHeaderElementHeight + "px"
         });
 
-
-
         groupListItemHeaderElement.appendChild(groupListItemEditIcon)
         groupListItemHeaderElement.appendChild(groupListItemTextElement)
         groupListItemHeaderElement.appendChild(groupListItemDeleteIcon)
@@ -5772,6 +5961,8 @@ async function renderGroupsListContent() {
         numberOfContactsInGroupContainer.appendChild(numberOfContactsInGroupElement)
         groupListItem.appendChild(numberOfContactsInGroupContainer)
         groupsList.appendChild(groupListItem)
+        groupsListContainer.appendChild(groupsList)
+        document.body.appendChild(groupsListContainer)
     });
 
     const groupsListViewElement = document.querySelector("#groups-list-view")
@@ -5789,7 +5980,8 @@ async function renderGroupsListContent() {
         groupListItemEditModalContainer.style.border = "1px solid black";
         groupListItemEditModalContainer.style.boxShadow = "2px 2px 2px";
         groupListItemEditModalContainer.style.display = "none";
-        groupListItemEditModalContainer.style.padding = "10px"
+        groupListItemEditModalContainer.style.padding = "10px";
+        groupListItemEditModalContainer.style.zIndex = "1"
         const groupListItemEditModalHeaderContainer = document.createElement("div");
         groupListItemEditModalHeaderContainer.setAttribute("id", "group-list-item-edit-modal-header-container")
         groupListItemEditModalHeaderContainer.style.display = "flex";
@@ -5870,6 +6062,16 @@ async function renderGroupsListContent() {
     let searchGroupsInputValue = searchGroupsElement.value.toLowerCase().trimEnd();
     let filteredGroups = [];
 
+    
+    // // const searchGroupsAutocompleteList = document.querySelector("#autocomplete-groups-list");
+    // const searchGroupsAutocompleteList = document.createElement("ul")
+    // searchGroupsAutocompleteList.setAttribute("id", "autocomplete-groups-list")
+    // searchGroupsAutocompleteList.style.listStyle = "none";
+    // // searchGroupsAutocompleteList.style.height = "100%";
+    // searchGroupsAutocompleteList.style.margin = "0px";
+    // searchGroupsAutocompleteList.style.padding = "0px";
+    // // searchGroupsAutocompleteList.innerHTML = '';
+
     userGroups.filter(function(group) {
         let groupName = group.groupname
 
@@ -5912,7 +6114,7 @@ async function renderGroupsListContent() {
         }
     });
 
-    const searchGroupsAutocompleteList = document.querySelector("#autocomplete-groups-list");
+    // const searchGroupsAutocompleteList = document.querySelector("#autocomplete-groups-list");
 
     searchGroupsAutocompleteList.innerHTML = '';
 
@@ -5950,9 +6152,9 @@ async function renderGroupsListContent() {
             groupsAutoCompleteListItem.style.display = "inline-flex";
             groupsAutoCompleteListItem.style.flexDirection = "column";
             groupsAutoCompleteListItem.style.width = "30%";
-            groupsAutoCompleteListItem.style.height = "30%";
+            groupsAutoCompleteListItem.style.height = "150px";
             groupsAutoCompleteListItem.style.margin = "10px 10px 10px 10px";
-            groupsAutoCompleteListItem.style.backgroundColor = "lightgrey"
+            groupsAutoCompleteListItem.style.backgroundColor = "#ededed"
             groupsAutoCompleteListItem.style.border = "2px solid black";
 
         groupsAutoCompleteListItem.addEventListener("mouseover", function() {
@@ -6092,9 +6294,10 @@ async function renderGroupsListContent() {
             groupsAutoCompleteListItem.appendChild(groupAutoCompleteListItemHeaderElement)
             groupsAutoCompleteListItem.appendChild(autoCompleteNumberOfContactsInGroupContainer)
            
-            searchGroupsAutocompleteList.appendChild(groupsAutoCompleteListItem)
-     });
-};
+            searchGroupsAutocompleteList.appendChild(groupsAutoCompleteListItem);
+        });
+    };
+    groupsListContainer.appendChild(searchGroupsAutocompleteList)
 
     groupListItemEditModalButtonElement.addEventListener("click", editUserGroup)
 
@@ -6103,6 +6306,576 @@ async function renderGroupsListContent() {
         window.location.href = `${rootUrl}/create-group`
     })
 };
+
+async function renderMobileGroupsListContent() {
+    const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const userId = matchingUser.user_id;
+    const userGroups = await getUserGroups(userId)
+    console.log(userGroups)
+    userGroups.sort(function(a, b) {
+        if (a.group_id < b.group_id) {
+            return -1;
+        }
+        if (a.group_id < b.group_id) {
+            return 1;
+        }
+    })
+
+    const userContactGroupings = await getUserContactGroupings(userId)
+    console.log(userContactGroupings)
+
+    // const searchGroupsAutocompleteList = document.querySelector("#autocomplete-groups-list");
+    const searchGroupsAutocompleteList = document.createElement("ul")
+    searchGroupsAutocompleteList.setAttribute("id", "mobile-autocomplete-groups-list");
+    searchGroupsAutocompleteList.style.display = "flex";
+    searchGroupsAutocompleteList.style.flexDirection = "column";
+    searchGroupsAutocompleteList.style.alignItems = "center";
+    searchGroupsAutocompleteList.style.listStyle = "none";
+    // searchGroupsAutocompleteList.style.height = "100%";
+    searchGroupsAutocompleteList.style.margin = "0px";
+    searchGroupsAutocompleteList.style.padding = "0px";
+    // searchGroupsAutocompleteList.innerHTML = '';
+
+    const groupsListContainer = document.createElement("div");
+    // const groupsListContainer = document.querySelector("#groups-list-container");
+    groupsListContainer.style.position = "absolute";
+    groupsListContainer.style.display = "flex";
+    groupsListContainer.style.flexDirection = "column";
+    groupsListContainer.style.width = "100%"
+    groupsListContainer.style.top = "18%";
+    // groupsListContainer.style.left = "50%";
+
+    //  requestAnimationFrame(() => {
+    //     const groupsListContainer = document.querySelector("#mobile-groups-list-container");
+    //     const screenHeight = window.innerHeight;
+    //     const elementHeight = screenHeight * 0.093;
+    //     const roundedElementHeightStr = elementHeight.toString() + "px"
+
+    //      console.log(screenHeight)
+
+    //      console.log(elementHeight.toString())
+         
+
+    //     groupsListContainer.style.marginTop = roundedElementHeightStr
+    // });
+
+    const groupsList = document.createElement("ul");
+    groupsList.setAttribute("id", "mobile-groups-list")
+    groupsList.style.listStyle = "none";
+    // groupsList.style.height = "100%";
+    groupsList.style.margin = "0px";
+    groupsList.style.padding = "0px";
+    groupsList.style.display = "flex";
+    groupsList.style.flexDirection = "column";
+    groupsList.style.alignItems = "center";
+    // groupsList.style.justifyContent = "space-around"
+    
+    userGroups.forEach(group => {
+        const groupListItem = document.createElement("div");
+        groupListItem.setAttribute("groupId", group.group_id)
+        groupListItem.setAttribute("mobileGroupName", `${group.groupname}`)
+        groupListItem.setAttribute("data", `${rootUrl}/group_${group.group_id}`);
+        groupListItem.style.display = "inline-flex";
+        groupListItem.style.flexDirection = "column";
+        groupListItem.style.width = "210px";
+        groupListItem.style.height = "145px";
+        groupListItem.style.margin = "10px 10px 10px 10px"
+        groupListItem.style.backgroundColor = "#ededed";
+        groupListItem.style.border = "2px solid black";
+
+        groupListItem.addEventListener("mouseover", function() {
+            groupListItem.style.backgroundColor = "lightgreen"
+        });
+        
+        groupListItem.addEventListener("mouseout", function() {
+            groupListItem.style.backgroundColor = "#ededed"
+        });
+
+        groupListItem.addEventListener("click", (event) => {
+            if (event.target.id === "mobile-group-list-item-edit-icon") {
+                event.preventDefault()
+                return
+            };
+
+            if (event.target.id === "mobile-group-list-item-delete-icon") {
+                event.preventDefault()
+                return
+            };
+
+            const groupListItemEditModalContainer = document.querySelector("#mobile-group-list-item-edit-modal-container")
+            if (groupListItemEditModalContainer.style.display !== "none") {
+                event.preventDefault()
+                return
+            }
+
+            if (window.location.href === groupListItem.getAttribute("data")) {
+                event.preventDefault()
+            } else {
+                function saveDataToURL(url, data) {
+                    const urlObject = new URL(url);
+                    const params = new URLSearchParams(urlObject.search);
+                
+                    for (const key in data) {
+                        if (data.hasOwnProperty(key)) {
+                            params.set(key, data[key]);
+                        }
+                    }
+                    urlObject.search = params.toString();
+                    return urlObject.toString();
+                }
+                console.log(groupListItem)
+                
+                const myURL = groupListItem.getAttribute("data");
+                console.log(myURL)
+
+                const str = groupListItem.children[1].innerText;
+                let char = "%";
+                let index = str.indexOf(char)
+
+                if (index !== -1) {
+                    str = str.split(char)[0]
+                }
+
+                const myData = {
+                    name: groupListItem.getAttribute("mobileGroupName"),
+                    // age: 30,
+                    // city: "New York"
+                };
+                
+                let newURL = saveDataToURL(myURL, myData);
+
+                if (newURL.charAt(newURL.length - 1) === '+') {
+                    console.log(newURL)
+                    let editedurl = newURL.slice(0, -1)
+                    newURL = editedurl
+                }
+               
+                // Expected output: "https://example.com/page?name=John+Doe&age=30&city=New+York"
+                window.location.href = newURL
+            }
+        });
+        
+        const groupListItemHeaderElement = document.createElement("div");
+        // groupListItemHeaderElement.style.position = "relative"
+        groupListItemHeaderElement.style.display = "flex"
+        groupListItemHeaderElement.style.justifyContent = "space-between"
+        groupListItemHeaderElement.style.width = "100%"
+        groupListItemHeaderElement.style.padding = "7px 0px"
+        groupListItemHeaderElement.style.borderBottom = "2px solid black"
+        // groupListItemHeaderElement.style.top = "2%"
+        const groupListItemEditIcon = document.createElement("img");
+        groupListItemEditIcon.setAttribute("id", "mobile-group-list-item-edit-icon")
+        groupListItemEditIcon.setAttribute("src", "./images/edit-svgrepo-com.svg")
+        groupListItemEditIcon.style.width = "20px";
+        
+        groupListItemEditIcon.addEventListener("click", function(event) {
+            const clickedGroupListItemElement = event.target;
+            const clickedGroupListItemElementParentElement = clickedGroupListItemElement.parentElement;
+            const groupListItemToEdit = clickedGroupListItemElementParentElement.parentElement;
+            groupListItemToEdit.classList.remove("edit-inactive");
+            groupListItemToEdit.classList.add("edit-active")
+            console.log("open edit modal")
+            groupListItemEditModalContainer.style.display = "flex"
+        })
+        const groupListItemTextElement = document.createElement("h4");
+        groupListItemTextElement.setAttribute("id", "mobile-group-list-item-text-element");
+        groupListItemTextElement.style.margin = "0px"
+        groupListItemTextElement.innerHTML = group.groupname;
+        const groupListItemDeleteIcon = document.createElement("img");
+        groupListItemDeleteIcon.setAttribute("id", "mobile-group-list-item-delete-icon")
+        groupListItemDeleteIcon.setAttribute("src", "./images/delete-2-svgrepo-com.svg")
+        groupListItemDeleteIcon.style.width = "20px";
+
+        groupListItemDeleteIcon.addEventListener("click", function() {
+            deleteUserGroup(group.group_id)
+            deleteContactGrouping(group.group_id)
+        })
+
+        // groupListItem.innerHTML = group.groupname;
+        let numberOfContactsInGroup = 0;
+        userContactGroupings.forEach(grouping => {
+            if (grouping.group_id === group.group_id) {
+                console.log(group.groupname);
+                numberOfContactsInGroup++
+            }
+        })
+        console.log(numberOfContactsInGroup)
+        const numberOfContactsInGroupContainer = document.createElement("div");
+        numberOfContactsInGroupContainer.style.display = "flex";
+        numberOfContactsInGroupContainer.style.justifyContent = "center";
+        numberOfContactsInGroupContainer.style.alignItems = "center";
+        numberOfContactsInGroupContainer.style.width = "100%"
+        numberOfContactsInGroupContainer.style.height = "100%"
+        const numberOfContactsInGroupElement = document.createElement("h2");
+        numberOfContactsInGroupElement.innerHTML = numberOfContactsInGroup;
+        numberOfContactsInGroupElement.style.margin = "0px"
+        requestAnimationFrame(() => {
+            const groupListItemHeaderElementHeight = groupListItemHeaderElement.clientHeight.toString();
+            console.log(groupListItemHeaderElementHeight)
+            numberOfContactsInGroupElement.style.marginBottom = groupListItemHeaderElementHeight + "px"
+        });
+
+        groupListItemHeaderElement.appendChild(groupListItemEditIcon)
+        groupListItemHeaderElement.appendChild(groupListItemTextElement)
+        groupListItemHeaderElement.appendChild(groupListItemDeleteIcon)
+        groupListItem.appendChild(groupListItemHeaderElement)
+        numberOfContactsInGroupContainer.appendChild(numberOfContactsInGroupElement)
+        groupListItem.appendChild(numberOfContactsInGroupContainer)
+        groupsList.appendChild(groupListItem);
+        groupsListContainer.appendChild(groupsList)
+        document.body.appendChild(groupsListContainer);
+    });
+
+    const groupsListViewElement = document.querySelector("#mobile-groups-list-view")
+        const groupListItemEditModalContainer = document.createElement("div");
+        groupListItemEditModalContainer.setAttribute("id", "mobile-group-list-item-edit-modal-container");
+        groupListItemEditModalContainer.classList.add("edit-inactive");
+        groupListItemEditModalContainer.style.position = "absolute";
+        groupListItemEditModalContainer.style.flexDirection = "column";
+        groupListItemEditModalContainer.style.width = "40%";
+        groupListItemEditModalContainer.style.height = "25%";
+        groupListItemEditModalContainer.style.top = "40%";
+        groupListItemEditModalContainer.style.left = "50%";
+        groupListItemEditModalContainer.style.transform = "translate(-50%, -50%)"
+        groupListItemEditModalContainer.style.backgroundColor = "lightgrey";
+        groupListItemEditModalContainer.style.border = "1px solid black";
+        groupListItemEditModalContainer.style.boxShadow = "2px 2px 2px";
+        groupListItemEditModalContainer.style.display = "none";
+        groupListItemEditModalContainer.style.padding = "10px";
+        groupListItemEditModalContainer.style.zIndex = "1"
+
+    window.addEventListener('scroll', function() {
+        let scrollYPosition = this.window.pageYOffset;
+        let windowHeight = this.window.innerHeight;
+        let viewportCenterY = windowHeight / 2;
+        let pageCenterY = scrollYPosition + viewportCenterY;
+        // console.log(pageCenterY)
+
+        groupListItemEditModalContainer.style.top = pageCenterY.toString() + 'px'
+    });
+
+        const groupListItemEditModalHeaderContainer = document.createElement("div");
+        groupListItemEditModalHeaderContainer.setAttribute("id", "mobile-group-list-item-edit-modal-header-container")
+        groupListItemEditModalHeaderContainer.style.display = "flex";
+        groupListItemEditModalHeaderContainer.style.justifyContent = "space-between";
+        groupListItemEditModalHeaderContainer.style.alignItems = "center";
+        groupListItemEditModalHeaderContainer.style.width = "100%";
+        groupListItemEditModalHeaderContainer.style.height = "15%";
+        groupListItemEditModalHeaderContainer.style.backgroundColor = "grey";
+        groupListItemEditModalHeaderContainer.style.borderRadius = "2px"
+        groupListItemEditModalHeaderContainer.style.padding = "3px";
+        const groupListItemEditModalHeaderElement = document.createElement("h4");
+        groupListItemEditModalHeaderElement.setAttribute("id", "mobile-group-list-item-edit-modal-header-element");
+        groupListItemEditModalHeaderElement.style.margin = "0px"
+        groupListItemEditModalHeaderElement.innerHTML = "Edit Group Name";
+        const groupListItemEditModalCloseIcon = document.createElement("img");
+        groupListItemEditModalCloseIcon.setAttribute("src", "./images/close-md-svgrepo-com.svg");
+        groupListItemEditModalCloseIcon.style.width = "20px";
+        groupListItemEditModalCloseIcon.style.backgroundColor = "red";
+        groupListItemEditModalCloseIcon.addEventListener("click", function() {
+            groupListItemEditModalContainer.style.display = "none";
+        });
+        const groupListItemEditModalInputContainer = document.createElement("div");
+        groupListItemEditModalInputContainer.setAttribute("id", "mobile-group-list-item-edit-modal-input-container")
+        groupListItemEditModalInputContainer.style.display = "flex";
+        groupListItemEditModalInputContainer.style.flexDirection = "column";
+        groupListItemEditModalInputContainer.style.height = "50%";
+        groupListItemEditModalInputContainer.style.marginTop = "20px";
+        groupListItemEditModalInputContainer.style.padding = "3px";
+        const groupListItemEditModalInputLabelElement = document.createElement("label");
+        groupListItemEditModalInputLabelElement.setAttribute("id", "mobile-group-list-item-edit-modal-input-label-element")
+        groupListItemEditModalInputLabelElement.style.fontWeight = "bold";
+        groupListItemEditModalInputLabelElement.innerHTML = "Enter Name";
+        const groupListItemEditModalInputElement = document.createElement("input");
+        groupListItemEditModalInputElement.setAttribute("id", "mobile-group-list-item-edit-modal-input-element");
+        const groupListItemEditModalButtonContainer = document.createElement("div");
+        groupListItemEditModalButtonContainer.setAttribute("id", "mobile-group-list-item-edit-modal-button-container");
+        groupListItemEditModalButtonContainer.style.display = "flex";
+        groupListItemEditModalButtonContainer.style.justifyContent = "flex-end";
+        groupListItemEditModalButtonContainer.style.width = "100%";
+        groupListItemEditModalButtonContainer.style.height = "15%";
+        const groupListItemEditModalButtonElement = document.createElement("button");
+        groupListItemEditModalButtonElement.setAttribute("id", "mobile-group-list-item-edit-modal-button-element")
+        groupListItemEditModalButtonElement.innerHTML = "Done";
+        groupListItemEditModalHeaderContainer.appendChild(groupListItemEditModalHeaderElement);
+        groupListItemEditModalHeaderContainer.appendChild(groupListItemEditModalCloseIcon);
+        groupListItemEditModalInputContainer.appendChild(groupListItemEditModalInputLabelElement);
+        groupListItemEditModalInputContainer.appendChild(groupListItemEditModalInputElement);
+        groupListItemEditModalButtonContainer.appendChild(groupListItemEditModalButtonElement);
+        groupListItemEditModalContainer.appendChild(groupListItemEditModalHeaderContainer);
+        groupListItemEditModalContainer.appendChild(groupListItemEditModalInputContainer);
+        groupListItemEditModalContainer.appendChild(groupListItemEditModalButtonContainer)
+        document.body.appendChild(groupListItemEditModalContainer)
+        
+        window.addEventListener("click", function(event) {
+            if (groupListItemEditModalContainer.style.display !== "none" && event.target.id !== 
+                "mobile-group-list-item-edit-icon" && event.target.id !== "mobile-group-autocomplete-list-item-edit-icon" 
+                && event.target.id !== "mobile-group-list-item-edit-modal-container" 
+                && event.target.id !== "mobile-group-list-item-edit-modal-header-container"
+                && event.target.id !== "mobile-group-list-item-edit-modal-header-element" 
+                && event.target.id !== "mobile-group-list-item-edit-modal-input-container"
+                && event.target.id !== "mobile-group-list-item-edit-modal-input-label-element"
+                && event.target.id !== "mobile-group-list-item-edit-modal-input-element"
+                && event.target.id !== "mobile-group-list-item-edit-modal-button-container"
+                && event.target.id !== "mobile-group-list-item-edit-modal-button-element"
+            ) {
+                groupListItemEditModalContainer.style.display = "none";
+            }
+        })
+
+    groupListItemEditModalButtonElement.addEventListener("click", function(event) {
+        console.log(event.target)
+    })
+
+    const searchGroupsElement = document.querySelector("#mobile-search-groups-input");
+    searchGroupsElement.addEventListener("input", groupsAutocompleteSearch)
+    async function groupsAutocompleteSearch() {
+    const groupsList = document.querySelector("#mobile-groups-list");
+    let searchGroupsInputValue = searchGroupsElement.value.toLowerCase().trimEnd();
+    let filteredGroups = [];
+
+    userGroups.filter(function(group) {
+        let groupName = group.groupname
+
+        console.log(searchGroupsInputValue.length)
+
+        if (searchGroupsInputValue === "") {
+            for (let i = 0; i < userGroups.length; i++) {
+                filteredGroups.push(userGroups[i])
+            }
+        }
+
+        // if (contactFirstName.toLowerCase().startsWith(searchContactsInputValue)) {
+        //     for (let i = 0; i < userContacts.length; i++) {
+        //         let matchContactName = `${userContacts[i].firstname} ${userContacts[i].lastname}`
+        //         if (contactName.toLowerCase() === matchContactName.toLowerCase()) {
+        //             filteredContacts.push(userContacts[i])
+        //             // console.log(filteredContacts)
+        //         }
+        //     }
+        // }
+
+        // if (contactLastName.toLowerCase().startsWith(searchContactsInputValue)) {
+        //     for (let i = 0; i < userContacts.length; i++) {
+        //         let matchContactName = `${userContacts[i].firstname} ${userContacts[i].lastname}`
+        //         if (contactName.toLowerCase() === matchContactName.toLowerCase()) {
+        //             filteredContacts.push(userContacts[i])
+        //             // console.log(filteredContacts)
+        //         }
+        //     }
+        // }
+
+        if (groupName.toLowerCase().startsWith(searchGroupsInputValue)) {
+            for (let i = 0; i < userGroups.length; i++) {
+                let matchGroupName = userGroups[i].groupname
+                if (groupName.toLowerCase() === matchGroupName.toLowerCase()) {
+                    filteredGroups.push(userGroups[i])
+                    // console.log(filteredContacts)
+                }
+            }
+        }
+    });
+
+    // const searchGroupsAutocompleteList = document.querySelector("#mobile-autocomplete-groups-list");
+
+    searchGroupsAutocompleteList.innerHTML = '';
+
+    // searchContactsElement.addEventListener('input', function() {
+    //     if (this.value === '') {
+    //       // Input is cleared, perform your desired action
+    //       window.location.reload()
+    //       // Example: Reset search results
+    //       // resetSearchResults();
+    //     }
+    //   });
+
+      function removeDuplicates(arr) {
+        return arr.reduce((unique, item) => {
+          if (!unique.includes(item)) {
+            unique.push(item);
+          }
+          return unique;
+        }, []);
+      }
+      
+      const originalArray = [1, 2, 2, 3, 4, 4, 5];
+      const uniqueArray = removeDuplicates(filteredGroups);
+    //   console.log(uniqueArray); // Output: [1, 2, 3, 4, 5]
+
+    // if (filteredGroups.length > 0) {
+        searchGroupsAutocompleteList.style.display = 'flex';
+        groupsList.style.display = "none"
+        uniqueArray.forEach(group => {
+            const groupsAutoCompleteListItem = document.createElement('div');
+            groupsAutoCompleteListItem.setAttribute("groupId", group.group_id)
+            groupsAutoCompleteListItem.setAttribute("mobileGroupName", `${group.groupname}`)
+            groupsAutoCompleteListItem.setAttribute("data", `${rootUrl}/group_${group.group_id}`);
+            groupsAutoCompleteListItem.setAttribute("groupId", group.group_id)
+            groupsAutoCompleteListItem.style.display = "inline-flex";
+            groupsAutoCompleteListItem.style.flexDirection = "column";
+            groupsAutoCompleteListItem.style.width = "210px";
+            groupsAutoCompleteListItem.style.height = "145px";
+            groupsAutoCompleteListItem.style.margin = "10px 10px 10px 10px";
+            groupsAutoCompleteListItem.style.backgroundColor = "#ededed";
+            groupsAutoCompleteListItem.style.border = "2px solid black";
+
+        groupsAutoCompleteListItem.addEventListener("mouseover", function() {
+            groupsAutoCompleteListItem.style.backgroundColor = "lightgreen"
+        });
+        
+        groupsAutoCompleteListItem.addEventListener("mouseout", function() {
+            groupsAutoCompleteListItem.style.backgroundColor = "#ededed"
+        });
+
+            groupsAutoCompleteListItem.addEventListener("click", (event) => {
+
+            if (event.target.id === "mobile-group-autocomplete-list-item-edit-icon") {
+                event.preventDefault()
+                return
+            };
+
+                if (event.target.id === "mobile-group-autocomplete-list-item-delete-icon") {
+                event.preventDefault()
+                return
+            };
+
+            const groupListItemEditModalContainer = document.querySelector("#mobile-group-list-item-edit-modal-container")
+            if (groupListItemEditModalContainer.style.display !== "none") {
+                event.preventDefault()
+                return
+            }
+            // console.log(group)
+            if (window.location.href === groupsAutoCompleteListItem.getAttribute("data")) {
+                event.preventDefault()
+            } else {
+                function saveDataToURL(url, data) {
+                    const urlObject = new URL(url);
+                    const params = new URLSearchParams(urlObject.search);
+                
+                    for (const key in data) {
+                        if (data.hasOwnProperty(key)) {
+                            params.set(key, data[key]);
+                        }
+                    }
+                    urlObject.search = params.toString();
+                    return urlObject.toString();
+                }
+                console.log(groupsAutoCompleteListItem)
+                
+                const myURL = groupsAutoCompleteListItem.getAttribute("data");
+                console.log(myURL)
+
+                const str = groupsAutoCompleteListItem.children[1].innerText;
+                let char = "%";
+                let index = str.indexOf(char)
+
+                if (index !== -1) {
+                    str = str.split(char)[0]
+                }
+
+                const myData = {
+                    name: groupsAutoCompleteListItem.getAttribute("mobileGroupName"),
+                    // age: 30,
+                    // city: "New York"
+                };
+                
+                let newURL = saveDataToURL(myURL, myData);
+
+                if (newURL.charAt(newURL.length - 1) === '+') {
+                    console.log(newURL)
+                    let editedurl = newURL.slice(0, -1)
+                    newURL = editedurl
+                }
+               
+                // Expected output: "https://example.com/page?name=John+Doe&age=30&city=New+York"
+                window.location.href = newURL
+            }
+        });
+
+            const groupAutoCompleteListItemHeaderElement = document.createElement("div");
+            // groupAutoCompleteListItemHeaderElement.style.position = "relative"
+            groupAutoCompleteListItemHeaderElement.style.display = "flex"
+            groupAutoCompleteListItemHeaderElement.style.justifyContent = "space-between"
+            groupAutoCompleteListItemHeaderElement.style.width = "100%"
+            groupAutoCompleteListItemHeaderElement.style.padding = "7px 0px"
+            groupAutoCompleteListItemHeaderElement.style.borderBottom = "2px solid black"
+            // groupAutoCompleteListItemHeaderElement.style.top = "2%"
+            const groupAutoCompleteListItemEditIcon = document.createElement("img");
+            groupAutoCompleteListItemEditIcon.setAttribute("id", "mobile-group-autocomplete-list-item-edit-icon")
+            groupAutoCompleteListItemEditIcon.setAttribute("src", "./images/edit-svgrepo-com.svg")
+            groupAutoCompleteListItemEditIcon.style.width = "20px"
+            const groupListItemEditModalContainer = document.querySelector("#mobile-group-list-item-edit-modal-container")
+            groupAutoCompleteListItemEditIcon.addEventListener("click", function(event) {
+                const clickedGroupListItemElement = event.target;
+                const clickedGroupListItemElementParentElement = clickedGroupListItemElement.parentElement;
+                const groupListItemToEdit = clickedGroupListItemElementParentElement.parentElement;
+                groupListItemToEdit.classList.remove("edit-inactive");
+                groupListItemToEdit.classList.add("edit-active")
+                console.log("open edit modal")
+                groupListItemEditModalContainer.style.display = "flex"
+            })
+            const groupAutoCompleteListItemTextElement = document.createElement("h4");
+            groupAutoCompleteListItemTextElement.style.margin = "0px"
+            groupAutoCompleteListItemTextElement.innerHTML = group.groupname;
+            const groupAutoCompleteListItemDeleteIcon = document.createElement("img")
+            groupAutoCompleteListItemDeleteIcon.setAttribute("id", "mobile-group-autocomplete-list-item-delete-icon")
+            groupAutoCompleteListItemDeleteIcon.setAttribute("src", "./images/delete-2-svgrepo-com.svg")
+            groupAutoCompleteListItemDeleteIcon.style.width = "20px"
+            groupAutoCompleteListItemDeleteIcon.addEventListener("click", function() {
+                mobileDeleteUserGroup(group.group_id)
+                mobileDeleteContactGrouping(group.group_id)
+            })
+
+            let autoCompleteNumberOfContactsInGroup = 0;
+            userContactGroupings.forEach(grouping => {
+            if (grouping.group_id === group.group_id) {
+                console.log(group.groupname);
+                autoCompleteNumberOfContactsInGroup++
+            }
+        })
+        console.log(autoCompleteNumberOfContactsInGroup)
+        const autoCompleteNumberOfContactsInGroupContainer = document.createElement("div");
+        autoCompleteNumberOfContactsInGroupContainer.style.display = "flex";
+        autoCompleteNumberOfContactsInGroupContainer.style.justifyContent = "center";
+        autoCompleteNumberOfContactsInGroupContainer.style.alignItems = "center";
+        autoCompleteNumberOfContactsInGroupContainer.style.width = "100%"
+        autoCompleteNumberOfContactsInGroupContainer.style.height = "100%"
+        const autoCompleteNumberOfContactsInGroupElement = document.createElement("h2");
+        autoCompleteNumberOfContactsInGroupElement.innerHTML = autoCompleteNumberOfContactsInGroup;
+        autoCompleteNumberOfContactsInGroupElement.style.margin = "0px"
+        requestAnimationFrame(() => {
+            const groupAutoCompleteListItemHeaderElementHeight = groupAutoCompleteListItemHeaderElement.clientHeight.toString();
+            console.log(groupAutoCompleteListItemHeaderElementHeight)
+            autoCompleteNumberOfContactsInGroupElement.style.marginBottom = groupAutoCompleteListItemHeaderElementHeight + "px"
+        });
+
+            groupAutoCompleteListItemHeaderElement.appendChild(groupAutoCompleteListItemEditIcon)
+            groupAutoCompleteListItemHeaderElement.appendChild(groupAutoCompleteListItemTextElement)
+            groupAutoCompleteListItemHeaderElement.appendChild(groupAutoCompleteListItemDeleteIcon)
+            autoCompleteNumberOfContactsInGroupContainer.appendChild(autoCompleteNumberOfContactsInGroupElement)
+            groupsAutoCompleteListItem.appendChild(groupAutoCompleteListItemHeaderElement)
+            groupsAutoCompleteListItem.appendChild(autoCompleteNumberOfContactsInGroupContainer)
+           
+            searchGroupsAutocompleteList.appendChild(groupsAutoCompleteListItem)
+     });
+};
+
+    groupsListContainer.appendChild(searchGroupsAutocompleteList)
+
+    groupListItemEditModalButtonElement.addEventListener("click", mobileEditUserGroup)
+
+    const mobileNavigateCreateGroupsPageButton = document.querySelector("#mobile-navigate-create-group-page-button");
+    mobileNavigateCreateGroupsPageButton.addEventListener("click", function() {
+        window.location.href = `${rootUrl}/create-group`
+    })
+}
 
 async function handleEditGroupNameInput() {
     const allUsers = await getAllUsers();
@@ -6526,6 +7299,57 @@ async function renderGroupContactsListContent() {
     console.log(groupContacts)
 };
 
+async function mobileHandleEditGroupNameInput() {
+    const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const userId = matchingUser.user_id;
+    const groupListItemEditModalInputElement = document.querySelector("#mobile-group-list-item-edit-modal-input-element");
+    const groupListItemEditModalInputElementValue = groupListItemEditModalInputElement.value;
+    console.log(groupListItemEditModalInputElementValue)
+
+        const groupsList = document.querySelector("#mobile-groups-list");
+        const groupsListChildren = groupsList.children;
+        const groupsListArr = Array.from(groupsListChildren)
+        const searchGroupsAutocompleteList = document.querySelector("#mobile-autocomplete-groups-list");
+        const searchGroupsAutocompleteListChildren = searchGroupsAutocompleteList.children;
+        const searchGroupsAutocompleteListArr = Array.from(searchGroupsAutocompleteListChildren)
+        console.log(searchGroupsAutocompleteList)
+        console.log(groupsList)
+
+        let groupToEdit;
+        groupsListArr.forEach(group => {
+            if (group.classList.contains("edit-active")) {
+                groupToEdit = group;
+            };
+
+            if (groupToEdit === undefined) {
+                searchGroupsAutocompleteListArr.forEach(autoCompleteGroup => {
+                    if (autoCompleteGroup.classList.contains("edit-active")) {
+                        groupToEdit = autoCompleteGroup;
+                    };
+                })
+            };   
+        });
+    console.log(groupToEdit.getAttribute("groupId"))
+    const grouptoEditId = Number(groupToEdit.getAttribute("groupId")) 
+    
+     const groupToEditObj = {
+        userId: userId,
+        groupId: grouptoEditId,
+        groupName: groupListItemEditModalInputElementValue
+    }
+
+    console.log(groupToEditObj)
+
+    return groupToEditObj
+};
+
 async function renderCreateGroupsContent() {
 
     const groupsSelectionList = document.querySelector("#groups-selection-list");
@@ -6616,6 +7440,95 @@ async function renderCreateGroupsContent() {
     createGroupButton.addEventListener("click", postNewUserGroup)
 };
 
+async function renderMobileCreateGroupsContent() {
+    const groupsSelectionList = document.querySelector("#mobile-groups-selection-list");
+    const groupsSelectionListChildren = groupsSelectionList.children;
+    const groupsSelectionListArr = Array.from(groupsSelectionListChildren);
+    // console.log(groupsSelectionListArr)
+
+    groupsSelectionListArr.forEach(item => {
+        item.addEventListener("mouseover", function() {
+            item.style.backgroundColor = "lightgreen"
+        });
+
+        item.addEventListener("mouseout", function() {
+            if (!item.classList.contains("active"))
+            item.style.backgroundColor = "ghostwhite"
+        });
+
+        item.addEventListener("click", function(event) {
+        const clickedItem = event.target
+    
+        const customGroupInputContainer = document.querySelector("#mobile-custom-group-input-container");
+        customGroupInputContainer.classList.remove("active");
+        customGroupInputContainer.classList.add("inactive");
+        customGroupInputContainer.style.backgroundColor = "ghostwhite"
+
+        groupsSelectionListArr.forEach(item => {
+            const itemInputElement = item.children[1]
+            console.log(itemInputElement)
+            if (item !== event.target && itemInputElement !== event.target) {
+                item.classList.remove("active");
+                item.classList.add("inactive")
+                item.style.backgroundColor = "ghostwhite"
+                itemInputElement.checked = false
+            }
+            if (itemInputElement.checked === true) {
+                item.classList.remove("inactive");
+                item.classList.add("active")
+                item.style.backgroundColor = "lightgreen"
+            }
+        })
+
+        const clickedInputElement = clickedItem.children[1];
+        // console.log(clickedInputElement)
+
+        if (clickedItem.classList.contains("inactive")) {
+                clickedItem.classList.remove("inactive")
+                clickedItem.classList.add("active")
+                clickedItem.style.backgroundColor = "lightgreen"
+                clickedInputElement.checked = true
+            } else if(clickedItem.classList.contains("active")) {
+                clickedItem.classList.remove("active")
+                clickedItem.classList.add("inactive")
+                clickedItem.style.backgroundColor = "ghostwhite"
+                clickedInputElement.checked = false
+            }
+        })
+    });
+
+    const customGroupInputContainer = document.querySelector("#mobile-custom-group-input-container");
+    const customGroupInputElement = document.querySelector("#mobile-custom-group-input-element");
+    customGroupInputElement.addEventListener("focus", function() {
+        customGroupInputContainer.classList.remove("inactive")
+        customGroupInputContainer.classList.add("active")
+        customGroupInputContainer.style.backgroundColor = "lightgreen";
+    });
+    customGroupInputElement.addEventListener("blur", function(event) {
+        const createGroupButton = document.querySelector("#mobile-create-group-button")
+        if (event.relatedTarget !== createGroupButton) {
+            customGroupInputContainer.classList.remove("active")
+            customGroupInputContainer.classList.add("inactive")
+            customGroupInputContainer.style.backgroundColor = "ghostwhite";
+        }
+    })
+
+    const createGroupButton = document.querySelector("#mobile-create-group-button")
+    document.addEventListener("click", function(event) {
+        console.log(event.target.tagName)
+        if (event.target.tagName !== "DIV" && event.target.classList.contains("mobileGroupNameInput") === false && event.target !== createGroupButton) {
+            groupsSelectionListArr.forEach(item => {
+                item.classList.remove("active");
+                item.classList.add("inactive")
+                item.style.backgroundColor = "ghostwhite"
+                item.children[1].checked = false;
+            })
+        };
+    });
+
+    createGroupButton.addEventListener("click", mobilePostNewUserGroup)
+}
+
 async function handleCreateGroupInput() {
     const allUsers = await getAllUsers();
     const sessionId = sessionStorage.getItem("user");
@@ -6668,6 +7581,97 @@ async function handleCreateGroupInput() {
     }
 
     let groupName;
+
+    if (activeElement === undefined) {
+        alert("Please select a group or enter a custom group name before creating a group.")
+        return
+    }
+
+    if (activeElement === customGroupInputElement) {
+        groupName = activeElement.value
+    } else {
+        groupName = activeElement.children[0].innerHTML 
+    }
+
+    const newGroupObject = {
+        userId: userId,
+        groupId: maxId + 1,
+        groupName: groupName
+    };
+
+    console.log(newGroupObject)
+    if (newGroupObject.groupName === '') {
+        alert("Please select a group or enter a custom group name before creating a group.")
+        return
+    };
+
+    for (let i = 0; i < userGroups.length; i++) {
+        if (userGroups[i].groupname === newGroupObject.groupName) {
+            alert("Cannot create a duplicate group name.");
+            return
+        }
+    }
+
+    return newGroupObject;
+};
+
+async function mobileHandleCreateGroupInput() {
+    const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const userId = matchingUser.user_id;
+    console.log(userId)
+
+    const userGroups = await getUserGroups(userId)
+
+    const groupsSelectionList = document.querySelector("#mobile-groups-selection-list");
+    const groupsSelectionListChildren = groupsSelectionList.children;
+    const groupsSelectionListArr = Array.from(groupsSelectionListChildren);
+    console.log(groupsSelectionListArr)
+    const customGroupInputContainer = document.querySelector("#mobile-custom-group-input-container");
+    const customGroupInputElement = document.querySelector("#mobile-custom-group-input-element");
+
+    // console.log(groupsSelectionListArr)
+    let activeElement;
+    groupsSelectionListArr.forEach(item => {
+        console.log(item)
+        if (item.classList.contains("active")) {
+            activeElement = item;
+        }
+    });
+
+    if (activeElement === undefined && customGroupInputContainer.classList.contains("active")) {
+        activeElement = customGroupInputElement;
+    }
+
+    console.log(activeElement)
+    console.log(userGroups)
+
+     let groupIdsArr = []
+    for (let i = 0; i < userGroups.length; i++) {
+        groupIdsArr.push(userGroups[i].group_id)
+    }
+
+    let maxId = -Infinity;
+    for (let i = 0; i < groupIdsArr.length; i++) {
+        if (groupIdsArr[i] > maxId) {
+            maxId = groupIdsArr[i];
+        }
+    }
+
+    console.log(maxId)
+    if (maxId === -Infinity) {
+        maxId = 0
+    }
+
+    let groupName;
+    console.log(activeElement)
+    console.log(groupName)
 
     if (activeElement === undefined) {
         alert("Please select a group or enter a custom group name before creating a group.")
@@ -7648,10 +8652,11 @@ async function mobilePostNewUser() {
     const emailaddress = registerUserObject.emailAddress;
     const phonenumber = registerUserObject.phonenumber;
     const user_password = registerUserObject.password;
+    const user_image = registerUserObject.userImage
 
     console.log(registerUserObject)
 
-    const body = { user_id, session_id, firstname, lastname, emailaddress, phonenumber, user_password };
+    const body = { user_id, session_id, firstname, lastname, emailaddress, phonenumber, user_password, user_image };
     try {
         const response = await fetch(`/users`, {
             method: "POST",
@@ -7668,6 +8673,42 @@ async function mobilePostNewUser() {
 
 async function postNewUserImage() {
     const registerUserObject = await handleRegisterInput();
+    const user_id = registerUserObject.userId;
+
+    const registerUserImageInputElement = document.querySelector("#register-user-image-input")
+
+    const newUserImageElement = document.querySelector("#register-user-image");
+    const newUserImageInputElement = document.querySelector("#register-user-image-input")
+    const newUserImageUrl = newUserImageElement.getAttribute("src")
+    fetch(newUserImageUrl)
+        .then(response => response.blob()) // Get the image as a Blob
+        .then(async (blob) => {
+            // Now 'blob' contains the image data as a Blob object
+            // You can then create a File object from the blob if necessary:
+            const filename = newUserImageUrl.substring(newUserImageUrl.lastIndexOf('/') + 1); // Extract filename from URL
+            const imageFile = new File([blob], filename, { type: blob.type });
+
+            console.log(imageFile); // This is your image file object
+            const formData = new FormData();
+            formData.append('id', user_id)
+            formData.append('imageFile', imageFile); // 'image' matches the input name
+        
+            try {
+                const response = await fetch(`/user_images`, {
+                    method: 'POST',
+                    body: formData,
+                });
+                const result = await response.json();
+                console.log(result);
+            } catch (error) {
+                console.error('Error uploading image:', error);
+            }
+        })
+        // .catch(error => console.error('Error fetching image:', error));
+};
+
+async function mobilePostNewUserImage() {
+    const registerUserObject = await handleMobileRegisterInput();
     const user_id = registerUserObject.userId;
 
     const registerUserImageInputElement = document.querySelector("#register-user-image-input")
@@ -7937,6 +8978,43 @@ async function putNewUserImage() {
         // }
 
          const editUserAddPhotoInputElement = document.querySelector("#edit-user-add-photo");
+         editUserAddPhotoInputElement.value = ""
+
+         alert("Updated your profile picture.")
+         window.location.reload()
+};
+
+async function mobilePutNewUserImage() {
+    const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const user_id = matchingUser.user_id;
+    const imageFile = await mobileHandleUploadImageInput();
+    console.log(imageFile)
+
+        //   if (imageFile) {
+            const formData = new FormData();
+            formData.append('id', user_id)
+            formData.append('editUserAddPhoto', imageFile); // 'image' matches the input name
+
+            try {
+                const response = await fetch(`/user_images/${user_id}`, {
+                    method: 'PUT',
+                    body: formData,
+                });
+                const result = await response.json();
+                console.log(result);
+            } catch (error) {
+                console.error('Error uploading image:', error);
+            }
+        // }
+
+         const editUserAddPhotoInputElement = document.querySelector("#mobile-edit-user-add-photo");
          editUserAddPhotoInputElement.value = ""
 
          alert("Updated your profile picture.")
@@ -8815,6 +9893,30 @@ async function postNewUserGroup() {
     window.location.href = `${rootUrl}/groups`
 };
 
+async function mobilePostNewUserGroup() {
+    const newUserGroup = await mobileHandleCreateGroupInput();
+    console.log(newUserGroup)
+
+    const user_id = newUserGroup.userId;
+    const group_id = newUserGroup.groupId;
+    const groupName = newUserGroup.groupName
+
+    const body = { user_id, group_id, groupName };
+    try {
+        const response = await fetch(`/groups`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body)
+        });
+        console.log(response)
+    } catch (err) {
+        console.error(err)
+    }
+
+    alert("New group")
+    window.location.href = `${rootUrl}/groups`
+};
+
 async function editUserGroup() {
     const editedUserGroup = await handleEditGroupNameInput();
 
@@ -8838,7 +9940,56 @@ async function editUserGroup() {
     window.location.href = `${rootUrl}/groups`
 };
 
+async function mobileEditUserGroup() {
+    const editedUserGroup = await mobileHandleEditGroupNameInput();
+
+    const user_id = editedUserGroup.userId;
+    const group_id = editedUserGroup.groupId;
+    const groupName = editedUserGroup.groupName
+
+    const body = { groupName };
+    try {
+        const response = await fetch(`/groups/${user_id}/${group_id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body)
+        });
+        console.log(response)
+    } catch (err) {
+        console.error(err)
+    }
+
+    alert("Group name updated.")
+    window.location.href = `${rootUrl}/groups`
+};
+
 async function deleteUserGroup(group_id) {
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const user_id = matchingUser.user_id;
+
+    try {
+        const response = await fetch(`/groups/${user_id}/${group_id}`, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+        });
+        console.log(response)
+    } catch (error) {
+        console.error(error)
+    }
+
+    localStorage.clear()
+    alert("Group removed.")
+    // window.location.href = `${rootUrl}/groups`
+};
+
+async function mobileDeleteUserGroup(group_id) {
 const allUsers = await getAllUsers();
     const sessionId = sessionStorage.getItem("user");
     let matchingUser;
@@ -8926,6 +10077,31 @@ async function postNewContactGrouping() {
 };
 
 async function deleteContactGrouping(group_id) {
+const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const user_id = matchingUser.user_id;
+
+    try {
+        const response = await fetch(`/contactGroups/${user_id}/${group_id}`, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+        });
+        console.log(response)
+    } catch (error) {
+        console.error(error)
+    }
+
+    localStorage.clear()
+    window.location.href = `${rootUrl}/groups`
+};
+
+async function mobileDeleteContactGrouping(group_id) {
 const allUsers = await getAllUsers();
     const sessionId = sessionStorage.getItem("user");
     let matchingUser;
@@ -9360,6 +10536,14 @@ async function showPages() {
         groupsListViewElement.style.display = "none"
     };
 
+    const mobileGroupsListViewElement = document.querySelector("#mobile-groups-list-view");
+        if (window.location.href === (`${rootUrl}/groups`) && clientwidth < 1070) {
+        mobileGroupsListViewElement.style.display = "block";
+        await renderMobileGroupsListContent()
+    } else {
+        mobileGroupsListViewElement.style.display = "none"
+    };
+
     const createGroupsViewElement = document.querySelector("#create-groups-view");
         if (window.location.href === (`${rootUrl}/create-group`) && clientwidth > 1070) {
             createGroupsViewElement.style.display = "block";
@@ -9368,6 +10552,15 @@ async function showPages() {
 
     } else {
         createGroupsViewElement.style.display = "none"
+    };
+
+     const mobileCreateGroupsViewElement = document.querySelector("#mobile-create-groups-view");
+        if (window.location.href === (`${rootUrl}/create-group`) && clientwidth < 1070) {
+            mobileCreateGroupsViewElement.style.display = "block";
+            await renderMobileCreateGroupsContent()
+
+    } else {
+        mobileCreateGroupsViewElement.style.display = "none"
     };
 
     const manageGroupsViewElement = document.querySelector("#manage-groups-view");

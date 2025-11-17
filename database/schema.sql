@@ -46,7 +46,7 @@ CONSTRAINT fk_user
 
 CREATE TABLE contact_images (
 	user_id SERIAL NOT NULL,
-	contact_id SERIAL NOT NULL,
+	contact_id INT NOT NULL,
 	name VARCHAR(255) NOT NULL,
 	mime_type VARCHAR(50) NOT NULL,
 	data BYTEA NOT NULL

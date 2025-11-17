@@ -22,7 +22,7 @@
             <li id="mobile-account-menu-item" style="display: flex; justify-content: center; align-items: center; height: 25%; font-size: large; font-weight: bold; border-bottom: 1px solid black; padding: 2px; list-style-type: none;">Account</li>
             <li id="mobile-contacts-list-menu-item" style="display: flex; justify-content: center; align-items: center; height: 25%; font-size: large; font-weight: bold; border-bottom: 1px solid black; padding: 2px; list-style-type: none;">Contacts</li>
             <li id="mobile-favorites-list-menu-item" style="display: flex; justify-content: center; align-items: center; height: 25%; font-size: large; font-weight: bold; border-bottom: 1px solid black; padding: 2px; list-style-type: none;">Favorites</li>
-            <li id="mobile-groups-menu-item" style="display: flex; justify-content: center; align-items: center; height: 25%; font-size: large; font-weight: bold; border-bottom: 1px solid black; padding: 2px; list-style-type: none;">Groups</li>
+            <li id="mobile-groups-list-menu-item" style="display: flex; justify-content: center; align-items: center; height: 25%; font-size: large; font-weight: bold; border-bottom: 1px solid black; padding: 2px; list-style-type: none;">Groups</li>
             <li id="mobile-new-contact-menu-item" style="display: flex; justify-content: center; align-items: center; height: 25%; font-size: large; font-weight: bold; border-bottom: 1px solid black; padding: 2px; list-style-type: none;">New</li>
         </ul>
     </div>
@@ -468,14 +468,14 @@
         </div>
         <div id="edit-user-add-photo-input-container" style="position: absolute; align-items: center; width: 470px; height: 27px; top: 21%; border: 1px solid black; background-color: lightgrey; border: 2px solid black; box-shadow: 1px 1px 1px; display: none; margin-left: 6px; z-index: 2;">
             <div style="display: flex; justify-content: space-between; width: 100%;">
-                <form id="edit-user-add-photo-form" name="editUserAddPhotoForm" action="/user_images" method="PUT" enctype="multipart/form-data">
+                <form id="edit-user-add-photo-form" name="editUserAddPhotoForm" action="/user_images" method="PUT" enctype="multipart/form-data" style="width: 65%">
                     <input id="edit-user-add-photo" name="editUserAddPhoto" type="file" accept="image/*" style="margin-left: 4px;">
                 </form>
-                <div style="display: flex; justify-content: space-evenly; align-items: center; width: 50%;">
+                <div style="display: flex; justify-content: space-evenly; align-items: center; width: 35%;">
                     <button id="edit-user-add-photo-insert-button" style="height: 20px; background-color: lightgoldenrodyellow;">Insert</button>
                     <button id="edit-user-remove-photo-button" style="height: 20px; background-color: indianred; z-index: 1;">Remove</button>
-                    <button id="edit-user-save-photo" style="height: 20px; background-color: aliceblue;">Save</button>
-                    <img id="close-edit-user-add-photo-icon" src="./images/close-svgrepo-com.svg" style="width: 20px; height: 18px; background-color: red; border: 1px solid black; margin-left: 5px;">
+                    <!-- <button id="edit-user-save-photo" style="height: 20px; background-color: aliceblue;">Save</button> -->
+                    <img id="close-edit-user-add-photo-icon" src="./images/close-svgrepo-com.svg" style="width: 20px; height: 18px; background-color: red; border: 1px solid black;">
                 </div>
             </div>
         </div>
@@ -573,12 +573,18 @@
                 </div>
             </div>
         </div>
-        <div id="mobile-edit-user-add-photo-input-container" style="position: absolute; align-items: center; width: 100%; height: 33px; top: 15.25%; z-index: 2; background-color: grey; display: none;">
-            <div style="display: flex; justify-content: flex-end; width: 100%;">
-                <input id="mobile-edit-user-add-photo" type="file" style="width: 100%; margin-left: 1%;">
-                <button id="mobile-edit-user-add-photo-insert-button">Insert</button>
-                <button id="mobile-edit-user-remove-photo-button" style="height: 20px; margin-left: 5px; background-color: indianred; z-index: 1;">Remove</button>
-                <img id="mobile-close-edit-user-add-photo-icon" src="./images/close-svgrepo-com.svg" style="width: 20px;">
+        <div id="mobile-edit-user-add-photo-input-container" style="position: absolute; align-items: center; width: 100%; height: 33px; top: 15.25%; z-index: 2; background-color: grey; border: 1px solid black; box-shadow: 2px 2px 2px; display: none;">
+            <div style="display: flex; justify-content: space-between; width: 100%;">
+                <form id="mobile-edit-user-add-photo-form" name="mobileEditUserAddPhotoForm" action="/user_images" method="PUT" enctype="multipart/form-data" style="width: 60%;">
+                    <input id="mobile-edit-user-add-photo" name="editUserAddPhoto" type="file" accept="image/*" style="width: 100%; margin-left: 4px;">
+                </form>
+                  <div style="display: flex; justify-content: space-between; align-items: center; width: 40%;">
+                    <button id="mobile-edit-user-add-photo-insert-button" style="height: 20px; background-color: lightgoldenrodyellow;">Insert</button>
+                    <button id="mobile-edit-user-remove-photo-button" style="height: 20px; background-color: indianred; z-index: 1;">Remove</button>
+                    <img id="check-edit-user-image" src="./images/user-5-svgrepo-com.svg" style="display: none;">
+                    <!-- <button id="mobile-edit-user-save-photo" style="height: 20px; background-color: aliceblue;">Save</button> -->
+                    <img id="mobile-close-edit-user-add-photo-icon" src="./images/close-svgrepo-com.svg" style="width: 20px; height: 18px; background-color: red; border: 1px solid black; margin-right: 5px;">
+                </div>
             </div>
         </div>
         <div id="mobile-edit-user-information-container" style="position: absolute; display: flex; flex-direction: column; align-items: center; width: 100%; height: 60%; top: 15.5%;">
@@ -1116,9 +1122,24 @@
           </div>
 
         </div>
-        <div id="groups-list-container" style="height: 100%; margin: 60px 0px 1px 0px;">
-            <div id="groups-list" style="height: 100%; margin: 0px; padding-left: 35px;"></div>
-            <div id="autocomplete-groups-list" style="display: none; height: 100%; margin: 0px; padding-left: 35px;"></div>
+        <div id="groups-list-container">
+            <!-- <div id="groups-list"></div> -->
+            <!-- <ul id="autocomplete-groups-list" style="display: none; list-style: none; margin: 0px; padding: 0px;"></ul> -->
+        </div>
+    </section>
+
+    <section id="mobile-groups-list-view" style="position: absolute; width: 100%; height: 90.5%; top: 9.5%; display: none; overflow: hidden;">
+        <div style="display: flex; justify-content: center; width: 100%;">
+            <div id="mobile-search-groups-elements-container" style="position: absolute; display: flex; justify-content: center; align-items: center; width: 100%;  height: 9.3%; border-bottom: 4px solid black; background-color: lightslategrey;">
+              <!-- <img id="search-icon" src="./images/search-svgrepo-com.svg" style="width: 18px; margin-left: 6px; border-radius: 50%; background-color: white; padding: 2px;"> -->
+              <input type="search" name="mobile-search-groups" id="mobile-search-groups-input" placeholder="Search for a group" style="width: 40%; height: 23px; border: 1px solid black; margin-left: 3px; text-indent: 20px; background-image: url(./images/search-svgrepo-com.svg); background-repeat: no-repeat; background-size: 16px; background-position-y: 2px; background-position-x: 0.8%; outline: none;">
+              <button style="margin-left: 5px;" id="mobile-navigate-create-group-page-button">Create</button>
+          </div>
+
+        </div>
+        <div id="mobile-groups-list-container">
+            <!-- <div id="mobile-groups-list" style="display: flex; flex-direction: column; align-items: center; height: 100%; margin: 0px;"></div> -->
+            <!-- <div id="mobile-autocomplete-groups-list" style="display: none; flex-direction: column; align-items: center; height: 100%; margin: 0px;"></div> -->
         </div>
     </section>
 
@@ -1171,6 +1192,59 @@
         <div id="create-group-button-container" style="position: absolute; display: flex; justify-content: center; align-items: center; width: 100%; top: 96%;">
             <div style="position: absolute; display: flex; justify-content: flex-end; width: 96%;">
                 <button id="create-group-button">Create</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="mobile-create-groups-view" style="position: absolute; width: 100%; height: 90.5%; top: 9.5%; display: none; overflow: hidden;">
+        <div id="mobile-create-group-container" style="position: absolute; display: flex; flex-direction: column; align-items: center; width: 90%; height: 90%; top: 25%; left: 50%; transform: translate(-50%, -25%);">
+             <div style="display: flex; justify-content: flex-start; width: 100%;">
+                <h2 style="font-family: sans-serif; width: 500px;">Select a group or enter a custom name</h2>
+            </div>
+            <div style="width: 100%; height: 60%;">
+                <div id="mobile-groups-selection-list" style="display: flex; flex-direction: column; justify-content: center; height: 100%; border: 2.5px solid black; padding: 3px 3px; margin: 0px;">
+                    <div class="inactive" style="display: flex; justify-content: space-between; align-items: center; height: 32px; border: 1px solid black; margin: 1px 0px 1px 0px; background-color: ghostwhite; padding: 4px;">
+                        <p>Business</p>
+                        <input type="checkbox" class="mobileGroupNameInput">
+                    </div>
+                    <div class="inactive" style="display: flex; justify-content: space-between; align-items: center; height: 32px; border: 1px solid black; margin: 1px 0px 1px 0px; background-color: ghostwhite; padding: 4px;">
+                        <p>Community</p>
+                        <input type="checkbox" class="mobileGroupNameInput">
+                    </div>
+                    <div class="inactive" style="display: flex; justify-content: space-between; align-items: center; height: 32px; border: 1px solid black; margin: 1px 0px 1px 0px; background-color: ghostwhite; padding: 4px;">
+                        <p>Family</p>
+                        <input type="checkbox" class="mobileGroupNameInput">
+                    </div>
+                    <div class="inactive" style="display: flex; justify-content: space-between; align-items: center; height: 32px; border: 1px solid black; margin: 1px 0px 1px 0px; background-color: ghostwhite; padding: 4px;">
+                        <p>Friends</p>
+                        <input type="checkbox" class="mobileGroupNameInput">
+                    </div>
+                    <div class="inactive" style="display: flex; justify-content: space-between; align-items: center; height: 32px; border: 1px solid black; margin: 1px 0px 1px 0px; background-color: ghostwhite; padding: 4px;">
+                        <p>Personal</p>
+                        <input type="checkbox" class="mobileGroupNameInput">
+                    </div>
+                    <div class="inactive" style="display: flex; justify-content: space-between; align-items: center; height: 32px; border: 1px solid black; margin: 1px 0px 1px 0px; background-color: ghostwhite; padding: 4px;">
+                        <p>Work</p>
+                        <input type="checkbox" class="mobileGroupNameInput">
+                    </div>
+                    <div class="inactive" style="display: flex; justify-content: space-between; align-items: center; height: 32px; border: 1px solid black; margin: 1px 0px 1px 0px; background-color: ghostwhite; padding: 4px;">
+                        <p>School</p>
+                        <input type="checkbox" class="mobileGroupNameInput">
+                    </div>
+                    <!-- <li style="display: flex; height: 40px; border: 1px solid grey; background-color: ghostwhite; padding: 4px;">
+                    </li>    -->
+                </div>
+                <div id="mobile-custom-group-input-container" class="inactive" style="display: flex; flex-direction: row; align-items: center; height: 52px; border: 2.5px solid black; background-color: ghostwhite; padding: 3px 3px; margin-top: 30px;">
+                    <div style="display: flex; align-items: center; width: 100%; height: 40px; border: 1px solid black; padding: 4px;">
+                        <label>Custom Group</label>
+                        <input id="mobile-custom-group-input-element" placeholder="Enter Name" style="display: flex; width: 70%; margin-left: 10px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-create-group-button-container" style="position: absolute; display: flex; justify-content: center; align-items: center; width: 100%; top: 96%;">
+            <div style="position: absolute; display: flex; justify-content: flex-end; width: 96%;">
+                <button id="mobile-create-group-button">Create</button>
             </div>
         </div>
     </section>

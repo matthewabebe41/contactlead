@@ -181,6 +181,26 @@ app.put("/user_images/:user_id", upload.single('editUserAddPhoto'), async (req, 
         }
 });
 
+//mobile update a user image
+// app.put("/user_images/:user_id", upload.single('mobileEditUserAddPhoto'), async (req, res) => {
+//     if (!req.file) {
+//             return res.status(400).send('No file uploaded.');
+//         }
+
+//         const { user_id } = req.params
+//         const id = req.body.id;
+//         const { originalname, mimetype, buffer } = req.file;
+
+//         try {
+//             // Insert image data into PostgreSQL
+//             const result = await pool.query('UPDATE user_images SET user_id = $1, name = $2, mime_type = $3, data = $4 WHERE user_id = $5', [id, originalname, mimetype, buffer, user_id]);
+//             res.status(201).json({ message: 'Image uploaded successfully!', id: result.rows.id });
+//         } catch (error) {
+//             console.error('Error saving image to DB:', error);
+//             res.status(500).send('Error uploading image.');
+//         }
+// });
+
 //delete a user image
 app.delete("/user_images/:user_id", async (req, res) => {
     try {
