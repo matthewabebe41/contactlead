@@ -2167,7 +2167,12 @@ const allUsers = await getAllUsers();
         })
         .catch(error => console.error('Error fetching image:', error));
 
-        if (editUserImage.getAttribute("src") === imageString && editUserAddPhotoInputElement.value === "") {
+        console.log(imageString)
+
+        if (editUserImage.getAttribute("src") !== imageString && editUserAddPhotoInputElement.value !== "") {
+            editUserAddPhotoInputElement.value = "";
+            editUserImage.setAttribute("src", imageString)
+        } else if (editUserImage.getAttribute("src") === imageString && editUserAddPhotoInputElement.value === "") {
             editUserImage.setAttribute("src", "./images/user-5-svgrepo-com.svg")
         } else if (editUserImage.getAttribute("src") !== imageString && editUserAddPhotoInputElement.value === "") {
             editUserImage.setAttribute("src", "./images/user-5-svgrepo-com.svg")
@@ -2445,7 +2450,10 @@ const allUsers = await getAllUsers();
         })
         .catch(error => console.error('Error fetching image:', error));
 
-        if (editUserImage.getAttribute("src") === imageString && editUserAddPhotoInputElement.value === "") {
+        if (editUserImage.getAttribute("src") !== imageString && editUserAddPhotoInputElement.value !== "") {
+            editUserAddPhotoInputElement.value = "";
+            editUserImage.setAttribute("src", imageString)
+        } else if (editUserImage.getAttribute("src") === imageString && editUserAddPhotoInputElement.value === "") {
             editUserImage.setAttribute("src", "./images/user-5-svgrepo-com.svg")
         } else if (editUserImage.getAttribute("src") !== imageString && editUserAddPhotoInputElement.value === "") {
             editUserImage.setAttribute("src", "./images/user-5-svgrepo-com.svg")
@@ -2526,6 +2534,128 @@ const allUsers = await getAllUsers();
         const mobileEditUserAddPhotoButtonContainerMarginLeftStr =  mobileEditUserAddPhotoButtonContainerMarginLeft.toString() + "px"
         const mobileEditUserAddPhotoButtonContainer = document.querySelector("#mobile-edit-user-add-photo-button-container")
         mobileEditUserAddPhotoButtonContainer.style.marginLeft = mobileEditUserAddPhotoButtonContainerMarginLeftStr;
+
+        console.log(screenWidth)
+        const mobileEditUserAddPhoto = document.querySelector("#mobile-edit-user-add-photo-form");
+        const mobileEditUserAddPhotoButtonsContainer = document.querySelector("#mobile-edit-user-add-photo-buttons-container")
+
+         if (screenWidth >= 340 && screenWidth < 375) {
+            mobileEditUserAddPhoto.style.width = "56%";
+            mobileEditUserAddPhotoButtonsContainer.style.width = "44%";
+        }
+        if (screenWidth >= 375 && screenWidth < 425) {
+            mobileEditUserAddPhoto.style.width = "60%";
+            mobileEditUserAddPhotoButtonsContainer.style.width = "40%";
+        }
+        // if (screenWidth >= 400 && screenWidth < 425) {
+        //     mobileEditUserAddPhoto.style.width = "61%";
+        //     mobileEditUserAddPhotoButtonsContainer.style.width = "39%";
+        // }
+        if (screenWidth >= 425 && screenWidth < 525) {
+            mobileEditUserAddPhoto.style.width = "60%";
+            mobileEditUserAddPhotoButtonsContainer.style.width = "40%";
+        }
+        // if (screenWidth >= 450 && screenWidth < 475) {
+        //     mobileEditUserAddPhoto.style.width = "63%";
+        //     mobileEditUserAddPhotoButtonsContainer.style.width = "37%";
+        // }
+        // if (screenWidth >= 475 && screenWidth < 500) {
+        //     mobileEditUserAddPhoto.style.width = "64%";
+        //     mobileEditUserAddPhotoButtonsContainer.style.width = "36%";
+        // }
+        // if (screenWidth >= 500 && screenWidth < 525) {
+        //     mobileEditUserAddPhoto.style.width = "65%";
+        //     mobileEditUserAddPhotoButtonsContainer.style.width = "35%";
+        // }
+        if (screenWidth >= 525 && screenWidth < 625) {
+            mobileEditUserAddPhoto.style.width = "65%";
+            mobileEditUserAddPhotoButtonsContainer.style.width = "35%";
+        }
+        // if (screenWidth >= 550 && screenWidth < 575) {
+        //     mobileEditUserAddPhoto.style.width = "67%";
+        //     mobileEditUserAddPhotoButtonsContainer.style.width = "33%";
+        // }
+        // if (screenWidth >= 575 && screenWidth < 600) {
+        //     mobileEditUserAddPhoto.style.width = "68%";
+        //     mobileEditUserAddPhotoButtonsContainer.style.width = "32%";
+        // }
+        // if (screenWidth >= 600 && screenWidth < 625) {
+        //     mobileEditUserAddPhoto.style.width = "69%";
+        //     mobileEditUserAddPhotoButtonsContainer.style.width = "31%";
+        // }
+        if (screenWidth >= 625 && screenWidth < 725) {
+            mobileEditUserAddPhoto.style.width = "70%";
+            mobileEditUserAddPhotoButtonsContainer.style.width = "30%";
+        }
+        // if (screenWidth >= 650 && screenWidth < 675) {
+        //     mobileEditUserAddPhoto.style.width = "71%";
+        //     mobileEditUserAddPhotoButtonsContainer.style.width = "29%";
+        // }
+        // if (screenWidth >= 675 && screenWidth < 700) {
+        //     mobileEditUserAddPhoto.style.width = "72%";
+        //     mobileEditUserAddPhotoButtonsContainer.style.width = "28%";
+        // }
+        // if (screenWidth >= 700 && screenWidth < 725) {
+        //     mobileEditUserAddPhoto.style.width = "73%";
+        //     mobileEditUserAddPhotoButtonsContainer.style.width = "27%";
+        // }
+        if (screenWidth >= 725 && screenWidth < 825) {
+            mobileEditUserAddPhoto.style.width = "75%";
+            mobileEditUserAddPhotoButtonsContainer.style.width = "25%";
+        }
+        // if (screenWidth >= 750 && screenWidth < 775) {
+        //     mobileEditUserAddPhoto.style.width = "70%";
+        //     mobileEditUserAddPhotoButtonsContainer.style.width = "30%";
+        // }
+        // if (screenWidth >= 775 && screenWidth < 800) {
+        //     mobileEditUserAddPhoto.style.width = "70%";
+        //     mobileEditUserAddPhotoButtonsContainer.style.width = "30%";
+        // }
+        // if (screenWidth >= 800 && screenWidth < 825) {
+        //     mobileEditUserAddPhoto.style.width = "70%";
+        //     mobileEditUserAddPhotoButtonsContainer.style.width = "30%";
+        // }
+        if (screenWidth >= 825 && screenWidth < 1070) {
+            mobileEditUserAddPhoto.style.width = "80%";
+            mobileEditUserAddPhotoButtonsContainer.style.width = "20%";
+        }
+        // if (screenWidth >= 850 && screenWidth < 875) {
+        //     mobileEditUserAddPhoto.style.width = "79%";
+        //     mobileEditUserAddPhotoButtonsContainer.style.width = "21%";
+        // }
+        // if (screenWidth >= 875 && screenWidth < 900) {
+        //     mobileEditUserAddPhoto.style.width = "80%";
+        //     mobileEditUserAddPhotoButtonsContainer.style.width = "20%";
+        // }
+        // if (screenWidth >= 900 && screenWidth < 925) {
+        //     mobileEditUserAddPhoto.style.width = "81%";
+        //     mobileEditUserAddPhotoButtonsContainer.style.width = "19%";
+        // }
+        // if (screenWidth >= 1000 && screenWidth < 1070) {
+        //     mobileEditUserAddPhoto.style.width = "85%";
+        //     mobileEditUserAddPhotoButtonsContainer.style.width = "15%";
+        // }
+        // if (screenWidth >= 950 && screenWidth < 975) {
+        //     mobileEditUserAddPhoto.style.width = "83%";
+        //     mobileEditUserAddPhotoButtonsContainer.style.width = "17%";
+        // }
+        // if (screenWidth >= 975 && screenWidth < 1000) {
+        //     mobileEditUserAddPhoto.style.width = "84%";
+        //     mobileEditUserAddPhotoButtonsContainer.style.width = "16%";
+        // }
+        // if (screenWidth >= 1000 && screenWidth < 1025) {
+        //     mobileEditUserAddPhoto.style.width = "80%";
+        //     mobileEditUserAddPhotoButtonsContainer.style.width = "20%";
+        // }
+        // if (screenWidth >= 1025 && screenWidth < 1050) {
+        //     mobileEditUserAddPhoto.style.width = "80%";
+        //     mobileEditUserAddPhotoButtonsContainer.style.width = "20%";
+        // }
+        // if (screenWidth >= 1050 && screenWidth < 1070) {
+        //     mobileEditUserAddPhoto.style.width = "80%";
+        //     mobileEditUserAddPhotoButtonsContainer.style.width = "20%";
+        // }
+        
     });
 
     const editUserFirstNameElement = document.querySelector("#mobile-edit-user-firstname");
@@ -2603,8 +2733,7 @@ const allUsers = await getAllUsers();
                  editUserMatchingPasswordsContainer.children[0].style.color = "green"
             };
         };
-
-    })
+    });
 
     editUserConfirmPasswordElement.addEventListener("input", function() {
         if (editUserPasswordElement.value.length === 0) {
@@ -2665,61 +2794,7 @@ const allUsers = await getAllUsers();
     document.body.style.overflow = "hidden"
 };
 
-async function handleEditUserImage() {
-const allUsers = await getAllUsers();
-    const sessionId = sessionStorage.getItem("user");
-    let matchingUser;
-    for (let i = 0; i < allUsers.length; i++) {
-        if (allUsers[i].session_id === sessionId) {
-            matchingUser = allUsers[i]
-        }
-    }
-    const userId = matchingUser.user_id;
-    const user = await getUser(userId);
-    const newUserImageElement = document.querySelector("#edit-user-image");
-    let newUserImageFile;
-    let newUserImage;
-    const editUserAddPhotoInputElement = document.querySelector("#edit-user-add-photo")
-
-        newUserImageFile = editUserAddPhotoInputElement.files[0];
-        let reader = new FileReader()
-
-        console.log(newUserImageFile)
-
-        reader.onload = function () {
-            base64string = reader.result.split(',')[1]
-            newUserImage = reader.result;
-            newUserImageElement.setAttribute("src", reader.result);
-            newUserImageElement.style.borderRadius = "50%"
-        };
-
-        if (newUserImageFile !== undefined) {
-            reader.readAsDataURL(newUserImageFile)
-        } else {
-            newUserImageElement.setAttribute("src", './images/user-5-svgrepo-com.svg')
-        }
-    
-        const editUserImageObject = {
-            firstname: user.firstname,
-            lastname: user.lastname,
-            emailaddress: user.emailaddress,
-            phonenumber: user.phonenumber,
-            password: user.user_password,
-            userImage: null
-            // userImage: newUserImageElement.getAttribute("src")
-        };
-
-        console.log(editUserImageObject)
-
-        editUserAddPhotoInputElement.value = ""
-
-        return editUserImageObject
-};
-
 async function handleUploadImageInput() {
-    // let imageFile;
-    // let image;
-    // const newUserImageElement = document.querySelector("#edit-user-image");
 
     const newUserImageElement = document.querySelector("#edit-user-image");
     let newUserImageFile;
@@ -2740,9 +2815,7 @@ async function handleUploadImageInput() {
 
         if (newUserImageFile !== undefined) {
             reader.readAsDataURL(newUserImageFile)
-        } else {
-            newUserImageElement.setAttribute("src", './images/user-5-svgrepo-com.svg')
-        }
+        };
 
     const editUserAddPhotoFormElement = document.querySelector("#edit-user-add-photo-form");
     // const editUserAddPhotoInputElement = document.querySelector("#edit-user-add-photo");
@@ -2802,9 +2875,7 @@ async function mobileHandleUploadImageInput() {
 
         if (newUserImageFile !== undefined) {
             reader.readAsDataURL(newUserImageFile)
-        } else {
-            newUserImageElement.setAttribute("src", './images/user-5-svgrepo-com.svg')
-        }
+        };
 
     const editUserAddPhotoFormElement = document.querySelector("#mobile-edit-user-add-photo-form");
     // const editUserAddPhotoInputElement = document.querySelector("#edit-user-add-photo");
@@ -3372,6 +3443,7 @@ const allUsers = await getAllUsers();
         const newWidth = (80 / 100) * mobileContactsListHeaderElementHeight
         const newWidthStr = newWidth.toString() + "px"
 
+        // console.log(mobileContactsListHeaderElementHeight)
         mobileContactsListHeaderImageCircleElement.style.width = newWidthStr
         mobileContactsListFavoriteSquareElement.style.width = newWidthStr
     });
@@ -6928,6 +7000,57 @@ async function handleEditGroupNameInput() {
     return groupToEditObj
 };
 
+async function mobileHandleEditGroupNameInput() {
+    const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const userId = matchingUser.user_id;
+    const groupListItemEditModalInputElement = document.querySelector("#mobile-group-list-item-edit-modal-input-element");
+    const groupListItemEditModalInputElementValue = groupListItemEditModalInputElement.value;
+    console.log(groupListItemEditModalInputElementValue)
+
+        const groupsList = document.querySelector("#mobile-groups-list");
+        const groupsListChildren = groupsList.children;
+        const groupsListArr = Array.from(groupsListChildren)
+        const searchGroupsAutocompleteList = document.querySelector("#mobile-autocomplete-groups-list");
+        const searchGroupsAutocompleteListChildren = searchGroupsAutocompleteList.children;
+        const searchGroupsAutocompleteListArr = Array.from(searchGroupsAutocompleteListChildren)
+        console.log(searchGroupsAutocompleteList)
+        console.log(groupsList)
+
+        let groupToEdit;
+        groupsListArr.forEach(group => {
+            if (group.classList.contains("edit-active")) {
+                groupToEdit = group;
+            };
+
+            if (groupToEdit === undefined) {
+                searchGroupsAutocompleteListArr.forEach(autoCompleteGroup => {
+                    if (autoCompleteGroup.classList.contains("edit-active")) {
+                        groupToEdit = autoCompleteGroup;
+                    };
+                })
+            };   
+        });
+    console.log(groupToEdit.getAttribute("groupId"))
+    const grouptoEditId = Number(groupToEdit.getAttribute("groupId")) 
+    
+     const groupToEditObj = {
+        userId: userId,
+        groupId: grouptoEditId,
+        groupName: groupListItemEditModalInputElementValue
+    }
+
+    console.log(groupToEditObj)
+
+    return groupToEditObj
+};
+
 async function renderGroupContactsListContent() {
     const allUsers = await getAllUsers();
     const sessionId = sessionStorage.getItem("user");
@@ -7299,8 +7422,8 @@ async function renderGroupContactsListContent() {
     console.log(groupContacts)
 };
 
-async function mobileHandleEditGroupNameInput() {
-    const allUsers = await getAllUsers();
+async function renderMobileGroupContactsListContent() {
+   const allUsers = await getAllUsers();
     const sessionId = sessionStorage.getItem("user");
     let matchingUser;
     for (let i = 0; i < allUsers.length; i++) {
@@ -7309,46 +7432,328 @@ async function mobileHandleEditGroupNameInput() {
         }
     }
     const userId = matchingUser.user_id;
-    const groupListItemEditModalInputElement = document.querySelector("#mobile-group-list-item-edit-modal-input-element");
-    const groupListItemEditModalInputElementValue = groupListItemEditModalInputElement.value;
-    console.log(groupListItemEditModalInputElementValue)
+    const user = await getUser(userId);
 
-        const groupsList = document.querySelector("#mobile-groups-list");
-        const groupsListChildren = groupsList.children;
-        const groupsListArr = Array.from(groupsListChildren)
-        const searchGroupsAutocompleteList = document.querySelector("#mobile-autocomplete-groups-list");
-        const searchGroupsAutocompleteListChildren = searchGroupsAutocompleteList.children;
-        const searchGroupsAutocompleteListArr = Array.from(searchGroupsAutocompleteListChildren)
-        console.log(searchGroupsAutocompleteList)
-        console.log(groupsList)
+    const currentUrl = window.location.href.toString();
 
-        let groupToEdit;
-        groupsListArr.forEach(group => {
-            if (group.classList.contains("edit-active")) {
-                groupToEdit = group;
-            };
+    const userGroupContacts = await getUserContactGroupings(userId);
+    const groupIdUrl = currentUrl.split("group_")[1];
+    const queryCharIndex = groupIdUrl.indexOf("?")
+    const groupId = Number(groupIdUrl.slice(0, queryCharIndex));
+    const group = await getAUserGroup(userId, groupId)
 
-            if (groupToEdit === undefined) {
-                searchGroupsAutocompleteListArr.forEach(autoCompleteGroup => {
-                    if (autoCompleteGroup.classList.contains("edit-active")) {
-                        groupToEdit = autoCompleteGroup;
-                    };
-                })
-            };   
-        });
-    console.log(groupToEdit.getAttribute("groupId"))
-    const grouptoEditId = Number(groupToEdit.getAttribute("groupId")) 
+    const groupContacts = [];
+    for (let i = 0; i < userGroupContacts.length; i++) {
+        if (userGroupContacts[i].group_id === groupId) {
+            groupContacts.push(userGroupContacts[i])
+        }
+    };
+
+    const userImage = await getAUserImage(userId);
+    const imageString = `data:${userImage.contentType};base64,${userImage.image}`
+    const groupsContactsListUserImage = document.querySelector("#mobile-group-contacts-list-user-image");
+    groupsContactsListUserImage.setAttribute("src", imageString);
+    groupsContactsListUserImage.style.borderRadius = "50%";
     
-     const groupToEditObj = {
-        userId: userId,
-        groupId: grouptoEditId,
-        groupName: groupListItemEditModalInputElementValue
+    // const userId = matchingUser.user_id;
+    // const userContacts = await getUserContacts(userId);
+
+    // const groupContactsListListUserImage = document.querySelector("#mobile-group-contacts-list-user-image");
+    // if (user.user_image !== null && user.user_image !== './images/user-5-svgrepo-com.svg') {
+    //     groupContactsListListUserImage.setAttribute("src", user.user_image);
+    //     groupContactsListListUserImage.style.borderRadius = "50%"
+    // }
+
+    // const favoritesHeaderUserName = document.querySelector("#mobile-favorites-header-user-name");
+    // favoritesHeaderUserName.innerHTML = `${user.firstname} ${user.lastname}`;
+    // const favaoritesHeaderUserEmail = document.querySelector("#mobile-favorites-header-user-email");
+    // favaoritesHeaderUserEmail.innerHTML = user.emailaddress;
+
+    const mobileGroupContactsListUserNameElement = document.querySelector("#mobile-group-contacts-list-user-name");
+    const mobileGroupContactsListUserEmailAddressElement = document.querySelector("#mobile-group-contacts-list-user-email")
+    mobileGroupContactsListUserNameElement.innerHTML = `${user.firstname} ${user.lastname}`;
+    mobileGroupContactsListUserNameElement.style.fontFamily = "Arial";
+    // favoriteContactsUserNameElement.style.fontSize = "xx-large"
+    // favoriteContactsUserEmailAddressElement.innerHTML = `${user.emailaddress}`
+
+       requestAnimationFrame(() => {
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+        const mobileGroupContactsListHeaderElement = document.querySelector("#mobile-group-contacts-list-header-user-container");
+        const mobileGroupContactsListHeaderElementHeight = mobileGroupContactsListHeaderElement.clientHeight;
+        const mobileGroupContactsListImageCircleElement = document.querySelector("#mobile-group-contacts-list-header-user-image-circle");
+        const mobileGroupContactsListSquareElement = document.querySelector("#mobile-group-contacts-list-header-user-favorite-square")
+        const derivedHeight = screenHeight * 13.6160714;
+        const newWidth = (80 / 100) * derivedHeight
+        const newWidthStr = newWidth.toString() + "px"
+        console.log(screenHeight)
+        mobileGroupContactsListImageCircleElement.style.width = newWidthStr
+        mobileGroupContactsListSquareElement.style.width = newWidthStr
+    });
+
+    const allUserContacts = await getUserContacts(userId);
+
+    const finalGroupContacts = []
+    groupContacts.forEach(contact => {
+        // console.log(allUserContacts)
+        for (let i = 0; i < allUserContacts.length; i++) {
+            if (allUserContacts[i].contact_id === contact.contact_id) {
+                finalGroupContacts.push(allUserContacts[i])
+            }
+        }
+    })
+
+    console.log(finalGroupContacts)
+
+    finalGroupContacts.sort(function(a, b) {
+        if (a.firstname < b.firstname) {
+            return -1;
+        }
+        if (a.firstname < b.firstname) {
+            return 1;
+        }
+        
+        var aFirstChar = a.firstname.charAt(0);
+        var bFirstChar = b.firstname.charAt(0);
+        if (aFirstChar > bFirstChar) {
+          return 1;
+        } else if (aFirstChar < bFirstChar) {
+          return -1;
+        } else {
+          var aLastChar = a.lastname.charAt(0);
+          var bLastChar = b.lastname.charAt(0);
+          if (aLastChar === "") {
+            aLastChar = "z"
+          }
+          if (bLastChar === "") {
+            bLastChar = "z"
+          }
+          if (aLastChar > bLastChar) {
+            return 1;
+          } else if (aLastChar < bLastChar) {
+            return -1;
+          } else {
+            return 0;
+          }    
+        }
+      });
+
+    const groupContactsListContainer = document.createElement("div");
+    const groupContactsListContactsHeaderContainer = document.createElement("div");
+    groupContactsListContactsHeaderContainer.style.display = "flex";
+    // groupContactsListContactsHeaderContainer.style.justifyContent = "space-between"
+    groupContactsListContactsHeaderContainer.style.alignItems = "center"
+    // groupContactsListContactsHeaderContainer.style.width = "25%";
+    groupContactsListContactsHeaderContainer.style.backgroundColor = "ghostwhite"
+    // groupContactsListContactsHeaderContainer.style.marginBottom = "5px"
+    groupContactsListContactsHeaderContainer.style.padding = "5px"
+    const myGroupContactsHeaderElement = document.createElement("h2");
+    myGroupContactsHeaderElement.innerHTML = `${group.groupname} Contacts`;
+    // myGroupContactsHeaderElement.style.width = "140px"
+    myGroupContactsHeaderElement.style.margin = "0"
+    myGroupContactsHeaderElement.style.marginLeft = "5px"
+    // myGroupContactsHeaderElement.style.marginRight = "10px"
+    const numberOfGroupContactsElement = document.createElement("h2");
+    numberOfGroupContactsElement.innerHTML = finalGroupContacts.length;
+    numberOfGroupContactsElement.style.display = "inline-flex";
+    numberOfGroupContactsElement.style.justifyContent = "center";
+    numberOfGroupContactsElement.style.alignItems = "center";
+    numberOfGroupContactsElement.style.width = "15px";
+    numberOfGroupContactsElement.style.height = "15px";
+    numberOfGroupContactsElement.style.backgroundColor = "navy";
+    numberOfGroupContactsElement.style.color = "white"
+    numberOfGroupContactsElement.style.padding = "10px";
+    numberOfGroupContactsElement.style.borderRadius = "50%";
+    numberOfGroupContactsElement.style.margin = "0"
+    groupContactsListContainer.style.position = "absolute";
+    groupContactsListContainer.style.top = "23.2%"
+    // groupContactsListContainer.style.left = "31.5%"
+    groupContactsListContainer.style.width = "100%"
+    const groupContactsList = document.createElement("ul");
+    groupContactsList.style.position = "relative";
+    groupContactsList.style.listStyle = "none";
+    groupContactsList.style.padding = "0"
+    groupContactsList.style.margin = "0px 0px 2px 0px"
+    finalGroupContacts.forEach(async (contact) => {
+        const groupContactListItem = document.createElement("div");
+        groupContactListItem.style.display = "flex";
+        groupContactListItem.style.flexDirection = "row";
+        groupContactListItem.style.justifyContent = "space-between";
+        groupContactListItem.style.height = "80px"
+        groupContactListItem.style.borderTop = "1px solid gray";
+        groupContactListItem.style.borderBottom = "1px solid gray";
+        groupContactListItem.style.backgroundColor = "ghostwhite"
+        groupContactListItem.style.marginTop = "1px";
+        // groupContactListItem.style.marginBottom = "2px";
+        groupContactListItem.setAttribute("contactId", contact.contact_id)
+
+        groupContactListItem.addEventListener("mouseover", function() {
+            groupContactListItem.style.backgroundColor = "lightgreen";
+        });
+
+        groupContactListItem.addEventListener("mouseout", function() {
+            groupContactListItem.style.backgroundColor = "ghostwhite";
+        });
+
+        groupContactListItem.addEventListener("click", function(event) {
+            
+            if (!event.target.classList.contains("contact-favorite-icon")) {
+                // groupContactListItem.style.backgroundColor = "green";
+                
+                function saveDataToURL(url, data) {
+                    const urlObject = new URL(url);
+                    const params = new URLSearchParams(urlObject.search);
+                
+                    for (const key in data) {
+                        if (data.hasOwnProperty(key)) {
+                            params.set(key, data[key]);
+                        }
+                    }
+                    urlObject.search = params.toString();
+                    return urlObject.toString();
+                }
+                
+                const myURL = `${rootUrl}/contact_${contact.contact_id}`;
+                const myData = {
+                    name: `${contact.firstname} ${contact.lastname}`,
+                    // age: 30,
+                    // city: "New York"
+                };
+                
+                const newURL = saveDataToURL(myURL, myData);
+                console.log(newURL);
+                // Expected output: "https://example.com/page?name=John+Doe&age=30&city=New+York"
+                window.location.href = newURL
+            }
+        })
+
+        const groupContactListItemImageContainer = document.createElement("div");
+        groupContactListItemImageContainer.style.display = "flex";
+        groupContactListItemImageContainer.style.alignItems = "center";
+        groupContactListItemImageContainer.style.width = "20%"
+        groupContactListItemImageContainer.style.padding = "5px"
+        const groupContactListItemImage = document.createElement("img");
+        groupContactListItemImage.style.width = "60px";
+        groupContactListItemImage.style.height = "60px";
+        groupContactListItemImage.style.border = "0.5px solid grey";
+        groupContactListItemImage.style.borderRadius = "50%";
+        groupContactListItemImage.style.backgroundColor = "gainsboro"
+        groupContactListItemImage.style.objectFit = "cover";
+
+        const contact_id = contact.contact_id;
+        const contactImage = await getAContactImage(userId, contact_id)
+        const imageString = `data:${contactImage.contentType};base64,${contactImage.image}`
+        groupContactListItemImage.setAttribute("src", imageString);
+        groupContactListItemImage.style.borderRadius = "50%";
+
+        // contactListItem.innerHTML = `${contact.firstname} ${contact.lastname}`;
+        const groupContactListNameContainer = document.createElement("div");
+        groupContactListNameContainer.style.display = "flex";
+        groupContactListNameContainer.style.flexDirection = "column"
+        groupContactListNameContainer.style.justifyContent = "center";
+        groupContactListNameContainer.style.alignItems = "center";
+        groupContactListNameContainer.style.width = "54.5%"
+        const groupContactListNameElement = document.createElement("h3");
+        groupContactListNameElement.style.margin = "0";
+        groupContactListNameElement.innerHTML = `${contact.firstname} ${contact.lastname}`;
+        const groupContactListEmailElement = document.createElement("p");
+        groupContactListEmailElement.style.fontStyle = "italic"
+        groupContactListEmailElement.style.margin = "0"
+        
+        console.log(contact)
+        if (contact.emailaddress !== null && contact.emailaddress !== "") {
+            groupContactListEmailElement.innerHTML = contact.emailaddress;
+        } else {
+            groupContactListEmailElement.innerHTML = "text";
+            groupContactListEmailElement.style.visibility = "hidden";
+        }
+
+        console.log(contact)
+
+        const groupContactListOrganizationAndRoleElement = document.createElement("p");
+        groupContactListOrganizationAndRoleElement.style.fontWeight = "bolder";
+        groupContactListOrganizationAndRoleElement.style.margin = "0";
+    
+        if (contact.organization !== null && contact.organization !== "" && contact.organization_role !== null && contact.organization_role !== "") {
+            groupContactListOrganizationAndRoleElement.innerHTML = `${contact.organization} || ${contact.organization_role}`
+        } else if (contact.organization !== null && contact.organization !== "" || contact.organization_role === null && contact.organization_role === "") {
+            groupContactListOrganizationAndRoleElement.innerHTML = `${contact.organization}`
+        } else if (contact.organization === null && contact.organization === "" || contact.organization_role !== null && contact.organization_role !== "") {
+            groupContactListOrganizationAndRoleElement.innerHTML = `${contact.organization_role}`
+        } else {
+            groupContactListOrganizationAndRoleElement.innerHTML = "text"
+            groupContactListOrganizationAndRoleElement.style.visibility = "hidden"
+        }
+
+    requestAnimationFrame(() => {     
+    const ellipsis = "..."
+    const groupContactListItemNameElementText = groupContactListNameElement.textContent;
+    const groupContactListItemNameElementHeight = groupContactListNameElement.clientHeight;
+    // console.log(contactListNameElementHeight)
+    const groupContactListNameTextSlice = groupContactListItemNameElementText.slice(0, 12) + ellipsis;
+    if (groupContactListItemNameElementHeight > 22) {
+        groupContactListNameElement.innerHTML = groupContactListNameTextSlice
     }
 
-    console.log(groupToEditObj)
+    const groupContactListNameContainerWidth = groupContactListNameContainer.clientWidth;
+    const contactEmailAddressText = contact.emailaddress;
+    const groupContactEmailAddressElementWidth = groupContactListEmailElement.clientWidth;
+    let groupContactEmailAddressTextSlice = contactEmailAddressText.slice(0, 25) + ellipsis
+    if (groupContactEmailAddressElementWidth > groupContactListNameContainerWidth) {
+        groupContactListEmailElement.innerHTML = groupContactEmailAddressTextSlice
+    } else {
+        groupContactListEmailElement.innerHTML = contact.emailaddress
+    }
 
-    return groupToEditObj
-};
+    const elOrg = groupContactListOrganizationAndRoleElement;
+    const elOrgHeight = elOrg.clientHeight;
+    const elOrgText = elOrg.innerText;
+    const elOrgTextSlice = elOrgText.slice(0, 22) + ellipsis
+    if (elOrgHeight > 22) {
+        elOrg.innerHTML = elOrgTextSlice
+    }
+});
+    
+        const groupContactListFavoritesStarIconContainer = document.createElement("div");
+        groupContactListFavoritesStarIconContainer.style.display = "flex";
+        groupContactListFavoritesStarIconContainer.style.justifyContent = "flex-end";
+        groupContactListFavoritesStarIconContainer.style.alignItems = "center"
+        groupContactListFavoritesStarIconContainer.style.padding = "5px"
+        groupContactListFavoritesStarIconContainer.style.width = "20%";
+        const groupContactListFavoriteStarImg = document.createElement("img");
+        groupContactListFavoriteStarImg.classList.add("contact-favorite-icon")
+        groupContactListFavoriteStarImg.style.width = "60px"
+
+        // console.log(contact.favorite)
+
+        // contactListFavoriteStarImg.addEventListener("click", function(event) {
+        //     // event.preventDefault()
+        //     updateContactFavorite()
+        // }, false)
+        
+        groupContactListFavoriteStarImg.setAttribute("src", "./images/star-gold-svgrepo-com.svg");
+        if (contact.favorite === null || contact.favorite === false) {
+            groupContactListFavoriteStarImg.style.display = "none"
+        } else {
+            groupContactListFavoriteStarImg.style.display = "block"
+        }
+        
+        groupContactListItemImageContainer.appendChild(groupContactListItemImage);
+        groupContactListNameContainer.appendChild(groupContactListNameElement);
+        groupContactListNameContainer.appendChild(groupContactListEmailElement);
+        groupContactListNameContainer.appendChild(groupContactListOrganizationAndRoleElement);
+        groupContactListItem.appendChild(groupContactListItemImageContainer);
+        groupContactListItem.appendChild(groupContactListNameContainer);
+        groupContactListFavoritesStarIconContainer.appendChild(groupContactListFavoriteStarImg);
+        groupContactListItem.appendChild(groupContactListFavoritesStarIconContainer);
+        groupContactsList.appendChild(groupContactListItem);
+    });
+    groupContactsListContactsHeaderContainer.append(myGroupContactsHeaderElement)
+    groupContactsListContactsHeaderContainer.appendChild(numberOfGroupContactsElement)
+    groupContactsListContainer.appendChild(groupContactsListContactsHeaderContainer)
+    groupContactsListContainer.appendChild(groupContactsList)
+    document.body.appendChild(groupContactsListContainer)
+}
 
 async function renderCreateGroupsContent() {
 
@@ -10404,13 +10809,13 @@ async function showPages() {
 
     const smallSidebar = document.querySelector("#small-sidebar");
     const largeSidebar = document.querySelector("#large-sidebar")
-    if (clientwidth <= 1070) {
+    if (clientwidth < 1025) {
         smallSidebar.style.display = "none";
         largeSidebar.style.display = "none";
     }
 
     const mobileSmallSidebar = document.querySelector("#mobile-footer");
-    if (clientwidth > 1070) {
+    if (clientwidth >= 1025) {
         mobileSmallSidebar.style.display = "none";
     }
 
@@ -10494,7 +10899,7 @@ async function showPages() {
     };
 
     const editUserViewElement = document.querySelector("#edit-user-view");
-    if (window.location.href.startsWith(`${rootUrl}/edit_user`) && clientwidth > 1070) {
+    if (window.location.href.startsWith(`${rootUrl}/edit_user`) && clientwidth >= 1025) {
         editUserViewElement.style.display = "block";
         appName.style.left = "32%"
         await renderEditUserContent()
@@ -10503,7 +10908,7 @@ async function showPages() {
     };
 
     const mobileEditUserViewElement = document.querySelector("#mobile-edit-user-view");
-    if (window.location.href.startsWith(`${rootUrl}/edit_user`) && clientwidth < 1070) {
+    if (window.location.href.startsWith(`${rootUrl}/edit_user`) && clientwidth < 1025) {
         mobileEditUserViewElement.style.display = "block";
         await renderMobileEditUserContent()
     } else {
@@ -10572,6 +10977,16 @@ async function showPages() {
         manageGroupsViewElement.style.display = "none"
     };
 
+    const mobileManageGroupsViewElement = document.querySelector("#mobile-manage-contact-groups-view");
+        if (window.location.href.startsWith(`${rootUrl}/manage_groups_contact`) && clientwidth < 1070) {
+            mobileManageGroupsViewElement.style.display = "block";
+            // appName.style.left = "32%"
+            // await renderManageContactGroupsContent()
+            // await renderMobileManageContactGroupsContent
+    } else {
+        mobileManageGroupsViewElement.style.display = "none"
+    };
+
     const groupContactsListView = document.querySelector("#group-contacts-list-view");
         if (window.location.href.startsWith(`${rootUrl}/group_`) && clientwidth > 1070) {
             groupContactsListView.style.display = "block";
@@ -10580,6 +10995,17 @@ async function showPages() {
             await renderGroupContactsListContent()
     } else {
         groupContactsListView.style.display = "none"
+    };
+
+    const mobileGroupContactsListView = document.querySelector("#mobile-group-contacts-list-view");
+        if (window.location.href.startsWith(`${rootUrl}/group_`) && clientwidth < 1070) {
+            mobileGroupContactsListView.style.display = "block";
+            // appName.style.left = "32%"
+            // await renderManageContactGroupsContent()
+            // await renderGroupContactsListContent()
+            await renderMobileGroupContactsListContent()
+    } else {
+        mobileGroupContactsListView.style.display = "none"
     };
 
     const newContactViewElement = document.querySelector("#new-contact-view");

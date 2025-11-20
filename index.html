@@ -575,10 +575,10 @@
         </div>
         <div id="mobile-edit-user-add-photo-input-container" style="position: absolute; align-items: center; width: 100%; height: 33px; top: 15.25%; z-index: 2; background-color: grey; border: 1px solid black; box-shadow: 2px 2px 2px; display: none;">
             <div style="display: flex; justify-content: space-between; width: 100%;">
-                <form id="mobile-edit-user-add-photo-form" name="mobileEditUserAddPhotoForm" action="/user_images" method="PUT" enctype="multipart/form-data" style="width: 60%;">
+                <form id="mobile-edit-user-add-photo-form" name="mobileEditUserAddPhotoForm" action="/user_images" method="PUT" enctype="multipart/form-data">
                     <input id="mobile-edit-user-add-photo" name="editUserAddPhoto" type="file" accept="image/*" style="width: 100%; margin-left: 4px;">
                 </form>
-                  <div style="display: flex; justify-content: space-between; align-items: center; width: 40%;">
+                  <div id="mobile-edit-user-add-photo-buttons-container" style="display: flex; justify-content: space-between; align-items: center; width: 40%;">
                     <button id="mobile-edit-user-add-photo-insert-button" style="height: 20px; background-color: lightgoldenrodyellow;">Insert</button>
                     <button id="mobile-edit-user-remove-photo-button" style="height: 20px; background-color: indianred; z-index: 1;">Remove</button>
                     <img id="check-edit-user-image" src="./images/user-5-svgrepo-com.svg" style="display: none;">
@@ -1266,6 +1266,10 @@
         </div>
     </section>
 
+    <section id="mobile-manage-contact-groups-view" style="position: absolute; width: 100%; height: 90.5%; top: 9.5%; display: none; overflow: hidden;">
+        <div>Manage Contact Groups</div>
+    </section>
+
     <section id="group-contacts-list-view" style="position: absolute; width: 68.5%; height: 90.5%; top: 9.5%; left: 31.5%; display: none; overflow: hidden;">
           <div id="groups-contacts-list-user-header-container" style="position: absolute; display: flex; align-items: center; width: 100%; height: 20%; background-color: #f9f9f9; box-shadow: 2px 2px 2px;">
             <div id="groups-contacts-list-user-image-container" style="display: flex; align-items: center; height: 100%; padding: 10px;">
@@ -1279,6 +1283,31 @@
                 <div></div>
                 <h2 id="groups-contacts-list-user-name" style="margin: 0"></h2>
                 <p id="groups-contacts-list-user-email" style="margin: 0"></p>
+            </div>
+        </div>
+    </section>
+
+    <section id="mobile-group-contacts-list-view" style="position: absolute; width: 100%; height: 90.5%; top: 9.5%; display: none; overflow: hidden;">
+        <!-- <div>Mobile Group Contacts List</div> -->
+          <div id="mobile-group-contacts-list-header-user-container" style="position: absolute; display: flex; justify-content: space-between; align-items: center; width: 100%; height: 15%; background-color: #f9f9f9; box-shadow: 2px 2px 2px;">
+            <div id="mobile-group-contacts-list-user-image-container" style="display: flex; align-items: center; width: 20%; height: 100%; padding: 5px;">
+                <div id="mobile-group-contacts-list-header-user-image-circle" style="position: relative; display: flex; justify-content: center; align-items: center; width: 100%; border: 0.5px solid grey; box-shadow: 2px 2px 2px; border-radius: 50%; background-color: gainsboro; aspect-ratio: 1;">
+                    <img id="mobile-group-contacts-list-user-image" src="./images/user-5-svgrepo-com.svg" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <!-- <div id="mobile-favorites-user-header-name-container" style="display: flex; flex-direction: column; justify-content: flex-end; height: 100%; margin: 0px 0px 00px 10px;"> -->
+                    <!-- <p id="mobile-favorites-header-user-name" style="font-weight: bold; margin: 0px;">Name</p> -->
+                    <!-- <p id="mobile-favorites-header-user-email" style="font-style: italic; margin: 0px 0px 16px 0px;">Email</p> -->
+                <!-- </div> -->
+            </div>
+            <div id="mobile-group-contacts-list-user-name-container" style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 54.5%; height: 100%;">
+                <div></div>
+                <h2 id="mobile-group-contacts-list-user-name" style="margin: 0"></h2>
+                <p id="mobile-group-contacts-list-user-email" style="margin: 0"></p>
+            </div>
+            <div id="mobile-group-contacts-list-user-favorite-icon-container" style="display: flex; justify-content: flex-end; width: 20%; height: 100%; padding: 5px;">
+                <div id="mobile-group-contacts-list-header-user-favorite-square" style="position: relative; display: flex; justify-content: center; align-items: center; width: 100%;">
+                    <img id="mobile-group-contacts-list-user-favorite-icon" src="./images/star-gold-svgrepo-com.svg" style="width: 100%; display: none;">
+                </div>
             </div>
         </div>
     </section>
