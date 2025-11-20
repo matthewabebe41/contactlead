@@ -8332,6 +8332,228 @@ async function renderManageContactGroupsContent() {
     });
 };
 
+async function renderMobileManageContactGroupsContent() {
+     const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const userId = matchingUser.user_id;
+    const userContacts = await getUserContacts(userId);
+    const userGroups = await getUserGroups(userId);
+
+    const currentUrl = window.location.href;
+    const urlContactId = currentUrl.split("contact_")[1];
+    const queryCharIndex = urlContactId.indexOf("?")
+    const contactId = Number(urlContactId.slice(0, queryCharIndex))
+    
+    console.log(userGroups)
+
+    const userContactGroupings = await getUserContactGroupings(userId)
+
+    const currentContactGroupings = [];
+    userContactGroupings.forEach(grouping => {
+        if (grouping.contact_id === contactId) {
+            currentContactGroupings.push(grouping)
+        }
+    });
+
+    console.log(currentContactGroupings)
+
+    userGroups.forEach(group => {
+        const manageContactGroupsSelectionList = document.querySelector("#mobile-manage-contact-groups-selection-list");
+        const groupListItem = document.createElement("div");
+        groupListItem.setAttribute("groupId", group.group_id)
+        groupListItem.classList.add("inactive")
+        groupListItem.style.display = "flex";
+        groupListItem.style.justifyContent = "space-between";
+        groupListItem.style.alignItems = "center";
+        groupListItem.style.height = "40px";
+        groupListItem.style.border = "1px solid black";
+        groupListItem.style.margin = "1px 0px 1px 0px"
+        groupListItem.style.backgroundColor = "ghostwhite";
+        groupListItem.style.padding = "4px";
+        const groupListItemTextElement = document.createElement("p")
+        groupListItemTextElement.innerHTML = group.groupname;
+        const groupListItemCheckboxElement = document.createElement("input");
+        groupListItemCheckboxElement.setAttribute("groupId", group.group_id)
+        groupListItemCheckboxElement.setAttribute("type", "checkbox");
+
+        for (let i = 0; i < currentContactGroupings.length; i++) {
+            if (group.group_id === currentContactGroupings[i].group_id) {
+                groupListItem.classList.remove("inactive");
+                groupListItem.classList.add("active");
+                if (groupListItemCheckboxElement.getAttribute("groupId") === groupListItem.getAttribute("groupId")) {
+                    groupListItemCheckboxElement.checked = true;
+                }
+            }
+
+        }
+
+        console.log(groupListItem)
+        console.log(groupListItem.children[0])
+        // if (groupListItem.classList.contains("active")) {
+        //     groupListItem.children[1].checked = true;
+        // }
+
+        groupListItemCheckboxElement.addEventListener("input", function() {
+            const groupListItemCheckboxElementParentElement = groupListItemCheckboxElement.parentElement;
+            if (groupListItemCheckboxElement.checked) {
+                groupListItemCheckboxElementParentElement.classList.remove("inactive");
+                groupListItemCheckboxElementParentElement.classList.add("active")
+            } else {
+                groupListItemCheckboxElementParentElement.classList.remove("active");
+                groupListItemCheckboxElementParentElement.classList.add("inactive")
+            }
+
+            console.log(groupListItemCheckboxElementParentElement)
+        })
+
+        groupListItem.appendChild(groupListItemTextElement);
+        groupListItem.appendChild(groupListItemCheckboxElement);
+        manageContactGroupsSelectionList.appendChild(groupListItem);  
+    });
+
+    const contactGroupsSelectionList = document.querySelector("#mobile-manage-contact-groups-selection-list");
+    const contactGroupsSelectionListChildren = contactGroupsSelectionList.children;
+    const contactGroupsSelectionListArr = Array.from(contactGroupsSelectionListChildren);
+    console.log(contactGroupsSelectionListArr)
+
+    contactGroupsSelectionListArr.forEach(item => {
+        if (item.classList.contains("active")) {
+            item.style.backgroundColor = "lightgreen"
+        };
+
+        item.addEventListener("mouseover", function() {
+            item.style.backgroundColor = "lightgreen"
+        });
+
+        item.addEventListener("mouseout", function() {
+            if (!item.classList.contains("active"))
+            item.style.backgroundColor = "ghostwhite"
+        });
+
+        item.addEventListener("click", function(event) {
+        const clickedItem = event.target
+        console.log(clickedItem)
+
+        // const customGroupInputContainer = document.querySelector("#custom-group-input-container");
+        // customGroupInputContainer.classList.remove("active");
+        // customGroupInputContainer.classList.add("inactive");
+        // customGroupInputContainer.style.backgroundColor = "ghostwhite"
+
+        // contactGroupsSelectionListArr.forEach(item => {
+        //     if (item !== event.target) {
+        //         item.classList.remove("active");
+        //         item.classList.add("inactive")
+        //         item.style.backgroundColor = "ghostwhite"
+        //     }
+        // })
+
+        const clickedItemInput = clickedItem.children[1]
+        console.log(clickedItemInput)
+
+        if (clickedItem.classList.contains("inactive")) {
+                clickedItem.classList.remove("inactive")
+                clickedItem.classList.add("active")
+                clickedItemInput.classList.remove("inactive")
+                clickedItemInput.classList.add("active")
+                clickedItem.style.backgroundColor = "lightgreen"
+            } else if(clickedItem.classList.contains("active")) {
+                clickedItem.classList.remove("active")
+                clickedItem.classList.add("inactive")
+                clickedItemInput.classList.remove("active")
+                clickedItemInput.classList.add("inactive")
+                clickedItem.style.backgroundColor = "ghostwhite"
+            }
+            
+            if (clickedItemInput.classList.contains("active")) {
+                clickedItemInput.checked = true
+            } else {
+                clickedItemInput.checked = false
+            }
+        });
+
+        // let scrollTimeout;
+        // contactGroupsSelectionList.addEventListener("scroll", function() {
+        //     document.body.style.contactsUserHeaderNameContainer = "none"
+        //     clearTimeout(scrollTimeout);
+
+        //     scrollTimeout = setTimeout(function() {
+        //         document.body.style.cursor = "default"
+        //     }, 100)
+        // })
+
+    });
+
+      const addContactToGroupsButton = document.querySelector("#mobile-add-contact-to-groups-button");
+      addContactToGroupsButton.addEventListener("click", async function(event) {
+        await mobileDeleteAContactGrouping()
+        await mobilePostNewContactGrouping()
+
+      const manageContactGroupsSelectionList = document.querySelector("#mobile-manage-contact-groups-selection-list");
+      const groupsListItems = manageContactGroupsSelectionList.children;
+      const groupsListItemsArr = Array.from(groupsListItems);
+
+
+    // console.log(groupsListItemsArr)
+        
+    let addGroupsArr = []
+    let removeGroupsArr = []
+    groupsListItemsArr.forEach(group => {
+    const groupName = group.children[0].innerHTML
+    const groupId = Number(group.getAttribute("groupId"))
+        if (group.classList.contains("active")) {
+            const addGroupObj = {
+                userId: userId,
+                contactId: contactId,
+                groupId: groupId,
+                groupName: groupName
+            }
+            addGroupsArr.push(addGroupObj)
+        } else {
+             const removeGroupObj = {
+                userId: userId,
+                contactId: contactId,
+                groupId: groupId,
+                groupName: groupName
+            }
+            removeGroupsArr.push(removeGroupObj)
+        }
+    });
+
+    let uniqueAddGroupsArr = []
+    addGroupsArr.forEach(group => {
+
+        const isIncluded = userContactGroupings.some(currentGroup => currentGroup.group_id === group.groupId && currentGroup.contact_id === group.contactId)
+        if (!isIncluded) {
+            uniqueAddGroupsArr.push(group)
+        }
+    })
+
+    let uniqueRemoveGroupsArr = []
+    removeGroupsArr.forEach(group => {
+
+        const isIncluded = userContactGroupings.some(currentGroup => currentGroup.group_id === group.groupId && currentGroup.contact_id === group.contactId)
+        if (isIncluded) {
+            uniqueRemoveGroupsArr.push(group)
+        }
+    })
+
+    if (uniqueAddGroupsArr.length === 0 && uniqueRemoveGroupsArr.length === 0) {
+        event.preventDefault()
+        alert("Please make a change to your contact's groups before updating.")
+        return
+    }
+        // handleManageContactGroupsInput()
+        window.location.href = `${rootUrl}/groups`
+    });
+
+}
+
 async function handleManageContactGroupsInput(event) {
     const allUsers = await getAllUsers();
     const sessionId = sessionStorage.getItem("user");
@@ -8352,6 +8574,87 @@ async function handleManageContactGroupsInput(event) {
     const contactId = Number(urlContactId.slice(0, queryCharIndex))
     // console.log(contactId)
     const manageContactGroupsSelectionList = document.querySelector("#manage-contact-groups-selection-list");
+    const groupsListItems = manageContactGroupsSelectionList.children;
+    const groupsListItemsArr = Array.from(groupsListItems);
+
+
+    // console.log(groupsListItemsArr)
+        
+    let addGroupsArr = []
+    let removeGroupsArr = []
+    groupsListItemsArr.forEach(group => {
+    const groupName = group.children[0].innerHTML
+    const groupId = Number(group.getAttribute("groupId"))
+        if (group.classList.contains("active")) {
+            const addGroupObj = {
+                userId: userId,
+                contactId: contactId,
+                groupId: groupId,
+                groupName: groupName
+            }
+            addGroupsArr.push(addGroupObj)
+        } else {
+             const removeGroupObj = {
+                userId: userId,
+                contactId: contactId,
+                groupId: groupId,
+                groupName: groupName
+            }
+            removeGroupsArr.push(removeGroupObj)
+        }
+    });
+
+    let uniqueAddGroupsArr = []
+    addGroupsArr.forEach(group => {
+
+        const isIncluded = userContactGroupings.some(currentGroup => currentGroup.group_id === group.groupId && currentGroup.contact_id === group.contactId)
+        if (!isIncluded) {
+            uniqueAddGroupsArr.push(group)
+        }
+    })
+
+    let uniqueRemoveGroupsArr = []
+    removeGroupsArr.forEach(group => {
+
+        const isIncluded = userContactGroupings.some(currentGroup => currentGroup.group_id === group.groupId && currentGroup.contact_id === group.contactId)
+        if (isIncluded) {
+            uniqueRemoveGroupsArr.push(group)
+        }
+    })
+
+    // for (let i = 0; i < removeGroupsArr.length; i++) {
+    //     deleteAContactGrouping(removeGroupsArr[i].contactId, removeGroupsArr[i].groupId)
+    // }
+
+    console.log(addGroupsArr)
+    console.log(removeGroupsArr)
+    console.log(userContactGroupings)
+    console.log(uniqueAddGroupsArr)
+    console.log(uniqueRemoveGroupsArr)
+
+    return { uniqueAddGroupsArr, uniqueRemoveGroupsArr, userContactGroupings, addGroupsArr }
+};
+
+async function mobileHandleManageContactGroupsInput(event) {
+    const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const userId = matchingUser.user_id;
+    const userContacts = await getUserContacts(userId);
+    const userGroups = await getUserGroups(userId);
+    const userContactGroupings = await getUserContactGroupings(userId);
+
+    const currentUrl = window.location.href;
+    const urlContactId = currentUrl.split("contact_")[1];
+    const queryCharIndex = urlContactId.indexOf("?")
+    const contactId = Number(urlContactId.slice(0, queryCharIndex))
+    // console.log(contactId)
+    const manageContactGroupsSelectionList = document.querySelector("#mobile-manage-contact-groups-selection-list");
     const groupsListItems = manageContactGroupsSelectionList.children;
     const groupsListItemsArr = Array.from(groupsListItems);
 
@@ -10481,6 +10784,33 @@ async function postNewContactGrouping() {
     // window.location.href = `${rootUrl}/groups`
 };
 
+async function mobilePostNewContactGrouping() {
+    const newContactGroupings = await mobileHandleManageContactGroupsInput();
+    const newContactGroupingsArr = newContactGroupings.uniqueAddGroupsArr;
+
+    for (const grouping of newContactGroupingsArr) {
+        const user_id = grouping.userId;
+        const contact_id = grouping.contactId;
+        const group_id = grouping.groupId;
+        const groupName = grouping.groupName
+
+        const body = { user_id, contact_id, group_id, groupName };
+        try {
+            const response = await fetch(`/contactGroups`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body)
+            });
+            console.log(response)
+        } catch (err) {
+            console.error(err)
+        }
+    };
+
+    alert("Contact groupings updated.")
+    // window.location.href = `${rootUrl}/groups`
+};
+
 async function deleteContactGrouping(group_id) {
 const allUsers = await getAllUsers();
     const sessionId = sessionStorage.getItem("user");
@@ -10543,6 +10873,39 @@ async function deleteAContactGrouping() {
 //     const user_id = matchingUser.user_id;
 
     const removeContactGroupings = await handleManageContactGroupsInput();
+    const removeContactGroupingsArr = removeContactGroupings.uniqueRemoveGroupsArr;
+
+    for (const grouping of removeContactGroupingsArr) {
+         const user_id = grouping.userId;
+         const contact_id = grouping.contactId;
+         const group_id = grouping.groupId;
+        try {
+            const response = await fetch(`/contactGroups/${user_id}/${contact_id}/${group_id}`, {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+            });
+            console.log(response)
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    localStorage.clear()
+    // window.location.href = `${rootUrl}/groups`
+};
+
+async function mobileDeleteAContactGrouping() {
+// const allUsers = await getAllUsers();
+//     const sessionId = sessionStorage.getItem("user");
+//     let matchingUser;
+//     for (let i = 0; i < allUsers.length; i++) {
+//         if (allUsers[i].session_id === sessionId) {
+//             matchingUser = allUsers[i]
+//         }
+//     }
+//     const user_id = matchingUser.user_id;
+
+    const removeContactGroupings = await mobileHandleManageContactGroupsInput();
     const removeContactGroupingsArr = removeContactGroupings.uniqueRemoveGroupsArr;
 
     for (const grouping of removeContactGroupingsArr) {
@@ -10982,7 +11345,7 @@ async function showPages() {
             mobileManageGroupsViewElement.style.display = "block";
             // appName.style.left = "32%"
             // await renderManageContactGroupsContent()
-            // await renderMobileManageContactGroupsContent
+            await renderMobileManageContactGroupsContent()
     } else {
         mobileManageGroupsViewElement.style.display = "none"
     };
