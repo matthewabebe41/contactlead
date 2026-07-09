@@ -675,16 +675,17 @@
 
     <section id="contacts-list-view"  style="position: absolute; width: 68.5%; height: 90.5%; top: 9.5%; left: 31.5%; display: none; overflow: hidden;">
         <div id="contacts-user-header-container" style="position: absolute; display: flex; align-items: center; width: 100%; height: 20%; background-color: #f9f9f9; box-shadow: 2px 2px 2px; margin-top: 1.25px;">
-            <div id="contacts-user-image-container" style="display: flex; align-items: center; height: 100%; padding: 10px;">
+            <div id="contacts-user-image-container" style="display: flex; align-items: center; width: 38%; height: 100%; padding: 10px;">
                 <img id="contacts-user-image" src="./images/user-5-svgrepo-com.svg" style="position: relative; display: flex; justify-content: center; align-items: center; width: 95px; height: 95px; border: 1px solid black; border-radius: 50%; background-color: gainsboro; box-shadow: 2px 2px 2px; object-fit: cover; z-index: 1;">
-                <div id="contacts-user-header-name-container" style="display: flex; flex-direction: column; justify-content: flex-end; height: 100%; margin: 0px 0px 0px 10px;">
-                    <p id="contact-header-user-name" style="font-weight: bold;">Name</p>
-                    <p id="contact-header-user-email" style="font-style: italic; margin: 0px 0px 16px 0px;">Email</p>
+                <div id="contacts-user-header-name-container" style="display: flex; flex-direction: column; justify-content: flex-end; height: 100%; min-width: 0; margin: 0px 0px 0px 10px;">
+                    <p id="contact-header-user-name" style="font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Name</p>
+                    <p id="contact-header-user-email" style="font-style: italic; white-space: no-wrap; overflow: hidden; text-overflow: ellipsis; margin: 0px 0px 16px 0px;">Email</p>
                 </div>
             </div>
             <div id="contacts-user-name-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%;">
-                <div></div>
-                <h2 id="contacts-user-name" style="margin: 0"></h2>
+                <!-- <div id="contacts-user-name-container" style="display: flex; justify-content: center; min-width: 0; width: 35%;"> -->
+                    <h2 id="contacts-user-name" style="margin: 0">Contacts List</h2>
+                <!-- </div> -->
                 <p id="contacts-user-email" style="margin: 0"></p>
             </div>
         </div>
