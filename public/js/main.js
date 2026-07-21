@@ -10344,6 +10344,7 @@ async function renderGroupsListContent() {
         groupListItem.setAttribute("groupId", group.group_id)
         groupListItem.setAttribute("groupName", `${group.groupname}`)
         groupListItem.setAttribute("data", `${rootUrl}/group_${group.group_id}`);
+        groupListItem.classList.add("groupListItem");
         groupListItem.style.display = "inline-flex";
         groupListItem.style.flexDirection = "column";
         groupListItem.style.width = "30%";
@@ -10443,9 +10444,64 @@ async function renderGroupsListContent() {
             const groupListItemToEdit = clickedGroupListItemElementParentElement.parentElement;
             groupListItemToEdit.classList.remove("edit-inactive");
             groupListItemToEdit.classList.add("edit-active")
-            console.log("open edit modal")
+            // console.log("open edit modal")
+            const groupListItemEditModalHeaderElement = document.querySelector("#group-list-item-edit-modal-header-element");
+            groupListItemEditModalHeaderElement.style.pointerEvents = "none";
+            const largeSidepanelSearchContactsInput = document.querySelector("#search-contacts-input");
+            largeSidepanelSearchContactsInput.style.pointerEvents = "none";
+            const smallSidePanelNavElements = document.querySelectorAll(".smallSidebarNavElement");
+            const smallSidePanelNavElementsHTMLArr = Array.from(smallSidePanelNavElements);
+            const smallSidePanelNavTextElements = document.querySelectorAll(".smallSidebarNavTextElement");
+            const smallSidePanelNavTextElementsHTMLArr = Array.from(smallSidePanelNavTextElements);
+            // console.log(smallSidePanelNavTextElementsHTMLArr)
+            // console.log(smallSidePanelNavElementsHTMLArr)
+            smallSidePanelNavElementsHTMLArr.forEach(element => {
+                element.addEventListener("mouseover", function() {
+                    element.style.backgroundColor = "";
+                        smallSidePanelNavTextElementsHTMLArr.forEach(element => {
+                            element.style.color = "black"
+                        });
+                });
+            });
+            smallSidePanelNavElementsHTMLArr.forEach(element => {
+                element.addEventListener("mouseout", function() {
+                    element.style.backgroundColor = "";
+                        smallSidePanelNavTextElementsHTMLArr.forEach(element => {
+                            element.style.color = "black"
+                        });
+                });
+            });
+            // const smallSidePanelNavTextElements = document.querySelectorAll(".smallSidebarNavTextElement");
+            // const smallSidePanelNavTextElementsHTMLArr = Array.from(smallSidePanelNavTextElements);
+            // console.log(smallSidePanelNavTextElementsHTMLArr)
+            const sidePanelContactListItems = document.querySelectorAll(".contact-list-item");
+            const sidePanelContactListItemsHTMLArr = Array.from(sidePanelContactListItems)
+            // console.log(sidePanelContactListItemsHTMLArr)
+            sidePanelContactListItemsHTMLArr.forEach(element => {
+                element.addEventListener("mouseover", function() {
+                    element.style.backgroundColor = "#fcfcfc"
+                });
+                element.addEventListener("mouseout", function() {
+                    element.style.backgroundColor = "#fcfcfc"
+                });
+            });
+            navigateCreateGroupPageButton.style.pointerEvents = "none";
+            const groupsListSearchInput = document.querySelector("#search-groups-input");
+            groupsListSearchInput.style.pointerEvents = "none";
+            const groupListItems = document.querySelectorAll(".groupListItem");
+            const groupListItemsHTMLArr = Array.from(groupListItems);
+            groupListItemsHTMLArr.forEach(element => {
+                element.style.backgroundColor = "#ededed";
+                element.addEventListener("mouseover", function() {
+                    element.style.backgroundColor = "#ededed";
+                });
+                element.addEventListener("mouseout", function() {
+                    element.style.backgroundColor = "#ededed";
+                });
+            });
+            // console.log(groupListItemsHTMLArr)
             groupListItemEditModalContainer.style.display = "flex"
-        })
+        });
         const groupListItemTextElement = document.createElement("h4");
         groupListItemTextElement.setAttribute("id", "group-list-item-text-element");
         groupListItemTextElement.style.margin = "0px"
@@ -10477,6 +10533,7 @@ async function renderGroupsListContent() {
         numberOfContactsInGroupContainer.style.height = "100%"
         const numberOfContactsInGroupElement = document.createElement("h2");
         numberOfContactsInGroupElement.innerHTML = numberOfContactsInGroup;
+        numberOfContactsInGroupElement.style.pointerEvents = "none";
         numberOfContactsInGroupElement.style.margin = "0px"
         requestAnimationFrame(() => {
             const groupListItemHeaderElementHeight = groupListItemHeaderElement.clientHeight.toString();
@@ -10527,10 +10584,55 @@ async function renderGroupsListContent() {
         groupListItemEditModalHeaderElement.style.margin = "0px"
         groupListItemEditModalHeaderElement.innerHTML = "Edit Group Name";
         const groupListItemEditModalCloseIcon = document.createElement("img");
+        groupListItemEditModalCloseIcon.setAttribute("id", "group-list-item-modal-close-icon");
         groupListItemEditModalCloseIcon.setAttribute("src", "./images/close-md-svgrepo-com.svg");
         groupListItemEditModalCloseIcon.style.width = "20px";
         groupListItemEditModalCloseIcon.style.backgroundColor = "red";
         groupListItemEditModalCloseIcon.addEventListener("click", function() {
+        const largeSidepanelSearchContactsInput = document.querySelector("#search-contacts-input");
+        largeSidepanelSearchContactsInput.style.pointerEvents = "auto";
+        navigateCreateGroupPageButton.style.pointerEvents = "auto";
+        const smallSidePanelNavElements = document.querySelectorAll(".smallSidebarNavElement");
+        const smallSidePanelNavElementsHTMLArr = Array.from(smallSidePanelNavElements);
+        const smallSidePanelNavTextElements = document.querySelectorAll(".smallSidebarNavTextElement");
+        const smallSidePanelNavTextElementsHTMLArr = Array.from(smallSidePanelNavTextElements);
+        // console.log(smallSidePanelNavTextElementsHTMLArr)
+
+            smallSidePanelNavElementsHTMLArr.forEach(element => {
+                element.addEventListener("mouseover", function() {
+                    element.style.backgroundColor = "rgb(115, 147, 179)";
+                    element.children[1].style.color = "white";
+                });
+            });
+            smallSidePanelNavElementsHTMLArr.forEach(element => {
+                element.addEventListener("mouseout", function() {
+                    element.style.backgroundColor = "";
+                    element.children[1].style.color = "black";
+                });
+            });
+            const sidePanelContactListItems = document.querySelectorAll(".contact-list-item");
+            const sidePanelContactListItemsHTMLArr = Array.from(sidePanelContactListItems)
+            // console.log(sidePanelContactListItemsHTMLArr)
+            sidePanelContactListItemsHTMLArr.forEach(element => {
+                element.addEventListener("mouseover", function() {
+                    element.style.backgroundColor = "lightgreen"
+                });
+                element.addEventListener("mouseout", function() {
+                    element.style.backgroundColor = "#fcfcfc"
+                });
+            });
+            const groupsListSearchInput = document.querySelector("#search-groups-input");
+            groupsListSearchInput.style.pointerEvents = "auto";
+            const groupListItems = document.querySelectorAll(".groupListItem");
+            const groupListItemsHTMLArr = Array.from(groupListItems);
+            groupListItemsHTMLArr.forEach(element => {
+                element.addEventListener("mouseover", function() {
+                    element.style.backgroundColor = "lightgreen";
+                });
+                element.addEventListener("mouseout", function() {
+                    element.style.backgroundColor = "#ededed";
+                });
+            });
             groupListItemEditModalContainer.style.display = "none";
         });
         const groupListItemEditModalInputContainer = document.createElement("div");
@@ -10576,10 +10678,13 @@ async function renderGroupsListContent() {
                 && event.target.id !== "group-list-item-edit-modal-input-element"
                 && event.target.id !== "group-list-item-edit-modal-button-container"
                 && event.target.id !== "group-list-item-edit-modal-button-element"
+                && event.target.id !== "group-list-item-modal-close-icon"
             ) {
-                groupListItemEditModalContainer.style.display = "none";
+                // groupListItemEditModalContainer.style.display = "none";
+                event.stopPropagation()
+                event.preventDefault()
             }
-        })
+        }, {capture: true});
 
     groupListItemEditModalButtonElement.addEventListener("click", function(event) {
         console.log(event.target)
@@ -10675,6 +10780,7 @@ async function renderGroupsListContent() {
         groupsList.style.display = "none"
         uniqueArray.forEach(group => {
             const groupsAutoCompleteListItem = document.createElement('div');
+            groupsAutoCompleteListItem.classList.add("groupListItem")
             groupsAutoCompleteListItem.setAttribute("groupId", group.group_id)
             groupsAutoCompleteListItem.setAttribute("groupName", `${group.groupname}`)
             groupsAutoCompleteListItem.setAttribute("data", `${rootUrl}/group_${group.group_id}`);
@@ -10779,7 +10885,56 @@ async function renderGroupsListContent() {
                 const groupListItemToEdit = clickedGroupListItemElementParentElement.parentElement;
                 groupListItemToEdit.classList.remove("edit-inactive");
                 groupListItemToEdit.classList.add("edit-active")
-                console.log("open edit modal")
+                // console.log("open edit modal")
+                const largeSidepanelSearchContactsInput = document.querySelector("#search-contacts-input");
+                largeSidepanelSearchContactsInput.style.pointerEvents = "none";
+                const smallSidePanelNavElements = document.querySelectorAll(".smallSidebarNavElement");
+                const smallSidePanelNavElementsHTMLArr = Array.from(smallSidePanelNavElements);
+                const smallSidePanelNavTextElements = document.querySelectorAll(".smallSidebarNavTextElement");
+                const smallSidePanelNavTextElementsHTMLArr = Array.from(smallSidePanelNavTextElements);
+                // console.log(smallSidePanelNavTextElementsHTMLArr)
+                // console.log(smallSidePanelNavElementsHTMLArr)
+                smallSidePanelNavElementsHTMLArr.forEach(element => {
+                    element.addEventListener("mouseover", function() {
+                        element.style.backgroundColor = "";
+                            smallSidePanelNavTextElementsHTMLArr.forEach(element => {
+                                element.style.color = "black"
+                            });
+                    });
+                });
+                smallSidePanelNavElementsHTMLArr.forEach(element => {
+                    element.addEventListener("mouseout", function() {
+                        element.style.backgroundColor = "";
+                            smallSidePanelNavTextElementsHTMLArr.forEach(element => {
+                                element.style.color = "black"
+                            });
+                    });
+                });
+                const sidePanelContactListItems = document.querySelectorAll(".contact-list-item");
+                const sidePanelContactListItemsHTMLArr = Array.from(sidePanelContactListItems)
+                // console.log(sidePanelContactListItemsHTMLArr)
+                sidePanelContactListItemsHTMLArr.forEach(element => {
+                    element.addEventListener("mouseover", function() {
+                        element.style.backgroundColor = "#fcfcfc"
+                    });
+                    element.addEventListener("mouseout", function() {
+                        element.style.backgroundColor = "#fcfcfc"
+                    });
+                });
+                navigateCreateGroupPageButton.style.pointerEvents = "none";
+                const groupsListSearchInput = document.querySelector("#search-groups-input");
+                groupsListSearchInput.style.pointerEvents = "none";
+                const groupListItems = document.querySelectorAll(".groupListItem");
+                const groupListItemsHTMLArr = Array.from(groupListItems);
+                groupListItemsHTMLArr.forEach(element => {
+                    element.style.backgroundColor = "#ededed";
+                    element.addEventListener("mouseover", function() {
+                        element.style.backgroundColor = "#ededed";
+                    });
+                    element.addEventListener("mouseout", function() {
+                        element.style.backgroundColor = "#ededed";
+                    });
+                });
                 groupListItemEditModalContainer.style.display = "flex"
             })
             const groupAutoCompleteListItemTextElement = document.createElement("h4");
@@ -10810,6 +10965,7 @@ async function renderGroupsListContent() {
         autoCompleteNumberOfContactsInGroupContainer.style.height = "100%"
         const autoCompleteNumberOfContactsInGroupElement = document.createElement("h2");
         autoCompleteNumberOfContactsInGroupElement.innerHTML = autoCompleteNumberOfContactsInGroup;
+        autoCompleteNumberOfContactsInGroupElement.style.pointerEvents = "none";
         autoCompleteNumberOfContactsInGroupElement.style.margin = "0px"
         requestAnimationFrame(() => {
             const groupAutoCompleteListItemHeaderElementHeight = groupAutoCompleteListItemHeaderElement.clientHeight.toString();
@@ -16994,6 +17150,11 @@ async function editUserGroup() {
     const group_id = editedUserGroup.groupId;
     const groupName = editedUserGroup.groupName
 
+    if (groupName === "") {
+        alert("Updating group name requires a value. Please enter a value to continue.")
+        return
+    }
+
     const body = { groupName };
     try {
         const response = await fetch(`/groups/${user_id}/${group_id}`, {
@@ -17522,6 +17683,7 @@ async function showPages() {
 
 
     const appName = document.querySelector("#app-name");
+    appName.style.pointerEvents = "none";
     
     if (window.location.href === `${rootUrl}/login` && clientwidth > 1070) {
         loginViewElement.style.display = "block"
