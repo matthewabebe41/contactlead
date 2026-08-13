@@ -1076,44 +1076,86 @@ const allUsers = await getAllUsers();
 
     userContacts.forEach(contact => {
         const contactListItem = document.createElement("div");
-        contactListItem.style.display = "flex"
-        contactListItem.style.justifyContent = "space-between"
-        contactListItem.style.alignItems = "center"
-        contactListItem.style.height = "38px"
-        // contactListItem.style.width = "295px"
-        contactListItem.style.marginBottom = "4px"
-        contactListItem.style.border = "1px solid grey"
-        // contactListItem.style.borderRadius = "5px"
-        contactListItem.style.padding = "5px"
-        contactListItem.style.backgroundColor = "#fcfcff"
-        contactListItem.style.overflow = "hidden"
+        contactListItem.style.display = "flex";
+        contactListItem.style.flexDirection = "row";
+        contactListItem.style.height = "38px";
+        contactListItem.style.marginBottom = "4px";
+        contactListItem.style.padding = "5px";
+        contactListItem.style.backgroundColor = "#fcfcff";
         contactListItem.style.border = "2px solid black";
+        contactListItem.setAttribute("imageString", contact.imageString)
+
         contactListItem.addEventListener("mouseover", function() {
             contactListItem.style.backgroundColor = "lightgreen";
         });
-        // contactListItem.addEventListener("mouseover", function() {
-        //     contactListItem.style.backgroundColor = "powderblue";
-        // });
         contactListItem.addEventListener("mouseout", function() {
             contactListItem.style.backgroundColor = "#fcfcff";
-        })
+        });
+
+        const contactImageItemContainer = document.createElement("div");
+        contactImageItemContainer.style.display = "flex";
+        contactImageItemContainer.style.alignItems = "center";
         const contactImageItem = document.createElement("img");
         contactImageItem.style.width = "35px";
-        // contactImageItem.style.height = "100%";
+        contactImageItem.style.height = "35px";
         contactImageItem.style.border = "0.5px solid black";
         contactImageItem.style.borderRadius = "50%";
         contactImageItem.style.backgroundColor = "gainsboro";
         contactImageItem.style.objectFit = "cover";
-        contactListItem.setAttribute("imageString", contact.imageString)
         // const contact_id = contact.contact_id;
         // const contactImage = await getAContactImage(userId, contact_id)
         // const imageString = `data:${contactImage.contentType};base64,${contactImage.image}`
         // contactImageItem.setAttribute("src", imageString);
-
-        const contactListItemNameContainer = document.createElement("div");
-        contactListItemNameContainer.style.display = "flex";
-        contactListItemNameContainer.style.height = "100%"
+        const contactListItemInformationContainer = document.createElement("div");
+        contactListItemInformationContainer.style.position = "relative";
+        contactListItemInformationContainer.style.display = "flex";
+        contactListItemInformationContainer.style.flexDirection = "column";
+        contactListItemInformationContainer.style.justifyContent = "center";
+        contactListItemInformationContainer.style.alignItems = "center";
+        contactListItemInformationContainer.style.minWidth = "0px";
+        contactListItemInformationContainer.style.width = "100%";
+        const contactListItemNameElementContainer = document.createElement("div");
+        contactListItemNameElementContainer.style.display = "flex";
+        contactListItemNameElementContainer.style.justifyContent = "flex-start";
+        contactListItemNameElementContainer.style.minWidth = "0px";
+        contactListItemNameElementContainer.style.width = "100%";
+        const contactNameElement = document.createElement("p");
+        contactNameElement.style.fontSize = "small";
+        contactNameElement.style.fontWeight = "bolder";
+        contactNameElement.style.whiteSpace = "nowrap";
+        contactNameElement.style.overflow = "hidden";
+        contactNameElement.style.textOverflow = "ellipsis";
+        contactNameElement.style.margin = "0px 0px 0px 10px"
+        contactNameElement.innerHTML = `${contact.firstname} ${contact.lastname}`;
+        const contactListItemEmailElementContainer = document.createElement("div");
+        contactListItemEmailElementContainer.style.display = "flex";
+        contactListItemEmailElementContainer.style.justifyContent = "flex-start";
+        // contactListItemEmailElementContainer.style.height = "100%";
+        contactListItemEmailElementContainer.style.minWidth = "0px";
+        contactListItemEmailElementContainer.style.width = "100%";
+        const contactEmailElement = document.createElement("p");
+        contactEmailElement.setAttribute("id", `contact-email-element-${contact.contact_id}`)
+        contactListItem.setAttribute("contactEmailValue", contact.email)
+        contactEmailElement.classList.add("contact-email-element");
+        contactEmailElement.style.fontSize = "x-small";
+        contactEmailElement.style.fontWeight = "normal";
+        contactEmailElement.style.whiteSpace = "nowrap";
+        contactEmailElement.style.overflow = "hidden";
+        contactEmailElement.style.textOverflow = "ellipsis";
+        contactEmailElement.style.margin = "0px 0px 0px 10px"
+        if (contact.email !== null && contact.email !== undefined) {
+            contactEmailElement.innerHTML = contact.email;
+        } else {
+            contactEmailElement.innerHTML = "text";
+        }
+        if (contactEmailElement.innerHTML === "text") {
+                contactEmailElement.style.visibility = "hidden";
+        };
         const contactFavoriteIconContainer = document.createElement("div");
+        contactFavoriteIconContainer.style.display = "flex";
+        contactFavoriteIconContainer.style.justifyContent = "center";
+        contactFavoriteIconContainer.style.alignItems = "center";
+        // contactFavoriteIconContainer.style.padding = "4px"
         const contactFavoriteIcon = document.createElement("img");
         contactFavoriteIcon.setAttribute("src", "./images/star-gold-svgrepo-com.svg");
         contactFavoriteIcon.style.width = "25px";
@@ -1121,58 +1163,34 @@ const allUsers = await getAllUsers();
         if (contact.favorite !== true) {
             contactFavoriteIcon.style.visibility = "hidden"
         }
-        const contactListItemNameElementContainer = document.createElement("div");
-        contactListItemNameElementContainer.style.display = "flex";
-        contactListItemNameElementContainer.style.flexDirection = "column";
-        contactListItemNameElementContainer.style.justifyContent = "center";
-        const contactNameElement = document.createElement("p");
+        // const contactListItemNameElementContainer = document.createElement("div");
+        // contactListItemNameElementContainer.style.display = "flex";
+        // contactListItemNameElementContainer.style.flexDirection = "column";
+        // contactListItemNameElementContainer.style.justifyContent = "center";
+        // contactListItemNameElementContainer.style.minWidth = "0px";
         // contactNameElement.style.fontFamily = "sans-serif";
-        contactNameElement.style.fontSize = "small";
-        contactNameElement.style.fontWeight = "bolder";
-        contactNameElement.style.margin = "0px 0px 0px 10px"
-        contactNameElement.innerHTML = `${contact.firstname} ${contact.lastname}`
-        const contactEmailElement = document.createElement("p");
+        // const contactEmailElement = document.createElement("p");
         // contactEmailElement.style.width = "220px";
-        contactEmailElement.setAttribute("id", `contact-email-element-${contact.contact_id}`)
-        contactEmailElement.classList.add("contact-email-element");
-        contactListItem.setAttribute("contactEmailValue", contact.email)
         // contactEmailElement.style.fontFamily = "sans-serif"
-        contactEmailElement.style.fontSize = "small"
-        contactEmailElement.style.margin = "0px 0px 0px 10px";
-        contactEmailElement.style.fontSize = "x-small"
+        // contactEmailElement.style.fontSize = "small"
+        // contactEmailElement.style.margin = "0px 0px 0px 10px";
+        // contactEmailElement.style.fontSize = "x-small"
         const contactOrganizationAndRoleElement = document.createElement("p");
         contactOrganizationAndRoleElement.style.fontSize = "0px"
         contactOrganizationAndRoleElement.style.margin = "0px"
         contactOrganizationAndRoleElement.innerHTML = `${contact.organization} || ${contact.organization_role}`
 
-        const contactFullNameText = `${contact.firstname} ${contact.lastname}`
-        const ellipsis = "..."
-        let contactFullNameTextSlice = contactFullNameText.slice(0, 16) + ellipsis
+        // const contactFullNameText = `${contact.firstname} ${contact.lastname}`
+        // const ellipsis = "..."
+        // let contactFullNameTextSlice = contactFullNameText.slice(0, 16) + ellipsis
         // console.log(contactEmailAddressText.length)
-        if (contactFullNameText.length > 16) {
-            contactNameElement.innerHTML = contactFullNameTextSlice
-        } else {
-            contactNameElement.innerHTML = `${contact.firstname} ${contact.lastname}`
-        }
+        // if (contactFullNameText.length > 16) {
+        //     contactNameElement.innerHTML = contactFullNameTextSlice
+        // } else {
+        //     contactNameElement.innerHTML = `${contact.firstname} ${contact.lastname}`
+        // }
 
         const contactNameElementWidth = contactNameElement.clientWidth;
-        // console.log(contactNameElementWidth)
-
-
-        const contactEmailAddressText = contact.emailaddress;
-        // const ellipsis = "..."
-        let contactEmailAddressTextSlice = contactEmailAddressText.slice(0, 20) + ellipsis
-        // console.log(contactEmailAddressText.length)
-        if (contactEmailAddressText.length > 20) {
-            contactEmailElement.innerHTML = contactEmailAddressTextSlice
-        } else {
-            contactEmailElement.innerHTML = contact.emailaddress
-        }
-
-        if (contactEmailAddressText.length === 0) {
-            contactEmailElement.innerHTML = "XXXXXXXXXXXXXXXXXXXXXX...";
-            contactEmailElement.style.visibility = "hidden"
-        }
 
         if (contact.organization !== null && contact.organization !== "" && contact.organization_role !== null && contact.organization_role !== "") {
             contactOrganizationAndRoleElement.innerHTML = `${contact.organization} || ${contact.organization_role}`
@@ -1193,18 +1211,34 @@ const allUsers = await getAllUsers();
         contactListItem.setAttribute("data", `${rootUrl}/contact_${contactId}`);
         contactListItem.setAttribute("name", `${contact.firstname} ${contact.lastname}`)
 
-        contactListItemNameContainer.appendChild(contactImageItem)
-        contactListItemNameElementContainer.appendChild(contactNameElement)
-        contactListItemNameElementContainer.appendChild(contactEmailElement)
-        contactFavoriteIconContainer.appendChild(contactFavoriteIcon)
+        // contactListItemImageContainer.appendChild(contactListItemImage);
+        // contactListNameElementContainer.appendChild(contactListNameElement);
+        // contactListEmailElementContainer.appendChild(contactListEmailElement);
+        // // contactListOrganizationAndRoleElementContainer.appendChild(contactListOrganizationAndRoleElement);
+        // contactListNameContainer.appendChild(contactListNameElementContainer);
+        // contactListNameContainer.appendChild(contactListEmailElementContainer);
+        // contactListNameContainer.appendChild(contactListOrganizationAndRoleElementContainer);
+        // contactListItem.appendChild(contactListItemImageContainer);
+        // contactListItem.appendChild(contactListNameContainer);
+        // contactListFavoritesStarIconContainer.appendChild(contactListFavoriteStarImg);
+        // contactListItem.appendChild(contactListFavoritesStarIconContainer);
+        // contactsList.appendChild(contactListItem);
+
+        contactImageItemContainer.appendChild(contactImageItem);
+        contactListItemNameElementContainer.appendChild(contactNameElement);
+        contactListItemEmailElementContainer.appendChild(contactEmailElement)
+        contactListItemInformationContainer.appendChild(contactListItemNameElementContainer)
+        contactListItemInformationContainer.appendChild(contactListItemEmailElementContainer)
+        contactListItem.appendChild(contactImageItemContainer)
+        contactListItem.appendChild(contactListItemInformationContainer)
+        contactFavoriteIconContainer.appendChild(contactFavoriteIcon);
+        contactListItem.appendChild(contactFavoriteIconContainer)
         // contactListItemNameContainer.appendChild(contactOrganizationAndRoleElement)
-        contactListItemNameContainer.appendChild(contactImageItem);
-        contactListItemNameContainer.appendChild(contactListItemNameElementContainer)
+        // contactListItemNameContainer.appendChild(contactImageItem);
+        // contactListItemNameContainer.appendChild(contactListItemNameElementContainer)
         // contactListItem.appendChild(contactListItemImageContainer);
         // contactListItem.appendChild(contactListItemNameContainer);
-        contactListItem.appendChild(contactListItemNameContainer)
         // contactListItem.appendChild(contactFavoriteIconContainer)
-        contactListItem.appendChild(contactFavoriteIcon)
         contactsListElement.appendChild(contactListItem)
     });
 
@@ -1238,7 +1272,8 @@ const allUsers = await getAllUsers();
         // const imageString = `data:${contactImage.contentType};base64,${contactImage.image}`
         contactImageElement.setAttribute("src", element.getAttribute("imageString"));
         contactImageElement.style.borderRadius = "50%";
-        const contactEmailElement = element.firstChild.children[1].children[1]
+        // console.log(element.children[1].children[1].firstChild)
+        const contactEmailElement = element.children[1].children[1].firstChild
         // const contactEmailAddresses = await getAContactEmailAddresses(userId, contactId)
         // console.log(contactEmailAddresses)
         if (element.getAttribute("contactEmailValue").innerHTML !== "undefined") {
@@ -1413,105 +1448,97 @@ async function contactsAutocompleteSearch() {
       let elementsArr = [];
       uniqueArray.forEach(contact => {
         console.log(contact)
+
             const contactsAutoCompleteListItem = document.createElement('div');
-            // contactsAutoCompleteListItem.style.visibility = "hidden"
             contactsAutoCompleteListItem.classList.add("contactsAutoCompleteListItem");
             contactsAutoCompleteListItem.setAttribute("id", contact.contact_id)
-            // index++
-            // contactsAutoCompleteListItem.setAttribute("index", index)
+            contactsAutoCompleteListItem.setAttribute("contactEmailValue", contact.email)
             contactsAutoCompleteListItem.style.display = "flex";
-            contactsAutoCompleteListItem.style.justifyContent = "space-between";
-            contactsAutoCompleteListItem.style.alignItems = "center";
+            contactsAutoCompleteListItem.style.flexDirection = "row";
             contactsAutoCompleteListItem.style.height = "38px";
-            // contactsAutoCompleteListItem.style.width = "295px";
-            // contactsAutoCompleteListItem.style.borderRadius = "5px"
             contactsAutoCompleteListItem.style.marginBottom = "4px";
-            contactsAutoCompleteListItem.style.border = "2px solid black";
             contactsAutoCompleteListItem.style.padding = "5px";
             contactsAutoCompleteListItem.style.backgroundColor = "rgb(252, 252, 255)";
-            contactsAutoCompleteListItem.style.overflow = "hidden";
-            contactsAutoCompleteListItem.style.cursor = "default";
-            // contactsAutoCompleteListItem.style.boxShadow = "1px 1px 1px";
+            contactsAutoCompleteListItem.style.border = "2px solid black";
+
             contactsAutoCompleteListItem.addEventListener("mouseover", function() {
             contactsAutoCompleteListItem.style.backgroundColor = "lightgreen";
             });
-            // contactsAutoCompleteListItem.addEventListener("mouseover", function() {
-            // contactsAutoCompleteListItem.style.backgroundColor = "lightgray";
-            // });
             contactsAutoCompleteListItem.addEventListener("mouseout", function() {
             contactsAutoCompleteListItem.style.backgroundColor = "#fcfcff";
-            })
+            });
+
+            const contactAutocompleteImageItemContainer = document.createElement("div");
+            contactAutocompleteImageItemContainer.style.display = "flex";
+            contactAutocompleteImageItemContainer.style.alignItems = "center";
             const contactAutoCompleteImage = document.createElement("img");
             contactAutoCompleteImage.classList.add("contactAutoCompleteImageElement");
             contactAutoCompleteImage.setAttribute("id", contact.contact_id)
             contactAutoCompleteImage.style.width = "35px";
-            // contactAutoCompleteImage.style.height = "100%";
+            contactAutoCompleteImage.style.height = "35px";
             contactAutoCompleteImage.style.border = "0.5px solid black";
             contactAutoCompleteImage.style.borderRadius = "50%";
             contactAutoCompleteImage.style.backgroundColor = "gainsboro";
             contactAutoCompleteImage.style.objectFit = "cover";
-            // contactAutoCompleteImage.style.visibility = "hidden";
-            // const contactId = contact.contact_id.toString();
-            // const contactImage = await getAContactImage(userId, contactId)
-            // const imageString = `data:${contactImage.contentType};base64,${contactImage.image}`
             contactAutoCompleteImage.setAttribute("src", contact.imageString)
-            // contactAutoCompleteImage.loading = "lazy"
-            const contactListItemAutocompleteNameContainer = document.createElement("div");
-            contactListItemAutocompleteNameContainer.classList.add("contactListItemAutoCompleteNameContainer")
-            contactListItemAutocompleteNameContainer.setAttribute("id", contact.contact_id)
-            contactListItemAutocompleteNameContainer.style.display = "flex";
-            contactListItemAutocompleteNameContainer.style.height = "100%"
-            const contactAutocompleteFavoriteContainer = document.createElement("div");
+            const contactAutocompleteListItemInformationContainer = document.createElement("div");
+            contactAutocompleteListItemInformationContainer.style.position = "relative";
+            contactAutocompleteListItemInformationContainer.style.display = "flex";
+            contactAutocompleteListItemInformationContainer.style.flexDirection = "column";
+            contactAutocompleteListItemInformationContainer.style.justifyContent = "center";
+            contactAutocompleteListItemInformationContainer.style.alignItems = "center";
+            contactAutocompleteListItemInformationContainer.style.minWidth = "0px";
+            contactAutocompleteListItemInformationContainer.style.width = "100%";
+            const contactAutocompleteListItemNameElementContainer = document.createElement("div");
+            contactAutocompleteListItemNameElementContainer.style.display = "flex";
+            contactAutocompleteListItemNameElementContainer.style.justifyContent = "flex-start";
+            contactAutocompleteListItemNameElementContainer.style.minWidth = "0px";
+            contactAutocompleteListItemNameElementContainer.style.width = "100%";
+            const contactAutocompleteNameElement = document.createElement("p");
+            contactAutocompleteNameElement.classList.add("contactAutoCompleteNameElement");
+            contactAutocompleteNameElement.style.fontSize = "small";
+            contactAutocompleteNameElement.style.fontWeight = "bolder";
+            contactAutocompleteNameElement.style.whiteSpace = "nowrap";
+            contactAutocompleteNameElement.style.overflow = "hidden";
+            contactAutocompleteNameElement.style.textOverflow = "ellipsis";
+            contactAutocompleteNameElement.style.margin = "0px 0px 0px 10px"
+            contactAutocompleteNameElement.innerHTML = `${contact.firstname} ${contact.lastname}`;
+            const contactAutocompleteListItemEmailElementContainer = document.createElement("div");
+            contactAutocompleteListItemEmailElementContainer.style.display = "flex";
+            contactAutocompleteListItemEmailElementContainer.style.justifyContent = "flex-start";
+            // contactAutocompleteListItemEmailElementContainer.style.height = "100%";
+            contactAutocompleteListItemEmailElementContainer.style.minWidth = "0px";
+            contactAutocompleteListItemEmailElementContainer.style.width = "100%";
+            const contactAutocompleteEmailElement = document.createElement("p");
+            contactAutocompleteEmailElement.setAttribute("id", `contact-email-element-${contact.contact_id}`)
+            contactAutocompleteEmailElement.classList.add("contact-email-element");
+            contactAutocompleteEmailElement.style.fontSize = "x-small";
+            contactAutocompleteEmailElement.style.fontWeight = "normal";
+            contactAutocompleteEmailElement.style.whiteSpace = "nowrap";
+            contactAutocompleteEmailElement.style.overflow = "hidden";
+            contactAutocompleteEmailElement.style.textOverflow = "ellipsis";
+            contactAutocompleteEmailElement.style.margin = "0px 0px 0px 10px"
+            if (contact.email !== null && contact.email !== undefined) {
+            contactAutocompleteEmailElement.innerHTML = contact.email;
+            } else {
+            contactAutocompleteEmailElement.innerHTML = "text";
+            }
+            if (contactAutocompleteEmailElement.innerHTML === "text") {
+                contactAutocompleteEmailElement.style.visibility = "hidden";
+            };
+
+            const contactAutocompleteFavoriteIconContainer = document.createElement("div");
+            contactAutocompleteFavoriteIconContainer.style.display = "flex";
+            contactAutocompleteFavoriteIconContainer.style.justifyContent = "center";
+            contactAutocompleteFavoriteIconContainer.style.alignItems = "center";
+            // contactAutocompleteFavoriteIconContainer.style.padding = "4px"
             const contactAutocompleteFavoriteIcon = document.createElement("img");
             contactAutocompleteFavoriteIcon.setAttribute("src", "./images/star-gold-svgrepo-com.svg");
             contactAutocompleteFavoriteIcon.style.width = "25px";
             // contactAutocompleteFavoriteIcon.style.display = "none";
             if (contact.favorite !== true) {
-                contactAutocompleteFavoriteIcon.style.visibility = "hidden"
+            contactAutocompleteFavoriteIcon.style.visibility = "hidden"
             }
-            const contactListItemAutocompleteNameElementContainer = document.createElement("div");
-            contactListItemAutocompleteNameElementContainer.style.display = "flex";
-            contactListItemAutocompleteNameElementContainer.style.flexDirection = "column";
-            contactListItemAutocompleteNameElementContainer.style.justifyContent = "center";
-            const contactAutoCompleteNameElement = document.createElement("p");
-            contactAutoCompleteNameElement.classList.add("contactAutoCompleteNameElement");
-            contactAutoCompleteNameElement.setAttribute("id", contact.contact_id)
-            // contactAutoCompleteNameElement.style.fontFamily = "sans-serif";
-            contactAutoCompleteNameElement.style.fontSize = "small"
-            contactAutoCompleteNameElement.style.fontWeight = "bolder"
-            contactAutoCompleteNameElement.style.margin = "0px 0px 0px 10px"
-            // contactAutoCompleteNameElement.innerHTML = `${contact.firstname} ${contact.lastname}`
-            const contactAutoCompleteEmailElement = document.createElement("p");
-            // contactAutoCompleteEmailElement.style.fontFamily = "sans-serif"
-            contactAutoCompleteEmailElement.style.fontSize = "x-small"
-            contactAutoCompleteEmailElement.style.margin = "0px 0px 0px 10px";
-            contactAutoCompleteEmailElement.innerHTML = contact.emailaddress;
-        
-        const contactFullNameText = `${contact.firstname} ${contact.lastname}`
-        const ellipsis = "..."
-        let contactFullNameTextSlice = contactFullNameText.slice(0, 16) + ellipsis
-        // console.log(contactEmailAddressText.length)
-        if (contactFullNameText.length > 16) {
-            contactAutoCompleteNameElement.innerHTML = contactFullNameTextSlice
-        } else {
-            contactAutoCompleteNameElement.innerHTML = `${contact.firstname} ${contact.lastname}`
-        }
-            
-        const contactEmailAddressText = contact.email;
-        // const ellipsis = "..."
-        if (contactEmailAddressText !== undefined) {
-            let contactEmailAddressTextSlice = contactEmailAddressText.slice(0, 20) + ellipsis
-            // console.log(contactEmailAddressText.length)
-            if (contactEmailAddressText.length > 20) {
-                // contactAutoCompleteEmailElement.innerHTML = contactEmailAddressTextSlice
-                contactAutoCompleteEmailElement.innerHTML = contact.email
-            } else {
-                contactAutoCompleteEmailElement.innerHTML = contact.email
-            }
-        } else {
-            contactAutoCompleteEmailElement.innerHTML = "Text";
-            contactAutoCompleteEmailElement.style.visibility = "hidden";
-        };
 
             contactsAutoCompleteListItem.classList.add("contact-list-item");
             contactsAutoCompleteListItem.style.cursor = "default"
@@ -1577,14 +1604,16 @@ async function contactsAutocompleteSearch() {
                 window.location.href = newURL
             }
         });
-            contactListItemAutocompleteNameContainer.appendChild(contactAutoCompleteImage);
-            contactListItemAutocompleteNameElementContainer.appendChild(contactAutoCompleteNameElement);
-            contactListItemAutocompleteNameElementContainer.appendChild(contactAutoCompleteEmailElement);
-            contactAutocompleteFavoriteContainer.appendChild(contactAutocompleteFavoriteIcon);
-            // contactListItemAutocompleteNameContainer.appendChild(contactAutoCompleteImage);
-            contactListItemAutocompleteNameContainer.appendChild(contactListItemAutocompleteNameElementContainer);
-            contactsAutoCompleteListItem.appendChild(contactListItemAutocompleteNameContainer);
-            contactsAutoCompleteListItem.appendChild(contactAutocompleteFavoriteIcon);
+
+            contactAutocompleteImageItemContainer.appendChild(contactAutoCompleteImage);
+            contactAutocompleteListItemNameElementContainer.appendChild(contactAutocompleteNameElement);
+            contactAutocompleteListItemEmailElementContainer.appendChild(contactAutocompleteEmailElement);
+            contactAutocompleteListItemInformationContainer.appendChild(contactAutocompleteListItemNameElementContainer);
+            contactAutocompleteListItemInformationContainer.appendChild(contactAutocompleteListItemEmailElementContainer);
+            contactsAutoCompleteListItem.appendChild(contactAutocompleteImageItemContainer);
+            contactsAutoCompleteListItem.appendChild(contactAutocompleteListItemInformationContainer);
+            contactAutocompleteFavoriteIconContainer.appendChild(contactAutocompleteFavoriteIcon);
+            contactsAutoCompleteListItem.appendChild(contactAutocompleteFavoriteIconContainer);
 
             elementsArr.push(contactsAutoCompleteListItem)
             // console.log(elementsArr)
@@ -1593,159 +1622,6 @@ async function contactsAutocompleteSearch() {
                 searchContactsAutocompleteList.appendChild(element);
             });
       });
-
-    //   console.log(uniqueArray)
-    // if (filteredContacts.length > 0) {
-        // let index = 0;
-        // let finalAutoCompleteItemsArr = [];
-    // async function createAutoCompleteItems() {
-        
-        // return Promise.resolve(finalAutoCompleteItemsArr)
-    // }
-    // }
-    
-    // createAutoCompleteItems().then(arr => {
-    //     console.log(arr)
-    // })
-    // async function appendAutoCompleteListItems() {
-    //     const finalAutoCompleteItemsAr = await createAutoCompleteItems()
-    //     console.log(finalAutoCompleteItemsAr)
-    //     for (let i = 0; i < finalAutoCompleteItemsAr.length; i++) {
-    //         console.log(finalAutoCompleteItemsAr[i])
-    //     }
-    // }
-
-    // appendAutoCompleteListItems()
-
-
-    // const contactsListElementHTMLArr = contactsListElement.children;
-    // const contactListItems = [];
-
-    // contactsListElementHTMLArr.forEach(element => {
-    //     if (element.classList.contains('contact-list-item')) {
-    //         contactListItems.push(element)
-    //     }
-    // })
-
-    // for (let i = 0; i < contactsListElementHTMLArr.length; i++) {
-    //     console.log(contactsListElementHTMLArr[i])
-    //      if (contactsListElementHTMLArr[i].classList.contains('contact-list-item')) {
-    //         contactListItems.push(contactsListElementHTMLArr[i])
-    //     }
-    // }
-
-    // console.log(contactsListElementHTMLArr.length)
-    // console.log(searchContactsAutocompleteListItems)
-
-    // searchContactsAutocompleteListItems.forEach(async (element) => {
-    //     // console.log(element)
-    //     // element.style.display = "flex"
-    //     const contactListItemAutocompleteNameElementContainer = document.createElement("div");
-    //         contactListItemAutocompleteNameElementContainer.style.display = "flex";
-    //         contactListItemAutocompleteNameElementContainer.style.flexDirection = "column";
-
-    //      const contactAutoCompleteImage = document.createElement("img");
-    //         contactAutoCompleteImage.style.width = "35px";
-    //         contactAutoCompleteImage.style.height = "100%";
-    //         contactAutoCompleteImage.style.border = "0.5px solid black";
-    //         contactAutoCompleteImage.style.borderRadius = "50%";
-    //         contactAutoCompleteImage.style.backgroundColor = "gainsboro";
-    //         contactAutoCompleteImage.style.objectFit = "cover";
-    //     // console.log(element.firstChild.firstChild)
-    //     const contactImageElement = element.firstChild.firstChild;
-    //     const contactId = element.getAttribute('id')
-    //     // const contact_id = contact.contact_id;
-    //     const contactImage = await getAContactImage(userId, contactId)
-    //     const contact = await getUserContact(userId, contactId)
-    //     // const imageString = `data:${contactImage.contentType};base64,${contactImage.image}`
-    //     // contactAutoCompleteImage.setAttribute("src", imageString);
-    //     // contactImageElement.style.borderRadius = "50%";`
-        
-    //     const contactListAutoCompleteNameContainerItems = document.querySelectorAll(".contactListItemAutoCompleteNameContainer");
-    //     const contactListAutoCompleteNameContainerItemsArr = Array.from(contactListAutoCompleteNameContainerItems);
-    //     let contactListItemAutocompleteNameContainer;
-    //     contactListAutoCompleteNameContainerItemsArr.forEach(element => {
-    //         if (element.getAttribute("id") === contactId) {
-    //             contactListItemAutocompleteNameContainer = element
-    //         }
-    //     });
-    //     const contactAutoCompleteImageElements = document.querySelectorAll(".contactAutoCompleteImageElement");
-    //     const contactAutoCompleteImageElementsArr = Array.from(contactAutoCompleteImageElements);
-    //     let contactAutoCompleteImageElement;
-    //     contactAutoCompleteImageElementsArr.forEach(element => {
-    //         if (element.getAttribute("id") === contactId) {
-    //             contactAutoCompleteImageElement = element;
-    //             // contactAutoCompleteImageElement.setAttribute("src", imageString) 
-    //             // contactAutoCompleteImageElement.style.visibility = 'visible';  
-    //         }
-    //     })
-    //     // setTimeout(async function() {
-    //         // await contactsAutocompleteSearch
-    //         // element.style.visibility = "visible"
-    //     // }, 100)
-    //     const contactAutoCompleteNameElements = document.querySelectorAll(".contactAutoCompleteNameElement");
-    //     const contactAutoCompleteNameElementsArr = Array.from(contactAutoCompleteNameElements)
-    //     let contactAutoCompleteNameElement;
-    //     contactAutoCompleteNameElementsArr.forEach(element => {
-    //         if (element.getAttribute("id") === contactId) {
-    //             contactAutoCompleteNameElement = element;
-    //         }
-    //     })
-    //     // for (let i = 0; i < contactListAutoCompleteNameContainerItemsArr.length; i++) {
-    //     //     if (contactListAutoCompleteNameContainerItemsArr[i].getAttribute("id") === contactId) {
-    //     //         contactListItemAutocompleteNameContainer = contactListAutoCompleteNameContainerItemsArr[i]
-    //     //     }
-    //     // }
-    //     if (contactListItemAutocompleteNameContainer !== undefined) {
-    //         const contactListItemAutocompleteNameContainerChildren = contactListItemAutocompleteNameContainer.children;
-    //         const contactListItemAutocompleteNameContainerHTMLArr = Array.from(contactListItemAutocompleteNameContainerChildren);
-    //         let numberOfImgTagsArr = []
-    //         // console.log(contactListItemAutocompleteNameContainerHTMLArr)
-    //         for (let i = 0; i < contactListItemAutocompleteNameContainerHTMLArr.length; i++) {
-    //             if (contactListItemAutocompleteNameContainerHTMLArr[i].tagName === "IMG") {
-    //                 numberOfImgTagsArr.push(contactListItemAutocompleteNameContainerHTMLArr[i].tagName)
-    //             }
-    //         }
-    
-    //         // console.log(numberOfImgTagsArr)
-    //         if (numberOfImgTagsArr.length = 1) {
-    //             // console.log(contactAutoCompleteImage)
-    //             // element.style.display = "flex"
-    //             // contactAutoCompleteImageElement.setAttribute("src", imageString);
-    //             setTimeout(function() {
-    //             for (let i = 0; i < contactListItemAutocompleteNameContainerHTMLArr.length; i++) {
-    //                 let checkimg;
-    //             if (contactListItemAutocompleteNameContainerHTMLArr[i].tagName === "IMG") {
-    //                 checkimg = contactListItemAutocompleteNameContainerHTMLArr[i]
-    //                 // numberOfImgTagsArr.push(contactListItemAutocompleteNameContainerHTMLArr[i].tagName)
-    //                 if (checkimg.getAttribute("src") !== null) {
-    //                     element.style.visibility = 'visible';
-    //                     // searchContactsAutocompleteList.style.display = 'block';  
-    //                 }
-    //             }
-    //         }
-    //             }, 20)
-
-                // if (contactAutoCompleteNameElement !== undefined) {
-                //     contactAutoCompleteNameElement.innerHTML = `${contact.firstname} ${contact.lastname}`
-
-                //     const contactFullNameText = `${contact.firstname} ${contact.lastname}`
-                //     const ellipsis = "..."
-                //     let contactFullNameTextSlice = contactFullNameText.slice(0, 16) + ellipsis
-                //     // console.log(contactEmailAddressText.length)
-                //     if (contactFullNameText.length > 16) {
-                //         contactAutoCompleteNameElement.innerHTML = contactFullNameTextSlice
-                //     } else {
-                //         contactAutoCompleteNameElement.innerHTML = `${contact.firstname} ${contact.lastname}`
-                //     }
-                // }
-
-                // contactListItemAutocompleteNameContainer.prepend(contactAutoCompleteImageElement);
-                // contactListItemAutocompleteNameContainer.appendChild(contactAutoCompleteNameElement);
-                // contactListItemAutocompleteNameContainer.appendChild(contactListItemAutocompleteNameElementContainer);
-            // }
-        // }
-    // });
 }};
 
 async function renderMobileContactsSearchContent() {
@@ -2392,6 +2268,7 @@ const allUsers = await getAllUsers();
     
     const checkEditUserImageElement = document.querySelector("#check-edit-user-image");
     const checkEditUserImageUrl = checkEditUserImageElement.getAttribute("src");
+    const editUserAddPhotoButtonReminder = document.querySelector("#edit-user-add-photo-button-reminder");
 
     fetch(checkEditUserImageUrl)
         .then(response => response.blob()) // Get the image as a Blob
@@ -2417,7 +2294,8 @@ const allUsers = await getAllUsers();
                 // console.log(decodedEditUserImage)
 
                 if (decodedDefaultUserImage !== decodedEditUserImage) {
-                      editUserAddPhotoButton.innerHTML = "Save Photo"
+                      editUserAddPhotoButton.innerHTML = "Save Photo";
+                      editUserAddPhotoButtonReminder.style.display = "flex";
                 }
 
             };
@@ -2428,8 +2306,9 @@ const allUsers = await getAllUsers();
         })
         .catch(error => console.error('Error fetching image:', error));
 
+
         console.log(imageString)
-    }
+    };
         
     //check for unecessary conditions.
         if (editUserImage.getAttribute("src") !== imageString && editUserAddPhotoInputElement.value !== "") {
@@ -2448,21 +2327,22 @@ const allUsers = await getAllUsers();
         } else if (editUserImage.getAttribute("src") !== "./images/user-5-svgrepo-com.svg" && editUserAddPhotoInputElement.value === "") {
             editUserImage.setAttribute("src", imageString);
             editUserAddPhotoButton.innerHTML = "Change Photo"
+            editUserAddPhotoButtonReminder.style.display = "none";
         }
-    })
+    });
 
+    const editUserAddPhotoButtonReminder = document.querySelector("#edit-user-add-photo-button-reminder");
     if (userImage !== null && userImage !== undefined) {
-        editUserAddPhotoButton.innerHTML = "Change Photo"
-    }
+        editUserAddPhotoButton.innerHTML = "Change Photo";
+        editUserAddPhotoButtonReminder.style.display = "none";
+    };
     
-    editUserAddPhotoButton.formAction = `${window.currentUrl}`
+    editUserAddPhotoButton.formAction = `${window.currentUrl}`;
     editUserAddPhotoButton.addEventListener("click", function(event) {
         // event.preventDefault()
-
         if (editUserAddPhotoButton.innerHTML === "Save Photo") {
             putNewUserImage()
-        } 
-
+        } ;
     });
 
     const editUserAddPhotoInputContainerElement = document.querySelector("#edit-user-add-photo-input-container")
@@ -2481,7 +2361,9 @@ const allUsers = await getAllUsers();
         editUserAddPhotoInputElement.value = "";
         const editUserAddPhotoInputContainerElement = document.querySelector("#edit-user-add-photo-input-container")
         editUserAddPhotoInputContainerElement.style.display = "none";
-        editUserAddPhotoButton.innerHTML = "Change Photo"
+        editUserAddPhotoButton.innerHTML = "Change Photo";
+        const editUserAddPhotoButtonReminder = document.querySelector("#edit-user-add-photo-button-reminder");
+        editUserAddPhotoButtonReminder.style.display = "none";
       
     });
 
@@ -2490,10 +2372,11 @@ const allUsers = await getAllUsers();
         // editUserAddPhotoInputContainerElement.style.display = "none";
         const editUserAddPhotoInputElement = document.querySelector("#edit-user-add-photo")
         console.log(editUserAddPhotoInputElement.files[0]);
-
+        const editUserAddPhotoButtonReminder = document.querySelector("#edit-user-add-photo-button-reminder");
         
         if (editUserAddPhotoInputElement.files[0] !== undefined) {
-            editUserAddPhotoButton.innerHTML = "Save Photo"
+            editUserAddPhotoButton.innerHTML = "Save Photo";
+            editUserAddPhotoButtonReminder.style.display = "flex";
             // handleEditUserImage()
             handleUploadImageInput()
         } else {
@@ -3702,11 +3585,6 @@ const allUsers = await getAllUsers();
     // contactsHeaderUserEmailAddressElement.style.margin = "0px 0px 16px 0px";
 
     const contactsUserNameElement = document.querySelector("#contacts-user-name");
-    contactsUserNameElement.style.margin = "0px";
-    const contactsUserEmailAddressElement = document.querySelector("#contacts-user-email");
-    contactsUserEmailAddressElement.style.margin = "0px";
-    // contactsUserNameElement.innerHTML = `${user.firstname}'s Contacts`;
-    // contactsUserNameElement.style.fontSize = "xx-large"
     contactsUserNameElement.style.fontFamily = "Arial"
     // contactsUserEmailAddressElement.innerHTML = `${user.emailaddress}`
 
@@ -3716,68 +3594,10 @@ const allUsers = await getAllUsers();
     const contactsListContainer = document.createElement("div");
     contactsListContainer.setAttribute("id", "my-contacts-list-container");
     contactsListContainer.style.visibility = "hidden";
-    const contactsHeaderContainer = document.createElement("div");
-    contactsHeaderContainer.style.display = "flex";
-    contactsHeaderContainer.style.alignItems = "center";
-    contactsHeaderContainer.style.backgroundColor = "ghostwhite";
-    contactsHeaderContainer.style.borderTop = "3px solid black";
-    contactsHeaderContainer.style.borderBottom = "3px solid black";
-    contactsHeaderContainer.style.padding = "5px";
-    const contactsHeaderElementsContainer = document.createElement("div");
-    contactsHeaderElementsContainer.style.display = "flex";
-    contactsHeaderElementsContainer.style.justifyContent = "space-between";
-    contactsHeaderElementsContainer.style.alignItems = "center";
-    contactsHeaderElementsContainer.style.width = "100%";
-    contactsHeaderElementsContainer.style.height = "100%";
-    const myContactsHeaderElementsContainer = document.createElement("div");
-    myContactsHeaderElementsContainer.style.display = "flex"
-    myContactsHeaderElementsContainer.style.alignItems = "center";
-    myContactsHeaderElementsContainer.style.width = "33%";
-    const myContactsHeaderElement = document.createElement("h2");
-    myContactsHeaderElement.innerHTML = "My Contacts";
-    myContactsHeaderElement.style.width = "140px";
-    myContactsHeaderElement.style.cursor = "default";
-    myContactsHeaderElement.style.margin = "0";
-    myContactsHeaderElement.style.marginLeft = "5px";
-    // myContactsHeaderElement.style.marginRight = "10px"
-    const numberOfContactsElement = document.createElement("h2");
+    const numberOfContactsElement = document.querySelector("#my-contacts-number");
     numberOfContactsElement.innerHTML = userContacts.length;
-    numberOfContactsElement.style.display = "inline-flex";
-    numberOfContactsElement.style.justifyContent = "center";
-    numberOfContactsElement.style.alignItems = "center";
-    numberOfContactsElement.style.width = "15px";
-    numberOfContactsElement.style.height = "15px";
-    numberOfContactsElement.style.backgroundColor = "navy";
-    numberOfContactsElement.style.color = "white"
-    numberOfContactsElement.style.padding = "10px";
-    numberOfContactsElement.style.borderRadius = "50%";
-    numberOfContactsElement.style.cursor = "default";
-    numberOfContactsElement.style.margin = "0";
-    const searchMyContactsElementContainer = document.createElement("div");
-    searchMyContactsElementContainer.style.display = "flex";
-    searchMyContactsElementContainer.style.justifyContent = "center";
-    searchMyContactsElementContainer.style.width = "34%";
-    const searchMyContactsElement = document.createElement("input");
-    searchMyContactsElement.setAttribute("id", "search-my-contacts-input");
-    searchMyContactsElement.name = "search-my-contacts"
-    searchMyContactsElement.type = "search";
-    searchMyContactsElement.placeholder = "Search My Contacts";
-    searchMyContactsElement.style.width = "100%";
-    searchMyContactsElement.style.height = "22.5px"
-    searchMyContactsElement.style.border = "1px solid black";
-    searchMyContactsElement.style.textIndent = "20px";
-    searchMyContactsElement.style.backgroundImage = "url(./images/search-svgrepo-com.svg)";
-    searchMyContactsElement.style.backgroundRepeat = "no-repeat";
-    searchMyContactsElement.style.backgroundSize = "16px";
-    searchMyContactsElement.style.backgroundPositionY = "2px";
-    searchMyContactsElement.style.backgroundPositionX = "0.8%";
-    searchMyContactsElement.style.outline = "none";
-    const myContactsHeaderElementsSpacingContainer = document.createElement("div");
-    myContactsHeaderElementsSpacingContainer.style.display = "flex"
-    myContactsHeaderElementsSpacingContainer.style.alignItems = "center";
-    myContactsHeaderElementsSpacingContainer.style.width = "33%";
     contactsListContainer.style.position = "absolute";
-    contactsListContainer.style.top = "28.5%"
+    contactsListContainer.style.top = "38.5%"
     contactsListContainer.style.left = "31.5%"
     contactsListContainer.style.width = "68.5%"
     const contactsList = document.createElement("ul");
@@ -3785,74 +3605,6 @@ const allUsers = await getAllUsers();
     contactsList.style.listStyle = "none";
     contactsList.style.padding = "0"
     contactsList.style.margin = "0";
-
-    // userContacts.sort(function(a, b) {
-    //     if (a.firstname < b.firstname) {
-    //         return -1;
-    //     }
-    //     if (a.firstname < b.firstname) {
-    //         return 1;
-    //     }
-        
-    //     var aFirstChar = a.firstname.charAt(0);
-    //     var bFirstChar = b.firstname.charAt(0);
-    //     if (aFirstChar > bFirstChar) {
-    //       return 1;
-    //     } else if (aFirstChar < bFirstChar) {
-    //       return -1;
-    //     } else {
-    //       var aLastChar = a.lastname.charAt(0);
-    //       var bLastChar = b.lastname.charAt(0);
-    //       if (aLastChar === "") {
-    //         aLastChar = "z"
-    //       }
-    //       if (bLastChar === "") {
-    //         bLastChar = "z"
-    //       }
-    //       if (aLastChar > bLastChar) {
-    //         return 1;
-    //       } else if (aLastChar < bLastChar) {
-    //         return -1;
-    //       } else {
-    //         return 0;
-    //       }    
-    //     }
-    //   });
-
-    // userContacts.sort(function(a, b) {
-    //     if (a.firstname < b.firstname) {
-    //         return -1;
-    //     }
-    //     if (a.firstname < b.firstname) {
-    //         return 1;
-    //     }
-
-    //     var aFirstChar = a.firstname.charAt(0);
-    //     var bFirstChar = b.firstname.charAt(0);
-    //     if (aFirstChar > bFirstChar) {
-    //       return 1;
-    //     } else if (aFirstChar < bFirstChar) {
-    //       return -1;
-    //     } else {
-    //       var aLastChar = a.lastname.charAt(0);
-    //       var bLastChar = b.lastname.charAt(0);
-    //       if (aLastChar === "") {
-    //         aLastChar = "z"
-    //       }
-    //       if (bLastChar === "") {
-    //         bLastChar = "z"
-    //       }
-    //       if (aLastChar > bLastChar) {
-    //         return 1;
-    //       } else if (aLastChar < bLastChar) {
-    //         return -1;
-    //       } else {
-    //         return 0;
-    //       }    
-    //     }
-    //   });
-
-    //   console.log(userContacts)
 
     userContacts.sort(function(a, b) {
         const nameA = `${a.firstname} ${a.lastname}`
@@ -3931,28 +3683,21 @@ const allUsers = await getAllUsers();
         const contactListNameContainer = document.createElement("div");
         contactListNameContainer.style.position = "relative";
         contactListNameContainer.style.display = "flex";
-        contactListNameContainer.style.flexDirection = "column"
+        contactListNameContainer.style.flexDirection = "column";
         contactListNameContainer.style.justifyContent = "space-around";
         contactListNameContainer.style.alignItems = "center";
         contactListNameContainer.style.minWidth = "0";
-        contactListNameContainer.style.width = "100%"
-        // contactListNameContainer.classList.add("name-container")
-        // console.log(contactListNameContainer.clientWidth)
+        contactListNameContainer.style.width = "100%";
         const contactListNameElementContainer = document.createElement("div");
         contactListNameElementContainer.style.display = "flex";
         contactListNameElementContainer.style.justifyContent = "center";
         contactListNameElementContainer.style.minWidth = "0";
         contactListNameElementContainer.style.width = "100%";
         const contactListNameElement = document.createElement("h3");
-        // contactListNameElement.style.display = "flex";
-        // contactListNameElement.style.justifyContent = "center";
         contactListNameElement.style.whiteSpace = "nowrap";
         contactListNameElement.style.overflow = "hidden";
         contactListNameElement.style.textOverflow = "ellipsis";
         contactListNameElement.style.cursor = "default";
-        // contactListNameElement.style.flex = "1";
-        // contactListNameElement.style.minWidth = "0";
-        // contactListNameElement.style.width = "100%";
         contactListNameElement.style.margin = "0";
         contactListNameElement.innerHTML = `${contact.firstname} ${contact.lastname}`;
         const contactListEmailElementContainer = document.createElement("div");
@@ -3961,37 +3706,30 @@ const allUsers = await getAllUsers();
         contactListEmailElementContainer.style.minWidth = "0";
         contactListEmailElementContainer.style.width = "100%";
         const contactListEmailElement = document.createElement("p");
-        // contactListEmailElement.style.display = "flex";
-        // contactListEmailElement.style.justifyContent = "center";
-        contactListEmailElement.style.fontStyle = "italic"
+        contactListEmailElement.style.fontStyle = "italic";
         contactListEmailElement.style.fontSize = "small";
         contactListEmailElement.style.whiteSpace = "nowrap";
         contactListEmailElement.style.overflow = "hidden";
         contactListEmailElement.style.textOverflow = "ellipsis";
         contactListEmailElement.style.cursor = "default";
-        // contactListEmailElement.style.flex = "1";
-        // contactListEmailElement.style.minWidth = "0";
-        // contactListEmailElement.style.width = "100%"
-        contactListEmailElement.style.margin = "0"
-        const contactEmail = contact.emailaddress;
+        contactListEmailElement.style.margin = "0";
+        const contactEmail = contact.email;
         contactListEmailElement.innerHTML = contactEmail;
+        if (contactListEmailElement.innerHTML === "undefined") {
+            contactListEmailElement.style.visibility = "hidden";
+        };
         const contactListOrganizationAndRoleElementContainer = document.createElement("div");
         contactListOrganizationAndRoleElementContainer.style.display = "flex";
         contactListOrganizationAndRoleElementContainer.style.justifyContent = "center";
         contactListOrganizationAndRoleElementContainer.style.minWidth = "0";
         contactListOrganizationAndRoleElementContainer.style.width = "100%";
         const contactListOrganizationAndRoleElement = document.createElement("p");
-        // contactListOrganizationAndRoleElement.style.display = "flex";
-        // contactListOrganizationAndRoleElement.style.justifyContent = "center";
         contactListOrganizationAndRoleElement.style.fontWeight = "bolder";
         contactListOrganizationAndRoleElement.style.fontSize = "smaller"
         contactListOrganizationAndRoleElement.style.whiteSpace = "nowrap";
         contactListOrganizationAndRoleElement.style.overflow = "hidden";
         contactListOrganizationAndRoleElement.style.textOverflow = "ellipsis";
         contactListOrganizationAndRoleElement.style.cursor = "default";
-        // contactListOrganizationAndRoleElement.style.flex = "1";
-        // contactListOrganizationAndRoleElement.style.minWidth = "0";
-        // contactListOrganizationAndRoleElement.style.width = "100%";
         contactListOrganizationAndRoleElement.style.margin = "0";
     
         if (contact.organization !== null && contact.organization !== "" && contact.organization_role !== null && contact.organization_role !== "") {
@@ -4016,45 +3754,10 @@ const allUsers = await getAllUsers();
         
         contactListFavoriteStarImg.setAttribute("src", "./images/star-gold-svgrepo-com.svg");
         if (contact.favorite === null || contact.favorite === false) {
-            contactListFavoriteStarImg.style.visibility = "hidden"
+            contactListFavoriteStarImg.style.visibility = "hidden";
         } else {
-            contactListFavoriteStarImg.style.display = "block"
-        }
-        
-        requestAnimationFrame(() => {
-            const contactListNameElementWidth = contactListNameElement.clientWidth;
-            const contactListNameElementText = contactListNameElement.innerHTML;
-            const contactListNameElementTextLength = contactListNameElementText.length;
-            const contactListNameElementSlice = contactListNameElementText.slice(0, 22);
-            const secondContactListNameElementSlice = contactListNameElementText.slice(0, 26);
-            const thirdContactListNameElementSlice = contactListNameElementText.slice(0, 21);
-            const fourthContactListNameElementSlice = contactListNameElementText.slice(0, 16);
-            const contactListEmailElementWidth = contactListEmailElement.clientWidth;
-            const contactListEmailElementText = contactListEmailElement.innerHTML;
-            const contactListEmailElementTextLength = contactListEmailElementText.length;
-            const contactListEmailElementTextSlice = contactListEmailElementText.slice(0, 38);
-            const contactListEmailElementTextSecondSlice = contactListEmailElementText.slice(0, 50);
-            let contactListOrganizationAndRoleElementWidth = contactListOrganizationAndRoleElement.clientWidth;
-            const contactListOrganizationAndRoleElementText = contactListOrganizationAndRoleElement.innerHTML;
-            const contactListOrganizationAndRoleElementTextLength = contactListOrganizationAndRoleElementText.length;
-            const contactListOrganizationAndRoleElementTextSlice = contactListOrganizationAndRoleElementText.slice(0, 35);
-
-            const ellipsis = '...'
-
-            // console.log(contactListNameElementTextLength)
-            // if (contactListNameElementTextLength > 22) {
-            //     contactListNameElement.innerHTML = contactListNameElementSlice + ellipsis;
-            // }
-
-            // if (contactListEmailElementTextLength > 38) {
-            //     contactListEmailElement.innerHTML = contactListEmailElementTextSlice + ellipsis;
-            // }
-
-            // console.log(contactListOrganizationAndRoleElementTextSlice)
-            // if (contactListOrganizationAndRoleElementTextLength > 35) {
-            //     contactListOrganizationAndRoleElement.innerHTML = contactListOrganizationAndRoleElementTextSlice + ellipsis;
-            // }
-        });
+            contactListFavoriteStarImg.style.display = "block";
+        };
         
         contactListItemImageContainer.appendChild(contactListItemImage);
         contactListNameElementContainer.appendChild(contactListNameElement);
@@ -4067,18 +3770,30 @@ const allUsers = await getAllUsers();
         contactListItem.appendChild(contactListNameContainer);
         contactListFavoritesStarIconContainer.appendChild(contactListFavoriteStarImg);
         contactListItem.appendChild(contactListFavoritesStarIconContainer);
-        contactsList.appendChild(contactListItem)
+        contactsList.appendChild(contactListItem);
     });
-    myContactsHeaderElementsContainer.appendChild(myContactsHeaderElement);
-    myContactsHeaderElementsContainer.appendChild(numberOfContactsElement);
-    contactsHeaderElementsContainer.appendChild(myContactsHeaderElementsContainer)
-    searchMyContactsElementContainer.appendChild(searchMyContactsElement)
-    contactsHeaderElementsContainer.appendChild(searchMyContactsElementContainer);
-    contactsHeaderElementsContainer.appendChild(myContactsHeaderElementsSpacingContainer)
-    contactsHeaderContainer.appendChild(contactsHeaderElementsContainer)
-    contactsListContainer.appendChild(contactsHeaderContainer)
-    contactsListContainer.appendChild(contactsList)
-    document.body.appendChild(contactsListContainer)
+    // const contactsUserHeaderContainer = document.querySelector("#contacts-user-header-container");
+    // myContactsHeaderElementsContainer.appendChild(myContactsHeaderElement);
+    // myContactsHeaderElementsContainer.appendChild(numberOfContactsElement);
+    // contactsHeaderElementsContainer.appendChild(myContactsHeaderElementsContainer);
+    // searchMyContactsElementContainer.appendChild(searchMyContactsElement);
+    // contactsHeaderElementsContainer.appendChild(searchMyContactsElementContainer);
+    // contactsHeaderElementsContainer.appendChild(myContactsHeaderElementsSpacingContainer);
+    // contactsHeaderContainer.appendChild(contactsHeaderElementsContainer);
+    // contactsUserHeaderContainer.insertAdjacentElement("afterend", contactsHeaderContainer);
+    contactsListContainer.appendChild(contactsList);
+    document.body.appendChild(contactsListContainer);
+
+    // const contactUserHeaderContainerForScroll = document.querySelector("#contacts-user-header-container");
+    // const contactUserHeaderContainerForScrollRect = contactUserHeaderContainerForScroll.getBoundingClientRect()
+    
+    // window.addEventListener("scroll", function() {
+    //     const contactUserHeaderContainerForScrollX = contactUserHeaderContainerForScrollRect.left - window.scrollX;
+    //     const contactUserHeaderContainerForScrollY = contactUserHeaderContainerForScrollRect.top - window.scrollY;
+    //     contactUserHeaderContainerForScroll.style.transform = `translate(${contactUserHeaderContainerForScrollX}px, ${contactUserHeaderContainerForScrollX}px)`;
+    //     contactUserHeaderContainerForScroll.style.top = contactUserHeaderContainerForScrollY;
+        // console.log(contactUserHeaderContainerForScrollX)
+    // })
 
     const searchContactsElement = document.querySelector("#search-my-contacts-input")
     searchContactsElement.addEventListener("input", myContactsAutocompleteSearch);
@@ -4135,6 +3850,9 @@ const allUsers = await getAllUsers();
     console.log(searchContactsInputValue)
 
     const searchContactsAutocompleteList = document.querySelector("#contacts-autocomplete-list");
+    searchContactsAutocompleteList.style.listStyle = "none";
+    searchContactsAutocompleteList.style.margin = "0";
+    searchContactsAutocompleteList.style.padding = "0";
     // const searchContactsAutocompleteList = document.createElement("div");
     // searchContactsAutocompleteList.setAttribute("id", "my-contacts-autocomplete-list");
    
@@ -4248,7 +3966,11 @@ const allUsers = await getAllUsers();
                 contactAutoCompleteListEmailElement.style.overflow = "hidden";
                 contactAutoCompleteListEmailElement.style.textOverflow = "ellipsis";
                 contactAutoCompleteListEmailElement.style.margin = "0";
-                const contactEmail = contact.emailaddress;
+                const contactEmail = contact.email;
+                contactAutoCompleteListEmailElement.innerHTML = contactEmail;
+                if (contactAutoCompleteListEmailElement.innerHTML === "undefined") {
+                    contactAutoCompleteListEmailElement.style.visibility = "hidden";
+                };
                 contactAutoCompleteListEmailElement.innerHTML = contactEmail;
                 const contactAutoCompleteListOrganizationAndRoleElementContainer = document.createElement("div");
                 contactAutoCompleteListOrganizationAndRoleElementContainer.style.display = "flex";
@@ -4290,43 +4012,6 @@ const allUsers = await getAllUsers();
                 contactAutoCompleteListFavoriteStarImg.style.display = "block"
                 };
 
-                requestAnimationFrame(() => {
-                const contactListNameElementWidth = contactAutoCompleteListNameElement.clientWidth;
-                const contactListNameElementText = contactAutoCompleteListNameElement.innerHTML;
-                const contactListNameElementTextLength = contactListNameElementText.length;
-                const contactListNameElementSlice = contactListNameElementText.slice(0, 22);
-                const secondContactListNameElementSlice = contactListNameElementText.slice(0, 26);
-                const thirdContactListNameElementSlice = contactListNameElementText.slice(0, 21);
-                const fourthContactListNameElementSlice = contactListNameElementText.slice(0, 16);
-                const contactListEmailElementWidth = contactAutoCompleteListEmailElement.clientWidth;
-                const contactListEmailElementText = contactAutoCompleteListEmailElement.innerHTML;
-                const contactListEmailElementTextLength = contactListEmailElementText.length;
-                const contactListEmailElementTextSlice = contactListEmailElementText.slice(0, 38);
-                const contactListEmailElementTextSecondSlice = contactListEmailElementText.slice(0, 50);
-                let contactListOrganizationAndRoleElementWidth = contactAutoCompleteListOrganizationAndRoleElement.clientWidth;
-                const contactListOrganizationAndRoleElementText = contactAutoCompleteListOrganizationAndRoleElement.innerHTML;
-                const contactListOrganizationAndRoleElementTextLength = contactListOrganizationAndRoleElementText.length;
-                const contactListOrganizationAndRoleElementTextSlice = contactListOrganizationAndRoleElementText.slice(0, 35);
-
-                const ellipsis = '...'
-
-                // console.log(contactListNameElementTextLength)
-                // if (contactListNameElementTextLength > 22) {
-                //     contactAutoCompleteListNameElement.innerHTML = contactListNameElementSlice + ellipsis;
-                // }
-
-                // if (contactListEmailElementTextLength > 38) {
-                //     contactAutoCompleteListEmailElement.innerHTML = contactListEmailElementTextSlice + ellipsis;
-                // }
-
-                // // console.log(contactListOrganizationAndRoleElementTextSlice)
-                // if (contactListOrganizationAndRoleElementTextLength > 35) {
-                //     contactAutoCompleteListOrganizationAndRoleElement.innerHTML = contactListOrganizationAndRoleElementTextSlice + ellipsis;
-                // }
-                });
-                ///  
-
-            // const contactsList = document.querySelector("#my-contacts-list-container")
             contactsAutoCompleteListItemImageContainer.appendChild(contactsAutoCompleteListItemImage);
             contactAutoCompleteListNameElementContainer.appendChild(contactAutoCompleteListNameElement);
             contactAutoCompleteListEmailElementContainer.appendChild(contactAutoCompleteListEmailElement);
@@ -9412,67 +9097,10 @@ const allUsers = await getAllUsers();
     const favoriteContactsListContainer = document.createElement("div");
     favoriteContactsListContainer.setAttribute("id", "my-favorite-contacts-list-container")
     favoriteContactsListContainer.style.visibility = "hidden";
-    const favoriteContactsHeaderContainer = document.createElement("div");
-    favoriteContactsHeaderContainer.style.display = "flex";
-    favoriteContactsHeaderContainer.style.alignItems = "center";
-    favoriteContactsHeaderContainer.style.backgroundColor = "ghostwhite";
-    favoriteContactsHeaderContainer.style.borderTop = "3px solid black";
-    favoriteContactsHeaderContainer.style.borderBottom = "3px solid black";
-    favoriteContactsHeaderContainer.style.padding = "5px";
-    const favoriteContactsHeaderElementsContainer = document.createElement("div");
-    favoriteContactsHeaderElementsContainer.style.display = "flex";
-    favoriteContactsHeaderElementsContainer.style.justifyContent = "space-between";
-    favoriteContactsHeaderElementsContainer.style.alignItems = "center";
-    favoriteContactsHeaderElementsContainer.style.width = "100%";
-    favoriteContactsHeaderElementsContainer.style.height = "100%";
-    const myFavoriteContactsHeaderElementsContainer = document.createElement("div");
-    myFavoriteContactsHeaderElementsContainer.style.display = "flex";
-    myFavoriteContactsHeaderElementsContainer.style.alignItems = "center";
-    myFavoriteContactsHeaderElementsContainer.style.width = "33%";
-    const myFavoriteContactsHeaderElement = document.createElement("h2");
-    myFavoriteContactsHeaderElement.innerHTML = "My Favorites";
-    myFavoriteContactsHeaderElement.style.width = "140px";
-    myFavoriteContactsHeaderElement.style.cursor = "default";
-    myFavoriteContactsHeaderElement.style.margin = "0";
-    myFavoriteContactsHeaderElement.style.marginLeft = "5px";
-    const numberOfFavoriteContactsElement = document.createElement("h2");
+    const numberOfFavoriteContactsElement = document.querySelector("#my-favorites-number");
     numberOfFavoriteContactsElement.innerHTML = favoriteContacts.length;
-    numberOfFavoriteContactsElement.style.display = "inline-flex";
-    numberOfFavoriteContactsElement.style.justifyContent = "center";
-    numberOfFavoriteContactsElement.style.alignItems = "center";
-    numberOfFavoriteContactsElement.style.width = "15px";
-    numberOfFavoriteContactsElement.style.height = "15px";
-    numberOfFavoriteContactsElement.style.backgroundColor = "navy";
-    numberOfFavoriteContactsElement.style.color = "white";
-    numberOfFavoriteContactsElement.style.cursor = "default";
-    numberOfFavoriteContactsElement.style.padding = "10px";
-    numberOfFavoriteContactsElement.style.borderRadius = "50%";
-    numberOfFavoriteContactsElement.style.margin = "0";
-    const searchMyFavoritesContactsElementContainer = document.createElement("div");
-    searchMyFavoritesContactsElementContainer.style.display = "flex";
-    searchMyFavoritesContactsElementContainer.style.justifyContent = "center";
-    searchMyFavoritesContactsElementContainer.style.width = "34%";
-    const searchMyFavoriteContactsElement = document.createElement("input");
-    searchMyFavoriteContactsElement.setAttribute("id", "search-my-favorite-contacts-input");
-    searchMyFavoriteContactsElement.name = "search-my-favorite-contacts";
-    searchMyFavoriteContactsElement.type = "search";
-    searchMyFavoriteContactsElement.placeholder = "Search My Favorite Contacts";
-    searchMyFavoriteContactsElement.style.width = "100%";
-    searchMyFavoriteContactsElement.style.height = "22.5px";
-    searchMyFavoriteContactsElement.style.border = "1px solid black";
-    searchMyFavoriteContactsElement.style.textIndent = "20px";
-    searchMyFavoriteContactsElement.style.backgroundImage = "url(./images/search-svgrepo-com.svg)";
-    searchMyFavoriteContactsElement.style.backgroundRepeat = "no-repeat";
-    searchMyFavoriteContactsElement.style.backgroundSize = "16px";
-    searchMyFavoriteContactsElement.style.backgroundPositionY = "2px";
-    searchMyFavoriteContactsElement.style.backgroundPositionX = "0.8%";
-    searchMyFavoriteContactsElement.style.outline = "none";
-    const myFavoriteContactsHeaderElementsSpacingContainer = document.createElement("div");
-    myFavoriteContactsHeaderElementsSpacingContainer.style.display = "flex";
-    myFavoriteContactsHeaderElementsSpacingContainer.style.alignItems = "center";
-    myFavoriteContactsHeaderElementsSpacingContainer.style.width = "33%";
     favoriteContactsListContainer.style.position = "absolute";
-    favoriteContactsListContainer.style.top = "28.5%";
+    favoriteContactsListContainer.style.top = "38.5%";
     favoriteContactsListContainer.style.left = "31.5%";
     favoriteContactsListContainer.style.width = "68.5%";
     const favoriteContactsList = document.createElement("ul");
@@ -9587,8 +9215,11 @@ const allUsers = await getAllUsers();
         favoriteContactListEmailElement.style.textOverflow = "ellipsis";
         favoriteContactListEmailElement.style.cursor = "default";
         favoriteContactListEmailElement.style.margin = "0";
-        const favoriteContactEmail = contact.emailaddress;
+        const favoriteContactEmail = contact.email;
         favoriteContactListEmailElement.innerHTML = favoriteContactEmail;
+        if (favoriteContactListEmailElement.innerHTML === "undefined") {
+            favoriteContactListEmailElement.style.visibility = "hidden";
+        };
         const favoriteContactListOrganizationAndRoleElementContainer = document.createElement("div");
         favoriteContactListOrganizationAndRoleElementContainer.style.display = "flex";
         favoriteContactListOrganizationAndRoleElementContainer.style.justifyContent = "center";
@@ -9625,43 +9256,10 @@ const allUsers = await getAllUsers();
         
         favoriteContactListFavoriteStarImg.setAttribute("src", "./images/star-gold-svgrepo-com.svg");
         if (contact.favorite === null || contact.favorite === false) {
-            favoriteContactListFavoriteStarImg.style.visibility = "hidden"
+            favoriteContactListFavoriteStarImg.style.visibility = "hidden";
         } else {
-            favoriteContactListFavoriteStarImg.style.display = "block"
+            favoriteContactListFavoriteStarImg.style.display = "block";
         };
-
-        requestAnimationFrame(() => {
-            const favoriteContactListNameElementWidth = favoriteContactListNameElement.clientWidth;
-            const favoriteContactListNameElementText = favoriteContactListNameElement.innerHTML;
-            const favoriteContactsListNameElementTextLength = favoriteContactListNameElementText.length;
-            const favoriteContactListNameElementSlice = favoriteContactListNameElementText.slice(0, 22);
-            const secondFavoriteContactListNameElementSlice = favoriteContactListNameElementText.slice(0, 26);
-            const thirdFavoriteContactListNameElementSlice = favoriteContactListNameElementText.slice(0, 21);
-            const fourthFavoriteContactListNameElementSlice = favoriteContactListNameElementText.slice(0, 16);
-            const favoriteContactListEmailElementWidth = favoriteContactListEmailElement.clientWidth;
-            const favoriteContactListEmailElementText = favoriteContactListEmailElement.innerHTML;
-            const favoriteContactListEmailElementTextLength = favoriteContactListEmailElementText.length;
-            const favoriteContactListEmailElementTextSlice = favoriteContactListEmailElementText.slice(0, 38);
-            const favoriteContactListEmailElementTextSecondSlice = favoriteContactListEmailElementText.slice(0, 50);
-            let favoriteContactListOrganizationAndRoleElementWidth = favoriteContactListOrganizationAndRoleElement.clientWidth;
-            const favoriteContactListOrganizationAndRoleElementText = favoriteContactListOrganizationAndRoleElement.innerHTML;
-            const favoriteContactListOrganizationAndRoleElementTextLength = favoriteContactListOrganizationAndRoleElementText.length;
-            const favoriteContactListOrganizationAndRoleElementTextSlice = favoriteContactListOrganizationAndRoleElementText.slice(0, 35);
-
-            const ellipsis = '...'
-
-            // if (favoriteContactsListNameElementTextLength > 22) {
-            //     favoriteContactListNameElement.innerHTML = favoriteContactListNameElementSlice + ellipsis;
-            // };
-
-            // if (favoriteContactListEmailElementTextLength > 38) {
-            //     favoriteContactListEmailElement.innerHTML = favoriteContactListEmailElementTextSlice + ellipsis;
-            // };
-
-            // if (favoriteContactListOrganizationAndRoleElementTextLength > 35) {
-            //     favoriteContactListOrganizationAndRoleElement.innerHTML = favoriteContactListOrganizationAndRoleElementTextSlice + ellipsis;
-            // };
-    });
         
         favoriteContactListItemImageContainer.appendChild(favoriteContactListItemImage);
         favoriteContactListNameElementContainer.appendChild(favoriteContactListNameElement);
@@ -9676,24 +9274,24 @@ const allUsers = await getAllUsers();
         favoriteContactListItem.appendChild(favoriteContactListFavoritesStarIconContainer);
         favoriteContactsList.appendChild(favoriteContactListItem);
     });
-    myFavoriteContactsHeaderElementsContainer.appendChild(myFavoriteContactsHeaderElement);
-    myFavoriteContactsHeaderElementsContainer.appendChild(numberOfFavoriteContactsElement);
-    favoriteContactsHeaderElementsContainer.appendChild(myFavoriteContactsHeaderElementsContainer);
-    searchMyFavoritesContactsElementContainer.appendChild(searchMyFavoriteContactsElement);
-    favoriteContactsHeaderElementsContainer.appendChild(searchMyFavoritesContactsElementContainer);
-    favoriteContactsHeaderElementsContainer.appendChild(myFavoriteContactsHeaderElementsSpacingContainer);
-    favoriteContactsHeaderContainer.append(favoriteContactsHeaderElementsContainer);
-    favoriteContactsListContainer.appendChild(favoriteContactsHeaderContainer);
+    // myFavoriteContactsHeaderElementsContainer.appendChild(myFavoriteContactsHeaderElement);
+    // myFavoriteContactsHeaderElementsContainer.appendChild(numberOfFavoriteContactsElement);
+    // favoriteContactsHeaderElementsContainer.appendChild(myFavoriteContactsHeaderElementsContainer);
+    // searchMyFavoritesContactsElementContainer.appendChild(searchMyFavoriteContactsElement);
+    // favoriteContactsHeaderElementsContainer.appendChild(searchMyFavoritesContactsElementContainer);
+    // favoriteContactsHeaderElementsContainer.appendChild(myFavoriteContactsHeaderElementsSpacingContainer);
+    // favoriteContactsHeaderContainer.append(favoriteContactsHeaderElementsContainer);
+    // favoriteContactsListContainer.appendChild(favoriteContactsHeaderContainer);
     favoriteContactsListContainer.appendChild(favoriteContactsList);
     document.body.appendChild(favoriteContactsListContainer);
 
-    const searchFavoriteContactsElement = document.querySelector("#search-my-favorite-contacts-input"); //correct
-    searchFavoriteContactsElement.addEventListener("input", myFavoriteContactsAutocompleteSearch); //correct
+    const searchFavoriteContactsElement = document.querySelector("#search-my-favorite-contacts-input");
+    searchFavoriteContactsElement.addEventListener("input", myFavoriteContactsAutocompleteSearch);
 
-    async function myFavoriteContactsAutocompleteSearch() { //correct
-        const favoriteContactsList = document.querySelector("#my-favorite-contacts-list"); //correct
-        let searchFavoriteContactsInputValue = searchFavoriteContactsElement.value.toLowerCase().trimEnd(); //correct
-        let filteredContacts = []; //correct
+    async function myFavoriteContactsAutocompleteSearch() {
+        const favoriteContactsList = document.querySelector("#my-favorite-contacts-list");
+        let searchFavoriteContactsInputValue = searchFavoriteContactsElement.value.toLowerCase().trimEnd();
+        let filteredContacts = [];
 
         let favoriteContacts = [];
         userContacts.forEach(contact => {
@@ -9702,24 +9300,22 @@ const allUsers = await getAllUsers();
             };
         });
 
-        favoriteContacts.sort(function(a, b) { //correct
-        const nameA = `${a.firstname} ${a.lastname}` //correct
-        const nameB = `${b.firstname} ${b.lastname}`; //correct
-        return nameA.localeCompare(nameB) //correct
+        favoriteContacts.sort(function(a, b) {
+        const nameA = `${a.firstname} ${a.lastname}`;
+        const nameB = `${b.firstname} ${b.lastname}`;
+        return nameA.localeCompare(nameB);
         });
 
-        favoriteContacts.filter(function(contact) { //correct
-        let contactFirstName = contact.firstname; //correct
-        let contactLastName = contact.lastname; //correct
-        let contactName = `${contact.firstname} ${contact.lastname}` //correct
+        favoriteContacts.filter(function(contact) {
+        let contactFirstName = contact.firstname;
+        let contactLastName = contact.lastname;
+        let contactName = `${contact.firstname} ${contact.lastname}`;
 
-        // console.log(searchFavoriteContactsInputValue.length)
-
-        if (searchFavoriteContactsInputValue === "") { //correct
-            for (let i = 0; i < favoriteContacts.length; i++) { //correct
-                filteredContacts.push(favoriteContacts[i]) //correct
-            } //correct
-        }
+        if (searchFavoriteContactsInputValue === "") {
+            for (let i = 0; i < favoriteContacts.length; i++) {
+                filteredContacts.push(favoriteContacts[i])
+            };
+        };
 
         //keep this
 
@@ -9743,58 +9339,61 @@ const allUsers = await getAllUsers();
         //     }
         // }
 
-        if (contactName.toLowerCase().startsWith(searchFavoriteContactsInputValue)) { //correct
-            for (let i = 0; i < favoriteContacts.length; i++) { //correct
-                let matchContactName = `${favoriteContacts[i].firstname} ${favoriteContacts[i].lastname}`; //correct
-                if (contactName.toLowerCase() === matchContactName.toLowerCase()) { //correct
-                    filteredContacts.push(favoriteContacts[i]); //correct
+        if (contactName.toLowerCase().startsWith(searchFavoriteContactsInputValue)) {
+            for (let i = 0; i < favoriteContacts.length; i++) {
+                let matchContactName = `${favoriteContacts[i].firstname} ${favoriteContacts[i].lastname}`;
+                if (contactName.toLowerCase() === matchContactName.toLowerCase()) {
+                    filteredContacts.push(favoriteContacts[i]);
                     // console.log(filteredContacts)
-                } //correct
-            } //correct
-        } //correct
-    }); //correct
+                }
+            }
+        }
+    });
 
     console.log(searchFavoriteContactsInputValue)
 
-    const searchFavoriteContactsAutocompleteList = document.querySelector("#favorite-contacts-autocomplete-list"); //correct
+    const searchFavoriteContactsAutocompleteList = document.querySelector("#favorite-contacts-autocomplete-list");
+    searchFavoriteContactsAutocompleteList.style.listStyle = "none";
+    searchFavoriteContactsAutocompleteList.style.margin = "0";
+    searchFavoriteContactsAutocompleteList.style.padding = "0";
     // const searchFavoriteContactsAutocompleteList = document.createElement("div");
     // searchFavoriteContactsAutocompleteList.setAttribute("id", "my-favorite-contacts-autocomplete-list");
    
-    searchFavoriteContactsAutocompleteList.innerHTML = ''; //correct
+    searchFavoriteContactsAutocompleteList.innerHTML = '';
 
-    function removeDuplicates(arr) { //correct
-        return arr.reduce((unique, item) => { //correct
-          if (!unique.includes(item)) { //correct
-            unique.push(item); //correct
-          } //correct
-          return unique; //correct
-        }, []); //correct
-      }; //correct
+    function removeDuplicates(arr) {
+        return arr.reduce((unique, item) => {
+          if (!unique.includes(item)) {
+            unique.push(item);
+          }
+          return unique;
+        }, []);
+      };
 
-      const uniqueArray = removeDuplicates(filteredContacts); //correct
-      searchFavoriteContactsAutocompleteList.style.display = 'block'; //correct
-      favoriteContactsList.style.display = "none" //correct
-      let elementsArr = []; //correct
+      const uniqueArray = removeDuplicates(filteredContacts);
+      searchFavoriteContactsAutocompleteList.style.display = 'block';
+      favoriteContactsList.style.display = "none"
+      let elementsArr = [];
 
-            uniqueArray.forEach(contact => { //correct
-                const favoriteContactsAutoCompleteListItem = document.createElement("div"); //correct
-                favoriteContactsAutoCompleteListItem.style.display = "flex"; //correct
-                favoriteContactsAutoCompleteListItem.style.flexDirection = "row"; //correct
-                favoriteContactsAutoCompleteListItem.style.height = "70px" //correct
-                favoriteContactsAutoCompleteListItem.style.borderTop = "2px solid black"; //correct
-                favoriteContactsAutoCompleteListItem.style.borderBottom = "2px solid black"; //correct
-                favoriteContactsAutoCompleteListItem.style.backgroundColor = "#fcfcff"; //correct
-                favoriteContactsAutoCompleteListItem.style.marginTop = "1px"; //correct
-                favoriteContactsAutoCompleteListItem.style.marginBottom = "1px"; //correct
-                favoriteContactsAutoCompleteListItem.setAttribute("contactId", contact.contact_id); //correct
+            uniqueArray.forEach(contact => {
+                const favoriteContactsAutoCompleteListItem = document.createElement("div");
+                favoriteContactsAutoCompleteListItem.style.display = "flex";
+                favoriteContactsAutoCompleteListItem.style.flexDirection = "row";
+                favoriteContactsAutoCompleteListItem.style.height = "70px"
+                favoriteContactsAutoCompleteListItem.style.borderTop = "2px solid black";
+                favoriteContactsAutoCompleteListItem.style.borderBottom = "2px solid black";
+                favoriteContactsAutoCompleteListItem.style.backgroundColor = "#fcfcff";
+                favoriteContactsAutoCompleteListItem.style.marginTop = "1px";
+                favoriteContactsAutoCompleteListItem.style.marginBottom = "1px";
+                favoriteContactsAutoCompleteListItem.setAttribute("contactId", contact.contact_id);
 
-                favoriteContactsAutoCompleteListItem.addEventListener("mouseover", function() { //correct
-                favoriteContactsAutoCompleteListItem.style.backgroundColor = "lightgreen"; //correct
-                }); //correct
+                favoriteContactsAutoCompleteListItem.addEventListener("mouseover", function() {
+                favoriteContactsAutoCompleteListItem.style.backgroundColor = "lightgreen";
+                });
 
-                favoriteContactsAutoCompleteListItem.addEventListener("mouseout", function() { //correct
-                favoriteContactsAutoCompleteListItem.style.backgroundColor = "#fcfcff"; //correct
-                }); //correct
+                favoriteContactsAutoCompleteListItem.addEventListener("mouseout", function() {
+                favoriteContactsAutoCompleteListItem.style.backgroundColor = "#fcfcff";
+                });
 
                 favoriteContactsAutoCompleteListItem.addEventListener("click", function(event) {
                     
@@ -9868,8 +9467,11 @@ const allUsers = await getAllUsers();
                 favoriteContactAutoCompleteListEmailElement.style.overflow = "hidden";
                 favoriteContactAutoCompleteListEmailElement.style.textOverflow = "ellipsis";
                 favoriteContactAutoCompleteListEmailElement.style.margin = "0"
-                const favoriteContactEmail = contact.emailaddress;
+                const favoriteContactEmail = contact.email;
                 favoriteContactAutoCompleteListEmailElement.innerHTML = favoriteContactEmail;
+                if (favoriteContactAutoCompleteListEmailElement.innerHTML === "undefined") {
+                    favoriteContactAutoCompleteListEmailElement.style.visibility = "hidden";
+                };
                 const favoriteContactAutoCompleteListOrganizationAndRoleElementContainer = document.createElement("div");
                 favoriteContactAutoCompleteListOrganizationAndRoleElementContainer.style.display = "flex";
                 favoriteContactAutoCompleteListOrganizationAndRoleElementContainer.style.justifyContent = "center";
@@ -9897,55 +9499,19 @@ const allUsers = await getAllUsers();
                 const favoriteContactAutoCompleteListFavoritesStarIconContainer = document.createElement("div");
                 favoriteContactAutoCompleteListFavoritesStarIconContainer.style.display = "flex";
                 favoriteContactAutoCompleteListFavoritesStarIconContainer.style.justifyContent = "center";
-                favoriteContactAutoCompleteListFavoritesStarIconContainer.style.alignItems = "center"
-                favoriteContactAutoCompleteListFavoritesStarIconContainer.style.padding = "10px"
+                favoriteContactAutoCompleteListFavoritesStarIconContainer.style.alignItems = "center";
+                favoriteContactAutoCompleteListFavoritesStarIconContainer.style.padding = "10px";
                 const favoriteContactAutoCompleteListFavoriteStarImg = document.createElement("img");
-                favoriteContactAutoCompleteListFavoriteStarImg.classList.add("contact-favorite-icon")
-                favoriteContactAutoCompleteListFavoriteStarImg.style.width = "50px"
+                favoriteContactAutoCompleteListFavoriteStarImg.classList.add("contact-favorite-icon");
+                favoriteContactAutoCompleteListFavoriteStarImg.style.width = "50px";
         
                 favoriteContactAutoCompleteListFavoriteStarImg.setAttribute("src", "./images/star-gold-svgrepo-com.svg");
                 if (contact.favorite === null || contact.favorite === false) {
-                favoriteContactAutoCompleteListFavoriteStarImg.style.visibility = "hidden"
+                favoriteContactAutoCompleteListFavoriteStarImg.style.visibility = "hidden";
                 } else {
-                favoriteContactAutoCompleteListFavoriteStarImg.style.display = "block"
+                favoriteContactAutoCompleteListFavoriteStarImg.style.display = "block";
                 };
-                
-                requestAnimationFrame(() => {
-                const favoriteContactListNameElementWidth = favoriteContactAutoCompleteListNameElement.clientWidth;
-                const favoriteContactListNameElementText = favoriteContactAutoCompleteListNameElement.innerHTML;
-                const favoriteContactListNameElementTextLength = favoriteContactListNameElementText.length;
-                const favoriteContactListNameElementSlice = favoriteContactListNameElementText.slice(0, 22);
-                const secondFavoriteContactListNameElementSlice = favoriteContactListNameElementText.slice(0, 26);
-                const thirdFavoriteContactListNameElementSlice = favoriteContactListNameElementText.slice(0, 21);
-                const fourthFavoriteContactListNameElementSlice = favoriteContactListNameElementText.slice(0, 16);
-                const favoriteContactListEmailElementWidth = favoriteContactAutoCompleteListEmailElement.clientWidth;
-                const favoriteContactListEmailElementText = favoriteContactAutoCompleteListEmailElement.innerHTML;
-                const favoriteContactListEmailElementTextLength = favoriteContactListEmailElementText.length;
-                const favoriteContactListEmailElementTextSlice = favoriteContactListEmailElementText.slice(0, 38);
-                const favoriteContactListEmailElementTextSecondSlice = favoriteContactListEmailElementText.slice(0, 50);
-                let favoriteContactListOrganizationAndRoleElementWidth = favoriteContactAutoCompleteListOrganizationAndRoleElement.clientWidth;
-                const favoriteContactListOrganizationAndRoleElementText = favoriteContactAutoCompleteListOrganizationAndRoleElement.innerHTML;
-                const favoriteContactListOrganizationAndRoleElementTextLength = favoriteContactListOrganizationAndRoleElementText.length;
-                const favoriteContactListOrganizationAndRoleElementTextSlice = favoriteContactListOrganizationAndRoleElementText.slice(0, 35);
 
-                const ellipsis = '...'
-
-                // // console.log(contactListNameElementTextLength)
-                // if (favoriteContactListNameElementTextLength > 22) {
-                //     favoriteContactAutoCompleteListNameElement.innerHTML = favoriteContactListNameElementSlice + ellipsis;
-                // }
-
-                // if (favoriteContactListEmailElementTextLength > 38) {
-                //     favoriteContactAutoCompleteListEmailElement.innerHTML = favoriteContactListEmailElementTextSlice + ellipsis;
-                // }
-
-                // // console.log(favoriteContactListOrganizationAndRoleElementTextSlice)
-                // if (favoriteContactListOrganizationAndRoleElementTextLength > 35) {
-                //     favoriteContactAutoCompleteListOrganizationAndRoleElement.innerHTML = favoriteContactListOrganizationAndRoleElementTextSlice + ellipsis;
-                // }
-            });
-
-            // const contactsList = document.querySelector("#my-contacts-list-container")
             favoriteContactsAutoCompleteListItemImageContainer.appendChild(favoriteContactsAutoCompleteListItemImage);
             favoriteContactAutoCompleteListNameElementContainer.appendChild(favoriteContactAutoCompleteListNameElement);
             favoriteContactAutoCompleteListEmailElementContainer.appendChild(favoriteContactAutoCompleteListEmailElement);
@@ -9965,8 +9531,8 @@ const allUsers = await getAllUsers();
                 // console.log(element)
                 searchFavoriteContactsAutocompleteList.appendChild(element);
             });
-        })
-    }
+        });
+    };
 };
 
 async function renderMobileFavoriteContactsListContent() {
@@ -12834,7 +12400,7 @@ async function handleCreateGroupInput() {
     // console.log(activeElement)
     console.log(userGroups)
 
-     let groupIdsArr = []
+    let groupIdsArr = []
     for (let i = 0; i < userGroups.length; i++) {
         groupIdsArr.push(userGroups[i].group_id)
     }
@@ -12923,7 +12489,7 @@ async function mobileHandleCreateGroupInput() {
     console.log(activeElement)
     console.log(userGroups)
 
-     let groupIdsArr = []
+    let groupIdsArr = []
     for (let i = 0; i < userGroups.length; i++) {
         groupIdsArr.push(userGroups[i].group_id)
     }
@@ -13601,13 +13167,14 @@ const allUsers = await getAllUsers();
     const newContactAddPhotoInputElement = document.querySelector("#new-contact-add-photo")
     newContactRemovePhotoButton.addEventListener("click", function() {
         newContactAddPhotoInputElement.value = "";
+        newContactAddPhotoButton.innerHTML = "Add Photo"
         newContactImage.setAttribute("src", "./images/user-2-svgrepo-com.svg");
     });
 
     const newContactAddPhotoButton = document.querySelector("#new-contact-add-photo-button");
     const newContactAddPhotoInputContainerElement = document.querySelector("#new-contact-add-photo-input-container")
     newContactAddPhotoButton.addEventListener("click", function() {
-        console.log("add new contact photo")
+        // console.log("add new contact photo")
         newContactAddPhotoInputContainerElement.style.display = "flex";
     });
     const closeNewContactAddPhotoIcon = document.querySelector("#close-new-contact-add-photo-icon");
@@ -13618,7 +13185,12 @@ const allUsers = await getAllUsers();
     const newContactAddPhotoSaveButton = document.querySelector("#new-contact-add-photo-insert-button");
     newContactAddPhotoSaveButton.addEventListener("click", function() {
         // newContactAddPhotoInputContainerElement.style.display = "none";
-        handleNewContactImage();
+        newContactAddPhotoButton.innerHTML = "Change Photo"
+        if (newContactAddPhotoInputElement.files[0] !== undefined) {
+            handleNewContactImage();
+        } else {
+            alert("Please choose an image before inserting.")
+        }
         // handleUploadNewContactImageInput();
     }, false);
 
@@ -13663,10 +13235,10 @@ const allUsers = await getAllUsers();
 
     const selectEmailLabelElement = document.querySelector("#new-contact-select-emailaddress");
     const emailLabelOptions = [
-        { text: "Main", value: "Main"},
+        { text: "Primary", value: "Primary"},
         { text: "Home", value: "Home"},
         { text: "Work", value: "Work"},
-        { text: "Other", value: "Other"},
+        { text: "School", value: "School"},
         { text: "Custom", value: "Custom"},
     ];
 
@@ -13680,8 +13252,8 @@ const allUsers = await getAllUsers();
     const createCustomContactEmailLabelModal = document.querySelector("#create-new-contact-email-custom-label-modal")
     selectEmailLabelElement.addEventListener("change", function(event) {
         if (event.target.value === "Custom") {
-            console.log("Open custom modal")
-            createCustomContactEmailLabelModal.style.display = "block"
+            // console.log("Open custom modal")
+            createCustomContactEmailLabelModal.style.display = "flex";
         };
 
         if (selectEmailLabelElement.options.length > 5 && event.target.value === "Custom") {
@@ -13713,17 +13285,17 @@ const allUsers = await getAllUsers();
         const optionToMove = selectEmailLabelElement.options[0];
         const referenceOption = selectEmailLabelElement.options[5];
 
-        if (selectEmailLabelOptions.length > 5 && selectEmailLabelElement.options[0].text !== "Main") {
+        if (selectEmailLabelOptions.length > 5 && selectEmailLabelElement.options[0].text !== "Primary") {
             selectEmailLabelElement.insertBefore(optionToMove, referenceOption)
         }
     });
 
     const selectPhoneNumberLabelElement = document.querySelector("#new-contact-select-phonenumber");
     const phoneNumberLabelOptions = [
-        { text: "Main", value: "Main"},
+        { text: "Mobile", value: "Mobile"},
         { text: "Home", value: "Home"},
         { text: "Work", value: "Work"},
-        { text: "Other", value: "Other"},
+        { text: "School", value: "School"},
         { text: "Custom", value: "Custom"},
     ];
 
@@ -13737,20 +13309,20 @@ const allUsers = await getAllUsers();
     const createCustomContactPhoneNumberLabelModal = document.querySelector("#create-new-contact-phonenumber-custom-label-modal")
     selectPhoneNumberLabelElement.addEventListener("change", function(event) {
         if (event.target.value === "Custom") {
-            console.log("Open custom modal")
-            createCustomContactPhoneNumberLabelModal.style.display = "block"
+            // console.log("Open custom modal")
+            createCustomContactPhoneNumberLabelModal.style.display = "flex";
         };
 
         if (selectPhoneNumberLabelElement.options.length > 5 && event.target.value === "Custom") {
             selectPhoneNumberLabelElement.options[4].remove()
-        }
+        };
     });
 
     const closeCustomContactPhoneNumberLabelModalIcon = document.querySelector("#close-create-new-contact-phonenumber-label-modal");
     closeCustomContactPhoneNumberLabelModalIcon.addEventListener("click", function() {
         createCustomContactPhoneNumberLabelModal.style.display = "none";
           selectPhoneNumberLabelElement.options.selectedIndex = 0;
-    })
+    });
 
     const createNewContactPhoneNumberLabelButton = document.querySelector("#create-new-contact-phonenumber-label-button");
     createNewContactPhoneNumberLabelButton.addEventListener("click", function() {
@@ -13770,7 +13342,7 @@ const allUsers = await getAllUsers();
         const optionToMove = selectPhoneNumberLabelElement.options[0];
         const referenceOption = selectPhoneNumberLabelElement.options[5];
 
-        if (selectPhoneNumberLabelOptions.length > 5 && selectPhoneNumberLabelElement.options[0].text !== "Main") {
+        if (selectPhoneNumberLabelOptions.length > 5 && selectPhoneNumberLabelElement.options[0].text !== "Mobile") {
             selectPhoneNumberLabelElement.insertBefore(optionToMove, referenceOption)
         }
     });
@@ -13800,10 +13372,9 @@ const allUsers = await getAllUsers();
 
     const selectAddressLabelElement = document.querySelector("#new-contact-select-address");
     const addressLabelOptions = [
-        { text: "Main", value: "Main"},
         { text: "Home", value: "Home"},
         { text: "Work", value: "Work"},
-        { text: "Other", value: "Other"},
+        { text: "School", value: "Work"},
         { text: "Custom", value: "Custom"},
     ];
 
@@ -13817,14 +13388,20 @@ const allUsers = await getAllUsers();
     const createCustomContactAddressLabelModal = document.querySelector("#create-new-contact-address-custom-label-modal")
     selectAddressLabelElement.addEventListener("change", function(event) {
         if (event.target.value === "Custom") {
-            console.log("Open custom modal")
-            createCustomContactAddressLabelModal.style.display = "block"
+            // console.log("Open custom modal")
+            createCustomContactAddressLabelModal.style.display = "flex"
         };
 
-        if (selectAddressLabelElement.options[0].text !== "Main") {
-            selectAddressLabelElement.options[0].remove()
-        }
+        if (selectAddressLabelElement.options.length > 4 && event.target.value === "Custom") {
+            selectAddressLabelElement.options[3].remove()
+        };
     });
+
+    const closeCustomContactAddressLabelModalIcon = document.querySelector("#close-create-new-contact-address-label-modal");
+    closeCustomContactAddressLabelModalIcon.addEventListener("click", function() {
+        createCustomContactAddressLabelModal.style.display = "none";
+          selectAddressLabelElement.options.selectedIndex = 0;
+    })
 
     const createNewContactAddressLabelButton = document.querySelector("#create-new-contact-address-label-button");
     createNewContactAddressLabelButton.addEventListener("click", function() {
@@ -13838,12 +13415,22 @@ const allUsers = await getAllUsers();
         createCustomContactAddressLabelModal.style.display = "none";
     });
 
+    selectAddressLabelElement.addEventListener("click", function() {
+        const selectAddressLabelOptions = selectAddressLabelElement.options;
+        // console.log(selectAddressLabelOptions)
+        const optionToMove = selectAddressLabelElement.options[0];
+        const referenceOption = selectAddressLabelElement.options[4];
+
+        if (selectAddressLabelOptions.length > 4 && selectAddressLabelElement.options[0].text !== "Home") {
+            selectAddressLabelElement.insertBefore(optionToMove, referenceOption)
+        };
+    });
+
     const selectWebsiteLabelElement = document.querySelector("#new-contact-select-website");
     const websiteLabelOptions = [
-        { text: "Main", value: "Main"},
-        { text: "Home", value: "Home"},
-        { text: "Work", value: "Work"},
-        { text: "Other", value: "Other"},
+        { text: "Personal", value: "Personal"},
+        { text: "Business", value: "Business"},
+        { text: "Blog", value: "Blog"},
         { text: "Custom", value: "Custom"},
     ];
 
@@ -13857,13 +13444,19 @@ const allUsers = await getAllUsers();
     const createCustomContactWebsiteLabelModal = document.querySelector("#create-new-contact-website-custom-label-modal")
     selectWebsiteLabelElement.addEventListener("change", function(event) {
         if (event.target.value === "Custom") {
-            console.log("Open custom modal")
+            // console.log("Open custom modal")
             createCustomContactWebsiteLabelModal.style.display = "block"
         };
 
-        if (selectWebsiteLabelElement.options[0].text !== "Main") {
-            selectWebsiteLabelElement.options[0].remove()
-        }
+        if (selectWebsiteLabelElement.options.length > 4 && event.target.value === "Custom") {
+            selectWebsiteLabelElement.options[3].remove()
+        };
+    });
+
+    const closeCustomContactWebsiteLabelModalIcon = document.querySelector("#close-create-new-contact-website-label-modal");
+    closeCustomContactWebsiteLabelModalIcon.addEventListener("click", function() {
+        createCustomContactWebsiteLabelModal.style.display = "none";
+          selectWebsiteLabelElement.options.selectedIndex = 0;
     });
 
     const createNewContactWebsiteLabelButton = document.querySelector("#create-new-contact-website-label-button");
@@ -13878,6 +13471,17 @@ const allUsers = await getAllUsers();
         createCustomContactWebsiteLabelModal.style.display = "none";
     });
 
+    selectWebsiteLabelElement.addEventListener("click", function() {
+        const selectWebsiteLabelOptions = selectWebsiteLabelElement.options;
+        // console.log(selectWebsiteLabelOptions)
+        const optionToMove = selectWebsiteLabelElement.options[0];
+        const referenceOption = selectWebsiteLabelElement.options[4];
+
+        if (selectWebsiteLabelOptions.length > 4 && selectWebsiteLabelElement.options[0].text !== "Personal") {
+            selectWebsiteLabelElement.insertBefore(optionToMove, referenceOption)
+        }
+    });
+
     const createNewContactButton = document.querySelector("#create-new-contact-button")
     createNewContactButton.addEventListener("click", function() {
         postNewContactImage();
@@ -13886,7 +13490,7 @@ const allUsers = await getAllUsers();
         postNewContactAddress();
         postNewContactWebsite();
         postNewContact();
-    });
+    }, {once: true});
 };
 
 async function renderMobileNewContactContent() {
@@ -14125,10 +13729,52 @@ async function handleNewContactImage() {
     // console.log(editUserAddPhotoFormElement)
     // let imageFile = newContactAddPhotoInputElement.files[0];
 
+    // const newContactAddPhotoButton = document.querySelector("#new-contact-add-photo-button");
+    // if (newContactImage.getAttribute("src") !== "./images/user-2-svgrepo-com.svg") {
+    //         newContactAddPhotoButton.innerHTML = "Change Photo"
+    //     }
+
     newContactAddPhotoInputElement.value = "";
 };
 
 async function handleUploadNewContactImageInput() {
+
+    //write code to create an id for the contactimage
+
+    const allUsers = await getAllUsers();
+    const sessionId = sessionStorage.getItem("user");
+    let matchingUser;
+    for (let i = 0; i < allUsers.length; i++) {
+        if (allUsers[i].session_id === sessionId) {
+            matchingUser = allUsers[i]
+        }
+    }
+    const userId = matchingUser.user_id;
+    console.log(userId)
+    const userContactImages = await getContactImages(userId);
+    console.log(userContactImages)
+
+    let contactImageIdsArr = []
+    for (let i = 0; i < userContactImages.length; i++) {
+        contactImageIdsArr.push(userContactImages[i].contact_id)
+    }
+
+    let maxId = -Infinity;
+    for (let i = 0; i < contactImageIdsArr.length; i++) {
+        if (contactImageIdsArr[i] > maxId) {
+            maxId = contactImageIdsArr[i];
+        }
+    }
+
+    console.log(maxId)
+    if (maxId === -Infinity) {
+        maxId = 0
+    }
+
+    const contactImageObj = {
+        contactImageId: maxId + 1,
+        imageFile: null
+    }
 
     async function createImageFile() {
     const newContactImageElement = document.querySelector("#new-contact-image")
@@ -14170,8 +13816,11 @@ let imageFile;
     }
         
     // newContactAddPhotoInputElement.value = ""
+    contactImageObj.imageFile = imageFile;
 
-    return imageFile
+    // console.log(contactImageObj)
+
+    return contactImageObj;
 };
 
 // async function handleNewContactImage() {
@@ -14235,18 +13884,9 @@ const allUsers = await getAllUsers();
     const newContactLastNameElement = document.querySelector("#new-contact-lastname");
     const newContactGenderElement = document.querySelector("#new-contact-gender");
     const newContactBirthdayElement = document.querySelector("#new-contact-birthday")
-    const newContactEmailAddressElement = document.querySelector("#new-contact-email");
-    const newContactSelectEmailAddressElement = document.querySelector("#new-contact-select-emailaddress");
-    const newContactPhoneNumberElement = document.querySelector("#new-contact-phonenumber");
-    const newContactSelectPhoneNumberElement = document.querySelector("#new-contact-select-phonenumber")
-    const newContactAddressElement = document.querySelector("#new-contact-address");
-    const newContactSelectAddressElement = document.querySelector("#new-contact-select-address")
     const newContactOrganizationElement = document.querySelector("#new-contact-organization");
     const newContactRoleElement = document.querySelector("#new-contact-role")
-    const newContactSocialMediaElement = document.querySelector("#new-contact-social-media");
-    const newContactSelectWebsiteElement = document.querySelector("#new-contact-select-website")
     const newContactNotesElement = document.querySelector("#new-contact-notes")
-    const newContactImageElement = document.querySelector("#new-contact-image");
 
     let contactIdsArr = []
     for (let i = 0; i < userContacts.length; i++) {
@@ -14272,22 +13912,9 @@ const allUsers = await getAllUsers();
         lastname: newContactLastNameElement.value,
         gender: newContactGenderElement.value,
         birthday: newContactBirthdayElement.value,
-        emailaddress: newContactEmailAddressElement.value,
-        emailaddresslabel: newContactSelectEmailAddressElement.value,
-        emailId: 1,
-        phonenumber: newContactPhoneNumberElement.value,
-        phonenumberlabel: newContactSelectPhoneNumberElement.value,
-        phonenumberId: 1,
         organization: newContactOrganizationElement.value,
         role: newContactRoleElement.value,
-        addresslabel: newContactSelectAddressElement.value,
-        addressId: 1,
-        address: newContactAddressElement.value,
-        websitelabel: newContactSelectWebsiteElement.value,
-        websiteId: 1,
-        website: newContactSocialMediaElement.value,
         notes: newContactNotesElement.value,
-        contactImage: null
     };
 
     console.log(newContactObject)
@@ -15391,14 +15018,10 @@ async function postNewContact() {
     const contact_id = newContactObject.contactId;
     const firstname = newContactObject.firstname;
     const lastname = newContactObject.lastname;
-    const emailaddress = newContactObject.emailaddress;
-    const phonenumber = newContactObject.phonenumber;
     const gender = newContactObject.gender;
     const birthday = newContactObject.birthday;
-    const address = newContactObject.address;
     const organization = newContactObject.organization;
     const organization_role = newContactObject.role;
-    const website = newContactObject.website;
     const notes = newContactObject.notes;
     const contact_image = newContactObject.contactImage;
 
@@ -15412,7 +15035,7 @@ async function postNewContact() {
     //     return
     // }
 
-    const body = { user_id, contact_id, firstname, lastname, phonenumber, emailaddress, gender, birthday, address, organization, organization_role, website, notes, contact_image };
+    const body = { user_id, contact_id, firstname, lastname, gender, birthday, organization, organization_role, notes, contact_image };
     try {
         const response = await fetch(`/contacts`, {
             method: "POST",
@@ -15539,11 +15162,14 @@ async function postNewContactImage() {
             matchingUser = allUsers[i]
         }
     }
-    const newContactObject = await handleNewContactInput();
-    const contact_id = newContactObject.contactId;
+    // const newContactObject = await handleNewContactInput();
+    // const contact_id = newContactObject.contactId;
 
     const user_id = matchingUser.user_id;
-    const imageFile = await handleUploadNewContactImageInput();
+    // const imageFile = await handleUploadNewContactImageInput();
+    const contactImageObj = await handleUploadNewContactImageInput()
+    const contact_id = contactImageObj.contactImageId;
+    const imageFile = contactImageObj.imageFile;
     console.log(imageFile)
 
 
@@ -18101,6 +17727,7 @@ async function loadingPage() {
     loadingTopBar.style.backdropFilter = "blur(10px)";
     loadingTopBar.style.zIndex = "2";
     const loadingTopBarText = document.createElement("h2");
+    loadingTopBarText.setAttribute("id", "loading-topbar-text")
     loadingTopBarText.style.position = "relative";
     loadingTopBarText.style.fontSize = "xx-large";
     loadingTopBarText.style.fontFamily = "system-ui";
@@ -18331,6 +17958,8 @@ async function loadingPage() {
     searchContactsInput.style.backgroundPositionY = "2px";
     searchContactsInput.style.backgroundPositionX = "0.8%";
     searchContactsInput.style.outline = "none";
+    searchContactsInput.style.pointerEvents = "none";
+    searchContactsInput.style.userSelect = "none";
     const loadingSidebarContactsListContainer = document.createElement("div");
     loadingSidebarContactsListContainer.setAttribute("id", "loading-sidebar-contacts-list-container")
     loadingSidebarContactsListContainer.style.margin = "60px 0px 1px 0px";
@@ -18353,7 +17982,6 @@ async function loadingPage() {
         if (contactEmailObj !== undefined) {
             contactEmail = contactEmailObj.emailaddress;
         }
-        // console.log(contactEmail)
         const contactImageStr = `data:${contactImage.contentType};base64,${contactImage.image}`
         userContacts[i]["email"] = contactEmail;
         userContacts[i]["imageString"] = contactImageStr;
@@ -18397,134 +18025,118 @@ async function loadingPage() {
 
         userContacts.forEach(contact => {
         const contactListItem = document.createElement("div");
-        contactListItem.style.display = "flex"
-        contactListItem.style.justifyContent = "space-between"
-        contactListItem.style.alignItems = "center"
-        contactListItem.style.height = "38px"
-        // contactListItem.style.width = "295px"
-        contactListItem.style.marginBottom = "4px"
-        contactListItem.style.border = "1px solid grey"
-        // contactListItem.style.borderRadius = "5px"
-        contactListItem.style.padding = "5px"
-        contactListItem.style.backgroundColor = "#fcfcff"
-        contactListItem.style.overflow = "hidden"
+        contactListItem.style.display = "flex";
+        contactListItem.style.flexDirection = "row";
+        contactListItem.style.height = "38px";
+        contactListItem.style.marginBottom = "4px";
+        contactListItem.style.padding = "5px";
+        contactListItem.style.backgroundColor = "#fcfcff";
         contactListItem.style.border = "2px solid black";
+        contactListItem.style.pointerEvents = "none";
+        contactListItem.setAttribute("imageString", contact.imageString)
+        contactListItem.setAttribute("contactEmailValue", contact.email)
+
         contactListItem.addEventListener("mouseover", function() {
             contactListItem.style.backgroundColor = "lightgreen";
         });
-        // contactListItem.addEventListener("mouseover", function() {
-        //     contactListItem.style.backgroundColor = "powderblue";
-        // });
         contactListItem.addEventListener("mouseout", function() {
             contactListItem.style.backgroundColor = "#fcfcff";
-        })
+        });
+        
+        const contactImageItemContainer = document.createElement("div");
+        contactImageItemContainer.style.display = "flex";
+        contactImageItemContainer.style.alignItems = "center";
         const contactImageItem = document.createElement("img");
         contactImageItem.style.width = "35px";
-        // contactImageItem.style.height = "100%";
+        contactImageItem.style.height = "35px";
         contactImageItem.style.border = "0.5px solid black";
         contactImageItem.style.borderRadius = "50%";
         contactImageItem.style.backgroundColor = "gainsboro";
         contactImageItem.style.objectFit = "cover";
-        contactListItem.setAttribute("imageString", contact.imageString)
-        // const contact_id = contact.contact_id;
-        // const contactImage = await getAContactImage(userId, contact_id)
-        // const imageString = `data:${contactImage.contentType};base64,${contactImage.image}`
-        // contactImageItem.setAttribute("src", imageString);
+        contactImageItem.style.userSelect = "none";
 
-        const contactListItemNameContainer = document.createElement("div");
-        contactListItemNameContainer.style.display = "flex";
-        contactListItemNameContainer.style.height = "100%"
+        const contactListItemInformationContainer = document.createElement("div");
+        contactListItemInformationContainer.style.position = "relative";
+        contactListItemInformationContainer.style.display = "flex";
+        contactListItemInformationContainer.style.flexDirection = "column";
+        contactListItemInformationContainer.style.justifyContent = "center";
+        contactListItemInformationContainer.style.alignItems = "center";
+        contactListItemInformationContainer.style.minWidth = "0px";
+        contactListItemInformationContainer.style.width = "100%";
+
+        const contactListItemNameElementContainer = document.createElement("div");
+        contactListItemNameElementContainer.style.display = "flex";
+        contactListItemNameElementContainer.style.justifyContent = "flex-start";
+        contactListItemNameElementContainer.style.minWidth = "0px";
+        contactListItemNameElementContainer.style.width = "100%";
+
+        const contactNameElement = document.createElement("p");
+        contactNameElement.style.fontSize = "small";
+        contactNameElement.style.fontWeight = "bolder";
+        contactNameElement.style.whiteSpace = "nowrap";
+        contactNameElement.style.overflow = "hidden";
+        contactNameElement.style.textOverflow = "ellipsis";
+        contactNameElement.style.margin = "0px 0px 0px 10px"
+        contactNameElement.style.userSelect = "none";
+        contactNameElement.innerHTML = `${contact.firstname} ${contact.lastname}`;
+
+        const contactListItemEmailElementContainer = document.createElement("div");
+        contactListItemEmailElementContainer.style.display = "flex";
+        contactListItemEmailElementContainer.style.justifyContent = "flex-start";
+        // contactListItemEmailElementContainer.style.height = "100%";
+        contactListItemEmailElementContainer.style.minWidth = "0px";
+        contactListItemEmailElementContainer.style.width = "100%";
+        const contactEmailElement = document.createElement("p");
+        contactEmailElement.setAttribute("id", `contact-email-element-${contact.contact_id}`)
+        contactListItem.setAttribute("contactEmailValue", contact.email)
+        contactEmailElement.classList.add("contact-email-element");
+        contactEmailElement.style.fontSize = "x-small";
+        contactEmailElement.style.fontWeight = "normal";
+        contactEmailElement.style.whiteSpace = "nowrap";
+        contactEmailElement.style.overflow = "hidden";
+        contactEmailElement.style.textOverflow = "ellipsis";
+        contactEmailElement.style.margin = "0px 0px 0px 10px";
+        contactEmailElement.style.userSelect = "none";
+        if (contact.email !== null && contact.email !== undefined) {
+            contactEmailElement.innerHTML = contact.email;
+        } else {
+            contactEmailElement.innerHTML = "text";
+        }
+        if (contactEmailElement.innerHTML === "text") {
+                contactEmailElement.style.visibility = "hidden";
+        };
+
         const contactFavoriteIconContainer = document.createElement("div");
+        contactFavoriteIconContainer.style.display = "flex";
+        contactFavoriteIconContainer.style.justifyContent = "center";
+        contactFavoriteIconContainer.style.alignItems = "center";
+        // contactFavoriteIconContainer.style.padding = "4px"
         const contactFavoriteIcon = document.createElement("img");
         contactFavoriteIcon.setAttribute("src", "./images/star-gold-svgrepo-com.svg");
         contactFavoriteIcon.style.width = "25px";
+        contactFavoriteIcon.style.userSelect = "none";
         // contactFavoriteIcon.style.display = "none";
         if (contact.favorite !== true) {
             contactFavoriteIcon.style.visibility = "hidden"
-        }
-        const contactListItemNameElementContainer = document.createElement("div");
-        contactListItemNameElementContainer.style.display = "flex";
-        contactListItemNameElementContainer.style.flexDirection = "column";
-        contactListItemNameElementContainer.style.justifyContent = "center";
-        const contactNameElement = document.createElement("p");
-        // contactNameElement.style.fontFamily = "sans-serif";
-        contactNameElement.style.fontSize = "small";
-        contactNameElement.style.fontWeight = "bolder";
-        contactNameElement.style.margin = "0px 0px 0px 10px"
-        contactNameElement.innerHTML = `${contact.firstname} ${contact.lastname}`
-        const contactEmailElement = document.createElement("p");
-        // contactEmailElement.style.width = "220px";
-        contactEmailElement.setAttribute("id", `contact-email-element-${contact.contact_id}`)
-        contactEmailElement.classList.add("contact-email-element");
-        contactListItem.setAttribute("contactEmailValue", contact.email)
-        // contactEmailElement.style.fontFamily = "sans-serif"
-        contactEmailElement.style.fontSize = "small"
-        contactEmailElement.style.margin = "0px 0px 0px 10px";
-        contactEmailElement.style.fontSize = "x-small"
-        const contactOrganizationAndRoleElement = document.createElement("p");
-        contactOrganizationAndRoleElement.style.fontSize = "0px"
-        contactOrganizationAndRoleElement.style.margin = "0px"
-        contactOrganizationAndRoleElement.innerHTML = `${contact.organization} || ${contact.organization_role}`
-
-        const contactFullNameText = `${contact.firstname} ${contact.lastname}`
-        const ellipsis = "..."
-        let contactFullNameTextSlice = contactFullNameText.slice(0, 16) + ellipsis
-        // console.log(contactEmailAddressText.length)
-        if (contactFullNameText.length > 16) {
-            contactNameElement.innerHTML = contactFullNameTextSlice
-        } else {
-            contactNameElement.innerHTML = `${contact.firstname} ${contact.lastname}`
-        }
-
-        const contactNameElementWidth = contactNameElement.clientWidth;
-        // console.log(contactNameElementWidth)
-
-        const contactEmailAddressText = contact.emailaddress;
-        // const ellipsis = "..."
-        let contactEmailAddressTextSlice = contactEmailAddressText.slice(0, 20) + ellipsis
-        // console.log(contactEmailAddressText.length)
-        if (contactEmailAddressText.length > 20) {
-            contactEmailElement.innerHTML = contactEmailAddressTextSlice
-        } else {
-            contactEmailElement.innerHTML = contact.emailaddress
-        }
-
-        if (contactEmailAddressText.length === 0) {
-            contactEmailElement.innerHTML = "XXXXXXXXXXXXXXXXXXXXXX...";
-            contactEmailElement.style.visibility = "hidden"
-        }
-
-        if (contact.organization !== null && contact.organization !== "" && contact.organization_role !== null && contact.organization_role !== "") {
-            contactOrganizationAndRoleElement.innerHTML = `${contact.organization} || ${contact.organization_role}`
-        } else if (contact.organization !== null && contact.organization !== "" || contact.organization_role === null && contact.organization_role === "") {
-            contactOrganizationAndRoleElement.innerHTML = `${contact.organization}`
-        } else if (contact.organization === null && contact.organization === "" || contact.organization_role !== null && contact.organization_role !== "") {
-            contactOrganizationAndRoleElement.innerHTML = `${contact.organization_role}`
-        } else {
-            contactOrganizationAndRoleElement.innerHTML = "text"
-            contactOrganizationAndRoleElement.style.visibility = "hidden"
-        }
+        };
 
         contactListItem.classList.add("contact-list-item");
         contactListItem.style.cursor = "default"
         // contactListItem.style.height = "200px"
         const contactId = contact.contact_id.toString();
-        contactListItem.setAttribute("id", `${contactId}`)
+        contactListItem.setAttribute("id", `${contactId}`);
         contactListItem.setAttribute("data", `${rootUrl}/contact_${contactId}`);
-        contactListItem.setAttribute("name", `${contact.firstname} ${contact.lastname}`)
+        contactListItem.setAttribute("name", `${contact.firstname} ${contact.lastname}`);
 
-        contactListItemNameContainer.appendChild(contactImageItem)
-        contactListItemNameElementContainer.appendChild(contactNameElement)
-        contactListItemNameElementContainer.appendChild(contactEmailElement)
-        contactFavoriteIconContainer.appendChild(contactFavoriteIcon)
-        // contactListItemNameContainer.appendChild(contactOrganizationAndRoleElement)
-        contactListItemNameContainer.appendChild(contactImageItem);
-        contactListItemNameContainer.appendChild(contactListItemNameElementContainer)
-        // contactListItem.appendChild(contactListItemImageContainer);
-        // contactListItem.appendChild(contactListItemNameContainer);
-        contactListItem.appendChild(contactListItemNameContainer)
-        // contactListItem.appendChild(contactFavoriteIconContainer)
-        contactListItem.appendChild(contactFavoriteIcon)
+        contactImageItemContainer.appendChild(contactImageItem);
+        contactListItemNameElementContainer.appendChild(contactNameElement);
+        contactListItemEmailElementContainer.appendChild(contactEmailElement)
+        contactListItemInformationContainer.appendChild(contactListItemNameElementContainer)
+        contactListItemInformationContainer.appendChild(contactListItemEmailElementContainer)
+        contactListItem.appendChild(contactImageItemContainer)
+        contactListItem.appendChild(contactListItemInformationContainer)
+        contactFavoriteIconContainer.appendChild(contactFavoriteIcon);
+        contactListItem.appendChild(contactFavoriteIconContainer)
         contactsListElement.appendChild(contactListItem)
     });
 
@@ -18552,13 +18164,13 @@ async function loadingPage() {
     contactListItems.forEach(element => {
         // console.log(element.firstChild.firstChild)
         const contactImageElement = element.firstChild.firstChild;
-        const contactId = element.getAttribute('id')
+        const contactId = element.getAttribute('id');
         // const contact_id = contact.contact_id;
         // const contactImage = await getAContactImage(userId, contactId)
         // const imageString = `data:${contactImage.contentType};base64,${contactImage.image}`
         contactImageElement.setAttribute("src", element.getAttribute("imageString"));
         contactImageElement.style.borderRadius = "50%";
-        const contactEmailElement = element.firstChild.children[1].children[1]
+        const contactEmailElement = element.children[1].children[1].firstChild;
         // const contactEmailAddresses = await getAContactEmailAddresses(userId, contactId)
         // console.log(contactEmailAddresses)
         if (element.getAttribute("contactEmailValue").innerHTML !== "undefined") {
@@ -18566,14 +18178,14 @@ async function loadingPage() {
         } else {
             contactEmailElement.innerHTML = "Text";
             contactEmailElement.style.visibility = "hidden"
-        }
+        };
     });
 
     //
 
     // const loadingEl = document.createElement("h3");
-    loadingTopBar.style.visibility = "hidden"; //mega parent
-    loadingSmallSidebar.style.visibility = "hidden"; //mega parent
+    // loadingTopBar.style.visibility = "hidden"; //mega parent
+    // loadingSmallSidebar.style.visibility = "hidden"; //mega parent
    
     loadingTopBar.appendChild(loadingTopBarText);
     loadingNavigateUserIconContainer.appendChild(loadingNavigateUserPageIcon);
@@ -18760,7 +18372,7 @@ window.addEventListener("load", async function() {
     this.setTimeout(async function() {
         await loadingBar()
         // bar.style.width = "0%"
-    }, 700)  
+    }, 500)  
 
     
     // document.body.style.opacity = "1"; 
@@ -18797,6 +18409,8 @@ window.addEventListener("load", async function() {
         loadingProgressBarContainer.remove()
         // document.body.style.backgroundColor = "beige";
         
+        // const loadingTopBarText = document.querySelector("#loading-topbar-text")
+        // loadingTopBarText.stye.visibility = "visible";
         sectionTagsArr.forEach(element => {
             element.style.visibility = "visible";
         });
@@ -18821,7 +18435,7 @@ window.addEventListener("load", async function() {
             groupContactsListContainer.style.visibility = "visible";
         };
 
-    }, 1600)
+    }, 1400)
     } else if (window.location.href !== `${rootUrl}/login` && window.location.href !== `${rootUrl}/register` && window.location.href !== `${rootUrl}/recover-password` && previousPage === `${rootUrl}/login`) {
         // if (window.location.href.startsWith(`${rootUrl}/contacts`)) {
         this.setTimeout(function() {

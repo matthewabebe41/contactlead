@@ -292,8 +292,8 @@ app.get("/contacts/:user_id/:contact_id", async (req, res) => {
 //post a contact
 app.post("/contacts", async (req, res) => {
     try {
-       const {user_id, contact_id, firstname, lastname, phonenumber, emailaddress, birthday, address, gender, organization, organization_role, website, notes} = req.body;
-       const newUser = await pool.query("INSERT INTO contacts (user_id, contact_id, firstname, lastname, phonenumber, emailaddress, birthday, address, gender, organization, organization_role, website, notes) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *", [user_id, contact_id, firstname, lastname, phonenumber, emailaddress, birthday, address, gender, organization, organization_role, website, notes])
+       const {user_id, contact_id, firstname, lastname, birthday, gender, organization, organization_role, notes} = req.body;
+       const newUser = await pool.query("INSERT INTO contacts (user_id, contact_id, firstname, lastname, birthday, gender, organization, organization_role, notes) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *", [user_id, contact_id, firstname, lastname, birthday, gender, organization, organization_role, notes])
        res.json(newUser.rows[0]);
     } catch (error) {
         console.error(error.message)
@@ -304,19 +304,20 @@ app.post("/contacts", async (req, res) => {
 app.get("/contact_images/:user_id", async (req, res) => {
     try {
         const { user_id } = req.params;
-        const result = await pool.query('SELECT * FROM contact_images WHERE user_id = $1', [user_id]);
-    if (result.rows.length > 0) {
-                const imageName = result.rows[0].name
-                const imageData = result.rows[0].data; // bytea data as Buffer
-                const contentType = result.rows[0].mime_type; // e.g., 'image/jpeg'
-                const base64Image = imageData.toString('base64');
-                res.json({name: imageName, image: base64Image, contentType: contentType });
-            } else {
-                res.status(404).send('Image not found');
-            }
-        } catch (error) {
-            console.error('Error fetching image:', error);
-            res.status(500).send('Server error');
+        const allUserContactImages = await pool.query('SELECT * FROM contact_images WHERE user_id = $1', [user_id]);
+        res.json(allUserContactImages.rows)
+    // if (result.rows.length > 0) {
+    //             const imageName = result.rows[0].name
+    //             const imageData = result.rows[0].data; // bytea data as Buffer
+    //             const contentType = result.rows[0].mime_type; // e.g., 'image/jpeg'
+    //             const base64Image = imageData.toString('base64');
+    //             res.json({name: imageName, image: base64Image, contentType: contentType });
+    //         } else {
+    //             res.status(404).send('Image not found');
+    //         }
+        } catch (err) {
+            console.error(err.message);
+            // res.status(500).send('Server error');
         }
 });
 

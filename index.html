@@ -8,8 +8,8 @@
 </head>
 <body style="height: 100vh; width: 100%; background-color: beige; background-size: cover; background-repeat: no-repeat; visibility: hidden; margin: 0; overflow-y: scroll; overscroll-behavior: none;"></body>
 
-    <div id="topbar" style="position: absolute; display: flex; justify-content: space-between; align-items: center; width: 100%; height: 9.5%; background-color: darkcyan; box-shadow: 2px 2px 2px; backdrop-filter: blur(10px); z-index: 2;">
-            <h2 id="app-name" style="position: relative; font-size: xx-large; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; color: white; margin: 0px 0px 0px 12px;">Contactkeeper</h2>
+    <div id="topbar" style="position: fixed; display: flex; justify-content: space-between; align-items: center; width: 100%; height: 9.5%; background-color: darkcyan; box-shadow: 2px 2px 2px; backdrop-filter: blur(10px); z-index: 3;">
+            <h2 id="app-name" style="position: relative; font-size: xx-large; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; color: white; left: 32%; margin: 0px 0px 0px 12px;">Contactkeeper</h2>
         <div id="mobile-list-menu-icon-container" style="display: flex; height: 100%; align-items: center;">
             <img id="mobile-search-icon" src="./images/search-svgrepo-com.svg" style="width: 45px; padding: 5px; display: none;">
             <img id="mobile-list-menu-icon" src="./images/menu-svgrepo-com.svg" style="width: 40px; padding: 5px; display: none;">
@@ -455,10 +455,13 @@
 
     <section id="edit-user-view" style="position: absolute; width: 68.5%; height: 90.5%; top: 9.5%; left: 31.5%; display: none; overflow: hidden;">
         <div id="edit-user-image-container" style="position: absolute; display: flex; align-items: center; width: 100%; height: 20%; background-color: #f9f9f9; box-shadow: 2px 2px 2px;"> 
-            <div id="edit-user-image-container" style="position: absolute; display: flex; align-items: center; height: 100%; padding: 10px;">
+            <div id="edit-user-image-container" style="position: absolute; display: flex; align-items: center; width: 65%; height: 100%; padding: 10px;">
                 <img id="edit-user-image" style="position: relative; display: flex; justify-content: center; align-items: center; width: 95px; height: 95px; border: 1px solid black; border-radius: 50%; background-color: gainsboro; object-fit: cover; z-index: 1;">
                 <div style="display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-end; height: 100%;">
                     <button id="edit-user-add-photo-button" type="button" style="height: 20px; margin-bottom: 10px; margin-left: 5px; z-index: 1;">Add photo</button>
+                </div>
+                <div id="edit-user-add-photo-button-reminder" style="display: none; flex-direction: column; justify-content: flex-end; align-items: flex-end; height: 100%;">
+                    <p style="display: flex; align-items: center; height: 20px; margin-bottom: 10px; margin-left: 5px; z-index: 1;">Click "Save Photo" to update your picture.</p>
                 </div>
             </div>
             <div id="edit-user-header-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%;">
@@ -674,19 +677,32 @@
     </section>
 
     <section id="contacts-list-view"  style="position: absolute; width: 68.5%; height: 90.5%; top: 9.5%; left: 31.5%; display: none; overflow: hidden;">
-        <div id="contacts-user-header-container" style="position: absolute; display: flex; align-items: center; width: 100%; height: 20%; background-color: #f9f9f9; box-shadow: 2px 2px 2px; margin-top: 1.25px;">
-            <div id="contacts-user-image-container" style="display: flex; align-items: center; width: 38%; height: 100%; padding: 10px;">
+        <div id="contacts-user-header-container" style="position: fixed; display: flex; align-items: center; width: 100%; height: 20%; background-color: #f9f9f9; box-shadow: 2px 2px 2px; margin-top: 1.25px; z-index: 2;">
+            <div id="contacts-user-image-container" style="display: flex; flex: 0 0 25%; align-items: center; min-width: 0; width: 25%; height: 100%; padding: 10px; box-sizing: border-box;">
                 <img id="contacts-user-image" src="./images/user-5-svgrepo-com.svg" style="position: relative; display: flex; justify-content: center; align-items: center; width: 95px; height: 95px; border: 1px solid black; border-radius: 50%; background-color: gainsboro; box-shadow: 2px 2px 2px; object-fit: cover; z-index: 1;">
                 <div id="contacts-user-header-name-container" style="display: flex; flex-direction: column; justify-content: flex-end; height: 100%; min-width: 0; margin: 0px 0px 0px 10px;">
                     <p id="contact-header-user-name" style="font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Name</p>
-                    <p id="contact-header-user-email" style="font-style: italic; white-space: no-wrap; overflow: hidden; text-overflow: ellipsis; margin: 0px 0px 16px 0px;">Email</p>
+                    <p id="contact-header-user-email" style="font-style: italic; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0px 0px 16px 0px;">Email</p>
                 </div>
             </div>
-            <div id="contacts-user-name-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%;">
+            <div id="contacts-user-name-container" style="display: flex; flex: 0 0 25%; justify-content: center; align-items: center; min-width: 0; width: 25%; height: 100%; box-sizing: border-box;">
                 <!-- <div id="contacts-user-name-container" style="display: flex; justify-content: center; min-width: 0; width: 35%;"> -->
-                    <h2 id="contacts-user-name" style="cursor: default; margin: 0">Contacts List</h2>
+                    <h2 id="contacts-user-name" style="cursor: default; user-select: none; margin: 10px 70px 0px 0px;">Contacts List</h2>
                 <!-- </div> -->
-                <p id="contacts-user-email" style="margin: 0"></p>
+                <!-- <p id="contacts-user-email" style="margin: 0"></p> -->
+            </div>
+            <div id="contacts-user-header-spacing-container" style="display: flex; flex: 0 0 50%; min-width: 0; width: 50%; height: 100%; box-sizing: border-box;"></div>
+        </div>
+        <div id="contacts-list-search-container" style="position: fixed; display: flex; flex: 0 0 25%; align-items: center; background-color: ghostwhite; border-top: 3px solid black; border-bottom: 3px solid black; width: 100%; top: 30%; padding: 5px; z-index: 2;">
+            <div id="contacts-list-search-elements-container" style="display: flex; align-items: center; width: 100%; height: 100%">
+                <div id="contacts-list-search-label-container" style="display: flex; align-items: center; width: 20%;">
+                    <h2 id="my-contacts-label" style="width: 140px; cursor: default; margin: 0px 0px 0px 5px">My Contacts</h2>
+                    <h2 id="my-contacts-number" style="display: inline-flex; justify-content: center; align-items: center; width: 15px; height: 15px; background-color: navy; color: white; padding: 10px; border-radius: 50%; cursor: default; margin: 0px;"></h2>
+                </div>
+                <div id="contacts-list-search-element-container" style="display: flex; flex: 0 0 35%; justify-content: center; width: 34%;">
+                    <input id="search-my-contacts-input" type="search" name="search-my-contacts" placeholder="Search My Contacts" style="width: 100%; height: 22.5px; border: 1px solid black; text-indent: 20px; background-image:url(./images/search-svgrepo-com.svg); background-repeat: no-repeat; background-size: 16px; background-position: 0.8% 2px; outline: none;">
+                </div>
+                <div id="my-contacts-list-spacing-element-container" style="display: flex; flex: 0 0 40%;"></div>
             </div>
         </div>
         <div id="contacts-list-container" style="position: absolute; display: flex; flex-direction: column; width: 100%; height: 96%; top: 20%;">
@@ -1411,17 +1427,30 @@
     </section>
 
     <section id="favorites-list-view" style="position: absolute; width: 68.5%; height: 90.5%; top: 9.5%; left: 31.5%; display: none; overflow: hidden;">
-        <div id="favorites-user-header-container" style="position: absolute; display: flex; align-items: center; width: 100%; height: 20%; background-color: #f9f9f9; box-shadow: 2px 2px 2px; margin-top: 1.25px;">
-            <div id="favorites-user-image-container" style="display: flex; align-items: center; width: 38%; height: 100%; padding: 10px;">
+        <div id="favorites-user-header-container" style="position: fixed; display: flex; align-items: center; width: 100%; height: 20%; background-color: #f9f9f9; box-shadow: 2px 2px 2px; margin-top: 1.25px; z-index: 2;">
+            <div id="favorites-user-image-container" style="display: flex; flex: 0 0 25%; align-items: center; min-width: 0; width: 25%; height: 100%; padding: 10px; box-sizing: border-box;">
                 <img id="favorites-user-image" src="./images/user-5-svgrepo-com.svg" style="position: relative; display: flex; justify-content: center; align-items: center; width: 95px; height: 95px; border: 1px solid black; border-radius: 50%; background-color: gainsboro; box-shadow: 2px 2px 2px; object-fit: cover; z-index: 1;">
                 <div id="favorites-user-header-name-container" style="display: flex; flex-direction: column; justify-content: flex-end; height: 100%; min-width: 0; margin: 0px 0px 0px 10px;">
                     <p id="favorites-header-user-name" style="font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0px;">Name</p>
                     <p id="favorites-header-user-email" style="font-style: italic; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0px 0px 16px 0px;">Email</p>
                 </div>
             </div>
-            <div id="favorites-user-name-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%;">
-                <h2 id="favorites-user-name" style="cursor: default; margin: 0"></h2>
-                <p id="favorites-user-email" style="margin: 0"></p>
+            <div id="favorites-user-name-container" style="display: flex; flex: 0 0 25%; justify-content: center; align-items: center; min-width: 0; width: 25%; height: 100%; box-sizing: border-box;">
+                <h2 id="favorites-user-name" style="cursor: default; user-select: none; margin: 10px 70px 0px 0px; font-family: Arial;"></h2>
+                <!-- <p id="favorites-user-email" style="margin: 0"></p> -->
+            </div>
+            <div id="favorites-user-header-spacing-container" style="display: flex; flex: 0 0 50%; min-width: 0; width: 50%; height: 100%; box-sizing: border-box;"></div>
+        </div>
+        <div id="favorites-list-search-container" style="position: fixed; display: flex; flex: 0 0 25%; align-items: center; background-color: ghostwhite; border-top: 3px solid black; border-bottom: 3px solid black; width: 100%; top: 30%; padding: 5px; z-index: 2;">
+            <div id="favorites-list-search-elements-container" style="display: flex; align-items: center; width: 100%; height: 100%;">
+                <div id="favorites-search-list-label-container" style="display: flex; align-items: center; width: 20%;">
+                    <h2 id="my-favorites-label" style="width: 160px; cursor: default; margin: 0px 0px 0px 5px;">My Favorites</h2>
+                    <h2 id="my-favorites-number" style="display: inline-flex; justify-content: center; align-items: center; width: 15px; height: 15px; background-color: navy; color: white; padding: 10px; border-radius: 50%; cursor: default; margin: 0px;"></h2>
+                </div>
+                <div id="favorite-search-list-element-container" style="display: flex; flex: 0 0 35%; justify-content: center; width: 34%;">
+                    <input id="search-my-favorite-contacts-input" type="search" name="search-my-favorites-input" placeholder="Search My Favorite Contacts" style="width: 100%; height: 22.5px; border: 1px solid black; text-indent: 20px; background-image: url(./images/search-svgrepo-com.svg); background-repeat: no-repeat; background-size: 16px; background-position: 0.8% 2px; outline: none;">
+                </div>
+                <div id="my-favorites-list-spacing-element-container" style="display: flex; flex: 0 0 40%;"></div>
             </div>
         </div>
         <div id="favorite-contacts-list-container" style="position: absolute; display: flex; flex-direction: column; width: 100%; height: 96%; top: 20%;">
@@ -1691,14 +1720,17 @@
 
     <section id="new-contact-view" style="position: absolute; width: 68.5%; height: 90.5%; top: 9.5%; left: 31.5%; display: none; overflow: hidden;">
         <div id="new-contact-image-container" style="position: absolute; display: flex; align-items: center; width: 100%; height: 20%; background-color: #f9f9f9; box-shadow: 2px 2px 2px;">
-            <div id="new-contact-image-container" style="position: absolute; display: flex; align-items: center; height: 100%; padding: 10px;">
+            <div id="new-contact-image-container" style="position: absolute; display: flex; align-items: center; width: 70%; height: 100%; padding: 10px;">
                 <img id="new-contact-image" src="./images/user-2-svgrepo-com.svg" style="position: relative; display: flex; justify-content: center; align-items: center; width: 95px; height: 95px; border: 1px solid black; border-radius: 50%; background-color: gainsboro; object-fit: cover; z-index: 1;">
                 <div style="display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-end; height: 100%;">
-                    <button id="new-contact-add-photo-button" style="height: 20px; margin-bottom: 10px; margin-left: 5px; z-index: 1;">Add photo</button>
+                    <button id="new-contact-add-photo-button" title="create a contact to save image." style="height: 20px; margin-bottom: 10px; margin-left: 5px; z-index: 1;">Add photo</button>
+                </div>
+                 <div id="edit-user-add-photo-button-reminder" style="display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-end; height: 100%;">
+                    <p style="display: flex; align-items: center; height: 20px; margin-bottom: 10px; margin-left: 5px; z-index: 1;">Click "Create" to save new contact's picture.</p>
                 </div>
             </div>
             <div id="new-contact-header-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%;">
-                <h2 style="font-family: Arial;">Create a contact.</h2>
+                <h2 style="font-family: Arial;">New Contact</h2>
             </div>
         </div>
         <div id="new-contact-add-photo-input-container" style="position: absolute; align-items: center; width: 470px; height: 27px; top: 21%; border: 1px solid black; background-color: lightgrey; box-shadow: 1px 1px; display: none; margin-left: 3px; z-index: 2;">
@@ -1756,24 +1788,6 @@
                             <select id="new-contact-select-emailaddress" style="height: 21px;"></select>
                         </div>
                     </div>
-                    <div id="create-new-contact-email-custom-label-modal" style="position: absolute; width: 400px; height: 250px; background-color: lightgrey;  top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1; display: none;">
-                        <div style="display: flex; justify-content: flex-end; width: 100%;">
-                            <img id="close-create-new-contact-email-label-modal" src="./images/close-md-svgrepo-com.svg" style="width: 15px;">
-                        </div>
-                        <h4>Enter an Email Label</h4>
-                        <div style="display: flex; flex-direction: column;">
-                        <!-- <label>Select a label</label> -->
-                        <!-- <div>
-                            <select id="create-new-contact-email-label-select" autocomplete="off" style="display: none;"></select>
-                            <input id="create-new-contact-email-label-input" placeholder="Choose">
-                        </div> -->
-                        <label>Enter custom label</label>
-                        <input id="create-new-contact-emailaddress-label-input">
-                        <!-- <label>Enter emailaddress</label>
-                        <input id="create-new-contact-email-input"> -->
-                    </div>
-                        <button id="create-new-contact-email-label-button">Done</button>
-                    </div>
                 </div>
             </div>
             <div id="new-contact-information-row-six" style="display: flex; justify-content: space-between; width: 100%;">
@@ -1793,24 +1807,6 @@
                     <select id="new-contact-select-phonenumber" style="height: 21px;"></select>
                 </div>
             </div>  
-              <div id="create-new-contact-phonenumber-custom-label-modal" style="position: absolute; width: 400px; height: 500px; background-color: lightgrey;  top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1; display: none;">
-                <div style="display: flex; justify-content: flex-end; width: 100%;">
-                    <img id="close-create-new-contact-phonenumber-label-modal" src="./images/close-md-svgrepo-com.svg" style="width: 15px;">
-                </div>        
-                <h4>Enter an Phone Number Label</h4>
-                        <div style="display: flex; flex-direction: column;">
-                        <!-- <label>Select a label</label> -->
-                        <!-- <div>
-                            <select id="create-new-contact-email-label-select" autocomplete="off" style="display: none;"></select>
-                            <input id="create-new-contact-email-label-input" placeholder="Choose">
-                        </div> -->
-                        <label>Enter custom label</label>
-                        <input id="create-new-contact-phone-label-input">
-                        <!-- <label>Enter emailaddress</label>
-                        <input id="create-new-contact-email-input"> -->
-                    </div>
-                        <button id="create-new-contact-phonenumber-label-button">Done</button>
-                </div>
             <div id="new-contact-information-row-five" style="display: flex; width: 100%;">
                 <div id="new-contact-address-container" style="width: 100%;">
                     <div style="display: flex; align-items: flex-end;">
@@ -1830,21 +1826,6 @@
                             <select id="new-contact-select-address" style="height: 21px;"></select>
                         </div>
                     </div>
-                      <div id="create-new-contact-address-custom-label-modal" style="position: absolute; width: 400px; height: 500px; background-color: lightgrey;  top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1; display: none;">
-                        <h4>Enter an Address Label</h4>
-                        <div style="display: flex; flex-direction: column;">
-                        <!-- <label>Select a label</label> -->
-                        <!-- <div>
-                            <select id="create-new-contact-email-label-select" autocomplete="off" style="display: none;"></select>
-                            <input id="create-new-contact-email-label-input" placeholder="Choose">
-                        </div> -->
-                        <label>Enter custom label</label>
-                        <input id="create-new-contact-physaddress-label-input">
-                        <!-- <label>Enter emailaddress</label>
-                        <input id="create-new-contact-email-input"> -->
-                    </div>
-                        <button id="create-new-contact-address-label-button">Done</button>
-                </div>
                 </div>
             </div>
             <div id="new-contact-information-row-one" style="display: flex; justify-content: space-between; width: 100%; margin-top: 3.65px;">
@@ -1876,21 +1857,6 @@
                             <select id="new-contact-select-website" style="height: 21px;"></select>
                         </div>
                     </div>
-                         <div id="create-new-contact-website-custom-label-modal" style="position: absolute; width: 400px; height: 500px; background-color: lightgrey;  top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1; display: none;">
-                        <h4>Enter a Website Label</h4>
-                        <div style="display: flex; flex-direction: column;">
-                        <!-- <label>Select a label</label> -->
-                        <!-- <div>
-                            <select id="create-new-contact-email-label-select" autocomplete="off" style="display: none;"></select>
-                            <input id="create-new-contact-email-label-input" placeholder="Choose">
-                        </div> -->
-                        <label>Enter custom label</label>
-                        <input id="create-new-contact-site-label-input">
-                        <!-- <label>Enter emailaddress</label>
-                        <input id="create-new-contact-email-input"> -->
-                    </div>
-                        <button id="create-new-contact-website-label-button">Done</button>
-                </div>
                 </div>
             </div>
         </div>
@@ -1908,7 +1874,59 @@
             <!-- <button id="delete-contact-button" style="background-color: red;">Delete Account</button> -->
             <button id="create-new-contact-button">Create</button>
         </div>
-    </div>     
+    </div>
+     <div id="create-new-contact-email-custom-label-modal" style="position: absolute; flex-direction: column; width: 40%; height: 25%; background-color: lightgrey; border: 1px solid black; box-shadow: 2px 2px 2px; top: 40%; left: 50%; transform: translate(-50%, -50%); padding: 10px; z-index: 1; display: none;">
+                <div id="create-new-contact-email-custom-label-modal-header-container" style="display: flex; justify-content: space-between; align-items: center; width: 100%; height: 15%; background-color: grey; border-radius: 2px; padding: 3px;">
+                    <h4 style="margin: 0px; pointer-events: none;">Enter a custom email label</h4>
+                    <img id="close-create-new-contact-email-label-modal" src="./images/close-md-svgrepo-com.svg" style="width: 20px; background-color: red;">
+                </div>
+                <div id="create-new-contact-email-custom-label-modal-input-container" style="display: flex; flex-direction: column; height: 50px; margin-top: 20px; padding: 3px;">
+                    <label>Add label here.</label>
+                    <input id="create-new-contact-emailaddress-label-input">
+                </div>
+                <div id="create-new-contact-email-custom-label-modal-button-container" style="display: flex; justify-content: flex-end; width: 100%; height: 15%;">
+                    <button id="create-new-contact-email-label-button">Done</button>
+                </div>
+            </div>
+      <div id="create-new-contact-phonenumber-custom-label-modal" style="position: absolute; flex-direction: column; width: 40%; height: 25%; background-color: lightgrey; border: 1px solid black; box-shadow: 2px 2px 2px; top: 40%; left: 50%; transform: translate(-50%, -50%); padding: 10px; z-index: 1; display: none;">
+                <div id="create-new-contact-phonenumber-custom-label-modal-header-container" style="display: flex; justify-content: space-between; align-items: center; width: 100%; height: 15%; background-color: grey; border-radius: 2px; padding: 3px;">
+                    <h4 style="margin: 0px; pointer-events: none;">Enter a custom phonenumber label<h4>
+                    <img id="close-create-new-contact-phonenumber-label-modal" src="./images/close-md-svgrepo-com.svg" style="width: 20px; background-color: red;">
+                </div>        
+                <div id="create-new-contact-phonenumber-custom-label-modal-input-container" style="display: flex; flex-direction: column; height: 50px; margin-top: 20px; padding: 3px;">
+                    <label>Add label here.</label>
+                    <input id="create-new-contact-phone-label-input">
+                </div>
+                <div id="create-new-contact-phonenumber-custom-label-modal-button-container" style="display: flex; justify-content: flex-end; width: 100%; height: 15%;">
+                    <button id="create-new-contact-phonenumber-label-button">Done</button>
+                </div>
+            </div>
+      <div id="create-new-contact-address-custom-label-modal" style="position: absolute; flex-direction: column; width: 40%; height: 25%; background-color: lightgrey; border: 1px solid black; box-shadow: 2px 2px 2xp; top: 40%; left: 50%; transform: translate(-50%, -50%); padding: 10px; z-index: 1; display: none;">
+                <div id="create-new-contact-address-custom-label-modal-header-container" style="display: flex; justify-content: space-between; align-items: center; width: 100%; height: 15%; background-color: grey; border-radius: 2px; padding: 3px;">
+                    <h4 style="margin: 0px; pointer-events: none;">Enter a custom address label</h4>
+                    <img id="close-create-new-contact-address-label-modal" src="./images/close-md-svgrepo-com.svg" style="width: 20px; background-color: red;">
+                </div>
+                <div id="create-new-contact-address-custom-label-modal-input-container" style="display: flex; flex-direction: column; height: 50px; margin-top: 20px; padding: 3px;">
+                    <label>Add label here.</label>
+                    <input id="create-new-contact-physaddress-label-input">
+                </div>
+                <div id="create-new-contact-address-custom-label-modal-button-container" style="display: flex; justify-content: flex-end; width: 100%; height: 15%;">
+                    <button id="create-new-contact-address-label-button">Done</button>
+                </div>
+            </div>
+      <div id="create-new-contact-website-custom-label-modal" style="position: absolute; flex-direction: column; width: 40%; height: 25%; background-color: lightgrey; border: 1px solid black; box-shadow: 2px 2px 2px; top: 40%; left: 50%; transform: translate(-50%, -50%); padding: 10px; z-index: 1; display: none;">
+                <div id="create-new-contact-website-custom-label-modal-header-container" style="display: flex; justify-content: space-between; align-items: center; width: 100%; height: 15%; background-color: grey; border-radius: 2px; padding: 3px;">
+                    <h4 style="margin: 0px; pointer-events: none;">Enter a custom website label</h4>
+                    <img id="close-create-new-contact-website-label-modal" src="./images/close-md-svgrepo-com.svg" style="width: 20px; background-color: red;">
+                </div>
+                <div id="create-new-contact-website-custom-label-modal-input-container" style="display: flex; flex-direction: column; height: 50px; margin-top: 20px; padding: 3px;">
+                    <label>Add label here.</label>
+                    <input id="create-new-contact-site-label-input">
+                </div>
+                <div id="create-new-contact-website-custom-label-modal-button-container" style="display: flex; justify-content: flex-end; width: 100%; height: 15%;">
+                    <button id="create-new-contact-website-label-button">Done</button>
+                </div>
+            </div> 
     </section>
 
     <section id="mobile-new-contact-view" style="position: absolute; width: 100%; height: 90.5%; top: 9.5%; display: none; overflow: hidden;">
