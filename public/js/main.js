@@ -13483,14 +13483,21 @@ const allUsers = await getAllUsers();
     });
 
     const createNewContactButton = document.querySelector("#create-new-contact-button")
-    createNewContactButton.addEventListener("click", function() {
-        postNewContactImage();
-        postNewContactEmailAddress();
-        postNewContactPhoneNumber();
-        postNewContactAddress();
-        postNewContactWebsite();
-        postNewContact();
-    }, {once: true});
+    createNewContactButton.addEventListener("click", async function() {
+        try { 
+            await Promise.all([
+                postNewContactImage(), //this skips sometimes
+                postNewContactEmailAddress(),
+                postNewContactPhoneNumber(),
+                postNewContactAddress(),
+                postNewContactWebsite(),
+                postNewContact()
+            ])
+            console.log("all posts finished")
+        } catch (error) {
+            console.error("at least one post failed")
+        }
+    });
 };
 
 async function renderMobileNewContactContent() {
@@ -17982,6 +17989,7 @@ async function loadingPage() {
         if (contactEmailObj !== undefined) {
             contactEmail = contactEmailObj.emailaddress;
         }
+        console.log(contactImage)
         const contactImageStr = `data:${contactImage.contentType};base64,${contactImage.image}`
         userContacts[i]["email"] = contactEmail;
         userContacts[i]["imageString"] = contactImageStr;
