@@ -13486,7 +13486,7 @@ const allUsers = await getAllUsers();
     createNewContactButton.addEventListener("click", async function() {
         try { 
             await Promise.all([
-                postNewContactImage(), //this skips sometimes
+                postNewContactImage(),
                 postNewContactEmailAddress(),
                 postNewContactPhoneNumber(),
                 postNewContactAddress(),
@@ -13494,6 +13494,8 @@ const allUsers = await getAllUsers();
                 postNewContact()
             ])
             console.log("all posts finished")
+            alert("New contact succesfully created.")
+            window.location.href = `${rootUrl}/contacts`
         } catch (error) {
             console.error("at least one post failed")
         }
@@ -13742,6 +13744,9 @@ async function handleNewContactImage() {
     //     }
 
     newContactAddPhotoInputElement.value = "";
+
+    const newContactAddPhotoInputModal = document.querySelector("#new-contact-add-photo-input-container");
+    newContactAddPhotoInputModal.style.display = "none";
 };
 
 async function handleUploadNewContactImageInput() {
@@ -13890,7 +13895,15 @@ const allUsers = await getAllUsers();
     const newContactFirstNameElement = document.querySelector("#new-contact-firstname");
     const newContactLastNameElement = document.querySelector("#new-contact-lastname");
     const newContactGenderElement = document.querySelector("#new-contact-gender");
-    const newContactBirthdayElement = document.querySelector("#new-contact-birthday")
+    const newContactBirthdayElement = document.querySelector("#new-contact-birthday");
+    const newContactEmailAddressLabelElement = document.querySelector("#new-contact-select-emailaddress");
+    const newContactEmailAddressElement = document.querySelector("#new-contact-email");
+    const newContactPhonenumberLabelElement = document.querySelector("#new-contact-select-phonenumber");
+    const newContactPhonenumberElement = document.querySelector("#new-contact-phonenumber");
+    const newContactAddressLabelElement = document.querySelector("#new-contact-select-address");
+    const newContactAddressElement = document.querySelector("#new-contact-address");
+    const newContactWebsiteLabelElement = document.querySelector("#new-contact-select-website");
+    const newContactWebsiteElement = document.querySelector("#new-contact-social-media");
     const newContactOrganizationElement = document.querySelector("#new-contact-organization");
     const newContactRoleElement = document.querySelector("#new-contact-role")
     const newContactNotesElement = document.querySelector("#new-contact-notes")
@@ -13919,6 +13932,14 @@ const allUsers = await getAllUsers();
         lastname: newContactLastNameElement.value,
         gender: newContactGenderElement.value,
         birthday: newContactBirthdayElement.value,
+        emailAddressLabel: newContactEmailAddressLabelElement.value,
+        emailAddress: newContactEmailAddressElement.value,
+        phonenumberLabel: newContactPhonenumberLabelElement.value,
+        phonenumber: newContactPhonenumberElement.value,
+        addressLabel: newContactAddressLabelElement.value,
+        address: newContactAddressElement.value,
+        websiteLabel: newContactWebsiteLabelElement.value,
+        website: newContactWebsiteElement.value,
         organization: newContactOrganizationElement.value,
         role: newContactRoleElement.value,
         notes: newContactNotesElement.value,
@@ -15030,7 +15051,7 @@ async function postNewContact() {
     const organization = newContactObject.organization;
     const organization_role = newContactObject.role;
     const notes = newContactObject.notes;
-    const contact_image = newContactObject.contactImage;
+    // const contact_image = newContactObject.contactImage;
 
     if (firstname === null || firstname.toString().trim().length === 0) {
         alert("First Name is a required input field. Please enter a first name.");
@@ -15042,7 +15063,7 @@ async function postNewContact() {
     //     return
     // }
 
-    const body = { user_id, contact_id, firstname, lastname, gender, birthday, organization, organization_role, notes, contact_image };
+    const body = { user_id, contact_id, firstname, lastname, gender, birthday, organization, organization_role, notes};
     try {
         const response = await fetch(`/contacts`, {
             method: "POST",
@@ -15053,8 +15074,6 @@ async function postNewContact() {
     } catch (err) {
         console.error(err)
     }
-
-    // window.location.href = `${rootUrl}/contacts`
 };
 
 async function mobilePostNewContact() {
@@ -15281,9 +15300,9 @@ async function postNewContactEmailAddress() {
 
     const user_id = newContactObj.userId;
     const contact_id = newContactObj.contactId;
-    const email_id = newContactObj.emailId;
-    const emailAddressLabel = newContactObj.emailaddresslabel;
-    const emailaddress = newContactObj.emailaddress;
+    const email_id = 1;
+    const emailAddressLabel = newContactObj.emailAddressLabel;
+    const emailaddress = newContactObj.emailAddress;
 
     if (emailaddress === '') {
         return
@@ -15307,8 +15326,8 @@ async function postNewContactPhoneNumber() {
 
     const user_id = newContactObj.userId;
     const contact_id = newContactObj.contactId;
-    const phonenumber_id = newContactObj.phonenumberId;
-    const phoneNumberLabel = newContactObj.phonenumberlabel;
+    const phonenumber_id = 1;
+    const phoneNumberLabel = newContactObj.phonenumberLabel;
     const phonenumber = newContactObj.phonenumber;
 
     if (phonenumber === '') {
@@ -15333,8 +15352,8 @@ async function postNewContactAddress() {
 
     const user_id = newContactObj.userId;
     const contact_id = newContactObj.contactId;
-    const address_id = newContactObj.addressId;
-    const addressLabel = newContactObj.addresslabel;
+    const address_id = 1;
+    const addressLabel = newContactObj.addressLabel;
     const address = newContactObj.address;
 
     if (address === '') {
@@ -15769,11 +15788,12 @@ async function deleteContactAddresses() {
 
 async function postNewContactWebsite() {
     const newContactObj = await handleNewContactInput();
+    console.log(newContactObj)
 
     const user_id = newContactObj.userId;
     const contact_id = newContactObj.contactId;
-    const website_id = newContactObj.websiteId;
-    const websiteLabel = newContactObj.websitelabel;
+    const website_id = 1;
+    const websiteLabel = newContactObj.websiteLabel;
     const website = newContactObj.website;
 
     if (website === '') {
