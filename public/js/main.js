@@ -9868,7 +9868,7 @@ async function renderGroupsListContent() {
     searchGroupsAutocompleteList.setAttribute("id", "autocomplete-groups-list")
     searchGroupsAutocompleteList.style.listStyle = "none";
     // searchGroupsAutocompleteList.style.height = "100%";
-    searchGroupsAutocompleteList.style.margin = "0px 0px 0px 12px";
+    searchGroupsAutocompleteList.style.margin = "5px 0px 0px 18px";
     searchGroupsAutocompleteList.style.padding = "0px";
     // searchGroupsAutocompleteList.innerHTML = '';
 
@@ -9899,7 +9899,7 @@ async function renderGroupsListContent() {
     groupsList.setAttribute("id", "groups-list")
     groupsList.style.listStyle = "none";
     // groupsList.style.height = "100%";
-    groupsList.style.margin = "0px 0px 0px 12px";
+    groupsList.style.margin = "5px 0px 0px 18px";
     groupsList.style.padding = "0px";
     // groupsList.style.display = "block";
     // groupsList.style.flexDirection = "row";
