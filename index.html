@@ -687,7 +687,7 @@
             </div>
             <div id="contacts-user-name-container" style="display: flex; flex: 0 0 25%; justify-content: center; align-items: center; min-width: 0; width: 25%; height: 100%; box-sizing: border-box;">
                 <!-- <div id="contacts-user-name-container" style="display: flex; justify-content: center; min-width: 0; width: 35%;"> -->
-                    <h2 id="contacts-user-name" style="cursor: default; user-select: none; margin: 10px 70px 0px 0px;">Contacts List</h2>
+                    <h2 id="contacts-user-name" style="cursor: default; user-select: none; margin: 10px 70px 0px 0px;">My Contacts</h2>
                 <!-- </div> -->
                 <!-- <p id="contacts-user-email" style="margin: 0"></p> -->
             </div>
@@ -696,13 +696,13 @@
         <div id="contacts-list-search-container" style="position: fixed; display: flex; flex: 0 0 25%; align-items: center; background-color: ghostwhite; border-top: 3px solid black; border-bottom: 3px solid black; width: 100%; top: 30%; padding: 5px; z-index: 2;">
             <div id="contacts-list-search-elements-container" style="display: flex; align-items: center; width: 100%; height: 100%">
                 <div id="contacts-list-search-label-container" style="display: flex; align-items: center; width: 20%;">
-                    <h2 id="my-contacts-label" style="width: 140px; cursor: default; margin: 0px 0px 0px 5px">My Contacts</h2>
-                    <h2 id="my-contacts-number" style="display: inline-flex; justify-content: center; align-items: center; width: 15px; height: 15px; background-color: navy; color: white; padding: 10px; border-radius: 50%; cursor: default; margin: 0px;"></h2>
+                    <h2 id="my-contacts-number" style="display: inline-flex; justify-content: center; align-items: center; width: 15px; height: 15px; background-color: navy; color: white; padding: 10px; border-radius: 50%; cursor: default; margin: 0px 0px 0px 5px;"></h2>
+                    <h2 id="my-contacts-label" style="width: 140px; cursor: default; margin: 0px 0px 0px 8px">Contacts</h2>
                 </div>
-                <div id="contacts-list-search-element-container" style="display: flex; flex: 0 0 35%; justify-content: center; width: 34%;">
-                    <input id="search-my-contacts-input" type="search" name="search-my-contacts" placeholder="Search My Contacts" style="width: 100%; height: 22.5px; border: 1px solid black; text-indent: 20px; background-image:url(./images/search-svgrepo-com.svg); background-repeat: no-repeat; background-size: 16px; background-position: 0.8% 2px; outline: none;">
+                <div id="contacts-list-search-element-container" style="display: flex; flex: 0 0 35%; justify-content: center; width: 60%;">
+                    <input id="search-my-contacts-input" type="search" name="search-my-contacts" placeholder="Search My Contacts" style="width: 90%; height: 22.5px; border: 1px solid black; text-indent: 20px; background-image:url(./images/search-svgrepo-com.svg); background-repeat: no-repeat; background-size: 16px; background-position: 0.8% 2px; outline: none; margin-right: 35px;">
                 </div>
-                <div id="my-contacts-list-spacing-element-container" style="display: flex; flex: 0 0 40%;"></div>
+                <div id="my-contacts-list-spacing-element-container" style="display: flex; width: 20%;"></div>
             </div>
         </div>
         <div id="contacts-list-container" style="position: absolute; display: flex; flex-direction: column; width: 100%; height: 96%; top: 20%;">
@@ -1436,7 +1436,7 @@
                 </div>
             </div>
             <div id="favorites-user-name-container" style="display: flex; flex: 0 0 25%; justify-content: center; align-items: center; min-width: 0; width: 25%; height: 100%; box-sizing: border-box;">
-                <h2 id="favorites-user-name" style="cursor: default; user-select: none; margin: 10px 70px 0px 0px; font-family: Arial;"></h2>
+                <h2 id="favorites-user-name" style="cursor: default; user-select: none; margin: 10px 70px 0px 0px; font-family: Arial;">Favorite Contacts</h2>
                 <!-- <p id="favorites-user-email" style="margin: 0"></p> -->
             </div>
             <div id="favorites-user-header-spacing-container" style="display: flex; flex: 0 0 50%; min-width: 0; width: 50%; height: 100%; box-sizing: border-box;"></div>
@@ -1444,13 +1444,13 @@
         <div id="favorites-list-search-container" style="position: fixed; display: flex; flex: 0 0 25%; align-items: center; background-color: ghostwhite; border-top: 3px solid black; border-bottom: 3px solid black; width: 100%; top: 30%; padding: 5px; z-index: 2;">
             <div id="favorites-list-search-elements-container" style="display: flex; align-items: center; width: 100%; height: 100%;">
                 <div id="favorites-search-list-label-container" style="display: flex; align-items: center; width: 20%;">
-                    <h2 id="my-favorites-label" style="width: 160px; cursor: default; margin: 0px 0px 0px 5px;">My Favorites</h2>
-                    <h2 id="my-favorites-number" style="display: inline-flex; justify-content: center; align-items: center; width: 15px; height: 15px; background-color: navy; color: white; padding: 10px; border-radius: 50%; cursor: default; margin: 0px;"></h2>
+                    <h2 id="my-favorites-number" style="display: inline-flex; justify-content: center; align-items: center; width: 15px; height: 15px; background-color: navy; color: white; padding: 10px; border-radius: 50%; cursor: default; margin: 0px 0px 0px 5px;"></h2>
+                    <h2 id="my-favorites-label" style="width: 140px; cursor: default; margin: 0px 0px 0px 8px;">Contacts</h2>
                 </div>
-                <div id="favorite-search-list-element-container" style="display: flex; flex: 0 0 35%; justify-content: center; width: 34%;">
-                    <input id="search-my-favorite-contacts-input" type="search" name="search-my-favorites-input" placeholder="Search My Favorite Contacts" style="width: 100%; height: 22.5px; border: 1px solid black; text-indent: 20px; background-image: url(./images/search-svgrepo-com.svg); background-repeat: no-repeat; background-size: 16px; background-position: 0.8% 2px; outline: none;">
+                <div id="favorite-search-list-element-container" style="display: flex; flex: 0 0 35%; justify-content: center; width: 60%;">
+                    <input id="search-my-favorite-contacts-input" type="search" name="search-my-favorites-input" placeholder="Search My Favorite Contacts" style="width: 90%; height: 22.5px; border: 1px solid black; text-indent: 20px; background-image: url(./images/search-svgrepo-com.svg); background-repeat: no-repeat; background-size: 16px; background-position: 0.8% 2px; outline: none; margin-right: 35px;">
                 </div>
-                <div id="my-favorites-list-spacing-element-container" style="display: flex; flex: 0 0 40%;"></div>
+                <div id="my-favorites-list-spacing-element-container" style="display: flex; width: 20%;"></div>
             </div>
         </div>
         <div id="favorite-contacts-list-container" style="position: absolute; display: flex; flex-direction: column; width: 100%; height: 96%; top: 20%;">
@@ -1672,25 +1672,38 @@
     </section>
 
     <section id="group-contacts-list-view" style="position: absolute; width: 68.5%; height: 90.5%; top: 9.5%; left: 31.5%; display: none; overflow: hidden;">
-          <div id="groups-contacts-list-user-header-container" style="position: absolute; display: flex; align-items: center; width: 100%; height: 20%; background-color: #f9f9f9; box-shadow: 2px 2px 2px; margin-top: 1.25px;">
-            <div id="groups-contacts-list-user-image-container" style="display: flex; align-items: center; height: 100%; padding: 10px;">
-                <img id="groups-contacts-list-user-image" src="./images/user-5-svgrepo-com.svg" style="position: relative; display: flex; justify-content: center; align-items: center; width: 95px; height: 95px; border: 1px solid black; border-radius: 50%; background-color: gainsboro; object-fit: cover; z-index: 1;">
-                <div id="groups-contacts-list-user-header-name-container" style="display: flex; flex-direction: column; justify-content: flex-end; height: 100%; margin: 0px 0px 0px 10px;">
-                    <p id="groups-contacts-list-header-user-name" style="font-weight: bold;">Name</p>
-                    <p id="groups-contacts-list-header-user-email" style="font-style: italic; margin: 0px 0px 16px 0px;">Email</p>
+          <div id="groups-contacts-list-user-header-container" style="position: fixed; display: flex; align-items: center; width: 100%; height: 20%; background-color: #f9f9f9; box-shadow: 2px 2px 2px; margin-top: 1.25px; z-index: 2;">
+            <div id="groups-contacts-list-user-image-container" style="display: flex; flex: 0 0 25%; align-items: center; min-width: 0; width: 25%; height: 100%; padding: 10px; box-sizing: border-box;">
+                <img id="groups-contacts-list-user-image" src="./images/user-5-svgrepo-com.svg" style="position: relative; display: flex; justify-content: center; align-items: center; width: 95px; height: 95px; border: 1px solid black; border-radius: 50%; background-color: gainsboro; box-shadow: 2px 2px 2px; object-fit: cover; z-index: 1;">
+                <div id="groups-contacts-list-user-header-name-container" style="display: flex; flex-direction: column; justify-content: flex-end; height: 100%; min-width: 0; margin: 0px 0px 0px 10px;">
+                    <p id="groups-contacts-list-header-user-name" style="font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Name</p>
+                    <p id="groups-contacts-list-header-user-email" style="font-style: italic; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0px 0px 16px 0px;">Email</p>
                 </div>
             </div>
-            <div id="groups-contacts-list-user-name-container" style="position: absolute; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%;">
-                <div></div>
-                <h2 id="groups-contacts-list-user-name" style="margin: 0"></h2>
-                <p id="groups-contacts-list-user-email" style="margin: 0"></p>
+            <div id="groups-contacts-list-user-name-container" style="display: flex; flex: 0 0 25%; justify-content: center; align-items: center; min-width: 0; width: 25%; height: 100%; box-sizing: border-box;">
+                <h2 id="groups-contacts-list-user-name" style="cursor: default; user-select: none; margin: 10px 70px 0px 0px"></h2>
+                 <!-- <p id="groups-contacts-list-user-email" style="margin: 0"></p> -->
+            <!-- </div> -->
+        </div>
+        <div id="groups-contacts-list-user-header-spacing-container" style="display: flex; flex: 0 0 50%; min-width: 0; width: 50%; height: 100%; box-sizing: border-box;"></div>
+        </div>
+         <div id="group-contacts-list-search-container" style="position: fixed; display: flex; flex: 0 0 25%; align-items: center; background-color: ghostwhite; border-top: 3px solid black; border-bottom: 3px solid black; width: 100%; top: 30%; padding: 5px; z-index: 2;">
+            <div id="group-contacts-list-search-elements-container" style="display: flex; align-items: center; width: 100%; height: 100%">
+                <div id="group-contacts-list-search-label-container" style="display: flex; align-items: center; width: 20%;">
+                    <h2 id="my-group-contacts-number" style="display: inline-flex; justify-content: center; align-items: center; width: 15px; height: 15px; background-color: navy; color: white; padding: 10px; border-radius: 50%; cursor: default; margin: 0px 0px 0px 5px"></h2>
+                    <h2 id="my-group-contacts-label" style="width: 140px; cursor: default; margin: 0px 0px 0px 8px">Contacts</h2>
+                </div>
+                <div id="group-contacts-list-search-element-container" style="display: flex; flex: 0 0 35%; justify-content: center; width: 60%;">
+                    <input id="search-my-group-contacts-input" type="search" name="search-my-group-contacts" placeholder="Search Group Contacts" style="width: 100%; height: 22.5px; border: 1px solid black; text-indent: 20px; background-image:url(./images/search-svgrepo-com.svg); background-repeat: no-repeat; background-size: 16px; background-position: 0.8% 2px; outline: none; margin-right: 35px;">
+                </div>
+                <div id="my-group-contacts-list-spacing-element-container" style="display: flex; flex: 0 0 40%; width: 20%;"></div>
             </div>
         </div>
-        <!-- <div id="group-contacts-list-container" style="position: absolute; display: flex; flex-direction: column; width: 100%; height: 96%; top: 20%;"> -->
+        <div id="groupss-contacts-list-container" style="position: absolute; display: flex; flex-direction: column; width: 100%; height: 96%; top: 20%;">
             <!-- <h3>Contacts</h3> -->
-            <!-- <div id="group-contacts-list"></div> -->
+            <div id="groupss-contacts-list"></div>
             <div id="group-contacts-autocomplete-list"></div>
-        <!-- </div> -->
+        </div>
     </section>
 
     <section id="mobile-group-contacts-list-view" style="position: absolute; width: 100%; height: 90.5%; top: 9.5%; display: none; overflow: hidden;">
